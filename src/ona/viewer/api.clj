@@ -4,7 +4,7 @@
 
 (def protocol "https")
 
-(def host "ona.io")
+(def host "stage.ona.io")
 
 (defn make-url [postfix]
   (str protocol "://" host "/api/v1/" postfix))
@@ -26,3 +26,22 @@
   (let [username (:username account)
         url (make-url (str "profiles/" username))]
     (parse-http url account)))
+
+(defn create-user-profile [params]
+  (let [
+    {:keys [name username email password password2]} params
+    profile {:name name
+             :username username
+             :email email
+             :password password
+             :password2 password2 }
+    url (make-url "profiles" )
+        {:keys [_ _ body error] :as resp} @(http/post url{
+                                                          :form-params profile
+                                                          :headers {"Authorization" "Token 037d60e45f966d125ebf7a49c5d0616e13db9b60"} })
+        ]
+        (if error
+          (throw
+            (Exception. error))
+          (json/parse-string body true))))
+

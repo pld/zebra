@@ -9,5 +9,6 @@
    [:body
     [:a {:href "/"} "Home"]
     [:br]
+    [:a {:href "/sign-up"} "Sign up"]
     [:a {:href "/signout"} "Sign out"]
     content]))

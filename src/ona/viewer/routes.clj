@@ -1,6 +1,7 @@
 (ns ona.viewer.routes
   (:use compojure.core
         ona.viewer.views.home
+        ona.viewer.views.profile
         [hiccup.middleware :only (wrap-base-url)])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
@@ -11,6 +12,8 @@
   (GET "/" {session :session} (home-page session))
   (POST "/signin" {params :params} (submit-sign-in params))
   (GET "/signout" [] (sign-out))
+  (GET "/sign-up" [] (sign-up))
+  (POST "/sign-up" {params :params} (submit-sign-up params))
   (route/resources "/")
   (route/not-found "Page not found"))
 
