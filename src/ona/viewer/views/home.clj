@@ -1,7 +1,9 @@
 (ns ona.viewer.views.home
   (:use [hiccup core page]
         [ona.viewer.views.partials :only (base)])
-  (:require [ona.viewer.api :as api]))
+  (:require [ona.viewer.api :as api]
+            [ring.util.response :as response]
+            ))
 
 (defn sign-in []
   (base
@@ -19,10 +21,10 @@
   (let [{:keys [username password]} params
         account {:username username :password password}
         profile (api/user-profile account)]
-   :session (if-not (:detail profile) {:account account})
     (if-not (:detail profile)
-            {:body (dashboard account)
-             :session {:account account}}
+            (assoc
+            (response/redirect "/")
+             :session {:account account})
             (sign-in))
     ))
 
