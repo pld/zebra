@@ -45,8 +45,7 @@
     (parse-http :get url account)))
 
 (defn create-user-profile [params]
-  (let [
-        {:keys [name username email password password2]} params
+  (let [{:keys [name username email password password2]} params
         profile {:name name
                  :username username
                  :email email
@@ -55,7 +54,7 @@
         url (make-url "profiles" )
         {:keys [_ _ body error] :as resp} @(http/post url{
                                                           :form-params profile
-                                                          :headers {"Authorization" "Token 037d60e45f966d125ebf7a49c5d0616e13db9b60"} })]
+                                                          :headers {"Authorization" "Token 037d60e45f966d125ebf7a49c5d0616e13db9b60"}})]
     (if error
       (throw
        (Exception. error))
