@@ -11,11 +11,24 @@
          (user-profile account) => :something
          (provided
           (make-url (str "profiles/" username)) => url
-          (parse-http url account) => :something))
+          (parse-http :get url account) => :something))
 
   (facts "about projects"
          "Should parse response body"
          (projects account) => :something
          (provided
           (make-url "projects") => url
-          (parse-http url account) => :something)))
+          (parse-http :get url account) => :something))
+
+  (facts "about project-create"
+         "Should associate data"
+         (project-create account :name) => :something
+         (provided
+          (make-url "projects") => url
+          (make-url (str "users/" username)) => :owner-url
+          (parse-http :post
+                      url
+                      account
+                      ;; {:form-params {:name :name
+                      ;;                :owner :owner-url}}) => :something
+                                     )))
