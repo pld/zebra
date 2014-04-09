@@ -14,19 +14,20 @@
     [:input {:type "submit" :value "Sign in"}]]))
 
 (defn dashboard [account]
-  (base
-   [:h1 "Welcome back " (:username account)]))
+  (let [projects (api/projects account)]
+    (base
+     [:h1 "Welcome back " (:username account)]
+     (for [project projects] [:p (str project)]))))
 
 (defn submit-sign-in [params]
   (let [{:keys [username password]} params
         account {:username username :password password}
         profile (api/user-profile account)]
     (if-not (:detail profile)
-            (assoc
-            (response/redirect "/")
-             :session {:account account})
-            (sign-in))
-    ))
+      (assoc
+          (response/redirect "/")
+        :session {:account account})
+      (sign-in))))
 
 (defn home-page [session]
   (if-let [account (:account session)]
