@@ -7,4 +7,7 @@
     [:title "Ona"]
     (include-css "/css/style.css")]
    [:body
+    [:a {:href "/"} "Home"]
+    [:br]
+    [:a {:href "/signout"} "Sign out"]
     content]))

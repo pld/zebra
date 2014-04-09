@@ -13,7 +13,7 @@
 
 (defn dashboard [account]
   (base
-   [:h1 "Welcome back" (:username account)]))
+   [:h1 "Welcome back " (:username account)]))
 
 (defn submit-sign-in [params]
   (let [{:keys [username password]} params
@@ -28,3 +28,8 @@
   (if-let [account (:account session)]
     (dashboard account)
     (sign-in)))
+
+(defn sign-out []
+  {:body (base
+          [:h1 "Successfully logged out."])
+   :session nil})

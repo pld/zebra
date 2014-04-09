@@ -10,6 +10,7 @@
 (defroutes main-routes
   (GET "/" {session :session} (home-page session))
   (POST "/signin" {params :params} (submit-sign-in params))
+  (GET "/signout" [] (sign-out))
   (route/resources "/")
   (route/not-found "Page not found"))
 
