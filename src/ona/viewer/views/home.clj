@@ -2,8 +2,7 @@
   (:use [hiccup core page]
         [ona.viewer.views.partials :only (base)])
   (:require [ona.viewer.api :as api]
-            [ring.util.response :as response]
-            ))
+            [ring.util.response :as response]))
 
 (defn sign-in []
   (base
