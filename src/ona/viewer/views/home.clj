@@ -1,6 +1,7 @@
 (ns ona.viewer.views.home
   (:use [hiccup core page]
-        [ona.viewer.views.partials :only (base)]))
+        [ona.viewer.views.partials :only (base)])
+  (:require [ona.viewer.api :as api]))
 
 (defn sign-in []
   (base
@@ -15,10 +16,13 @@
    [:h1 "Welcome back" (:username account)]))
 
 (defn submit-sign-in [params]
-  (let [account params]
+  (let [{:keys [username password]} params
+        account {:username username :password password}
+        profile (api/user-profile account)]
     {:body (base
-            [:h1 "Signed in as " (:username account)])
-     :session {:account params}}))
+            [:h1 "Signed in as " username]
+            [:p (str profile)])
+     :session {:account account}}))
 
 (defn home-page [session]
   (if-let [account (:account session)]

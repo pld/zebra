@@ -1,11 +1,11 @@
 (ns ona.viewer.routes
   (:use compojure.core
         ona.viewer.views.home
-        [hiccup.middleware :only (wrap-base-url)]
-        [ring.middleware.logger :only (wrap-with-logger)])
+        [hiccup.middleware :only (wrap-base-url)])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
-            [compojure.response :as response]))
+            [compojure.response :as response]
+            [ring.middleware.logger :as logger]))
 
 (defroutes main-routes
   (GET "/" {session :session} (home-page session))
@@ -16,4 +16,4 @@
 (def app
   (-> (handler/site main-routes)
       (wrap-base-url)
-      (#(wrap-with-logger % "/dev/stdout"))))
+      (#(logger/wrap-with-logger % "/dev/stdout"))))
