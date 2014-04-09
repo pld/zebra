@@ -19,11 +19,12 @@
   (let [{:keys [username password]} params
         account {:username username :password password}
         profile (api/user-profile account)]
-    {:body (base
-            [:h1 "Signed in as " username]
-            [:p (str profile)])
-     :session (if-not (profile :detail) {:account account})
-     }))
+   :session (if-not (:detail profile) {:account account})
+    (if-not (:detail profile)
+            {:body (dashboard account)
+             :session {:account account}}
+            (sign-in))
+    ))
 
 (defn home-page [session]
   (if-let [account (:account session)]
