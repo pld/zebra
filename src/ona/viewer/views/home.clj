@@ -22,7 +22,8 @@
     {:body (base
             [:h1 "Signed in as " username]
             [:p (str profile)])
-     :session {:account account}}))
+     :session (if-not (profile :detail) {:account account})
+     }))
 
 (defn home-page [session]
   (if-let [account (:account session)]
