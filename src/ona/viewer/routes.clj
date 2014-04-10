@@ -2,6 +2,7 @@
   (:use compojure.core
         ona.viewer.views.home
         ona.viewer.views.profile
+        ona.viewer.views.datasets
         [hiccup.middleware :only (wrap-base-url)])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
@@ -14,6 +15,7 @@
   (GET "/signout" [] (sign-out))
   (GET "/sign-up" [] (sign-up))
   (POST "/sign-up" {params :params} (submit-sign-up params))
+  (GET "/dataset/:id" {session :session {id :id} :params} (dataset session id))
   (route/resources "/")
   (route/not-found "Page not found"))
 
