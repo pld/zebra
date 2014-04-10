@@ -43,4 +43,10 @@
     (dataset-update account :dataset-id :params) => :something
     (provided
       (make-url "forms/" :dataset-id) => url
-      (parse-http :put url account {:form-params :params}) => :something)))
+      (parse-http :put url account {:form-params :params}) => :something))
+  
+  (facts "about dataset-getdata"
+    (dataset-getdata account :dataset-id) => :something
+    (provided
+      (make-url "data/" username "/" :dataset-id) => url
+      (parse-http :get url account) => :something)))

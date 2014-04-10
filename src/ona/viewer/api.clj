@@ -67,3 +67,7 @@
 (defn dataset-update [account dataset-id params]
   (let [url (make-url "forms/" dataset-id)]
     (parse-http :put url account {:form-params params})))
+
+(defn dataset-getdata [account dataset-id]
+  (let [url (make-url "data/" (:username account) "/" dataset-id)]
+    (parse-http :get url account)))
