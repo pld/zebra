@@ -71,3 +71,7 @@
 (defn dataset-getdata [account dataset-id]
   (let [url (make-url "data/" (:username account) "/" dataset-id)]
     (parse-http :get url account)))
+
+(defn dataset-getsubmission [account dataset-id submission-id]
+  (let [url (make-url "data/" (:username account) "/" dataset-id "/" submission-id)]
+    (parse-http :get url account)))

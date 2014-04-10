@@ -49,4 +49,10 @@
     (dataset-getdata account :dataset-id) => :something
     (provided
       (make-url "data/" username "/" :dataset-id) => url
+      (parse-http :get url account) => :something))
+
+  (facts "about dataset-getsubmission"
+    (dataset-getsubmission account :dataset-id :submission-id) => :something
+    (provided
+      (make-url "data/" username "/" :dataset-id  "/" :submission-id) => url
       (parse-http :get url account) => :something)))
