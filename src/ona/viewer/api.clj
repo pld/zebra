@@ -17,8 +17,9 @@
   ([method url account]
      (parse-http method url account {}))
   ([method url account options]
-     (let [{:keys [username password]} account
-           options (assoc options :basic-auth [username password])
+     (let [options (if-let [{:keys [username password]} account
+                            (assoc options :basic-auth [username password])
+                            options])
            {:keys [_ _ body error]} @((meths method) url options)]
        (if error
          (throw
@@ -46,7 +47,7 @@
   (let [url (make-url "forms")]
     (parse-http :get url account)))
 
-(defn create-user-profile [account params]
+(defn create-user-profile [params]
   (let [{:keys [name username email password password2]} params
         profile {:name name
                  :username username
@@ -55,7 +56,7 @@
                  :password2 password2}
         url (make-url "profiles")
         data {:form-params profile}]
-    (parse-http :post url account data)))
+    (parse-http :post url nil data)))
 
 (defn dataset-update [account dataset-id params]
   (let [url (make-url "forms/" dataset-id)]

@@ -13,7 +13,7 @@
     [:input {:type "text" :name "email" :placeholder "Email"}]
     [:input {:type "password" :name "password" :placeholder "Password"}]
     [:input {:type "password" :name "password2" :placeholder "Password(again)"}]
-    [:input {:type "submit" :value "Sign in"}]]))
+    [:input {:type "submit" :value "Sign up"}]]))
 
 (defn submit-sign-up [params]
   (let [{:keys [name username email password password2]} params
