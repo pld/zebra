@@ -17,9 +17,9 @@
   ([method url account]
      (parse-http method url account {}))
   ([method url account options]
-     (let [options (if-let [{:keys [username password]} account
-                            (assoc options :basic-auth [username password])
-                            options])
+     (let [options (if-let [{:keys [username password]} account]
+                     (assoc options :basic-auth [username password])
+                     options)
            {:keys [_ _ body error]} @((meths method) url options)]
        (if error
          (throw
