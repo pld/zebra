@@ -39,20 +39,20 @@
           (parse-http :get url account) => :something))
 
   (fact "about datasets-update"
-    "Should get correct url"
-    (dataset-update account :dataset-id :params) => :something
-    (provided
-      (make-url "forms/" :dataset-id) => url
-      (parse-http :put url account {:form-params :params}) => :something))
-  
+        "Should get correct url"
+        (dataset-update account :dataset-id :params) => :something
+        (provided
+         (make-url "forms/" :dataset-id) => url
+         (parse-http :put url account {:form-params :params}) => :something))
+
   (facts "about dataset-getdata"
-    (dataset-getdata account :dataset-id) => :something
-    (provided
-      (make-url "data/" username "/" :dataset-id) => url
-      (parse-http :get url account) => :something))
+         (dataset-getdata account :dataset-id) => :something
+         (provided
+          (make-url "data/" username "/" :dataset-id) => url
+          (parse-http :get url account) => :something))
 
   (facts "about dataset-getsubmission"
-    (dataset-getsubmission account :dataset-id :submission-id) => :something
-    (provided
-      (make-url "data/" username "/" :dataset-id  "/" :submission-id) => url
-      (parse-http :get url account) => :something)))
+         (dataset-getsubmission account :dataset-id :submission-id) => :something
+         (provided
+          (make-url "data/" username "/" :dataset-id  "/" :submission-id) => url
+          (parse-http :get url account) => :something)))

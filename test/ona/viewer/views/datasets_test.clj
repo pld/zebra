@@ -5,10 +5,12 @@
 
 (facts "about datasets"
        "Datasets view returns a list of datasets"
-       (datasets :fake-account) => (contains [[:a ":fake-dataset"]])
+       (-> (datasets :fake-account) first last last) => :fake-title
        (provided
-        (api/datasets :fake-account) => [:fake-dataset]))
+        (api/datasets :fake-account) => [{:title :fake-title}]))
 
-(facts "about datasets"
-		"Dataset view returns data for dataset"
-		))
+(facts "about dataset"
+       "Dataset view returns data for dataset"
+       (dataset {:account :fake-account} :dataset-id) => (contains (str :row))
+       (provided
+        (api/dataset-getdata :fake-account :dataset-id) => [:row]))
