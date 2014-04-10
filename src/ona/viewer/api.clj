@@ -46,7 +46,7 @@
   (let [url (make-url "forms")]
     (parse-http :get url account)))
 
-(defn create-user-profile [params]
+(defn create-user-profile [account params]
   (let [{:keys [name username email password password2]} params
         profile {:name name
                  :username username
@@ -54,9 +54,7 @@
                  :password password
                  :password2 password2}
         url (make-url "profiles")
-        {:form-params profile
-         :headers
-         {"Authorization" "Token 037d60e45f966d125ebf7a49c5d0616e13db9b60"}}]
+        data {:form-params profile}]
     (parse-http :post url account data)))
 
 (defn dataset-update [account dataset-id params]
