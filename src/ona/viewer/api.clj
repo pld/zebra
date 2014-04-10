@@ -63,3 +63,7 @@
           (throw
             (Exception. error))
           (json/parse-string body true))))
+
+(defn dataset-update [account dataset-id params]
+  (let [url (make-url "forms/" dataset-id)]
+    (parse-http :put url account {:form-params params})))
