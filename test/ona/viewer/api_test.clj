@@ -3,18 +3,18 @@
         ona.viewer.api))
 
 (let [url :fake-url
-             username :fake-username
-             password :fake-password
-             account {:username username :password password}]
+      username :fake-username
+      password :fake-password
+      account {:username username :password password}]
   (facts "about user-profile"
-         "Should parse response body"
+         "Should get correct url"
          (user-profile account) => :something
          (provided
           (make-url "profiles/" username) => url
           (parse-http :get url account) => :something))
 
   (facts "about projects"
-         "Should parse response body"
+         "Should get correct url"
          (projects account) => :something
          (provided
           (make-url "projects") => url
@@ -30,4 +30,10 @@
                       url
                       account
                       {:form-params {:name :name
-                                     :owner :owner-url}}) => :something)))
+                                     :owner :owner-url}}) => :something))
+  (facts "about datasets"
+         "Should get correct url"
+         (datasets account) => :something
+         (provided
+          (make-url "forms") => url
+          (parse-http :get url account) => :something)))

@@ -16,11 +16,4 @@
 (facts "about dashboard"
        "Should contain username"
        (let [username "fake-username"]
-         (dashboard {:username username}) => (contains username))
-
-       "Should contain projects for user"
-       (let [account :fake-account
-             fake-project "fake project"
-             fake-projects [fake-project]]
-         (dashboard :fake-account) => (contains fake-project)
-         (provided (api/projects account) => fake-projects)))
+         (dashboard {:username username}) => (contains username)))
