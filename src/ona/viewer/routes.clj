@@ -1,8 +1,8 @@
 (ns ona.viewer.routes
   (:use compojure.core
-        ona.viewer.views.home
-        ona.viewer.views.profile
-        ona.viewer.views.datasets
+        [ona.viewer.views.home :only (home-page sign-out submit-sign-in)]
+        [ona.viewer.views.profile :only (sign-up submit-sign-up)]
+        [ona.viewer.views.datasets :only (dataset)]
         [hiccup.middleware :only (wrap-base-url)])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
