@@ -10,8 +10,8 @@
 
 (def host "stage.ona.io")
 
-(defn make-url [postfix]
-  (str protocol "://" host "/api/v1/" postfix))
+(defn make-url [& postfix]
+  (apply str (concat [protocol "://" host "/api/v1/"] postfix)))
 
 (defn parse-http
   ([method url account]
@@ -30,18 +30,16 @@
     (parse-http :get url account)))
 
 (defn project-create [account name]
-  (let [owner (make-url "users/" {:username account})
+  (let [owner (make-url "users/" (:username account))
         url (make-url "projects")
         data {:name name
               :owner owner}]
     (parse-http :post url account
-                ;; {:form-params data}
-                )))
-
+                {:form-params data})))
 
 (defn user-profile [account]
   (let [username (:username account)
-        url (make-url (str "profiles/" username))]
+        url (make-url "profiles/" username)]
     (parse-http :get url account)))
 
 (defn create-user-profile [params]

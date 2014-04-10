@@ -10,7 +10,7 @@
          "Should parse response body"
          (user-profile account) => :something
          (provided
-          (make-url (str "profiles/" username)) => url
+          (make-url "profiles/" username) => url
           (parse-http :get url account) => :something))
 
   (facts "about projects"
@@ -25,10 +25,9 @@
          (project-create account :name) => :something
          (provided
           (make-url "projects") => url
-          (make-url (str "users/" username)) => :owner-url
+          (make-url "users/" username) => :owner-url
           (parse-http :post
                       url
                       account
-                      ;; {:form-params {:name :name
-                      ;;                :owner :owner-url}}
-                      ) => :something)))
+                      {:form-params {:name :name
+                                     :owner :owner-url}}) => :something)))
