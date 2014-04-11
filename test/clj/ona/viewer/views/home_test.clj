@@ -1,6 +1,8 @@
 (ns ona.viewer.views.home-test
   (:use midje.sweet
-        ona.viewer.views.home))
+        ona.viewer.views.home)
+  (:require [ona.viewer.views.datasets :as datasets]))
+
 
 (facts "about home-page"
        "Home page goes to sign in if no session"
@@ -14,5 +16,8 @@
 
 (facts "about dashboard"
        "Should contain username"
-       (let [username "fake-username"]
-         (dashboard {:username username}) => (contains username)))
+       (let [username "fake-username"
+             account {:username username}]
+         (dashboard account) => (contains username)
+         (provided
+          (datasets/datasets account) => nil)))
