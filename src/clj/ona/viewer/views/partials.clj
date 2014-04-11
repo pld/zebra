@@ -12,4 +12,7 @@
     [:a {:href "/sign-up"} "Sign up"]
     [:br]
     [:a {:href "/signout"} "Sign out"]
-    content]))
+    content
+    [:script {:src "js/out/goog/base.js" :type "text/javascript"}]
+    [:script {:src "js/main.js" :type "text/javascript"}]
+    [:script {:type "text/javascript"} "goog.require(\"ona.core\")"]]))

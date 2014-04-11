@@ -3,7 +3,7 @@
         ona.viewer.views.datasets)
   (:require [ona.viewer.api :as api]))
 
-(facts "about datasets"
+(fact "about datasets"
        "Datasets view returns a list of datasets"
        (-> (datasets :fake-account) first last last) => :fake-title
        (provided
