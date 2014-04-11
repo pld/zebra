@@ -1,7 +1,6 @@
 (ns ona.viewer.views.home-test
   (:use midje.sweet
-        ona.viewer.views.home)
-  (:require [ona.viewer.api :as api]))
+        ona.viewer.views.home))
 
 (facts "about home-page"
        "Home page goes to sign in if no session"

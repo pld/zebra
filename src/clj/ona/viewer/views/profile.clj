@@ -1,7 +1,7 @@
 (ns ona.viewer.views.profile
   (:use [hiccup core page]
         [ona.viewer.views.partials :only [base]])
-  (:require [ona.viewer.api :as api]
+  (:require [ona.api.user :as api]
             [ring.util.response :as response]))
 
 (defn sign-up []
@@ -17,7 +17,7 @@
 
 (defn submit-sign-up [params]
   (let [{:keys [name username email password password2]} params
-        profile (api/create-user-profile params)]
+        profile (api/create params)]
     {:body (base
             [:h1 "Created a profile"]
             [:p (str profile)])}))
