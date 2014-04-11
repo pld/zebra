@@ -2,8 +2,8 @@
   (:use midje.sweet
         ona.viewer.routes)
   (:require [ona.viewer.views.datasets :as datasets]
-            [ona.viewer.views.projects :as projects
-             ]))
+            [ona.viewer.views.projects :as projects]
+            [ona.viewer.views.organizations :as organizations]))
 
 (let [result {:body :something}
       session {:account :fake-account}]
@@ -29,4 +29,11 @@
                         :params params
                         :session session}) => (contains result)
           (provided
-           (projects/create :fake-account params) => result))))
+           (projects/create :fake-account params) => result)))
+
+  (fact "should parse account"
+        (main-routes {:request-method :get
+                      :uri "/organizations"
+                      :session session}) => (contains result)
+        (provided
+         (organizations/all :fake-account) => result)))
