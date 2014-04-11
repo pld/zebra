@@ -17,12 +17,10 @@
 
   (facts "about project-create"
          "Should associate data"
-         (create account :name) => :something
+         (create account :data) => :something
          (provided
           (make-url "projects") => url
-          (make-url "users/" username) => :owner-url
           (parse-http :post
                       url
                       account
-                      {:form-params {:name :name
-                                     :owner :owner-url}}) => :something)))
+                      {:form-params :data}) => :something)))

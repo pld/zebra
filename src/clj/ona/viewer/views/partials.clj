@@ -9,6 +9,10 @@
    [:body
     [:a {:href "/"} "Home"]
     [:br]
+    [:a {:href "/projects"} "Projects"]
+    [:br]
+    [:a {:href "/organizations"} "Organizations"]
+    [:br]
     [:a {:href "/sign-up"} "Sign up"]
     [:br]
     [:a {:href "/signout"} "Sign out"]

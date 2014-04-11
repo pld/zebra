@@ -5,10 +5,7 @@
   (let [url (make-url "projects")]
     (parse-http :get url account)))
 
-(defn create [account name]
-  (let [owner (make-url "users/" (:username account))
-        url (make-url "projects")
-        data {:name name
-              :owner owner}]
+(defn create [account data]
+  (let [url (make-url "projects")]
     (parse-http :post url account
                 {:form-params data})))

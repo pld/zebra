@@ -1,12 +1,32 @@
 (ns ona.viewer.routes_test
   (:use midje.sweet
         ona.viewer.routes)
-  (:require [ona.viewer.views.datasets :as datasets]))
+  (:require [ona.viewer.views.datasets :as datasets]
+            [ona.viewer.views.projects :as projects
+             ]))
 
-(fact "should parse account"
-      (let [id "1"
-            result {:body :something}]
+(let [result {:body :something}
+      session {:account :fake-account}]
+  (fact "should parse account"
+        (let [id "1"]
+          (main-routes {:request-method :get
+                        :uri (str "/dataset/" id)
+                        :session session}) => (contains result)
+          (provided
+           (datasets/dataset :fake-account id) => result)))
+
+  (fact "should parse account"
         (main-routes {:request-method :get
-                      :uri (str "/dataset/" id)}) => (contains result)
+                      :uri "/projects"
+                      :session session}) => (contains result)
         (provided
-         (datasets/dataset nil id) => result)))
+         (projects/all :fake-account) => result))
+
+  (fact "should parse account and params in project post"
+        (let [params {:param-key :param-value}]
+          (main-routes {:request-method :post
+                        :uri "/projects"
+                        :params params
+                        :session session}) => (contains result)
+          (provided
+           (projects/create :fake-account params) => result))))
