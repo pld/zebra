@@ -11,7 +11,7 @@ Download the project dependencies with:
 
 Now you can start a development web server with:
 
-    lein ring server
+    lein up
 
 Or you can compile the project into a war-file ready for deployment to
 a servlet container like [Tomcat][4] or [Jetty][5]:
