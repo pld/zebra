@@ -1,6 +1,6 @@
 (ns ona.viewer.views.profile
   (:use [hiccup core page]
-        [ona.viewer.views.partials :only (base)])
+        [ona.viewer.views.partials :only [base]])
   (:require [ona.viewer.api :as api]
             [ring.util.response :as response]))
 

@@ -1,7 +1,7 @@
 (ns ona.viewer.views.home
   (:use [hiccup core page]
-        [ona.viewer.views.datasets :only (datasets)]
-        [ona.viewer.views.partials :only (base)])
+        [ona.viewer.views.datasets :only [datasets]]
+        [ona.viewer.views.partials :only [base]])
   (:require [ona.viewer.api :as api]
             [ring.util.response :as response]))
 

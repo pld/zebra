@@ -1,6 +1,6 @@
 (ns ona.viewer.views.datasets
   (:use [hiccup core page]
-        [ona.viewer.views.partials :only (base)])
+        [ona.viewer.views.partials :only [base]])
   (:require [ona.viewer.api :as api]))
 
 (defn datasets [account]
@@ -10,9 +10,10 @@
            {:href (str "/dataset/" (:formid dataset))}
            (:title dataset)]])))
 
-(defn dataset [session dataset-id]
-  (let [account (:account session)
-        dataset (api/dataset-getdata account dataset-id)]
+(defn dataset [account dataset-id]
+  (let [dataset (api/dataset-getdata account dataset-id)]
     (base
      (for [dataitem dataset]
        [:p (str dataitem)]))))
+
+(defn dataset-new [session])
