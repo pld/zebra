@@ -9,6 +9,11 @@
     (base
      [:form {:action "/organizations" :method "post"}
       [:input {:type "text" :name "name"}]
-      [:input {:type "submit" :value "Create Organizations"}]]
+      [:input {:type "submit" :value "Create Organization"}]]
      (for [organization organizations]
        [:p (str organization)]))))
+(defn create [account params]
+  (let [data {:name (:name params)
+              :org (:name params)}
+        project (api/create account data)]
+    (all account)))

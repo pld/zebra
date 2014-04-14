@@ -13,4 +13,15 @@
 				(all account) => :something
 			 	(provided
         	(make-url "orgs") => url
-        	(parse-http :get url account) => :something)))
+        	(parse-http :get url account) => :something))
+
+
+	(facts "about organization-create"
+                      "Should associate data"
+                      (create account :data) => :something
+                      (provided
+                        (make-url "orgs") => url
+                        (parse-http :post
+                                    url
+                                    account
+                                    {:form-params :data}) => :something)))
