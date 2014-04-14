@@ -36,4 +36,13 @@
                       :uri "/organizations"
                       :session session}) => (contains result)
         (provided
-         (organizations/all :fake-account) => result)))
+         (organizations/all :fake-account) => result))
+
+  (fact "should parse account and params in organization post"
+        (let [params {:param-key :param-value}]
+          (main-routes {:request-method :post
+                        :uri "/organizations"
+                        :params params
+                        :session session}) => (contains result)
+          (provided
+           (organizations/create :fake-account params) => result))))

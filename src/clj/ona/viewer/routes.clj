@@ -31,6 +31,10 @@
   (GET "/organizations"
        {{account :account} :session}
        (organizations/all account))
+  (POST "/organizations"
+       {{account :account} :session
+       params :params}
+       (organizations/create account params))
   (route/resources "/")
   (route/not-found "Page not found"))
 
