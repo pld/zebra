@@ -1,5 +1,5 @@
 (ns ona.api.user
-  (:use [ona.api.io :only [make-url parse-http]]))
+  (:use [ona.api.io :only [auth_token make-url parse-http]]))
 
 (defn profile [account]
   (let [username (:username account)
@@ -14,5 +14,6 @@
                  :password password
                  :password2 password2}
         url (make-url "profiles")
-        data {:form-params profile}]
+        data {:form-params profile
+              :headers {"Authorization" (str "Token " auth_token)}}]
     (parse-http :post url nil data)))
