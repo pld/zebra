@@ -13,14 +13,14 @@
                         :uri (str "/dataset/" id)
                         :session session}) => (contains result)
           (provided
-           (datasets/dataset :fake-account id) => result)))
+            (datasets/dataset :fake-account id) => result)))
 
   (fact "should parse account"
         (main-routes {:request-method :get
                       :uri "/projects"
                       :session session}) => (contains result)
         (provided
-         (projects/all :fake-account) => result))
+          (projects/all :fake-account) => result))
 
   (fact "should parse account and params in project post"
         (let [params {:param-key :param-value}]
@@ -29,14 +29,14 @@
                         :params params
                         :session session}) => (contains result)
           (provided
-           (projects/create :fake-account params) => result)))
+            (projects/create :fake-account params) => result)))
 
   (fact "should parse account"
         (main-routes {:request-method :get
                       :uri "/organizations"
                       :session session}) => (contains result)
         (provided
-         (organizations/all :fake-account) => result))
+          (organizations/all :fake-account) => result))
 
   (fact "should parse account and params in organization post"
         (let [params {:param-key :param-value}]
@@ -45,13 +45,13 @@
                         :params params
                         :session session}) => (contains result)
           (provided
-           (organizations/create :fake-account params) => result)))
+            (organizations/create :fake-account params) => result)))
 
-  ;(fact "should parse account"
-  ;     (let [id "1"]
-  ;        (main-routes {:request-method :get
-  ;                      :uri (str "/dataset/" id)
-  ;                      :session session}) => (contains result)
-  ;         (organizations/show :fake-account id) => result)))
- )
+  (fact "should parse account in organization profile"
+        (let [name "orgname"]
+          (main-routes {:request-method :get
+                        :uri (str "/organizations/" name)
+                        :session session}) => (contains result)
+          (provided
+            (organizations/profile :fake-account name) => result))))
 

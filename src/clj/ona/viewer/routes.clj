@@ -32,13 +32,13 @@
        {{account :account} :session}
        (organizations/all account))
   (POST "/organizations"
+        {{account :account} :session
+         params :params}
+        (organizations/create account params))
+  (GET "/organizations/:name"
        {{account :account} :session
-       params :params}
-       (organizations/create account params))
- ; (GET "/organizations/:id"
- ;      {{account :account} :session
- ;      {id :id} :params}
- ;      (organizations/show account id))
+        {name :name} :params}
+       (organizations/profile account name))
   (route/resources "/")
   (route/not-found "Page not found"))
 
