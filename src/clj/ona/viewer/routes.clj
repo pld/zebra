@@ -8,6 +8,7 @@
             [compojure.handler :as handler]
             [compojure.response :as response]
             [ona.viewer.views.projects :as projects]
+            [ona.viewer.views.organizations :as organizations]
             [ring.middleware.logger :as logger]))
 
 (defroutes main-routes
@@ -27,6 +28,13 @@
         {{account :account} :session
          params :params}
         (projects/create account params))
+  (GET "/organizations"
+       {{account :account} :session}
+       (organizations/all account))
+  (POST "/organizations"
+       {{account :account} :session
+       params :params}
+       (organizations/create account params))
   (route/resources "/")
   (route/not-found "Page not found"))
 
