@@ -4,20 +4,30 @@
         [ona.api.io :only [make-url]])
   (:require [ona.api.organization :as api]))
 
-(fact "all returns the organizations"
-      (let [name "fake-org-name"
-            fake-organization {:name name}]
-        (all :fake-account) => (contains name)
-        (provided
-         (api/all :fake-account) => [fake-organization])))
+(let [name "fake-org-name"
+      fake-organization {:name name}
+      username "username"
+      account {:username username}
+      ]
+  (fact "all returns the organizations"
+        (let []
+          (all :fake-account) => (contains name)
+          (provided
+            (api/all :fake-account) => [fake-organization])))
 
-(fact "create shows new organization"
-      (let [username "username"
-            account {:username username}
-            organization-name "new-organization"
-            params {:name organization-name
-                    :org organization-name}]
-        (create account params) => :something
-        (provided
-         (api/create account params) => :new-organization
-         (all account) => :something)))
+  (fact "create shows new organization"
+        (let [username "username"
+              account {:username username}
+              organization-name "new-organization"
+              params {:name organization-name
+                      :org organization-name}]
+          (create account params) => :something
+          (provided
+            (api/create account params) => :new-organization
+            (all account) => :something)))
+
+  (fact "profile shows organization detail"
+        (let [organization :fake-organization]
+          (profile account name) => (contains (str :row))
+          (provided
+            (api/profile account name) => [:row]))))

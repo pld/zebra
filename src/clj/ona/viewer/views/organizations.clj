@@ -23,8 +23,8 @@
         organization (api/create account data)]
     (all account)))
 
-;(defn show [account org-id]
-;  (let [organization (api/show account org-id)]
-;    (base
-;     (for [org_detail organization]
-;       [:p (str org_detail)]))))
+(defn profile [account org-name]
+  (let [organization (api/profile account org-name)]
+    (base
+     (for [org_detail organization]
+       [:p (str org_detail)]))))
