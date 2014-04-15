@@ -9,3 +9,7 @@
   (let [url (make-url "orgs")]
     (parse-http :post url account
                 {:form-params data})))
+
+(defn profile [account org-name]
+  (let [url (make-url "orgs/" org-name)]
+    (parse-http :get url account)))
