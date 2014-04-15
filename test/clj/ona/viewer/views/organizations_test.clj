@@ -5,8 +5,9 @@
   (:require [ona.api.organization :as api]))
 
 (fact "all returns the organizations"
-      (let [fake-organization :organization]
-        (all :fake-account) => (contains (str fake-organization))
+      (let [name "fake-org-name"
+            fake-organization {:name name}]
+        (all :fake-account) => (contains name)
         (provided
          (api/all :fake-account) => [fake-organization])))
 

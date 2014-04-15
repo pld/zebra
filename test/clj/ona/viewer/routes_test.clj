@@ -45,4 +45,13 @@
                         :params params
                         :session session}) => (contains result)
           (provided
-           (organizations/create :fake-account params) => result))))
+           (organizations/create :fake-account params) => result)))
+
+  ;(fact "should parse account"
+  ;     (let [id "1"]
+  ;        (main-routes {:request-method :get
+  ;                      :uri (str "/dataset/" id)
+  ;                      :session session}) => (contains result)
+  ;         (organizations/show :fake-account id) => result)))
+ )
+
