@@ -10,10 +10,13 @@
 
 (def host "stage.ona.io")
 
-(defn make-url [& postfix]
+(defn make-url
+  "Build an API url."
+  [& postfix]
   (apply str (concat [protocol "://" host "/api/v1/"] postfix)))
 
 (defn parse-http
+  "Send and parse an HTTP response as JSON."
   ([method url account]
      (parse-http method url account {}))
   ([method url account options]

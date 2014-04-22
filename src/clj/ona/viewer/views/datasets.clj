@@ -3,14 +3,18 @@
         [ona.viewer.views.partials :only [base]])
   (:require [ona.api.dataset :as api]))
 
-(defn datasets [account]
+(defn datasets
+  "List the datasets for this account."
+  [account]
   (let [datasets (api/all account)]
     (for [dataset datasets]
       [:p [:a
            {:href (str "/dataset/" (:formid dataset))}
            (:title dataset)]])))
 
-(defn dataset [account dataset-id]
+(defn dataset
+  "Show the data for a specific dataset."
+  [account dataset-id]
   (let [dataset (api/data account dataset-id)]
     (base
      (for [dataitem dataset]
