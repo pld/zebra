@@ -11,8 +11,9 @@
                  [hiccup "1.0.0"]
                  [http-kit "2.1.12"]
                  [http-kit.fake "0.2.1"]
-                 [ring.middleware.logger "0.4.0"]]
-  ;:jvm-opts ^:replace ["-Xmx1g"]
+                 [ring.middleware.logger "0.4.0"]
+                 [enlive "1.1.5"]]
+  :jvm-opts ^:replace ["-Xmx1g"]
   :profiles {:dev {:dependencies [[midje "1.6.3"]]}}
   :plugins [[lein-cljsbuild "1.0.2"]
             [lein-midje "3.1.3"]
