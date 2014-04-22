@@ -9,10 +9,10 @@
    [:h1 "Register"]
    [:form {:action "/sign-up" :method "post"}
     [:input {:type "text" :name "name" :placeholder "Name"}]
-    [:input {:type "text" :name "username" :placeholder "Username"}]
-    [:input {:type "text" :name "email" :placeholder "Email"}]
-    [:input {:type "password" :name "password" :placeholder "Password"}]
-    [:input {:type "password" :name "password2" :placeholder "Password(again)"}]
+    [:input {:type "text" :name "username" :placeholder "Username" :required "true"}]
+    [:input {:type "text" :name "email" :placeholder "Email" :required "true"}]
+    [:input {:type "password" :name "password" :placeholder "Password" :required "true"}]
+    [:input {:type "password" :name "password2" :placeholder "Password(again)" :required "true"}]
     [:input {:type "submit" :value "Sign up"}]]))
 
 (defn submit-sign-up
