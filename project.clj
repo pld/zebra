@@ -8,6 +8,7 @@
                  [org.clojure/tools.logging "0.2.6"]
                  [cheshire "5.2.0"]
                  [compojure "1.1.1"]
+                 [domina "1.0.2"]
                  [hiccup "1.0.0"]
                  [http-kit "2.1.12"]
                  [http-kit.fake "0.2.1"]
