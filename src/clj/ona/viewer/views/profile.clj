@@ -15,7 +15,9 @@
     [:input {:type "password" :name "password2" :placeholder "Password(again)"}]
     [:input {:type "submit" :value "Sign up"}]]))
 
-(defn submit-sign-up [params]
+(defn submit-sign-up
+  "Create a new user from submitted profile data."
+  [params]
   (let [{:keys [name username email password password2]} params
         profile (api/create params)]
     {:body (base
