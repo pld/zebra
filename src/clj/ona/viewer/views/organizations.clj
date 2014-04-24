@@ -5,7 +5,9 @@
   (:require [ona.api.organization :as api]
             [clojure.string :as string]))
 
-(defn all [account]
+(defn all
+  "Show all of the organizations for a user."
+  [account]
   (let [organizations (api/all account)]
     (base
       [:form {:action "/organizations" :method "post"}
@@ -14,8 +16,11 @@
       (for [organization organizations]
         [:p [:a
             {:href (str "/organizations/" (:org organization))}
-            (:name organization)]]))))
-(defn create [account params]
+             (:name organization)]]))))
+
+(defn create
+  "Create a new organization."
+  [account params]
    (let [org (string/replace
                (string/lower-case (:name params)) #" " "")
          data {:name (:name params)
@@ -23,7 +28,9 @@
         organization (api/create account data)]
     (all account)))
 
-(defn profile [account org-name]
+(defn profile
+  "Retrieve the profile for an organization."
+  [account org-name]
   (let [organization (api/profile account org-name)]
     (base
      (for [org_detail organization]

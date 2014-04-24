@@ -10,10 +10,16 @@
 
 (def host "stage.ona.io")
 
-(defn make-url [& postfix]
+;TODO remove once https://github.com/onaio/onadata/issues/238 is finished
+(def auth_token "037d60e45f966d125ebf7a49c5d0616e13db9b60")
+
+(defn make-url
+  "Build an API url."
+  [& postfix]
   (apply str (concat [protocol "://" host "/api/v1/"] postfix)))
 
 (defn parse-http
+  "Send and parse an HTTP response as JSON."
   ([method url account]
      (parse-http method url account {}))
   ([method url account options]
