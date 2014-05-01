@@ -9,6 +9,7 @@
             [compojure.response :as response]
             [ona.viewer.views.projects :as projects]
             [ona.viewer.views.organizations :as organizations]
+            [ring.adapter.jetty :as ring]
             [ring.middleware.logger :as logger]))
 
 (defroutes main-routes
@@ -46,3 +47,10 @@
   (-> (handler/site main-routes)
       (wrap-base-url)
       (#(logger/wrap-with-logger % "/dev/stdout"))))
+
+(defn start [port]
+  (ring/run-jetty app {:port port :join? false}))
+
+(defn -main []
+  (let [port (Integer. (or (System/getenv "PORT") "8080"))]
+    (start port)))
