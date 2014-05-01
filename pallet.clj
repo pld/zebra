@@ -10,11 +10,11 @@
                          {:artifacts
                           {:from-lein
                            [{:project-path "target/ona-viewer-%s-standalone.jar"
-                             :path "webapp.jar"}]}
-                          :run-command "java -jar /opt/my-webapp/webapp.jar"}
-                         :instance-id :my-webapp)]))
+                             :path "ona-viewer.jar"}]}
+                          :run-command "java -jar /opt/ona-viewer/ona-viewer.jar"}
+                         :instance-id :ona-viewer)]))
 
-(defproject webapp
+(defproject ona-viewer
   :provider {:aws-ec2
              {:node-spec
               {:image {:os-family :ubuntu
@@ -22,5 +22,5 @@
                        :os-64-bit true
                        :image-id "us-east-1/ami-e2861d8b"}
                :location {:location-id "us-east-1a"}
-               :network {:incoming-ports [22 8080]}}}}
+               :network {:inbound-ports [22 8080]}}}}
   :groups [webserver])

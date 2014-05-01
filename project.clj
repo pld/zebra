@@ -18,21 +18,31 @@
   :jvm-opts ^:replace ["-Xmx1g"]
   :profiles {:dev {:dependencies [[midje "1.6.3"]]}
              :pallet {:dependencies
-                      [[com.palletops/pallet "0.8.0-RC.9"]
+                      [[com.palletops/app-deploy-crate "0.8.0-alpha.3"]
                        [com.palletops/java-crate "0.8.0-beta.6"]
+                       [com.palletops/pallet "0.8.0-RC.9"]
+                       [com.palletops/pallet-jclouds "1.7.0"]
                        [com.palletops/runit-crate "0.8.0-alpha.3"]
-                       [com.palletops/app-deploy-crate "0.8.0-alpha.3"]
-                       [com.palletops/pallet-jclouds "1.7.3"]
-                       [ch.qos.logback/logback-classic "1.0.9"]
-                       [org.jclouds.driver/jclouds-sshj "1.6.0"]
-                       [org.slf4j/jcl-over-slf4j "1.7.7"]]}
-             :exclusions [commons-logging]
+                       ;; Can be replaced with specific jcloud providers.
+                       [org.apache.jclouds/jclouds-allblobstore "1.7.1"]
+                       [org.apache.jclouds/jclouds-allcompute "1.7.1"]
+                       [org.apache.jclouds.driver/jclouds-slf4j "1.7.1"
+                        ;; Exclude the declared version, which is old and
+                        ;; can overrule the resolved version.
+                        :exclusions [org.slf4j/slf4j-api]]
+                       [org.apache.jclouds.driver/jclouds-sshj "1.7.1"]
+                       [ch.qos.logback/logback-classic "1.0.9"]]
+                      :plugins [[com.palletops/pallet-lein "0.8.0-alpha.1"]]}
+             :leiningen/reply {:dependencies
+                               [[org.slf4j/jcl-over-slf4j "1.7.2"]]
+                               :exclusions [commons-logging]}
              :uberjar {:aot :all}}
   :plugins [[lein-cljsbuild "1.0.2"]
             [lein-midje "3.1.3"]
             [lein-pdo "0.1.1"]
-            [lein-ring "0.7.1"]
-            [com.palletops/pallet-lein "0.8.0-alpha.1"]]
+            [lein-ring "0.7.1"]]
+  :local-repo-classpath true
+  :repositories {"sonatype" "https://oss.sonatype.org/content/repositories/releases/"}
   :aliases {"up" ["pdo" "cljsbuild" "auto" "dev," "ring" "server-headless"]}
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/cljs"]
