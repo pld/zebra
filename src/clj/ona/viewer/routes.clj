@@ -10,7 +10,8 @@
             [ona.viewer.views.projects :as projects]
             [ona.viewer.views.organizations :as organizations]
             [ring.adapter.jetty :as ring]
-            [ring.middleware.logger :as logger]))
+            [ring.middleware.logger :as logger])
+  (:gen-class))
 
 (defroutes main-routes
   (GET "/" {session :session} (home-page session))

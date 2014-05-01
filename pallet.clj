@@ -21,5 +21,6 @@
                        :os-version-matches "12.04"
                        :os-64-bit true
                        :image-id "us-east-1/ami-e2861d8b"}
+               :location {:location-id "us-east-1a"}
                :network {:incoming-ports [22 8080]}}}}
   :groups [webserver])

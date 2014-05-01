@@ -24,8 +24,6 @@
                        [com.palletops/app-deploy-crate "0.8.0-alpha.3"]
                        [com.palletops/pallet-jclouds "1.7.3"]
                        [ch.qos.logback/logback-classic "1.0.9"]
-                       [org.jclouds/jclouds-all "1.6.0"]
-                       [org.jclouds.driver/jclouds-slf4j "1.6.0"]
                        [org.jclouds.driver/jclouds-sshj "1.6.0"]
                        [org.slf4j/jcl-over-slf4j "1.7.7"]]}
              :exclusions [commons-logging]
