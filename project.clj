@@ -20,7 +20,7 @@
              :pallet {:dependencies
                       [[com.palletops/app-deploy-crate "0.8.0-alpha.3"]
                        [com.palletops/java-crate "0.8.0-beta.6"]
-                       [com.palletops/pallet "0.8.0-RC.9"]
+                       [com.palletops/pallet "0.8.0-RC.7"]
                        [com.palletops/pallet-jclouds "1.7.0"]
                        [com.palletops/runit-crate "0.8.0-alpha.3"]
                        ;; Can be replaced with specific jcloud providers.

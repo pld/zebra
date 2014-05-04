@@ -27,10 +27,8 @@
                          :instance-id :ona-viewer)]))
 
 (defproject ona-viewer
-  "Project definition for Ona viewer."
   :provider {:aws-ec2
              {:node-spec ona-viewer-node-spec
               :phases {:bootstrap
-                       (plan-fn (automated-admin-user)
-                                (make-user "runit"))}}}
+                       (plan-fn (automated-admin-user))}}}
   :groups [ona-viewer-server])
