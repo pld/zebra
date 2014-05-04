@@ -22,7 +22,7 @@
                          {:artifacts
                           {:from-lein
                            [{:project-path "target/ona-viewer-%s-standalone.jar"
-                             :path "ona-viewer.jar"}]}
+                             :path "ona-viewer/ona-viewer.jar"}]}
                           :run-command "java -jar /opt/ona-viewer/ona-viewer.jar"}
                          :instance-id :ona-viewer)]))
 
