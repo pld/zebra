@@ -5,6 +5,7 @@
          '[pallet.crate.app-deploy :as app-deploy])
 
 (def ona-viewer-node-spec
+  "Server specification for Ona viewer."
   {:image {:os-family :ubuntu
            :os-version-matches "12.04"
            :os-64-bit true
@@ -13,6 +14,7 @@
    :network {:inbound-ports [22 8080]}})
 
 (def ona-viewer-server
+  "Group spec with app deploy paths for Ona viewer."
   (group-spec "ona-viewer-server"
               :extends [(java/server-spec {})
                         (runit/server-spec {})
@@ -25,6 +27,7 @@
                          :instance-id :ona-viewer)]))
 
 (defproject ona-viewer
+  "Project definition for Ona viewer."
   :provider {:aws-ec2
              {:node-spec ona-viewer-node-spec
               :phases {:bootstrap
