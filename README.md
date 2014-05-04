@@ -18,8 +18,13 @@ a servlet container like [Tomcat][4] or [Jetty][5]:
 
     lein ring uberwar
 
+Deployment is done using [Pallet][6]:
+
+    lein with-profile +pallet pallet up --phases deploy
+
 [1]: https://github.com/mmcgrana/ring
 [2]: https://github.com/weavejester/compojure
 [3]: https://github.com/technomancy/leiningen
 [4]: http://tomcat.apache.org
 [5]: http://jetty.codehaus.org/jetty
+[6]: http://palletops.com
