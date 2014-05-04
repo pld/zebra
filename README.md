@@ -20,7 +20,7 @@ a servlet container like [Tomcat][4] or [Jetty][5]:
 
 Deployment is done using [Pallet][6]:
 
-    lein with-profile +pallet pallet up --phases deploy
+    lein do uberjar, with-profile +pallet pallet up --phases install,configure,deploy
 
 [1]: https://github.com/mmcgrana/ring
 [2]: https://github.com/weavejester/compojure
