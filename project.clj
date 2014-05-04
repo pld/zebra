@@ -52,4 +52,5 @@
                                    :source-map true}}]}
   :ring {:handler ona.viewer.routes/app}
   :source-paths ["src/clj"]
-  :test-paths ["test/clj"])
+  :test-paths ["test/clj"]
+  :main ^:skip-aot ona.viewer.routes)
