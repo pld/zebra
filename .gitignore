@@ -1,4 +1,5 @@
 .#*
 .lein-repl-history
+logs/
 resources/public/js
 target/
