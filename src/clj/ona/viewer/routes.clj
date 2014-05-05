@@ -4,7 +4,7 @@
         [ona.viewer.views.home :only [home-page sign-out submit-sign-in]]
         [ona.viewer.views.profile :only [sign-up submit-sign-up]]
         [hiccup.middleware :only [wrap-base-url]]
-        [ona.viewer.views.template :only [base-template]])
+        [ona.viewer.views.templates :only [base-template]])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
             [compojure.response :as response]
@@ -42,7 +42,6 @@
        {{account :account} :session
         {name :name} :params}
        (organizations/profile account name))
-  (GET "/template" request (base-template request))
   (route/resources "/")
   (route/not-found "Page not found"))
 

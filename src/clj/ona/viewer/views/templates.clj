@@ -27,5 +27,5 @@
   [])
 
 (defn sign-in-form
-  [request]
-  (base-template request "Sign-in" (signin-form)))
+  []
+  (base-template "" "Sign-in" (signin-form)))
