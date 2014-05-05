@@ -2,7 +2,7 @@
   (:use [hiccup core page]
         [ona.viewer.views.datasets :only [datasets]]
         [ona.viewer.views.partials :only [base]]
-        [ona.viewer.views.templates :only [sign-in-form]])
+        [ona.viewer.views.templates :only [base-template sign-in-form]])
   (:require [ona.api.user :as api]
             [ring.util.response :as response]))
 
@@ -40,6 +40,5 @@
 (defn sign-out
   "Sign out the user by empying the session."
   []
-  {:body (base
-          [:h1 "Successfully logged out."])
+  {:body (base-template "signout" "Sign Out" "Successfully logged out.")
    :session nil})
