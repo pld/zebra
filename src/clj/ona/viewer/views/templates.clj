@@ -39,8 +39,8 @@
   (base-template "/" "" "Sign-in" (signin-form)))
 
 (defn dashboard-items
-  [username items]
+  [page-title username items]
   (base-template "/"
                  username
-                 (str "Dashboard")
+                 (str "Dashboard: " page-title)
                  (list-items items "/dataset/")))

@@ -1,6 +1,7 @@
 (ns ona.viewer.views.datasets
   (:use [hiccup core page]
-        [ona.viewer.views.partials :only [base]])
+        [ona.viewer.views.partials :only [base]]
+        [ona.viewer.views.templates :only [dashboard-items]])
   (:require [ona.api.dataset :as api]))
 
 (defn datasets
@@ -14,8 +15,9 @@
   "Show the data for a specific dataset."
   [account dataset-id]
   (let [dataset (api/data account dataset-id)]
-    (base
+    (dashboard-items
+      "Dataset"
+      (:username account)
       (for [dataitem dataset]
-        [:p (str dataitem)]))))
-
+        {:itemid nil :item-name (str dataitem)}))))
 (defn dataset-new [session])
