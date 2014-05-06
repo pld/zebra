@@ -23,9 +23,22 @@
   [:body :div.content] (html/append page-content))
 
 (html/defsnippet signin-form "templates/sign-in.html"
-  [:body :div.content]
+  [:body :div.content :> :.signin-form]
   [])
+
+(html/defsnippet list-items "templates/list-items.html"
+  [:body :div.content :> :.list-items]
+  [items url]
+  [:p] (html/clone-for [item items]
+                       [:p :a] (html/content (:item-name item))
+                       [:p :a] (html/set-attr :href (str url (:itemid item)))))
 
 (defn sign-in-form
   []
   (base-template "" "Sign-in" (signin-form)))
+
+(defn dashboard-items
+  [username items]
+  (base-template "/"
+                 (str "Welcome " username " :Dashboard")
+                 (list-items items "/dataset/")))

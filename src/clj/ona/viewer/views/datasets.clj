@@ -7,17 +7,15 @@
   "List the datasets for this account."
   [account]
   (let [datasets (api/all account)]
-    (for [dataset datasets]
-      [:p [:a
-           {:href (str "/dataset/" (:formid dataset))}
-           (:title dataset)]])))
+        (for [dataset datasets]
+          {:itemid (:formid dataset) :item-name (:title dataset)})))
 
 (defn dataset
   "Show the data for a specific dataset."
   [account dataset-id]
   (let [dataset (api/data account dataset-id)]
     (base
-     (for [dataitem dataset]
-       [:p (str dataitem)]))))
+      (for [dataitem dataset]
+        [:p (str dataitem)]))))
 
 (defn dataset-new [session])
