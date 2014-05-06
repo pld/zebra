@@ -14,6 +14,11 @@
             [ring.middleware.logger :as logger])
   (:gen-class))
 
+(defn wrap-with-logger [handler verbose?]
+  (if verbose?
+    (logger/wrap-with-logger handler "/dev/stdout")
+    (fn [request] (handler request))))
+
 (defroutes main-routes
   (GET "/" {session :session} (home-page session))
   (POST "/signin" {params :params} (submit-sign-in params))
@@ -45,13 +50,19 @@
   (route/resources "/")
   (route/not-found "Page not found"))
 
-(def app
+(defn ona-viewer [verbose?]
   (-> (handler/site main-routes)
       (wrap-base-url)
-      (#(logger/wrap-with-logger % "/dev/stdout"))))
+      (#(wrap-with-logger % verbose?))))
+
+(def app
+  (ona-viewer true))
+
+(def app-production
+  (ona-viewer false))
 
 (defn start [port]
-  (ring/run-jetty app {:port port :join? false}))
+  (ring/run-jetty app-production {:port port :join? false}))
 
 (defn -main []
   (let [port (Integer. (or (System/getenv "PORT") "8080"))]
