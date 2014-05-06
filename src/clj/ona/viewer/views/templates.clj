@@ -11,9 +11,10 @@
    })
 
 (html/deftemplate base-template "templates/base.html"
-  [{:keys [current-path]} title page-content]
+  [{:keys [current-path]} username title page-content]
   [:head :title] (html/content title)
   [:body :h1.title] (html/content title)
+  [:body :h2.user-details](html/append username)
   [:ul.nav [:li html/first-of-type]] (html/clone-for [[caption url] navigation-items]
                                                      [:li] (if (= current-path url)
                                                              (html/set-attr :class "active")
@@ -35,10 +36,11 @@
 
 (defn sign-in-form
   []
-  (base-template "" "Sign-in" (signin-form)))
+  (base-template "/" "" "Sign-in" (signin-form)))
 
 (defn dashboard-items
   [username items]
   (base-template "/"
-                 (str "Welcome " username " :Dashboard")
+                 username
+                 (str "Dashboard")
                  (list-items items "/dataset/")))

@@ -40,5 +40,5 @@
 (defn sign-out
   "Sign out the user by empying the session."
   []
-  {:body (base-template "signout" "Sign Out" "Successfully logged out.")
+  {:body (base-template "signout" "" "Sign Out" "Successfully logged out.")
    :session nil})
