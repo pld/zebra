@@ -5,7 +5,7 @@
 (def navigation-items
   {"Home" "/"
    "Project" "/projects"
-   "Organizations" "/organization"
+   "Organizations" "/organizations"
    "Sign-up" "/sign-up"
    "Sign-out" "/signout"
    })
