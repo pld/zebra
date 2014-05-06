@@ -1,19 +1,15 @@
 (ns ona.viewer.views.home
   (:use [hiccup core page]
         [ona.viewer.views.datasets :only [datasets]]
-        [ona.viewer.views.partials :only [base]])
+        [ona.viewer.views.partials :only [base]]
+        [ona.viewer.views.templates :only [base-template sign-in-form]])
   (:require [ona.api.user :as api]
             [ring.util.response :as response]))
 
 (defn sign-in
   "Render the signin page."
   []
-  (base
-   [:h1 "Sign in"]
-   [:form {:action "/signin" :method "post"}
-    [:input {:type "text" :name "username"}]
-    [:input {:type "password" :name "password"}]
-    [:input {:type "submit" :value "Sign in"}]]))
+  (sign-in-form))
 
 (defn dashboard
   "Render the users signed in home page."
@@ -44,6 +40,5 @@
 (defn sign-out
   "Sign out the user by empying the session."
   []
-  {:body (base
-          [:h1 "Successfully logged out."])
+  {:body (base-template "signout" "Sign Out" "Successfully logged out.")
    :session nil})
