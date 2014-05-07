@@ -42,7 +42,8 @@
             [lein-ring "0.7.1"]]
   :local-repo-classpath true
   :repositories {"sonatype" "https://oss.sonatype.org/content/repositories/releases/"}
-  :aliases {"up" ["pdo" "cljsbuild" "auto" "dev," "ring" "server-headless"]}
+  :aliases {"up" ["pdo" "cljsbuild" "auto" "dev," "ring" "server-headless"]
+            "deploy" ["do" "uberjar," "with-profile" "+pallet" "pallet" "up" "--phases" "install,configure,deploy"]}
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/cljs"]
                         :compiler {:output-to "resources/public/js/main.js"
