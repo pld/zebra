@@ -2,7 +2,9 @@
   (:use [hiccup core page]
         [ona.viewer.views.datasets :only [datasets]]
         [ona.viewer.views.partials :only [base]]
-        [ona.viewer.views.templates :only [base-template sign-in-form]])
+        [ona.viewer.views.templates :only [base-template
+                                           dashboard-items
+                                           sign-in-form]])
   (:require [ona.api.user :as api]
             [ring.util.response :as response]))
 
@@ -14,9 +16,11 @@
 (defn dashboard
   "Render the users signed in home page."
   [account]
-  (base
-   [:h1 "Welcome back " (:username account)]
-   (datasets account)))
+  (dashboard-items "Datasets"
+                   (:username account)
+                   "dataset/"
+                   (datasets account)
+                   nil))
 
 (defn submit-sign-in
   "Process submitted sign in details and log the user in."
@@ -26,7 +30,7 @@
         profile (api/profile account)]
     (if-not (:detail profile)
       (assoc
-          (response/redirect "/")
+        (response/redirect "/")
         :session {:account account})
       (sign-in))))
 
@@ -40,5 +44,5 @@
 (defn sign-out
   "Sign out the user by empying the session."
   []
-  {:body (base-template "signout" "Sign Out" "Successfully logged out.")
+  {:body (base-template "signout" "" "Sign Out" "Successfully logged out.")
    :session nil})
