@@ -56,12 +56,12 @@
 
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"
-  [page-title username items form]
+  [page-title username url items form]
   (let [page-content (if-not (= nil form)
                        (concat
                          (form)
-                         (list-items items "dataset"))
-                       (list-items items "dataset")
+                         (list-items items url))
+                       (list-items items url)
                        )]
     (base-template "/"
                    username

@@ -11,6 +11,7 @@
     (dashboard-items
       "Projects"
       (:username account)
+      "projects/"
       (for [project projects]
         {:item-name (str project)})
       create-project-form)))

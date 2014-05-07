@@ -14,6 +14,7 @@
     (dashboard-items
       "Organizations"
       (:username account)
+      "organizations/"
       (for [organization organizations]
         {:item-id (:org organization) :item-name (:name organization)})
       create-organization-form)))

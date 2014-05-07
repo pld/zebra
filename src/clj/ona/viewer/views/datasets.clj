@@ -18,6 +18,7 @@
     (dashboard-items
       "Dataset"
       (:username account)
+      "dataset/"
       (for [dataitem dataset]
         {:item-id nil :item-name (str dataitem)})
       nil)))

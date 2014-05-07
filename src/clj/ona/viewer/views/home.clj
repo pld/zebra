@@ -18,6 +18,7 @@
   [account]
   (dashboard-items "Datasets"
                    (:username account)
+                   "dataset/"
                    (datasets account)
                    nil))
 
