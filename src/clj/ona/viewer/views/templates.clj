@@ -4,6 +4,7 @@
 
 (def navigation-items
   {"Home" "/"
+   "New Dataset" "/dataset"
    "Project" "/projects"
    "Organizations" "/organizations"
    "Sign-up" "/sign-up"
@@ -58,12 +59,14 @@
 
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"
-  [page-title username url items form]
-  (let [item-list (list-items items url)
-        page-content (if form
-                       (concat (form) item-list)
-                       item-list)]
-    (base-template "/"
-                   username
-                   (str "Dashboard: " page-title)
-                   page-content)))
+  ([page-title username url items]
+     (dashboard-items page-title username url items nil))
+  ([page-title username url items form]
+     (let [item-list (list-items items url)
+           page-content (if form
+                          (concat (form) item-list)
+                          item-list)]
+       (base-template "/"
+                      username
+                      (str "Dashboard: " page-title)
+                      page-content))))
