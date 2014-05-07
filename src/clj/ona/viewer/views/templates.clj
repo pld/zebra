@@ -37,7 +37,10 @@
   [items url]
   [:p] (html/clone-for [item items]
                        [:p :a] (html/content (:item-name item))
-                       [:p :a] (html/set-attr :href (str url (:item-id item)))))
+                       [:p :a] (html/set-attr :href (str url (:item-id item)))
+                       [:p] (if (= nil (:item-id item))
+                              (html/content (:item-name item))
+                              identity)))
 
 "Create project form snippet"
 (html/defsnippet create-project-form "templates/create-project.html"
