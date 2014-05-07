@@ -13,18 +13,13 @@ Now you can start a development web server with:
 
     lein up
 
-Or you can compile the project into a war-file ready for deployment to
-a servlet container like [Tomcat][4] or [Jetty][5]:
+Compile the project into an ubjer with a [Jetty][4] servlet container and
+deploy using [Pallet][5]:
 
-    lein ring uberwar
-
-Deployment is done using [Pallet][6]:
-
-    lein do uberjar, with-profile +pallet pallet up --phases install,configure,deploy
+    lein deploy
 
 [1]: https://github.com/mmcgrana/ring
 [2]: https://github.com/weavejester/compojure
 [3]: https://github.com/technomancy/leiningen
-[4]: http://tomcat.apache.org
-[5]: http://jetty.codehaus.org/jetty
-[6]: http://palletops.com
+[4]: http://jetty.codehaus.org/jetty
+[5]: http://palletops.com
