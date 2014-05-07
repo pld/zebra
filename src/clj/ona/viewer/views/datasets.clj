@@ -8,8 +8,8 @@
   "List the datasets for this account."
   [account]
   (let [datasets (api/all account)]
-        (for [dataset datasets]
-          {:itemid (:formid dataset) :item-name (:title dataset)})))
+    (for [dataset datasets]
+      {:itemid (:formid dataset) :item-name (:title dataset)})))
 
 (defn dataset
   "Show the data for a specific dataset."
@@ -19,5 +19,6 @@
       "Dataset"
       (:username account)
       (for [dataitem dataset]
-        {:itemid nil :item-name (str dataitem)}))))
+        {:itemid nil :item-name (str dataitem)})
+      nil)))
 (defn dataset-new [session])

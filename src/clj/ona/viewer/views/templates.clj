@@ -34,13 +34,23 @@
                        [:p :a] (html/content (:item-name item))
                        [:p :a] (html/set-attr :href (str url (:itemid item)))))
 
+(html/defsnippet create-project-form "templates/create-project.html"
+  [:body :div.content :> :.create-project-form]
+  [])
+
 (defn sign-in-form
   []
   (base-template "/" "" "Sign-in" (signin-form)))
 
 (defn dashboard-items
-  [page-title username items]
-  (base-template "/"
-                 username
-                 (str "Dashboard: " page-title)
-                 (list-items items "/dataset/")))
+  [page-title username items form]
+  (let [page-content (if-not (= nil form)
+                       (concat
+                         (form)
+                         (list-items items "dataset"))
+                       (list-items items "dataset")
+                       )]
+    (base-template "/"
+                   username
+                   (str "Dashboard: " page-title)
+                   page-content)))

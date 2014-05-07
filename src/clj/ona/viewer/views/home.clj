@@ -16,7 +16,10 @@
 (defn dashboard
   "Render the users signed in home page."
   [account]
-  (dashboard-items "Datasets" (:username account) (datasets account)))
+  (dashboard-items "Datasets"
+                   (:username account)
+                   (datasets account)
+                   nil))
 
 (defn submit-sign-in
   "Process submitted sign in details and log the user in."
