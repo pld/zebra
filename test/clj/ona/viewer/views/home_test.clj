@@ -20,4 +20,4 @@
              account {:username username}]
          (dashboard account) => (contains username)
          (provided
-          (datasets/datasets account) => nil)))
+          (datasets/all account) => nil)))
