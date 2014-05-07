@@ -33,6 +33,10 @@
   "Retrieve the profile for an organization."
   [account org-name]
   (let [organization (api/profile account org-name)]
-    (base
+    (dashboard-items
+      (:name organization)
+      (:username account)
+      nil
       (for [org_detail organization]
-        [:p (str org_detail)]))))
+        {:item-name (str org_detail)})
+      nil)))
