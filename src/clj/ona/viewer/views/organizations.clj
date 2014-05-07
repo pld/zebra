@@ -1,7 +1,9 @@
 (ns ona.viewer.views.organizations
   (:use [hiccup core page]
         [ona.api.io :only [make-url]]
-        [ona.viewer.views.partials :only [base]])
+        [ona.viewer.views.partials :only [base]]
+        [ona.viewer.views.templates :only [dashboard-items
+                                           create-organization-form]])
   (:require [ona.api.organization :as api]
             [clojure.string :as string]))
 
@@ -9,21 +11,19 @@
   "Show all of the organizations for a user."
   [account]
   (let [organizations (api/all account)]
-    (base
-      [:form {:action "/organizations" :method "post"}
-       [:input {:type "text" :name "name"}]
-       [:input {:type "submit" :value "Create Organization"}]]
+    (dashboard-items
+      "Organizations"
+      (:username account)
       (for [organization organizations]
-        [:p [:a
-            {:href (str "/organizations/" (:org organization))}
-             (:name organization)]]))))
+        {:item-id (:org organization) :item-name (:name organization)})
+      create-organization-form)))
 
 (defn create
   "Create a new organization."
   [account params]
-   (let [org (string/replace
-               (string/lower-case (:name params)) #" " "")
-         data {:name (:name params)
+  (let [org (string/replace
+              (string/lower-case (:name params)) #" " "")
+        data {:name (:name params)
               :org org}
         organization (api/create account data)]
     (all account)))
@@ -33,5 +33,5 @@
   [account org-name]
   (let [organization (api/profile account org-name)]
     (base
-     (for [org_detail organization]
-       [:p (str org_detail)]))))
+      (for [org_detail organization]
+        [:p (str org_detail)]))))

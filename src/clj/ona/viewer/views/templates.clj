@@ -12,7 +12,7 @@
 
 "Defines the base template on which page content it appended using snippets"
 (html/deftemplate base-template "templates/base.html"
-    [{:keys [current-path]} username title page-content]
+  [{:keys [current-path]} username title page-content]
   [:head :title] (html/content title)
   [:body :h1.title] (html/content title)
   [:body :h2.user-details](html/append username)
@@ -37,7 +37,7 @@
   [items url]
   [:p] (html/clone-for [item items]
                        [:p :a] (html/content (:item-name item))
-                       [:p :a] (html/set-attr :href (str url (:itemid item)))))
+                       [:p :a] (html/set-attr :href (str url (:item-id item)))))
 
 "Create project form snippet"
 (html/defsnippet create-project-form "templates/create-project.html"
