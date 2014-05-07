@@ -7,8 +7,7 @@
    "Project" "/projects"
    "Organizations" "/organizations"
    "Sign-up" "/sign-up"
-   "Sign-out" "/signout"
-   })
+   "Sign-out" "/signout"})
 
 "Defines the base template on which page content it appended using snippets"
 (html/deftemplate base-template "templates/base.html"
@@ -60,12 +59,10 @@
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"
   [page-title username url items form]
-  (let [page-content (if-not (= nil form)
-                       (concat
-                         (form)
-                         (list-items items url))
-                       (list-items items url)
-                       )]
+  (let [list (list-items items url)
+        page-content (if form
+                       (concat (form) list)
+                       list)]
     (base-template "/"
                    username
                    (str "Dashboard: " page-title)
