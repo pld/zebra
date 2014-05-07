@@ -25,7 +25,7 @@
   (GET "/signout" [] (sign-out))
   (GET "/sign-up" [] (sign-up))
   (POST "/sign-up" {params :params} (submit-sign-up params))
-  (GET "/dataset" {{account :account} :session} (datasets/new account))
+  (GET "/dataset" {{account :account} :session} (datasets/new-dataset account))
   (GET "/dataset/:id"
        {{account :account} :session
         {id :id} :params}

@@ -22,7 +22,7 @@
       (for [dataitem dataset]
         {:item-id nil :item-name (str dataitem)}))))
 
-(defn new
+(defn new-dataset
   "Render a page for creating a new dataset."
   [account]
   ())
