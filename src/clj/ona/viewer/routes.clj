@@ -30,6 +30,10 @@
        {{account :account} :session
         {id :id} :params}
        (datasets/show account id))
+  (GET "/dataset/:id/tags"
+       {{account :account} :session
+        {id :id} :params}
+       (datasets/tags account id))
   (GET "/projects"
        {{account :account} :session}
        (projects/all account))

@@ -7,9 +7,10 @@
 (defn all
   "Return all the datasets for this account."
   [account]
-  (let [datasets (api/all account)]
+  (let [datasets (api/all account)
+        actions  [{:name "view data" :url ""}{:name "view tags" :url "tags"}]]
     (for [dataset datasets]
-      {:item-id (:formid dataset) :item-name (:title dataset)})))
+      {:item-id (:formid dataset) :item-name (:title dataset) :actions actions})))
 
 (defn show
   "Show the data for a specific dataset."
@@ -21,6 +22,17 @@
       (str "/dataset/" dataset-id)
       (for [dataitem dataset]
         {:item-id nil :item-name (str dataitem)}))))
+
+(defn tags
+  "View tags for a specific dataset"
+  [account dataset-id]
+  (let [tags (api/tags account dataset-id)]
+    (t/dashboard-items
+      "Dataset tag"
+      (:username account)
+      (str "/dataset/" dataset-id)
+      (for [tagitem tags]
+        {:item-id nil :item-name (str tagitem)}))))
 
 (defn new-dataset
   "Render a page for creating a new dataset."
