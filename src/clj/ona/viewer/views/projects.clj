@@ -6,7 +6,9 @@
                                            create-project-form]])
   (:require [ona.api.project :as api]))
 
-(defn all [account]
+(defn all
+  "List all of the users projects."
+  [account]
   (let [projects (api/all account)]
     (dashboard-items
       "Projects"
@@ -16,7 +18,9 @@
         {:item-name (str project)})
       create-project-form)))
 
-(defn create [account params]
+(defn create
+  "Create a new project for the current user."
+  [account params]
   (let [owner (make-url (str "users/" (:username account)))
         data {:name (:name params)
               :owner owner}
