@@ -65,11 +65,11 @@
   [])
 
 (html/defsnippet new-organization-form "templates/new-organization.html"
-  [:body :div.content :> :.create-organization-form]
+  [:body :div.content :> :.new-organization-form]
   [])
 
 (html/defsnippet new-project-form "templates/new-project.html"
-  [:body :div.content :> :.create-project-form]
+  [:body :div.content :> :.new-project-form]
   [])
 
 (defn dashboard-items
