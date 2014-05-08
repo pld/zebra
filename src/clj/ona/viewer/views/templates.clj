@@ -27,7 +27,7 @@
 "Snippets are appended to the base template"
 
 "Sign-in form snippet"
-(html/defsnippet signin-form "templates/sign-in.html"
+(html/defsnippet sign-in-form "templates/sign-in.html"
   [:body :div.content :> :.signin-form]
   [])
 
@@ -51,11 +51,6 @@
 (html/defsnippet create-organization-form "templates/create-organization.html"
   [:body :div.content :> :.create-organization-form]
   [])
-
-(defn sign-in-form
-  "Renders base-template with sign in form"
-  []
-  (base-template "/" "" "Sign-in" (signin-form)))
 
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"

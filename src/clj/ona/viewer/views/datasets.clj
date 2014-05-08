@@ -26,3 +26,7 @@
   "Render a page for creating a new dataset."
   [account]
   ())
+
+(defn create
+  "Create a new dataset."
+  [account params])

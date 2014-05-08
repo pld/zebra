@@ -2,15 +2,15 @@
   (:use [hiccup core page] [ona.viewer.views.partials :only [base]]
         [ona.viewer.views.templates :only [base-template
                                            dashboard-items
-                                           sign-in-form]])
+                                           sign-in-page]])
   (:require [ona.api.user :as api]
             [ring.util.response :as response]
             [ona.viewer.views.datasets :as datasets]))
 
 (defn sign-in
-  "Render the signin page."
+  "Render the sign in page."
   []
-  (sign-in-form))
+  (base-template "/" "" "Sign-in" (sign-in-form)))
 
 (defn dashboard
   "Render the users signed in home page."
