@@ -1,6 +1,12 @@
 (ns ona.viewer.views.templates
-  (:use [hiccup core page])
-  (:require [net.cgrand.enlive-html :as html]))
+  (:use [net.cgrand.enlive-html :only [append
+                                       clone-for
+                                       content
+                                       defsnippet
+                                       deftemplate
+                                       first-of-type
+                                       html
+                                       set-attr]]))
 
 (def navigation-items
   {"Home" "/"
@@ -16,24 +22,24 @@
   (let [default-js [[:script {:src "js/out/goog/base.js" :type "text/javascript"}]
                     [:script {:src "js/main.js" :type "text/javascript"}]
                     [:script {:type "text/javascript"} "goog.require(\"ona.core\")"]]]
-    (apply html/html
+    (apply html
            (if javascript
              (conj default-js javascript)
              default-js))))
 
-(html/deftemplate render-base-template "templates/base.html"
+(deftemplate render-base-template "templates/base.html"
   [current-path username title page-content javascript]
-  [:head :title] (html/content title)
-  [:body :h1.title] (html/content title)
-  [:body :h2.user-details](html/append username)
-  [:ul.nav [:li html/first-of-type]] (html/clone-for [[caption url] navigation-items]
+  [:head :title] (content title)
+  [:body :h1.title] (content title)
+  [:body :h2.user-details](append username)
+  [:ul.nav [:li first-of-type]] (clone-for [[caption url] navigation-items]
                                                      [:li] (if (= current-path url)
-                                                             (html/set-attr :class "active")
+                                                             (set-attr :class "active")
                                                              identity)
-                                                     [:li :a] (html/content caption)
-                                                     [:li :a] (html/set-attr :href url))
-  [:body :div.content] (html/append page-content)
-  [:body] (html/append (build-javascript javascript)))
+                                                     [:li :a] (content caption)
+                                                     [:li :a] (set-attr :href url))
+  [:body :div.content] (append page-content)
+  [:body] (append (build-javascript javascript)))
 
 (defn base-template
   "Defines the base template on which page content it appended using snippets"
@@ -45,30 +51,30 @@
 "Snippets are appended to the base template"
 
 "Sign-in form snippet"
-(html/defsnippet sign-in-form "templates/sign-in.html"
+(defsnippet sign-in-form "templates/sign-in.html"
   [:body :div.content :> :.signin-form]
   [])
 
 "List items snipptet:renders any list of items"
-(html/defsnippet list-items "templates/list-items.html"
+(defsnippet list-items "templates/list-items.html"
   [:body :div.content :> :.list-items]
   [items url]
-  [:p] (html/clone-for [item items]
-                       [:p :a] (html/content (:item-name item))
-                       [:p :a] (html/set-attr :href (str url (:item-id item)))
+  [:p] (clone-for [item items]
+                       [:p :a] (content (:item-name item))
+                       [:p :a] (set-attr :href (str url (:item-id item)))
                        [:p] (if (= nil (:item-id item))
-                              (html/content (:item-name item))
+                              (content (:item-name item))
                               identity)))
 
-(html/defsnippet new-dataset-form "templates/new-dataset.html"
+(defsnippet new-dataset-form "templates/new-dataset.html"
   [:body :div.content :> :.new-dataset-form]
   [])
 
-(html/defsnippet new-organization-form "templates/new-organization.html"
+(defsnippet new-organization-form "templates/new-organization.html"
   [:body :div.content :> :.new-organization-form]
   [])
 
-(html/defsnippet new-project-form "templates/new-project.html"
+(defsnippet new-project-form "templates/new-project.html"
   [:body :div.content :> :.new-project-form]
   [])
 
