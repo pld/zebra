@@ -3,10 +3,12 @@
         [ona.api.io :only [make-url]]
         [ona.viewer.views.partials :only [base]]
         [ona.viewer.views.templates :only [dashboard-items
-                                           create-project-form]])
+                                           new-project-form]])
   (:require [ona.api.project :as api]))
 
-(defn all [account]
+(defn all
+  "List all of the users projects."
+  [account]
   (let [projects (api/all account)]
     (dashboard-items
       "Projects"
@@ -14,9 +16,11 @@
       "projects/"
       (for [project projects]
         {:item-name (str project)})
-      create-project-form)))
+      new-project-form)))
 
-(defn create [account params]
+(defn create
+  "Create a new project for the current user."
+  [account params]
   (let [owner (make-url (str "users/" (:username account)))
         data {:name (:name params)
               :owner owner}

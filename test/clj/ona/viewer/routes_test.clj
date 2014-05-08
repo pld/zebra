@@ -13,7 +13,7 @@
                         :uri (str "/dataset/" id)
                         :session session}) => (contains result)
           (provided
-            (datasets/dataset :fake-account id) => result)))
+            (datasets/show :fake-account id) => result)))
 
   (fact "should parse account"
         (main-routes {:request-method :get
@@ -54,4 +54,3 @@
                         :session session}) => (contains result)
           (provided
             (organizations/profile :fake-account name) => result))))
-

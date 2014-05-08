@@ -1,6 +1,5 @@
 (ns ona.viewer.routes
   (:use compojure.core
-        [ona.viewer.views.datasets :only [dataset]]
         [ona.viewer.views.home :only [home-page sign-out submit-sign-in]]
         [ona.viewer.views.profile :only [sign-up submit-sign-up]]
         [hiccup.middleware :only [wrap-base-url]]
@@ -8,8 +7,9 @@
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
             [compojure.response :as response]
-            [ona.viewer.views.projects :as projects]
+            [ona.viewer.views.datasets :as datasets]
             [ona.viewer.views.organizations :as organizations]
+            [ona.viewer.views.projects :as projects]
             [ring.adapter.jetty :as ring]
             [ring.middleware.logger :as logger])
   (:gen-class))
@@ -25,10 +25,11 @@
   (GET "/signout" [] (sign-out))
   (GET "/sign-up" [] (sign-up))
   (POST "/sign-up" {params :params} (submit-sign-up params))
+  (GET "/dataset" {{account :account} :session} (datasets/new-dataset account))
   (GET "/dataset/:id"
        {{account :account} :session
         {id :id} :params}
-       (dataset account id))
+       (datasets/show account id))
   (GET "/projects"
        {{account :account} :session}
        (projects/all account))

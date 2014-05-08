@@ -1,17 +1,16 @@
 (ns ona.viewer.views.home
-  (:use [hiccup core page]
-        [ona.viewer.views.datasets :only [datasets]]
-        [ona.viewer.views.partials :only [base]]
+  (:use [hiccup core page] [ona.viewer.views.partials :only [base]]
         [ona.viewer.views.templates :only [base-template
                                            dashboard-items
                                            sign-in-form]])
   (:require [ona.api.user :as api]
-            [ring.util.response :as response]))
+            [ring.util.response :as response]
+            [ona.viewer.views.datasets :as datasets]))
 
 (defn sign-in
-  "Render the signin page."
+  "Render the sign in page."
   []
-  (sign-in-form))
+  (base-template "/" "" "Sign-in" (sign-in-form)))
 
 (defn dashboard
   "Render the users signed in home page."
@@ -19,7 +18,7 @@
   (dashboard-items "Datasets"
                    (:username account)
                    "dataset/"
-                   (datasets account)
+                   (datasets/all account)
                    nil))
 
 (defn submit-sign-in
