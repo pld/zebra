@@ -6,7 +6,8 @@
                                        deftemplate
                                        first-of-type
                                        html
-                                       set-attr]]))
+                                       set-attr]
+                                  :rename {html enlive-html}]))
 
 (def navigation-items
   {"Home" "/"
@@ -22,7 +23,7 @@
   (let [default-js [[:script {:src "js/out/goog/base.js" :type "text/javascript"}]
                     [:script {:src "js/main.js" :type "text/javascript"}]
                     [:script {:type "text/javascript"} "goog.require(\"ona.core\")"]]]
-    (apply html
+    (apply enlive-html
            (if javascript
              (conj default-js javascript)
              default-js))))
@@ -42,7 +43,7 @@
   [:body] (append (build-javascript javascript)))
 
 (defn base-template
-  "Defines the base template on which page content it appended using snippets"
+  "Defines the base template on which page content is appended using snippets"
   ([current-path username title page-content]
      (base-template current-path username title page-content nil))
   ([current-path username title page-content javascript]
@@ -55,14 +56,14 @@
   [:body :div.content :> :.signin-form]
   [])
 
-"List items snipptet:renders any list of items"
+"List items snippet:renders any list of items"
 (defsnippet list-items "templates/list-items.html"
   [:body :div.content :> :.list-items]
   [items url]
   [:p] (clone-for [item items]
                        [:p :a] (content (:item-name item))
                        [:p :a] (set-attr :href (str url (:item-id item)))
-                       [:p] (if (= nil (:item-id item))
+                       [:p] (if-not (:item-id item)
                               (content (:item-name item))
                               identity)))
 
