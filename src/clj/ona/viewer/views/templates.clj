@@ -64,14 +64,12 @@
   [:body :div.content :> :.new-dataset-form]
   [])
 
-"Create project form snippet"
-(html/defsnippet create-project-form "templates/create-project.html"
-  [:body :div.content :> :.create-project-form]
+(html/defsnippet new-organization-form "templates/new-organization.html"
+  [:body :div.content :> :.create-organization-form]
   [])
 
-"Create organizaion form snippet"
-(html/defsnippet create-organization-form "templates/create-organization.html"
-  [:body :div.content :> :.create-organization-form]
+(html/defsnippet new-project-form "templates/new-project.html"
+  [:body :div.content :> :.create-project-form]
   [])
 
 (defn dashboard-items

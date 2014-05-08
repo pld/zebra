@@ -3,7 +3,7 @@
         [ona.api.io :only [make-url]]
         [ona.viewer.views.partials :only [base]]
         [ona.viewer.views.templates :only [dashboard-items
-                                           create-organization-form]])
+                                           new-organization-form]])
   (:require [ona.api.organization :as api]
             [clojure.string :as string]))
 
@@ -17,7 +17,7 @@
       "organizations/"
       (for [organization organizations]
         {:item-id (:org organization) :item-name (:name organization)})
-      create-organization-form)))
+      new-organization-form)))
 
 (defn create
   "Create a new organization."
