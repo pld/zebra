@@ -38,5 +38,10 @@
          (tags account :dataset-id) => :something
          (provided
            (make-url "forms/" username "/" :dataset-id "/" "labels" ) => url
-           (parse-http :get url account) => :something
-           )))
+           (parse-http :get url account) => :something))
+
+  (facts "about dataset-add-tag"
+         (add-tag  account :dataset-id :tag) => :something
+         (provided
+           (make-url "forms/" username "/" :dataset-id "/" "labels") => url
+           (parse-http :post url account {:form-params :tag}) => :something)))
