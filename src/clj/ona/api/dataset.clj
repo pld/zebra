@@ -16,3 +16,7 @@
 (defn submission [account dataset-id submission-id]
   (let [url (make-url "data/" (:username account) "/" dataset-id "/" submission-id)]
     (parse-http :get url account)))
+(defn tags [account dataset-id]
+  (let [url (make-url "forms/" (:username account) "/" dataset-id "/" "labels")]
+    (parse-http :get url account)
+    ))
