@@ -10,9 +10,19 @@
    "Sign-up" "/sign-up"
    "Sign-out" "/signout"})
 
-"Defines the base template on which page content it appended using snippets"
-(html/deftemplate base-template "templates/base.html"
-  [{:keys [current-path]} username title page-content]
+(defn build-javascript
+  "Render default and custom JavaScript."
+  [javascript]
+  (let [default-js [[:script {:src "js/out/goog/base.js" :type "text/javascript"}]
+                    [:script {:src "js/main.js" :type "text/javascript"}]
+                    [:script {:type "text/javascript"} "goog.require(\"ona.core\")"]]]
+    (apply html/html
+           (if javascript
+             (conj default-js javascript)
+             default-js))))
+
+(html/deftemplate render-base-template "templates/base.html"
+  [current-path username title page-content javascript]
   [:head :title] (html/content title)
   [:body :h1.title] (html/content title)
   [:body :h2.user-details](html/append username)
@@ -22,7 +32,15 @@
                                                              identity)
                                                      [:li :a] (html/content caption)
                                                      [:li :a] (html/set-attr :href url))
-  [:body :div.content] (html/append page-content))
+  [:body :div.content] (html/append page-content)
+  [:body] (html/append (build-javascript javascript)))
+
+(defn base-template
+  "Defines the base template on which page content it appended using snippets"
+  ([current-path username title page-content]
+     (base-template current-path username title page-content nil))
+  ([current-path username title page-content javascript]
+     (render-base-template current-path username title page-content javascript)))
 
 "Snippets are appended to the base template"
 
@@ -41,6 +59,10 @@
                        [:p] (if (= nil (:item-id item))
                               (html/content (:item-name item))
                               identity)))
+
+(html/defsnippet new-dataset-form "templates/new-dataset.html"
+  [:body :div.content :> :.new-dataset-form]
+  [])
 
 "Create project form snippet"
 (html/defsnippet create-project-form "templates/create-project.html"

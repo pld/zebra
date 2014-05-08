@@ -1,10 +1,8 @@
 (ns ona.core
-  (:import goog.net IframIo)
+  (:import goog.net.IframeIo)
   (:require [domina :as dom]
             [domina.events :as ev]
             [goog.events :as gev]))
-
-(.write js/document "Hello, ClojureScript!")
 
 (defn upload
   "Handle upload file via an IFrame. Send form data to "

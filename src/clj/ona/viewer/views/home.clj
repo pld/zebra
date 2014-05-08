@@ -2,7 +2,7 @@
   (:use [hiccup core page] [ona.viewer.views.partials :only [base]]
         [ona.viewer.views.templates :only [base-template
                                            dashboard-items
-                                           sign-in-page]])
+                                           sign-in-form]])
   (:require [ona.api.user :as api]
             [ring.util.response :as response]
             [ona.viewer.views.datasets :as datasets]))
