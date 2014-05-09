@@ -83,6 +83,12 @@
   [:body :div.content :> :.new-project-form]
   [])
 
+(defsnippet new-tag-form "templates/new-tag.html"
+  [:body :div.content :> :.new-tag-form]
+  [dataset-id]
+  [:form](set-attr :action (str "dataset/" dataset-id "/tags" ))
+  )
+
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"
   ([page-title username url items]
@@ -90,7 +96,7 @@
   ([page-title username url items form]
    (let [item-list (list-items items url)
          page-content (if form
-                        (concat (form) item-list)
+                        (concat form item-list)
                         item-list)]
      (base-template "/"
                     username

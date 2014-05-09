@@ -26,13 +26,15 @@
 (defn tags
   "View tags for a specific dataset"
   [account dataset-id]
-  (let [tags (api/tags account dataset-id)]
+  (let [tags (api/tags account dataset-id)
+        tag-form (t/new-tag-form dataset-id)]
     (t/dashboard-items
       "Dataset tag"
       (:username account)
       (str "/dataset/" dataset-id)
       (for [tagitem tags]
-        {:item-id nil :item-name (str tagitem)}))))
+        {:item-id nil :item-name (str tagitem)})
+      tag-form)))
 
 (defn new-dataset
   "Render a page for creating a new dataset."
