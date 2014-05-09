@@ -8,7 +8,7 @@
   "Handle upload file via an IFrame. Send form data to "
   []
   (let [form-id "form"
-        upload-path "https://stage.ona.io/api/v1/forms"
+        upload-path "/datasets"
         io (IframeIo.)]
     (gev/listen io
                 (aget goog.net.EventType "SUCCESS")

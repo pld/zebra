@@ -28,13 +28,13 @@
            (make-url "data/" username "/" :dataset-id) => url
            (parse-http :get url account) => :something))
 
-  (facts "about dataset-getsubmission"
-         (submission account :dataset-id :submission-id) => :something
+  (facts "about dataset-getrecord"
+         (record account :dataset-id :record-id) => :something
          (provided
-           (make-url "data/" username "/" :dataset-id  "/" :submission-id) => url
+           (make-url "data/" username "/" :dataset-id  "/" :record-id) => url
            (parse-http :get url account) => :something))
 
-  (facts "about  dataset-get-tags"
+  (facts "about dataset-get-tags"
          (tags account :dataset-id) => :something
          (provided
            (make-url "forms/" username "/" :dataset-id "/" "labels" ) => url

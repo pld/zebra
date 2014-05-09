@@ -44,7 +44,8 @@
 
 (defn create
   "Create a new dataset."
-  [account params])
+  [account params]
+  (api/create account params))
 
 (defn create-tags
   "Create tags for a specific dataset"

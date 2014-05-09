@@ -6,9 +6,9 @@
   {:get http/get
    :post http/post})
 
-(def protocol "https")
+(def protocol "http")
 
-(def host "stage.ona.io")
+(def host "localhost:8000")
 
 ;TODO remove once https://github.com/onaio/onadata/issues/238 is finished
 (def auth_token "037d60e45f966d125ebf7a49c5d0616e13db9b60")
