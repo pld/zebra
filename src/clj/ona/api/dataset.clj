@@ -21,6 +21,6 @@
   (let [url (make-url "forms/" (:username account) "/" dataset-id "/" "labels")]
     (parse-http :get url account)))
 
-(defn add-tag [account dataset-id tag]
+(defn add-tags [account dataset-id tags]
   (let [url (make-url "forms/" (:username account) "/" dataset-id "/" "labels")]
-    (parse-http :post url account {:form-params tag})))
+    (parse-http :post url account {:form-params tags})))

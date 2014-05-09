@@ -45,3 +45,11 @@
 (defn create
   "Create a new dataset."
   [account params])
+
+(defn create-tags
+  "Create tags for a specific dataset"
+  [account params]
+  (let [dataset-id (:dataset-id params)
+        tags-to-add {:tags (:tags params)}
+        added-tags (api/add-tags account dataset-id tags-to-add)]
+    (tags account dataset-id)))

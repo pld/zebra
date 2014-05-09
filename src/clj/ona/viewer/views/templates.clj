@@ -86,8 +86,8 @@
 (defsnippet new-tag-form "templates/new-tag.html"
   [:body :div.content :> :.new-tag-form]
   [dataset-id]
-  [:form](set-attr :action (str "dataset/" dataset-id "/tags" ))
-  )
+  [:form](set-attr :action (str "/dataset/" dataset-id "/tags"))
+  [:form :#dataset-id](set-attr :value dataset-id))
 
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"
