@@ -20,8 +20,8 @@
 (defn build-javascript
   "Render default and custom JavaScript."
   [javascript]
-  (let [default-js [[:script {:src "js/out/goog/base.js" :type "text/javascript"}]
-                    [:script {:src "js/main.js" :type "text/javascript"}]
+  (let [default-js [[:script {:src "/js/out/goog/base.js" :type "text/javascript"}]
+                    [:script {:src "/js/main.js" :type "text/javascript"}]
                     [:script {:type "text/javascript"} "goog.require(\"ona.core\")"]]]
     (apply enlive-html
            (if javascript
