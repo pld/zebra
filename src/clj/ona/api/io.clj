@@ -1,10 +1,10 @@
 (ns ona.api.io
-  (:require [org.httpkit.client :as http]
+  (:require [clj-http.client :as client]
             [cheshire.core :as json]))
 
 (def ^:private meths
-  {:get http/get
-   :post http/post})
+  {:get client/get
+   :post client/post})
 
 (def protocol "http")
 
@@ -26,8 +26,5 @@
      (let [options (if-let [{:keys [username password]} account]
                      (assoc options :basic-auth [username password])
                      options)
-           {:keys [_ _ body error]} @((meths method) url options)]
-       (if error
-         (throw
-          (Exception. error))
-         (json/parse-string body true)))))
+           {:keys [body]} ((meths method) url options)]
+       (json/parse-string body true))))

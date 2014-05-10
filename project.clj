@@ -7,6 +7,7 @@
                  [org.clojure/clojurescript "0.0-2156"]
                  [org.clojure/tools.logging "0.2.6"]
                  [cheshire "5.2.0"]
+                 [clj-http "0.9.1"]
                  [compojure "1.1.1"]
                  [domina "1.0.2"]
                  [hiccup "1.0.0"]
