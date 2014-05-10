@@ -8,6 +8,7 @@
                  [org.clojure/tools.logging "0.2.6"]
                  [cheshire "5.2.0"]
                  [clj-http "0.9.1"]
+                 [com.google.guava/guava "17.0"]
                  [compojure "1.1.1"]
                  [domina "1.0.2"]
                  [hiccup "1.0.0"]

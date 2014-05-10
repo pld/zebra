@@ -1,6 +1,16 @@
 (ns ona.api.dataset
   (:use [ona.api.io :only [make-url parse-http]]))
 
+(defn- uploaded->file [uploaded-file]
+  (let [{:keys [tempfile filename]} uploaded-file
+        tempdir (com.google.common.io.Files/createTempDir)
+        path (str (.getAbsolutePath tempdir) "/" filename)
+        file (clojure.java.io/file path)]
+    (.deleteOnExit file)
+    (.deleteOnExit tempdir)
+    (clojure.java.io/copy tempfile file)
+    file))
+
 (defn all
   "Return all the datasets for an account."
   [account]
@@ -9,12 +19,9 @@
 
 (defn create
   "Create a new dataset from a file."
-  [account file]
-  (let [tempfile (file :tempfile)
-        xlsfile (java.io.File/createTempFile "ona-viewer-xls-file" ".xls")
+  [account uploaded-file]
+  (let [xlsfile (uploaded->file uploaded-file)
         url (make-url "forms")]
-    (.deleteOnExit xlsfile)
-    (clojure.java.io/copy tempfile xlsfile)
     (parse-http :post url account
                 {:multipart [{:name "xls_file"
                               :content xlsfile}]})))
