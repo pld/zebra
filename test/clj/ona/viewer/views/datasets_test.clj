@@ -7,12 +7,12 @@
       "Datasets all returns a list of datasets"
       (-> (all :fake-account) first second last) => :fake-title
       (provided
-        (api/all :fake-account) => [{:title :fake-title}])
+       (api/all :fake-account) => [{:title :fake-title}])
 
       "Dataset show returns data for dataset"
       (show :fake-account :dataset-id) => (contains (str :row))
       (provided
-        (api/data :fake-account :dataset-id) => [:row])
+       (api/data :fake-account :dataset-id) => [:row])
 
       "Dataset new returns content for creating a dataset"
       (new-dataset :fake-account) =not=> nil)
@@ -21,13 +21,12 @@
       "Tags returns all tags for a specific dataset"
       (tags :fake-account :dataset-id) => (contains (str :fake-tags))
       (provided
-        (api/tags :fake-account :dataset-id) => [:fake-tags])
+       (api/tags :fake-account :dataset-id) => [:fake-tags])
 
       "Create tags creates tags for a specific dataset"
-      (let
-        [tags {:tags "tag1, tag2"}
-         params (merge {:dataset-id :dataset-id} tags)]
+      (let [tags {:tags "tag1, tag2"}
+            params (merge {:dataset-id :dataset-id} tags)]
         (create-tags :fake-account params) => :something
         (provided
-          (api/add-tags :fake-account :dataset-id tags) => :new-tags
-          (tags :fake-account :dataset-id) => :something)))
+         (api/add-tags :fake-account :dataset-id tags) => :new-tags
+         (tags :fake-account :dataset-id) => :something)))
