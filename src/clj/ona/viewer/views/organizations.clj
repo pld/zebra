@@ -17,7 +17,7 @@
       "organizations/"
       (for [organization organizations]
         {:item-id (:org organization) :item-name (:name organization)})
-      new-organization-form)))
+      (new-organization-form))))
 
 (defn create
   "Create a new organization."

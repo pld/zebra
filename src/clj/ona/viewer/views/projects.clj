@@ -16,7 +16,7 @@
       "projects/"
       (for [project projects]
         {:item-name (str project)})
-      new-project-form)))
+      (new-project-form))))
 
 (defn create
   "Create a new project for the current user."
