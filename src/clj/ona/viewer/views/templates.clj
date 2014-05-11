@@ -11,7 +11,7 @@
 
 (def navigation-items
   {"Home" "/"
-   "New Dataset" "/dataset"
+   "New dataset" "/dataset"
    "Project" "/projects"
    "Organizations" "/organizations"
    "Sign-up" "/sign-up"
