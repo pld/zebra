@@ -1,14 +1,14 @@
 (ns ona.api.io
-  (:require [org.httpkit.client :as http]
+  (:require [clj-http.client :as client]
             [cheshire.core :as json]))
 
 (def ^:private meths
-  {:get http/get
-   :post http/post})
+  {:get client/get
+   :post client/post})
 
-(def protocol "https")
+(def protocol "http")
 
-(def host "stage.ona.io")
+(def host "localhost:8000")
 
 ;TODO remove once https://github.com/onaio/onadata/issues/238 is finished
 (def auth_token "037d60e45f966d125ebf7a49c5d0616e13db9b60")
@@ -26,8 +26,5 @@
      (let [options (if-let [{:keys [username password]} account]
                      (assoc options :basic-auth [username password])
                      options)
-           {:keys [_ _ body error]} @((meths method) url options)]
-       (if error
-         (throw
-          (Exception. error))
-         (json/parse-string body true)))))
+           {:keys [body]} ((meths method) url options)]
+       (json/parse-string body true))))

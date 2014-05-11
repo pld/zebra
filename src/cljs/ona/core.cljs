@@ -8,7 +8,7 @@
   "Handle upload file via an IFrame. Send form data to "
   []
   (let [form-id "form"
-        upload-path "/upload"
+        upload-path "/datasets"
         io (IframeIo.)]
     (gev/listen io
                 (aget goog.net.EventType "SUCCESS")
@@ -18,7 +18,7 @@
                 #(js/alert "ERROR!"))
     (gev/listen io
                 (aget goog.net.EventType "COMPLETE")
-                #(js/alert "COMPLETE!"))
+                #(js/alert "BEGUN!"))
     (.setErrorChecker io #(not= "ok" (.getResponseText io)))
     (.sendFromForm io (dom/by-id form-id) upload-path)))
 

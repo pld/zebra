@@ -1,6 +1,7 @@
 (ns ona.viewer.views.datasets
   (:use [hiccup core page]
-        [ona.viewer.views.partials :only [base]])
+        [ona.viewer.views.partials :only [base]]
+        [ring.util.response :only [redirect-after-post]])
   (:require [ona.api.dataset :as api]
             [ona.viewer.views.templates :as t]))
 
@@ -39,12 +40,13 @@
 (defn new-dataset
   "Render a page for creating a new dataset."
   [account]
-  (t/base-template "/dataset" (:username account) "New Dataset" (t/new-dataset-form)
-                   [:script {:type "text/javascript"} "ona.core.init()"]))
+  (t/base-template "/dataset" (:username account) "New dataset" (t/new-dataset-form)))
 
 (defn create
   "Create a new dataset."
-  [account params])
+  [account params]
+  (api/create account params)
+  (redirect-after-post "/"))
 
 (defn create-tags
   "Create tags for a specific dataset"

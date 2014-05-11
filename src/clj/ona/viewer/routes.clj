@@ -38,6 +38,10 @@
        {{account :account} :session
         params :params}
        (datasets/create-tags account params))
+  (POST "/datasets"
+        {{account :account} :session
+         {file :file} :params}
+        (datasets/create account file))
   (GET "/projects"
        {{account :account} :session}
        (projects/all account))
