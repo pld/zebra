@@ -12,8 +12,6 @@
                  [compojure "1.1.1"]
                  [domina "1.0.2"]
                  [hiccup "1.0.0"]
-                 [http-kit "2.1.12"]
-                 [http-kit.fake "0.2.1"]
                  [ring.middleware.logger "0.4.0"]
                  [ring/ring-jetty-adapter "1.2.2"]
                  [enlive "1.1.5"]]
