@@ -75,8 +75,9 @@
   [:body :div.content :> :.list-items]
   [items url]
   [:p] (clone-for [item items]
-                  [:p :a] (content (:item-name item))
-                  [:p :a] (set-attr :href (str url (:item-id item)))
+                  [:p :a] (do->
+                           (content (:item-name item))
+                           (set-attr :href (str url (:item-id item))))
                   [:p] (if-not (:item-id item)
                          (content (:item-name item))
                          identity)
