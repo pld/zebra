@@ -4,6 +4,7 @@
                                        content
                                        defsnippet
                                        deftemplate
+                                       do->
                                        first-of-type
                                        html
                                        set-attr]
@@ -56,6 +57,19 @@
   [:body :div.content :> :.signin-form]
   [])
 
+(defn render-actions
+  "Render the actions for a list item."
+  [item url-base]
+  (if-let [actions (:actions item)]
+    (clone-for [action actions]
+               (let [url-prefix (str url-base (:item-id item))
+                     url (if-let [suffix (:url action)]
+                           (str url-prefix "/" suffix)
+                           url-prefix)]
+                 [:a] (do->
+                       (content (str " >> " (:name action)))
+                       (set-attr :href url))))))
+
 "List items snippet:renders any list of items"
 (defsnippet list-items "templates/list-items.html"
   [:body :div.content :> :.list-items]
@@ -66,10 +80,7 @@
                   [:p] (if-not (:item-id item)
                          (content (:item-name item))
                          identity)
-                  [:p :span.actions :a] (if (:actions item)
-                                          (clone-for [action  (:actions item)]
-                                                     [:a] (content (str "  >> "(:name action)))
-                                                     [:a] (set-attr :href (str url (:item-id item) "/" (:url action)))))))
+                  [:p :span.actions :a] (render-actions item url)))
 
 (defsnippet new-dataset-form "templates/new-dataset.html"
   [:body :div.content :> :.new-dataset-form]
