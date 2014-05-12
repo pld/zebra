@@ -1,6 +1,6 @@
 (ns ona.viewer.routes
   (:use compojure.core
-        [ona.viewer.views.home :only [home-page sign-out submit-sign-in]]
+        [ona.viewer.views.home :only [home-page sign-out submit-sign-in sign-in]]
         [ona.viewer.views.profile :only [sign-up submit-sign-up]]
         [hiccup.middleware :only [wrap-base-url]]
         [ona.viewer.views.templates :only [base-template]])
@@ -11,7 +11,8 @@
             [ona.viewer.views.organizations :as organizations]
             [ona.viewer.views.projects :as projects]
             [ring.adapter.jetty :as ring]
-            [ring.middleware.logger :as logger])
+            [ring.middleware.logger :as logger]
+            [ring.middleware.session :as session])
   (:gen-class))
 
 (defn wrap-with-logger [handler verbose?]
@@ -66,16 +67,17 @@
 (defn wrap-basic-authentication
   [handler]
   (fn [request]
-    (if ((:headers request) "cookie")
+    (if-not (nil? (:account (:session request)))
       (handler request)
-      {:status 403
-       :body (str "You need to be authenticated" )})))
+      {:status 200
+       :body (sign-in)})))
 
 (defn ona-viewer [verbose?]
   (-> (handler/site main-routes)
       (wrap-base-url)
       (#(wrap-with-logger % verbose?))
-      (wrap-basic-authentication)))
+      (wrap-basic-authentication)
+      (session/wrap-session)))
 
 (def app
   (ona-viewer true))
