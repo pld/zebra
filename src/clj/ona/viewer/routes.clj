@@ -35,9 +35,9 @@
         {id :id} :params}
        (datasets/tags account id))
   (POST "/dataset/:id/tags"
-       {{account :account} :session
-        params :params}
-       (datasets/create-tags account params))
+        {{account :account} :session
+         params :params}
+        (datasets/create-tags account params))
   (POST "/datasets"
         {{account :account} :session
          {file :file} :params}
@@ -63,10 +63,19 @@
   (route/resources "/")
   (route/not-found "Page not found"))
 
+(defn wrap-basic-authentication
+  [handler]
+  (fn [request]
+    (if ((:headers request) "cookie")
+      (handler request)
+      {:status 403
+       :body (str "You need to be authenticated" )})))
+
 (defn ona-viewer [verbose?]
   (-> (handler/site main-routes)
       (wrap-base-url)
-      (#(wrap-with-logger % verbose?))))
+      (#(wrap-with-logger % verbose?))
+      (wrap-basic-authentication)))
 
 (def app
   (ona-viewer true))
