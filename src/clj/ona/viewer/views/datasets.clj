@@ -9,7 +9,8 @@
   "Return all the datasets for this account."
   [account]
   (let [datasets (api/all account)
-        actions  [{:name "view data" :url ""}{:name "view tags" :url "tags"}]]
+        actions  [{:name "view data"}
+                  {:name "view tags" :url "tags"}]]
     (for [dataset datasets]
       {:item-id (:formid dataset) :item-name (:title dataset) :actions actions})))
 
