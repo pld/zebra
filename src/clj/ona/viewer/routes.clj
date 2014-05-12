@@ -67,16 +67,16 @@
 (defn wrap-basic-authentication
   [handler]
   (fn [request]
-    (if-not (nil? (:account (:session request)))
+    (if (:account (:session request))
       (handler request)
       {:status 200
-       :body (sign-in)})))
+       :body (sign-in)} )))
 
 (defn ona-viewer [verbose?]
   (-> (handler/site main-routes)
+      (wrap-basic-authentication)
       (wrap-base-url)
       (#(wrap-with-logger % verbose?))
-      (wrap-basic-authentication)
       (session/wrap-session)))
 
 (def app
