@@ -1,8 +1,7 @@
 (ns ona.viewer.routes
-  (:use compojure.core
+  (:use [compojure.core]
         [ona.viewer.views.home :only [home-page sign-out submit-sign-in sign-in]]
         [ona.viewer.views.profile :only [sign-up submit-sign-up]]
-        [hiccup.middleware :only [wrap-base-url]]
         [ona.viewer.views.templates :only [base-template]])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
@@ -73,13 +72,10 @@
        :body (sign-in)})))
 
 (defn ona-viewer [verbose?]
-  (-> (handler/site main-routes)
+  (-> (routes main-routes)
       (wrap-basic-authentication)
-      (ring.middleware.flash/wrap-flash)
-      (session/wrap-session)
-      (wrap-base-url)
       (#(wrap-with-logger % verbose?))
-      ))
+      (handler/site main-routes)))
 
 (def app
   (ona-viewer true))
