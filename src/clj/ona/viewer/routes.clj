@@ -21,7 +21,7 @@
     (fn [request] (handler request))))
 
 (defroutes main-routes
-  (GET "/" {session :session} (home-page session))
+  (GET "/" request (home-page request))
   (POST "/signin" {params :params} (submit-sign-in params))
   (GET "/signout" [] (sign-out))
   (GET "/sign-up" [] (sign-up))
@@ -67,17 +67,19 @@
 (defn wrap-basic-authentication
   [handler]
   (fn [request]
-    (if (:account (:session request))
+    (if (or (:account (:session request) (= :post (:request-method request))))
       (handler request)
       {:status 200
-       :body (sign-in)} )))
+       :body (sign-in)})))
 
 (defn ona-viewer [verbose?]
   (-> (handler/site main-routes)
       (wrap-basic-authentication)
+      (ring.middleware.flash/wrap-flash)
+      (session/wrap-session)
       (wrap-base-url)
       (#(wrap-with-logger % verbose?))
-      (session/wrap-session)))
+      ))
 
 (def app
   (ona-viewer true))
