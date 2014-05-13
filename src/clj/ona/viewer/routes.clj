@@ -20,7 +20,7 @@
     (fn [request] (handler request))))
 
 (defroutes main-routes
-  (GET "/" request (home-page request))
+  (GET "/" {session :session} (home-page session))
   (POST "/signin" {params :params} (submit-sign-in params))
   (GET "/signout" [] (sign-out))
   (GET "/sign-up" [] (sign-up))

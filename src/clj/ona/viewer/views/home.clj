@@ -35,8 +35,8 @@
 
 (defn home-page
   "Render the signed out home page."
-  [request]
-  (if-let [account (:account (:session request))]
+  [session]
+  (if-let [account (:account session)]
     (dashboard account)
     (sign-in)))
 
