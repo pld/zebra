@@ -1,1 +1,11 @@
 /*custom styles*/
+#signin{
+    margin-top:27%;
+    padding:1em;
+}
+.bordered{
+    border:1px solid #AFAFAF;
+}
+.t-center{
+    text-align:center;
+}

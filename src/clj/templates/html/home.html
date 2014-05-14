@@ -1,18 +1,26 @@
 <!doctype html>
 <html>
 <head>
+<title>Home</title>
 <meta charset="UTF-8">
-<title>Untitled Document</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link rel="stylesheet" type="text/css" href="css/pure-min.css"/>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
-<div class="nav">
-	<span><i class="icon"></i>
-        <a href="#">Me</a>
-    </span>
-    
-    <span><a href="#">Home</a></span>
-    <span><i class="icon"></i><a href="#">Explore</a></span>
-    <span><a href="#">Help</a></span>
+<div class="pure-menu pure-menu-open pure-menu-horizontal">
+<!--    <a href="#" class="pure-menu-heading"></a>-->
+
+    <ul>
+        <li class="pure-menu-selected">
+        	<i class="icon"></i><a href="#">Me</a>
+        </li>
+        <li><a href="#">Home</a></li>
+        <li><a href="#"><i class="icon"></i><a href="#">Explore</a></li>
+        <li><a href="#">Help</a></li>
+    </ul>
 </div>
 
 <div class="container">
@@ -22,8 +30,8 @@
         <span>My Organizations<a href="#">WHO</span>
     </div>
     
-    <div class="column">
-    	<div class="">
+    <div class="pure-g-r">
+    	<div class="pure-u-4-5">
             <ul class="nav-tab">
                 <li><a href="#">My Datasets</a></li>
                 <li><a href="#">Activity <span class="#">2</span></a></li>
@@ -162,24 +170,24 @@
                 </table>
             </div>
     	</div>
-    </div>
         
-    <div class="column">
-    	<a href="#" class="btn">New Dataset</a><br/>
-    	<a href="#" class="btn">Create a folder</a><br/>
-    	<a href="#" class="btn">Share a Dataset</a>
-        
-        <p>
-        	<h4>Learn</h4>
-            <a href="#">Syntax Library</a><br/>
-            <a href="#">Syntax Library</a>
-        </p>
-        
-        <p>
-        	Datasets<br/>
-            Public: 1 | Private: 3<br/>
-            <a href="#">Upgrade</a>
-        </p>
+        <div class="pure-u-1-5">
+            <a href="#" class="btn">New Dataset</a><br/>
+            <a href="#" class="btn">Create a folder</a><br/>
+            <a href="#" class="btn">Share a Dataset</a>
+
+            <p>
+                <h4>Learn</h4>
+                <a href="#">Syntax Library</a><br/>
+                <a href="#">Syntax Library</a>
+            </p>
+
+            <p>
+                Datasets<br/>
+                Public: 1 | Private: 3<br/>
+                <a href="#">Upgrade</a>
+            </p>
+        </div>
     </div>
 </div>
     
