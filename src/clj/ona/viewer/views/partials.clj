@@ -13,9 +13,9 @@
     [:br]
     [:a {:href "/organizations"} "Organizations"]
     [:br]
-    [:a {:href "/sign-up"} "Sign up"]
+    [:a {:href "/join"} "Sign up"]
     [:br]
-    [:a {:href "/signout"} "Sign out"]
+    [:a {:href "/logout"} "Logout"]
     content
     [:script {:src "js/out/goog/base.js" :type "text/javascript"}]
     [:script {:src "js/main.js" :type "text/javascript"}]

@@ -15,8 +15,8 @@
    "New dataset" "/dataset"
    "Project" "/projects"
    "Organizations" "/organizations"
-   "Sign-up" "/sign-up"
-   "Sign-out" "/signout"})
+   "Sign-up" "/join"
+   "Sign-out" "/logout"})
 
 (defn build-javascript
   "Render default and custom JavaScript."
@@ -53,7 +53,7 @@
 "Snippets are appended to the base template"
 
 "Sign-in form snippet"
-(defsnippet sign-in-form "templates/sign-in.html"
+(defsnippet login-form "templates/login.html"
   [:body :div.content :> :.signin-form]
   [])
 

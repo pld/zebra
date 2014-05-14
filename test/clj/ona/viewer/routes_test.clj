@@ -3,7 +3,8 @@
         ona.viewer.routes)
   (:require [ona.viewer.views.datasets :as datasets]
             [ona.viewer.views.projects :as projects]
-            [ona.viewer.views.organizations :as organizations]))
+            [ona.viewer.views.organizations :as organizations]
+            [ona.viewer.views.home :as home]))
 
 (let [result {:body :something}
       session {:account :fake-account}]
