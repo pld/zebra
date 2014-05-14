@@ -1,4 +1,24 @@
 /*custom styles*/
+body{
+    font-family: Verdana!important;
+    font-size:13px;
+}
+h1, h2, h3, h4, h5{
+    margin:0.6em 0;
+}
+table{
+    width:100%;
+}
+table tr th{
+    text-align:left;
+}
+table tr td{
+    vertical-align:middle!important;
+}
+hr{
+    border:1px solid #AFAFAF;
+}
+
 #signin{
     margin-top:27%;
     padding:1em;
@@ -6,6 +26,75 @@
 .bordered{
     border:1px solid #AFAFAF;
 }
-.t-center{
-    text-align:center;
+.cls{
+    clear:both;
+}
+.container{
+    margin:0 auto;
+    max-width:1024px;
+}
+.row{
+    padding:0.6em;
+    margin-bottom:1em;
+    max-width:100%;
+}
+
+/*text & paragraphs*/
+.t-center{ text-align:center; }
+.t-right{ text-align:right; }
+.t-normal{ font-weight:normal!important; }
+
+/*modals*/
+.modal{
+    display:none;
+    padding:1em;
+}
+
+/*floats*/
+.right{
+    float:right;
+}
+
+/*buttons*/
+#sidenav .pure-button{
+    width:100%;
+}
+
+#main-menu{
+    background:#DEDEDD;
+    margin-top:1em;
+}
+#main-menu .pure-menu{
+    background:#DEDEDD;
+}
+.pure-menu{
+    margin-bottom:1em;
+}
+
+/*table lists (activity)*/
+.table-list{
+    border:0;
+    margin-bottom:2em;
+}
+.table-list tr td{
+    border:0;
+    border-bottom:1em solid #FFFFFF;
+}
+.table-list.table-blue{ background:#E7F1FE!important; }
+
+/*map stuff*/
+#map{
+    min-height:40em;
+    overflow:hidden;
+    position:relative;
+}
+#map img{
+    position:absolute;
+    margin:auto;
+    height:100%;
+    width:100%;
+}
+
+.avatar.thumb{
+    height:8em;
 }

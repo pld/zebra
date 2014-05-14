@@ -10,43 +10,49 @@
 <link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
-<div class="pure-menu pure-menu-open pure-menu-horizontal">
+<div id="main-menu">
+    <div class="pure-menu pure-menu-open pure-menu-horizontal container cls">
 <!--    <a href="#" class="pure-menu-heading"></a>-->
-
-    <ul>
-        <li class="pure-menu-selected">
-        	<i class="icon"></i><a href="#">Me</a>
-        </li>
-        <li><a href="#">Home</a></li>
-        <li><a href="#"><i class="icon"></i><a href="#">Explore</a></li>
-        <li><a href="#">Help</a></li>
-    </ul>
+        <ul>
+            <li class="pure-menu-selected">
+                <i class="icon"></i><a href="#">Me</a>
+            </li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#"><i class="icon"></i></a></li>
+            <li><a href="#">Explore</a></li>
+            <li><a href="#">Help</a></li>
+        </ul>
+    </div>
 </div>
 
 <div class="container">
-    <div>
-        <h1>Hey Garret Mehl!</h1>
-
-        <span>My Organizations<a href="#">WHO</span>
+    <div class="row">
+        <h2>Hey Garret Mehl!
+            <span class="t-normal right">My Organizations: <a href="#">WHO</a></span>
+        </h2>
     </div>
     
     <div class="pure-g-r">
-    	<div class="pure-u-4-5">
-            <ul class="nav-tab">
-                <li><a href="#">My Datasets</a></li>
-                <li><a href="#">Activity <span class="#">2</span></a></li>
-                <li><a href="#">Starred</a></li>
-            </ul>
+    	<div class="pure-u-3-5">
+            <div class="pure-menu pure-menu-open pure-menu-horizontal">
+            	<ul class="nav-tab">
+                    <li><a href="#">My Datasets</a></li>
+                    <li><a href="#">Activity <span class="#">2</span></a></li>
+                    <li><a href="#">Starred</a></li>
+                </ul>
+            </div>
             
             <div class="tab">
                 <p>
                     Sort: Last record time | Last edit me
 
-                    <input type="text" name="search_dataset"/>
-                    <input type="submit" name="Search"/>
+                    <span class="right">
+                    	<input type="text" name="search_dataset"/>
+                        <input type="submit" value="Search"/>
+                    </span>
                 </p>
                 
-                <table>
+                <table class="pure-table pure-table-horizontal">
                 <tr>
                 	<td><img src="img/" alt="User"/> garrm</td>
                     <td>
@@ -87,46 +93,76 @@
             </div>
             
             <div class="tab">
-                Activity Tab
-                <ul>
-                	<li>Invite <a href="#">Matt Berg</a> add you to folder 
-                        <a href="#">Counties Visited</a> | 1 hr ago
-                        <a href="#" class="btn">Leave</a>
-                    </li>
-                	<li>Invite <a href="#">Matt Berg</a> add you to folder 
-                        <a href="#">Counties Visited</a> | 2 months ago
-                        <a href="#" class="btn">Leave</a>
-                    </li>
-                	<li>JoinReq <a href="#">Matt Berg</a> requested to join the folder 
-                        <a href="#">Vitamin b</a> | 2 months ago
-                        <a href="#" class="btn">Leave</a>
-                    </li>
-                </ul>
+                <h3>Activity Tab</h3>
                 
-                <p>
-                    <ul>
-                        <li>New data <a href="#">Tigus</a> added 3 records to  
-                            <a href="#">WHO/Heapatitis</a> | 2 hrs ago
-                        </li>
-                        <li>Form edit <a href="#">Tigus</a> added 3 records to  
-                            <a href="#">WHO/Hepatitis</a> | 7 days ago
-                        </li>
-                        <li>Starred <a href="#">Matt Berg</a> edited  
-                            <a href="#">TB dataset</a> | 3 wks ago
-                        </li>
-                        <li>Created dataset <a href="#">Matt Berg</a> created a dataset   
-                            in the folder <a href="#">HIV</a> | 6 months ago
-                        </li>
-                        <li>Make public You shared the dataset 
-                            <a href="#">Vitamin A</a> with the public | 2 hrs ago
-                        </li>
-                    </ul>
-                <p>
+                <table class="table-list table-blue pure-table pure-table-horizontal">
+                <tr>
+                	<td>Invite</td>
+                	<td><a href="#">Matt Berg</a> add you to folder 
+                        <a href="#">Counties Visited</a></td>
+                    <td>1 hr ago</td>
+                    <td><a href="#" class="pure-button">Leave</a></td>
+                </tr>
+                <tr>
+                	<td>Invite</td>
+                	<td><a href="#">Matt Berg</a> add you to folder 
+                        <a href="#">Counties Visited</a></td>
+                    <td>2 months ago</td>
+                    <td><a href="#" class="pure-button">Leave</a></td>
+                </tr>
+                <tr>
+                	<td>JoinReq</td>
+                	<td><a href="#">Matt Berg</a> requested to join the folder 
+                        <a href="#">Vitamin b</a></td>
+                    <td>2 months ago</td>
+                    <td><a href="#" class="pure-button">Leave</a></td>
+                </tr>
+                </table>
+                
+                
+                <table class="table-list pure-table pure-table-horizontal">
+                <tr>
+                	<td>New data</td>
+                	<td><a href="#">Tigus</a> added 3 records to  
+                            <a href="#">WHO/Heapatitis</a></td>
+                    <td>2 hrs ago</td>
+                </tr>
+                <tr>
+                	<td>Form edit</td>
+                	<td><a href="#">Tigus</a> added 3 records to  
+                            <a href="#">WHO/Hepatitis</a></td>
+                    <td>7 days ago</td>
+                </tr>
+                <tr>
+                	<td>Starred</td>
+                	<td><a href="#">Matt Berg</a> edited  
+                            <a href="#">TB dataset</a></td>
+                    <td>3 wks ago</td>
+                </tr>
+                <tr>
+                	<td>Created dataset</td>
+                	<td><a href="#">Matt Berg</a> created a dataset   
+                            in the folder <a href="#">HIV</a></td>
+                    <td>6 months ago</td>
+                </tr>
+                <tr>
+                	<td>Make public</td>
+                	<td>You shared the dataset 
+                            <a href="#">Vitamin A</a> with the public</td>
+                    <td>2 hrs ago</td>
+                </tr>
+                </table>
             </div>
             
             <div class="tab">
-                Starred Tab
-                <table>
+                <h3>Starred Tab</h3>
+                <table class="pure-table pure-table-horizontal">
+                <tr>
+                	<th> </th>
+                	<th>User</th>
+                    <th>Starred Dataset</th>
+                    <th></th>
+                </tr>
                 <tr>
                 	<td><a href="#"><img src="img/" alt="Star"/></a></td>
                 	<td><img src="img/" alt="User"/> hki</td>
@@ -171,15 +207,15 @@
             </div>
     	</div>
         
-        <div class="pure-u-1-5">
-            <a href="#" class="btn">New Dataset</a><br/>
-            <a href="#" class="btn">Create a folder</a><br/>
-            <a href="#" class="btn">Share a Dataset</a>
+        <div class="pure-u-1-5 right" id="sidenav">
+            <a href="dataset-new.html" class="button-large pure-button">New Dataset</a><br/><br/>
+            <a href="#" class="button-large pure-button">Create a folder</a><br/><br/>
+            <a href="#" class="button-large pure-button">Share a Dataset</a><br/><br/>
 
             <p>
                 <h4>Learn</h4>
                 <a href="#">Syntax Library</a><br/>
-                <a href="#">Syntax Library</a>
+                <a href="#">Getting Started</a>
             </p>
 
             <p>
