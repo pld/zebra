@@ -3,7 +3,8 @@
         ona.viewer.routes)
   (:require [ona.viewer.views.datasets :as datasets]
             [ona.viewer.views.projects :as projects]
-            [ona.viewer.views.organizations :as organizations]))
+            [ona.viewer.views.organizations :as organizations]
+            [ona.viewer.views.home :as home]))
 
 (let [result {:body :something}
       session {:account :fake-account}]
@@ -53,4 +54,10 @@
                         :uri (str "/organizations/" name)
                         :session session}) => (contains result)
           (provided
-            (organizations/profile :fake-account name) => result))))
+            (organizations/profile :fake-account name) => result)))
+
+  (fact "should parse request and check if session has been set"
+        ((->
+           :fake-handler
+           (wrap-basic-authentication)) :fake-request) => {:status 200
+                                                           :body (home/sign-in)}))
