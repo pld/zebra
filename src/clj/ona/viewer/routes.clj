@@ -1,22 +1,17 @@
 (ns ona.viewer.routes
   (:use [compojure.core]
-        [ona.viewer.views.home :only [home-page sign-out submit-sign-in sign-in]]
+        [ona.viewer.views.home :only [home-page sign-out submit-sign-in]]
         [ona.viewer.views.profile :only [sign-up submit-sign-up]]
-        [ona.viewer.views.templates :only [base-template]])
+        [ona.viewer.views.templates :only [base-template]]
+        [ona.viewer.wrappers :only [wrap-basic-authentication wrap-logger]])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
             [compojure.response :as response]
             [ona.viewer.views.datasets :as datasets]
             [ona.viewer.views.organizations :as organizations]
             [ona.viewer.views.projects :as projects]
-            [ring.adapter.jetty :as ring]
-            [ring.middleware.logger :as logger])
+            [ring.adapter.jetty :as ring])
   (:gen-class))
-
-(defn wrap-with-logger [handler verbose?]
-  (if verbose?
-    (logger/wrap-with-logger handler "/dev/stdout")
-    (fn [request] (handler request))))
 
 (defroutes main-routes
   (GET "/" {session :session} (home-page session))
@@ -62,18 +57,10 @@
   (route/resources "/")
   (route/not-found "Page not found"))
 
-(defn wrap-basic-authentication
-  [handler]
-  (fn [request]
-    (if (or (:account (:session request) (= :post (:request-method request))))
-      (handler request)
-      {:status 200
-       :body (sign-in)})))
-
 (defn ona-viewer [verbose?]
   (-> (routes main-routes)
       (wrap-basic-authentication)
-      (#(wrap-with-logger % verbose?))
+      (#(wrap-logger % verbose?))
       (handler/site main-routes)))
 
 (def app
