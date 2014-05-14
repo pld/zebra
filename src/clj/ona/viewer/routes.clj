@@ -10,8 +10,7 @@
             [ona.viewer.views.organizations :as organizations]
             [ona.viewer.views.projects :as projects]
             [ring.adapter.jetty :as ring]
-            [ring.middleware.logger :as logger]
-            [ring.middleware.session :as session])
+            [ring.middleware.logger :as logger])
   (:gen-class))
 
 (defn wrap-with-logger [handler verbose?]
