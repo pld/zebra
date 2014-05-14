@@ -7,7 +7,7 @@
 (defn sign-up []
   (base
    [:h1 "Register"]
-   [:form {:action "/sign-up" :method "post"}
+   [:form {:action "/join" :method "post"}
     [:input {:type "text" :name "name" :placeholder "Name"}]
     [:input {:type "text" :name "username" :placeholder "Username" :required "true"}]
     [:input {:type "text" :name "email" :placeholder "Email" :required "true"}]
