@@ -3,14 +3,18 @@
         [ona.viewer.views.partials :only [base]]
         [ring.util.response :only [redirect-after-post]])
   (:require [ona.api.dataset :as api]
-            [ona.viewer.views.templates :as t]))
+            [ona.viewer.views.templates :as t]
+            [ring.util.response :as response]
+            [clojure.data.csv :as csv]
+            [clojure.java.io :as io]))
 
 (defn all
   "Return all the datasets for this account."
   [account]
   (let [datasets (api/all account)
         actions  [{:name "view data"}
-                  {:name "view tags" :url "tags"}]]
+                  {:name "view tags" :url "tags"}
+                  {:name "download dataset" :url "download"}]]
     (for [dataset datasets]
       {:item-id (:formid dataset) :item-name (:title dataset) :actions actions})))
 
@@ -56,3 +60,21 @@
         tags-to-add {:tags (:tags params)}
         added-tags (api/add-tags account dataset-id tags-to-add)]
     (tags account dataset-id)))
+
+(defn write-file [dataset]
+  (with-open [out-file (io/writer "download.csv" :append false)]
+    (csv/write-csv out-file (for [dataitem dataset]
+                              [(str dataitem)]))))
+(defn assoc? [resp key values]
+  (assoc resp key values))
+
+
+(defn download
+  "Show the data for a specific dataset."
+  [account dataset-id format]
+  (let [dataset (api/data account dataset-id)
+        resp (response/file-response "download.csv")
+        headers  {"Content-Type" " text/csv"
+                  "Content-disposition" "attachment;filename=dataset.csv"}]
+    (write-file dataset)
+    (assoc? resp :headers headers)))
