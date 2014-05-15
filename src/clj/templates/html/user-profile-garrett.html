@@ -3,27 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Garrett Mehl</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link rel="stylesheet" type="text/css" href="css/pure-min.css"/>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
-
-<div class="nav">
-	<span><i class="icon"></i>
-        <a href="#">Me</a>
-    </span>
-    
-    <span><a href="#">Home</a></span>
-    <span><i class="icon"></i><a href="#">Explore</a></span>
-    <span><a href="#">Help</a></span>
+<div id="main-menu">
+    <div class="pure-menu pure-menu-open pure-menu-horizontal container cls">
+<!--    <a href="#" class="pure-menu-heading"></a>-->
+        <ul>
+            <li class="pure-menu-selected">
+                <i class="icon"></i><a href="#">Me</a>
+            </li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#"><i class="icon"></i></a></li>
+            <li><a href="#">Explore</a></li>
+            <li><a href="#">Help</a></li>
+        </ul>
+    </div>
 </div>
 
 <div class="container">
-    <div class="row">
-    	<div class="col-3">
-            <h4>Garrett Mehl</h4>
+    <div class="pure-g-r">
+        <div class="pure-u-1-5 bar-left">
+            <h2>Garrett Mehl</h2>
             <p>
-                <img class="avatar" src="img/gmehl.jpg" alt="Garrett Mehl"/>
-                <a href="#" class="btn">Settings</a>
-                <a href="#" class="btn">New Dataset</a>
+                <img class="avatar" src="img/gmehl.jpg" alt="Garrett Mehl"/><br/><br/>
+                <a href="#" class="pure-button btn-secondary">Settings</a> 
+                <a href="#" class="pure-button btn-secondary">New Dataset</a>
             </p><hr/>
             <p>
                 <ul>
@@ -36,20 +45,22 @@
                     <li>Member since: Jan 17, 2014</li>
                 </ul>
             </p>
-    	</div>
+        </div>
         
-    	<div class="col-9">
-            <ul class="nav-tab">
-                <li><a href="#">12 Datasets (2 public)</a></li>
-                <li><a href="#">234 Records</a></li>
-                <li><a href="#">1 Org</a></li>
-            </ul>
+        <div class="pure-u-2-3">
+            <div class="pure-menu pure-menu-open pure-menu-horizontal container">
+                <ul class="nav-tab">
+                    <li><a href="#">12 Datasets (2 public)</a></li>
+                    <li><a href="#">234 Records</a></li>
+                    <li><a href="#">1 Org</a></li>
+                </ul>
+            </div>
             
             <div class="">
-            	<table>
+                <table class="pure-table pure-table-horizontal">
                 <tr>
                 	<td>
-                	   <p><img class="avatar" src="img/who-logo.jpg" alt="WHO"/> garrm<p>
+                	   <p><img class="avatar thumb" src="img/who-logo.jpg" alt="WHO"/> garrm<p>
                     </td>
                     <td>
                     	<i class="icon"></i> <strong>Vitamin A</strong> | Star | Shared | Public
@@ -59,7 +70,7 @@
                 </tr>
                 <tr>
                 	<td>
-                	   <p><img src="img/avatar.jpg" alt="User"/> garrm<p>
+                	   <p><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm<p>
                     </td>
                     <td>
                     	<i class="icon"></i> <strong>Vitamin B</strong> | Star | Shared
@@ -70,7 +81,7 @@
                 </tr>
                 <tr>
                 	<td>
-                	   <p><img src="img/avatar.jpg" alt="User"/> garrm<p>
+                	   <p><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm<p>
                     </td>
                     <td>
                     	<i class="icon"></i> <strong>Vitamin A South Africa</strong> | Star | Public
@@ -81,7 +92,7 @@
                 </tr>
                 <tr>
                 	<td>
-                	   <p><img src="img/who-logo.jpg" alt="WHO"/> <a href="org-profile-joined.html">ONA</a><p>
+                	   <p><img class="avatar thumb" src="img/ona-logo.png" alt="ONA"/> <a href="org-profile-joined.html">ONA</a><p>
                     </td>
                     <td>
                     	<i class="icon"></i> <strong>Vitamin A Cameroon</strong> | Star
@@ -92,7 +103,7 @@
                 </tr>
                 <tr>
                 	<td>
-                	   <p><img src="img/avatar.jpg" alt="User"/> WHO<p>
+                	   <p><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> WHO<p>
                     </td>
                     <td>
                     	<i class="icon"></i> <strong>Vitamin C</strong> | Star
@@ -102,7 +113,7 @@
                 </tr>
                 </table>
             </div>
-    	</div>
+        </div>
     </div>
 </div>
 

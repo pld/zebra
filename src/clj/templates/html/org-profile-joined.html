@@ -1,26 +1,35 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="UTF-8">
 <title>Ona Profile</title>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link rel="stylesheet" type="text/css" href="css/pure-min.css"/>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
-
-<div class="nav">
-	<span><i class="icon"></i>
-        <a href="#">Me</a>
-    </span>
-    
-    <span><a href="#">Home</a></span>
-    <span><i class="icon"></i><a href="#">Explore</a></span>
-    <span><a href="#">Help</a></span>
+<div id="main-menu">
+    <div class="pure-menu pure-menu-open pure-menu-horizontal container cls">
+<!--    <a href="#" class="pure-menu-heading"></a>-->
+        <ul>
+            <li class="pure-menu-selected">
+                <i class="icon"></i><a href="#">Me</a>
+            </li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#"><i class="icon"></i></a></li>
+            <li><a href="#">Explore</a></li>
+            <li><a href="#">Help</a></li>
+        </ul>
+    </div>
 </div>
 
 <div class="container">
-    <div class="row">
-    	<div class="col-3">
+    <div class="pure-g-r">
+        <div class="pure-u-1-5">
             <p>
-                <img src="img/who-logo.png" alt="Organization Logo"/>
+                <img src="img/who-logo.jpg" alt="Organization Logo"/>
                 <h4>Ona</h4>
                 <i class="icon"></i> Geneva, NYC<br/>
                 <a href="http://ona.io">http://who.int</a>
@@ -56,18 +65,25 @@
                     <li>Alain</li>
                 </ul>
             </p><hr/>
-    	</div>
+        </div>
         
-    	<div class="col-9">
-            <ul class="nav-tab">
-                <li><a href="#">Datasets</a></li>
-            </ul>
+        <div class="pure-u-4-5">
+            <div class="pure-menu pure-menu-open pure-menu-horizontal container">
+                <ul class="nav-tab">
+                    <li><a href="#">Datasets</a></li>
+                </ul>
+            </div>
             
             <div class="">
-            	<table>
+                <div class="row">
+                	<a href="#" class="pure-button">New Dataset</a> 
+                	<a href="#" class="pure-button">Create Folder</a>
+                </div>
+                
+                <table class="pure-table pure-table-horizontal">
                 <tr>
                 	<td>
-                	   <p><img class="avatar" src="img/who-logo.jpg" alt="WHO"/> WHO<p>
+                	   <p><img class="avatar thumb" src="img/who-logo.jpg" alt="WHO"/> WHO<p>
                         Author: <span>garrm</span>
                     </td>
                     <td>
@@ -78,7 +94,7 @@
                 </tr>
                 <tr>
                 	<td>
-                	   <p><img src="img/" alt="User"/> WHO<p>
+                	   <p><img class="avatar thumb" src="img/who-logo.jpg" alt="User"/> WHO<p>
                         Created: <span>garrm</span>
                     </td>
                     <td>
@@ -90,7 +106,7 @@
                 </tr>
                 <tr>
                 	<td>
-                	   <p><img src="img/" alt="User"/> WHO<p>
+                	   <p><img class="avatar thumb" src="img/who-logo.jpg" alt="User"/> WHO<p>
                         Author: <span>tigus</span>
                     </td>
                     <td>
@@ -102,7 +118,7 @@
                 </tr>
                 <tr>
                 	<td>
-                	   <p><img src="img/" alt="User"/> WHO<p>
+                	   <p><img class="avatar thumb" src="img/who-logo.jpg" alt="User"/> WHO<p>
                         Author: <span>tigus</span>
                     </td>
                     <td>
@@ -114,7 +130,7 @@
                 </tr>
                 <tr>
                 	<td>
-                	   <p><img src="img/" alt="User"/> WHO<p>
+                	   <p><img class="avatar thumb" src="img/who-logo.jpg" alt="User"/> WHO<p>
                         Author: <span>garrm</span>
                     </td>
                     <td>
@@ -124,6 +140,17 @@
                     <td>1 dataset</td>
                 </tr>
                 </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    	<div class="col-3">
+    	</div>
+        
+    	<div class="col-9">
+            
+            <div class="">
+            	
             </div>
     	</div>
     </div>

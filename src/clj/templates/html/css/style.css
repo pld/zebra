@@ -44,6 +44,22 @@ hr{
 .t-right{ text-align:right; }
 .t-normal{ font-weight:normal!important; }
 
+/*buttons*/
+.btn-success, .btn-error, .btn-warning,
+.btn-secondary {
+    color:#FFF;
+}
+
+.btn-success { background: rgb(28, 184, 65); }
+.btn-error { background: rgb(202, 60, 60); }
+.btn-warning { background: rgb(223, 117, 20); }
+.btn-secondary { background: rgb(66, 184, 221); }
+
+.btn-xsmall { font-size: 70%; }
+.btn-small { font-size: 85%; }
+.btn-large { font-size: 110%; }
+.btn-xlarge { font-size: 125%; }
+
 /*modals*/
 .modal{
     display:none;
@@ -82,6 +98,14 @@ hr{
 }
 .table-list.table-blue{ background:#E7F1FE!important; }
 
+/*navbars*/
+.bar-right{
+    margin-left:3em;
+}
+.bar-left{
+    margin-right:3em;
+}
+
 /*map stuff*/
 #map{
     min-height:40em;
@@ -97,4 +121,28 @@ hr{
 
 .avatar.thumb{
     height:8em;
+}
+
+/*datasets*/
+#new_dataset{
+    padding-top:2em;
+}
+.uploader{
+    border:1px solid #CFCFCF;
+    margin-bottom:2em;
+    padding:1em;
+}
+
+/*teambox*/
+.searchbox{
+    margin-bottom:2em;
+}
+.teambox{
+    border:1px solid #CFCFCF;
+    margin-bottom:4em;
+    margin-right:3em;
+    padding:2em;
+}
+.teamheader .pure-button{
+    margin-right:4.3em;
 }

@@ -2,24 +2,33 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Ona Profile</title>
+<title>Matt Berg</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link rel="stylesheet" type="text/css" href="css/pure-min.css"/>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
-
-<div class="nav">
-	<span><i class="icon"></i>
-        <a href="#">Me</a>
-    </span>
-    
-    <span><a href="#">Home</a></span>
-    <span><i class="icon"></i><a href="#">Explore</a></span>
-    <span><a href="#">Help</a></span>
+<div id="main-menu">
+    <div class="pure-menu pure-menu-open pure-menu-horizontal container cls">
+<!--    <a href="#" class="pure-menu-heading"></a>-->
+        <ul>
+            <li class="pure-menu-selected">
+                <i class="icon"></i><a href="#">Me</a>
+            </li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#"><i class="icon"></i></a></li>
+            <li><a href="#">Explore</a></li>
+            <li><a href="#">Help</a></li>
+        </ul>
+    </div>
 </div>
 
 <div class="container">
-    <div class="row">
-    	<div class="col-3">
-            <h4>Matt Berg</h4>
+    <div class="pure-g-r">
+        <div class="pure-u-1-5 bar-left">
+            <h2>Matt Berg</h2>
             <p>
                 <img class="avatar" src="img/mberg.png" alt="User avatar"/>
             </p><hr/>
@@ -34,20 +43,22 @@
                     <li>Member since: Nov 17, 2013</li>
                 </ul>
             </p>
-    	</div>
+        </div>
         
-    	<div class="col-9">
-            <ul class="nav-tab">
-                <li><a href="#">12 Datasets (2 public)</a></li>
-                <li><a href="#">234 Records</a></li>
-                <li><a href="#">1 Org</a></li>
-            </ul>
+        <div class="pure-u-2-3">
+            <div class="pure-menu pure-menu-open pure-menu-horizontal container">
+                <ul class="nav-tab">
+                    <li><a href="#">12 Datasets (2 public)</a></li>
+                    <li><a href="#">234 Records</a></li>
+                    <li><a href="#">1 Org</a></li>
+                </ul>
+            </div>
             
             <div class="">
-            	<table>
+                <table class="pure-table pure-table-horizontal">
                 <tr>
                 	<td>
-                	   <img src="img/" alt="User"/> <a href="org-profile.html">Ona</a>
+                	   <img class="avatar thumb" src="img/avatar.jpg" alt="User"/> <a href="org-profile.html">Ona</a>
                     </td>
                     <td>
                     	<i class="icon"></i> <strong>Vitamin A Cameroon</strong> | Star
@@ -58,7 +69,7 @@
                 </tr>
                 <tr>
                 	<td>
-                	   <p><img src="img/" alt="User"/> mberg<p>
+                	   <p><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> mberg<p>
                         Created: <span>garrm</span>
                     </td>
                     <td>
@@ -70,7 +81,7 @@
                 </tr>
                 </table>
             </div>
-    	</div>
+        </div>
     </div>
 </div>
 
