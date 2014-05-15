@@ -1,11 +1,22 @@
 /*custom styles*/
 body{
-    font-family: Verdana!important;
+    font-family: Arial!important;
     font-size:13px;
 }
 h1, h2, h3, h4, h5{
     margin:0.6em 0;
 }
+a{
+    color:#1D5CAD;
+    text-decoration:none;
+}
+a:hover{
+    text-decoration:underline;
+}
+.pure-menu li a:hover{
+    text-decoration:none;
+}
+
 table{
     width:100%;
 }
@@ -43,6 +54,7 @@ hr{
 .t-center{ text-align:center; }
 .t-right{ text-align:right; }
 .t-normal{ font-weight:normal!important; }
+.t-large{ font-size:2em; }
 
 /*buttons*/
 .btn-success, .btn-error, .btn-warning,
