@@ -1,5 +1,5 @@
 (ns ona.api.dataset
-  (:use [ona.api.io :only [make-url parse-http]]))
+  (:use [ona.api.io :only [make-url parse-http get-file]]))
 
 (defn- uploaded->file [uploaded-file]
   (let [{:keys [tempfile filename]} uploaded-file
@@ -51,3 +51,10 @@
 (defn add-tags [account dataset-id tags]
   (let [url (make-url "forms/" (:username account) "/" dataset-id "/" "labels")]
     (parse-http :post url account {:form-params tags})))
+
+(defn download
+  "Download data for a spesified dataset in specified format."
+  [account dataset-id]
+  (let [filename (str dataset-id "." "csv")
+        url (make-url "forms/" (:username account) "/" filename)]
+    (get-file :get url account filename)))

@@ -34,11 +34,6 @@
 
 (fact "about dataset download"
       "Downloads dataset with specified format"
-      (let [headers {"Content-Type" " text/csv"
-                  "Content-disposition" "attachment;filename=dataset.csv"}]
       (download :fake-account :dataset-id :format) => :fake-download
       (provided
-        (api/data :fake-account :dataset-id) => [:row]
-        (write-file [:row]) => :fake-download
-        (response/file-response "download.csv") => :fake-response
-        (assoc? :fake-response :headers headers) => :fake-download)))
+        (api/download :fake-account :dataset-id) => :fake-download))
