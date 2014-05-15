@@ -7,8 +7,7 @@
 (let [name "fake-org-name"
       fake-organization {:name name}
       username "username"
-      account {:username username}
-      ]
+      account {:username username}]
   (fact "all returns the organizations"
         (let []
           (all :fake-account) => (contains name)

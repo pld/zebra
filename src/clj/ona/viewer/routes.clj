@@ -1,30 +1,25 @@
 (ns ona.viewer.routes
-  (:use compojure.core
-        [ona.viewer.views.home :only [home-page sign-out submit-sign-in]]
-        [ona.viewer.views.profile :only [sign-up submit-sign-up]]
-        [hiccup.middleware :only [wrap-base-url]]
-        [ona.viewer.views.templates :only [base-template]])
+  (:use [compojure.core]
+        [ona.viewer.views.home :only [home-page]]
+        [ona.viewer.views.templates :only [base-template]]
+        [ona.viewer.wrappers :only [wrap-basic-authentication wrap-logger]])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
             [compojure.response :as response]
+            [ona.viewer.views.accounts :as accounts]
             [ona.viewer.views.datasets :as datasets]
             [ona.viewer.views.organizations :as organizations]
+            [ona.viewer.views.profile :as profile]
             [ona.viewer.views.projects :as projects]
-            [ring.adapter.jetty :as ring]
-            [ring.middleware.logger :as logger])
+            [ring.adapter.jetty :as ring])
   (:gen-class))
-
-(defn wrap-with-logger [handler verbose?]
-  (if verbose?
-    (logger/wrap-with-logger handler "/dev/stdout")
-    (fn [request] (handler request))))
 
 (defroutes main-routes
   (GET "/" {session :session} (home-page session))
-  (POST "/signin" {params :params} (submit-sign-in params))
-  (GET "/signout" [] (sign-out))
-  (GET "/sign-up" [] (sign-up))
-  (POST "/sign-up" {params :params} (submit-sign-up params))
+  (POST "/login" {params :params} (accounts/submit-login params))
+  (GET "/logout" [] (accounts/logout))
+  (GET "/join" [] (profile/sign-up))
+  (POST "/join" {params :params} (profile/submit-sign-up params))
   (GET "/dataset" {{account :account} :session} (datasets/new-dataset account))
   (GET "/dataset/:id"
        {{account :account} :session
@@ -35,9 +30,9 @@
         {id :id} :params}
        (datasets/tags account id))
   (POST "/dataset/:id/tags"
-       {{account :account} :session
-        params :params}
-       (datasets/create-tags account params))
+        {{account :account} :session
+         params :params}
+        (datasets/create-tags account params))
   (POST "/datasets"
         {{account :account} :session
          {file :file} :params}
@@ -68,9 +63,10 @@
   (route/not-found "Page not found"))
 
 (defn ona-viewer [verbose?]
-  (-> (handler/site main-routes)
-      (wrap-base-url)
-      (#(wrap-with-logger % verbose?))))
+  (-> (routes main-routes)
+      (wrap-basic-authentication)
+      (#(wrap-logger % verbose?))
+      (handler/site main-routes)))
 
 (def app
   (ona-viewer true))
