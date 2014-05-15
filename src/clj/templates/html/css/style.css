@@ -27,7 +27,7 @@ table tr td{
     vertical-align:middle!important;
 }
 hr{
-    border:1px solid #AFAFAF;
+    border:1px solid #AFAFAF!important;
 }
 
 #signin{
@@ -55,6 +55,10 @@ hr{
 .t-right{ text-align:right; }
 .t-normal{ font-weight:normal!important; }
 .t-large{ font-size:2em; }
+.t-state{
+    color:#999;
+    font-size:0.95em;
+}
 
 /*buttons*/
 .btn-success, .btn-error, .btn-warning,
@@ -110,6 +114,17 @@ hr{
 }
 .table-list.table-blue{ background:#E7F1FE!important; }
 
+.info-table tr td:first-child{
+    vertical-align:middle;
+}
+.fa.fa-star{
+    color:#F1C232;
+    font-size:1.2em;
+}
+.fa.fa-star:hover{
+    color:#4BB848;
+}
+
 /*navbars*/
 .bar-right{
     margin-left:3em;
@@ -132,7 +147,7 @@ hr{
 }
 
 .avatar.thumb{
-    height:8em;
+    width:5em;
 }
 
 /*datasets*/
