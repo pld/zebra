@@ -1,7 +1,7 @@
 (ns ona.api.dataset_test
   (:use midje.sweet
         ona.api.dataset
-        [ona.api.io :only [make-url parse-http get-file]]))
+        [ona.api.io :only [make-url parse-http]]))
 
 (let [url :fake-url
       username :fake-username
@@ -51,4 +51,4 @@
            (download account :dataset-id) => :fake-file
            (provided
              (make-url "forms/" username "/" filename) => url
-             (get-file :get url account filename) => :fake-file))))
+             (parse-http :get url account nil filename) => :fake-file))))

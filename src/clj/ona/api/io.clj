@@ -20,34 +20,33 @@
   [& postfix]
   (apply str (concat [protocol "://" host "/api/v1/"] postfix)))
 
+(defn parse-json-response
+  [body]
+  (json/parse-string body true))
+
+(defn parse-csv-response
+  [body filename]
+  (let [tempdir (com.google.common.io.Files/createTempDir)
+        path (str (.getAbsolutePath tempdir) "/" filename)]
+    (.deleteOnExit (clojure.java.io/file path))
+    (.deleteOnExit tempdir)
+    (with-open [out-file (io/writer path :append false)]
+      (.write out-file body))
+    (assoc
+      (response/file-response path)
+      :headers
+      {"Content-Type" " text/csv"
+       "Content-disposition" (str "attachment;filename=" filename)})))
+
 (defn parse-http
   "Send and parse an HTTP response as JSON."
   ([method url account]
-   (parse-http method url account {}))
-  ([method url account options]
+   (parse-http method url account {} nil))
+  ([method url account options filename]
    (let [options (if-let [{:keys [username password]} account]
                    (assoc options :basic-auth [username password])
                    options)
          {:keys [body]} ((meths method) url options)]
-     (json/parse-string body true))))
-
-(defn get-file
-  "Send and parse an HTTP response as JSON."
-  ([method url account filename]
-   (get-file method url account filename {}))
-  ([method url account filename options]
-   (let [options (if-let [{:keys [username password]} account]
-                   (assoc options :basic-auth [username password])
-                   options)
-         {:keys [body]} ((meths method) url options)
-         tempdir (com.google.common.io.Files/createTempDir)
-         path (str (.getAbsolutePath tempdir) "/" filename)]
-     (.deleteOnExit (clojure.java.io/file path))
-     (.deleteOnExit tempdir)
-     (with-open [out-file (io/writer path :append false)]
-       (.write out-file body))
-     (assoc
-       (response/file-response path)
-       :headers
-       {"Content-Type" " text/csv"
-        "Content-disposition" (str "attachment;filename=" filename)}))))
+     (if filename
+       (parse-csv-response body filename)
+       (parse-json-response body)))))

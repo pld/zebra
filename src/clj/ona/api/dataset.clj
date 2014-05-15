@@ -1,5 +1,5 @@
 (ns ona.api.dataset
-  (:use [ona.api.io :only [make-url parse-http get-file]]))
+  (:use [ona.api.io :only [make-url parse-http]]))
 
 (defn- uploaded->file [uploaded-file]
   (let [{:keys [tempfile filename]} uploaded-file
@@ -57,4 +57,4 @@
   [account dataset-id]
   (let [filename (str dataset-id "." "csv")
         url (make-url "forms/" (:username account) "/" filename)]
-    (get-file :get url account filename)))
+    (parse-http :get url account nil filename)))
