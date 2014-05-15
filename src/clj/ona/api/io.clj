@@ -26,14 +26,16 @@
 
 (defn parse-csv-response
   [body filename]
-  (.deleteOnExit (clojure.java.io/file filename))
-  (with-open [out-file (io/writer filename :append false)]
+   (let [tempfile (java.io.File/createTempFile filename "")]
+
+  (.deleteOnExit (clojure.java.io/file tempfile))
+  (with-open [out-file (io/writer tempfile :append false)]
     (.write out-file body))
   (assoc
     (response/file-response filename)
     :headers
     {"Content-Type" " text/csv"
-     "Content-disposition" (str "attachment;filename=" filename)}))
+     "Content-disposition" (str "attachment;filename=" filename)})))
 
 (defn parse-http
   "Send and parse an HTTP response as JSON."
