@@ -26,17 +26,14 @@
 
 (defn parse-csv-response
   [body filename]
-  (let [tempdir (com.google.common.io.Files/createTempDir)
-        path (str (.getAbsolutePath tempdir) "/" filename)]
-    (.deleteOnExit (clojure.java.io/file path))
-    (.deleteOnExit tempdir)
-    (with-open [out-file (io/writer path :append false)]
-      (.write out-file body))
-    (assoc
-      (response/file-response path)
-      :headers
-      {"Content-Type" " text/csv"
-       "Content-disposition" (str "attachment;filename=" filename)})))
+  (.deleteOnExit (clojure.java.io/file filename))
+  (with-open [out-file (io/writer filename :append false)]
+    (.write out-file body))
+  (assoc
+    (response/file-response filename)
+    :headers
+    {"Content-Type" " text/csv"
+     "Content-disposition" (str "attachment;filename=" filename)}))
 
 (defn parse-http
   "Send and parse an HTTP response as JSON."
