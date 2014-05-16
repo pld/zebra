@@ -34,6 +34,10 @@
 
 (fact "about dataset download"
       "Downloads dataset with specified format"
-      (download :fake-account :dataset-id :format) => :fake-download
-      (provided
-        (api/download :fake-account :dataset-id) => :fake-download))
+      (let [dataset-id :dataset-id
+            format (str "csv")
+            download-name (str dataset-id "." format)]
+        (download :fake-account dataset-id format) => :fake-download
+        (provided
+          (api/download :fake-account dataset-id) => :file-path
+          (get-file :file-path download-name format) => :fake-download)))

@@ -1,8 +1,7 @@
 (ns ona.api.io
   (:require [clj-http.client :as client]
             [cheshire.core :as json]
-            [clojure.java.io :as io]
-            [ring.util.response :as response]))
+            [clojure.java.io :as io]))
 
 (def ^:private meths
   {:get client/get
@@ -32,11 +31,7 @@
   (.deleteOnExit file)
   (with-open [out-file (io/writer file :append false)]
     (.write out-file body))
-  (assoc
-    (response/file-response path)
-    :headers
-    {"Content-Type" " text/csv"
-     "Content-disposition" (str "attachment;filename=" filename)})))
+  path))
 
 (defn parse-http
   "Send and parse an HTTP response as JSON."
