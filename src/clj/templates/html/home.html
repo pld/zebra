@@ -39,6 +39,7 @@
     
     <div class="pure-g-r">
     	<div class="pure-u-3-4 bar-left">
+<!--
             <div class="pure-menu pure-menu-open pure-menu-horizontal">
             	<ul class="nav-tab">
                     <li><a href="#">My Datasets</a></li>
@@ -46,184 +47,193 @@
                     <li><a href="#">Starred</a></li>
                 </ul>
             </div>
-            
-            <div class="tab">
-                <p>
-                    Sort: Last record time | Last edit me
+-->
+            <ul class="tabs">
+            <li>
+                <input type="radio" checked name="tabs" id="tab1">
+                <label for="tab1">My Datasets</label>
+                <div id="tab-content1" class="tab-content">
+                    <p>
+                        Sort: Last record time | Last edit me
 
-                    <span class="right">
-                        <form class="pure-form">
-                    	<input type="text" name="search_dataset"/>
-                        <input class="pure-button" type="submit" value="Search"/>
-                        </form>
-                    </span>
-                </p>
-                
-                <table class="pure-table pure-table-horizontal info-table">
-                <tr>
-                	<td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm</td>
-                    <td>
-                    	<strong>Vitamin A</strong> &nbsp;
-                            <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a>
-                        <span class="t-state"> &nbsp;Shared &nbsp;&nbsp; Public</span>
-                        <p>3 records added today</p>
-                    </td>
-                    <td>34  Records</td>
-                </tr>
-                <tr>
-                	<td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm</td>
-                    <td>
-                    	<strong>Vitamin B</strong> &nbsp;
-                         <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a>                             <span class="t-state"> &nbsp;Shared</span>
-                        <p>
-                            <span>Nigerian Ministry of Health Study</span><br/>
-                            3 records added today
-                        </p>
-                    </td>
-                    <td>755  Records</td>
-                </tr>
-                <tr>
-                	<td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm</td>
-                    <td>
-                    	<strong>Vitamin A South Africa</strong> &nbsp;
-                         <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a>
-                        <p> 
-                            <span>September enumeration of S. Africa by Jeff</span><br/>
-                            30 records added yesterday
-                        </p>
-                    </td>
-                    <td>2 datasets</td>
-                </tr>
-                <tr>
-                	<td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm</td>
-                    <td>
-                    	<strong>Vitamin A Cameroon</strong> &nbsp;
-                         <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a> 
-                    	<p>December enumeration of Cameroon by Sandy</p>
-                        <p>140 records added 2 months ago</p>
-                    </td>
-                    <td>1 dataset</td>
-                </tr>
-                </table>
-            </div>
-            
-            <div class="tab">
-                <h3>Activity Tab</h3>
-                
-                <table class="table-list table-blue pure-table pure-table-horizontal info-table">
-                <tr>
-                	<td>Invite</td>
-                	<td><a href="user-profile.html">Matt Berg</a> add you to folder 
-                        <a href="#">Counties Visited</a></td>
-                    <td>1 hr ago</td>
-                    <td><a href="#" class="pure-button btn-warning">Leave</a></td>
-                </tr>
-                <tr>
-                	<td>Invite</td>
-                	<td><a href="user-profile.html">Matt Berg</a> add you to folder 
-                        <a href="#">Counties Visited</a></td>
-                    <td>2 months ago</td>
-                    <td><a href="#" class="pure-button btn-warning">Leave</a></td>
-                </tr>
-                <tr>
-                	<td>JoinReq</td>
-                	<td><a href="user-profile.html">Matt Berg</a> requested to join the folder 
-                        <a href="vitamin-a-south-africa-b.html">Vitamin b</a></td>
-                    <td>2 months ago</td>
-                    <td><a href="#" class="pure-button btn-warning">Leave</a></td>
-                </tr>
-                </table>
-                
-                
-                <table class="table-list pure-table pure-table-horizontal">
-                <tr>
-                	<td>New data</td>
-                	<td><a href="#">Tigus</a> added 3 records to  
-                            <a href="#">WHO/Heapatitis</a></td>
-                    <td>2 hrs ago</td>
-                </tr>
-                <tr>
-                	<td>Form edit</td>
-                	<td><a href="#">Tigus</a> added 3 records to  
-                            <a href="#">WHO/Hepatitis</a></td>
-                    <td>7 days ago</td>
-                </tr>
-                <tr>
-                	<td>Starred</td>
-                	<td><a href="user-profile.html">Matt Berg</a> edited  
-                            <a href="#">TB dataset</a></td>
-                    <td>3 wks ago</td>
-                </tr>
-                <tr>
-                	<td>Created dataset</td>
-                	<td><a href="user-profile.html">Matt Berg</a> created a dataset   
-                            in the folder <a href="#">HIV</a></td>
-                    <td>6 months ago</td>
-                </tr>
-                <tr>
-                	<td>Make public</td>
-                	<td>You shared the dataset 
-                            <a href="vitamin-a.html">Vitamin A</a> with the public</td>
-                    <td>2 hrs ago</td>
-                </tr>
-                </table>
-            </div>
-            
-            <div class="tab">
-                <h3>Starred Tab</h3>
-                <table class="pure-table pure-table-horizontal info-table">
-                <tr>
-                	<th></th>
-                	<th>User</th>
-                    <th>Starred Dataset</th>
-                    <th></th>
-                </tr>
-                <tr>
-                	<td><a href="#"><i class="fa fa-star"></i></a></td>
-                	<td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> hki</td>
-                    <td>
-                    	<strong>VAS Cameroon</strong>
-                        <p>Last record 2 hrs ago</p>
-                    </td>
-                    <td>34 Records</td>
-                </tr>
-                <tr>
-                	<td><a href="#"><i class="fa fa-star"></i></a></td>
-                	<td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> hki</td>
-                    <td>
-                    	<strong>VAS DRC</strong> Shared
-                        <p>
-                            <span>Nigerian Ministry of Health Study</span><br/>
-                            3 records added today
-                        </p>
-                    </td>
-                    <td>755  Records</td>
-                </tr>
-                <tr>
-                	<td><a href="#"><i class="fa fa-star"></i></a></td>
-                	<td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> peter</td>
-                    <td>
-                    	<strong><i class="fa fa-folder"></i>&nbsp; Vitamin A Harlem</strong>
-                        <p>
-                            <span>September enumeration of S. Africa by Jeff</span><br/>
-                            Last record 12 hours ago
-                        </p>
-                    </td>
-                    <td>2 datasets</td>
-                </tr>
-                <tr>
-                	<td><a href="#"><i class="fa fa-star"></i></a></td>
-                	<td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> unicef</td>
-                    <td>
-                    	<strong>VAS</strong>
-                        <p>
-                            <span>December enumeration of Cameroon by Sandy</span><br/>
-                            Last record added 2 months ago</p>
-                    </td>
-                    <td>54 records</td>
-                </tr>
-                </table>
-            </div>
+                        <span class="right">
+                            <form class="pure-form">
+                            <input type="text" name="search_dataset"/>
+                            <input class="pure-button" type="submit" value="Search"/>
+                            </form>
+                        </span>
+                    </p>
+
+                    <table class="pure-table pure-table-horizontal info-table">
+                    <tr>
+                        <td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm</td>
+                        <td>
+                            <strong>Vitamin A</strong> &nbsp;
+                                <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a>
+                            <span class="t-state"> &nbsp;Shared &nbsp;&nbsp; Public</span>
+                            <p>3 records added today</p>
+                        </td>
+                        <td>34  Records</td>
+                    </tr>
+                    <tr>
+                        <td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm</td>
+                        <td>
+                            <strong>Vitamin B</strong> &nbsp;
+                             <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a>                             <span class="t-state"> &nbsp;Shared</span>
+                            <p>
+                                <span>Nigerian Ministry of Health Study</span><br/>
+                                3 records added today
+                            </p>
+                        </td>
+                        <td>755  Records</td>
+                    </tr>
+                    <tr>
+                        <td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm</td>
+                        <td>
+                            <strong>Vitamin A South Africa</strong> &nbsp;
+                             <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a>
+                            <p> 
+                                <span>September enumeration of S. Africa by Jeff</span><br/>
+                                30 records added yesterday
+                            </p>
+                        </td>
+                        <td>2 datasets</td>
+                    </tr>
+                    <tr>
+                        <td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm</td>
+                        <td>
+                            <strong>Vitamin A Cameroon</strong> &nbsp;
+                             <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a> 
+                            <p>December enumeration of Cameroon by Sandy</p>
+                            <p>140 records added 2 months ago</p>
+                        </td>
+                        <td>1 dataset</td>
+                    </tr>
+                    </table>
+                </div>
+            </li>
+            <li>
+                <input type="radio" name="tabs" id="tab2">
+                <label for="tab2">Activity</label>
+                <div id="tab-content2" class="tab-content">
+                    <table class="table-list table-blue pure-table pure-table-horizontal info-table">
+                    <tr>
+                        <td>Invite</td>
+                        <td><a href="user-profile.html">Matt Berg</a> add you to folder 
+                            <a href="#">Counties Visited</a></td>
+                        <td>1 hr ago</td>
+                        <td><a href="#" class="pure-button btn-warning">Leave</a></td>
+                    </tr>
+                    <tr>
+                        <td>Invite</td>
+                        <td><a href="user-profile.html">Matt Berg</a> add you to folder 
+                            <a href="#">Counties Visited</a></td>
+                        <td>2 months ago</td>
+                        <td><a href="#" class="pure-button btn-warning">Leave</a></td>
+                    </tr>
+                    <tr>
+                        <td>JoinReq</td>
+                        <td><a href="user-profile.html">Matt Berg</a> requested to join the folder 
+                            <a href="vitamin-a-south-africa-b.html">Vitamin b</a></td>
+                        <td>2 months ago</td>
+                        <td><a href="#" class="pure-button btn-warning">Leave</a></td>
+                    </tr>
+                    </table>
+
+
+                    <table class="table-list pure-table pure-table-horizontal">
+                    <tr>
+                        <td>New data</td>
+                        <td><a href="#">Tigus</a> added 3 records to  
+                                <a href="#">WHO/Heapatitis</a></td>
+                        <td>2 hrs ago</td>
+                    </tr>
+                    <tr>
+                        <td>Form edit</td>
+                        <td><a href="#">Tigus</a> added 3 records to  
+                                <a href="#">WHO/Hepatitis</a></td>
+                        <td>7 days ago</td>
+                    </tr>
+                    <tr>
+                        <td>Starred</td>
+                        <td><a href="user-profile.html">Matt Berg</a> edited  
+                                <a href="#">TB dataset</a></td>
+                        <td>3 wks ago</td>
+                    </tr>
+                    <tr>
+                        <td>Created dataset</td>
+                        <td><a href="user-profile.html">Matt Berg</a> created a dataset   
+                                in the folder <a href="#">HIV</a></td>
+                        <td>6 months ago</td>
+                    </tr>
+                    <tr>
+                        <td>Make public</td>
+                        <td>You shared the dataset 
+                                <a href="vitamin-a.html">Vitamin A</a> with the public</td>
+                        <td>2 hrs ago</td>
+                    </tr>
+                    </table>
+                </div>
+            </li>
+            <li>
+                <input type="radio" name="tabs" id="tab3">
+                <label for="tab3">Starred</label>
+                <div id="tab-content3" class="tab-content">
+                    <table class="pure-table pure-table-horizontal info-table">
+                    <tr>
+                        <th></th>
+                        <th>User</th>
+                        <th>Starred Dataset</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td><a href="#"><i class="fa fa-star"></i></a></td>
+                        <td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> hki</td>
+                        <td>
+                            <strong>VAS Cameroon</strong>
+                            <p>Last record 2 hrs ago</p>
+                        </td>
+                        <td>34 Records</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#"><i class="fa fa-star"></i></a></td>
+                        <td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> hki</td>
+                        <td>
+                            <strong>VAS DRC</strong> Shared
+                            <p>
+                                <span>Nigerian Ministry of Health Study</span><br/>
+                                3 records added today
+                            </p>
+                        </td>
+                        <td>755  Records</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#"><i class="fa fa-star"></i></a></td>
+                        <td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> peter</td>
+                        <td>
+                            <strong><i class="fa fa-folder"></i>&nbsp; Vitamin A Harlem</strong>
+                            <p>
+                                <span>September enumeration of S. Africa by Jeff</span><br/>
+                                Last record 12 hours ago
+                            </p>
+                        </td>
+                        <td>2 datasets</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#"><i class="fa fa-star"></i></a></td>
+                        <td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> unicef</td>
+                        <td>
+                            <strong>VAS</strong>
+                            <p>
+                                <span>December enumeration of Cameroon by Sandy</span><br/>
+                                Last record added 2 months ago</p>
+                        </td>
+                        <td>54 records</td>
+                    </tr>
+                    </table>
+                </div>
+            </li>
+            </ul>
     	</div>
         
         <div class="pure-u-1-5 right" id="sidenav">

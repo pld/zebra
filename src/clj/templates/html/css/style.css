@@ -182,3 +182,46 @@ hr{
     margin-right:4.3em;
 }
 
+/*tabs*/
+.tabs input[type=radio] {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+.tabs{
+    width: auto;
+    list-style: none;
+    position: relative;
+    padding: 0;
+}
+.tabs li{
+    float: left;
+}
+.tabs label{
+    display: block;
+    cursor: pointer;
+    position: relative;
+    padding:1em 2em;
+}
+.tabs label:hover{
+    
+}
+
+[id^=tab]:checked + label{
+    background: #DEDEDD;
+    top: 0;
+}
+
+[id^=tab]:checked ~ [id^=tab-content]{
+    display: block;
+}
+.tab-content{
+    border-top:1px solid #CFCFCF;
+    display: none;
+    padding-top:2em;
+    position: absolute;
+    left: 0;
+    text-align: left;
+    width: 100%;
+    z-index: 2;
+}
