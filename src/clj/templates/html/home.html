@@ -242,7 +242,7 @@
                 <i class="fa fa-plus"></i> &nbsp;New Dataset</a><br/><br/>
             <a href="#" class="btn-large pure-button">
                 <i class="fa fa-folder"></i> &nbsp;Create a folder</a><br/><br/>
-            <a href="#" class="btn-large pure-button">
+            <a href="#share_dialog" class="btn-large pure-button">
                 <i class="fa fa-share"></i> &nbsp;Share a Dataset</a><br/><br/>
 
             <p>
@@ -261,73 +261,38 @@
 </div>
     
 <div class="modal" id="share_dialog">
-	<div class="">
-        <a href="#">X</a>
-		<h4>Share a dataset</h4>
-	</div>
-    <div class="">
-    	<p>What do you want to share</p>
-        <ul>
-        	<li>
-        		<input type="checkbox" name="data_check"/> 
-                <strong>Vitamin A</strong> | Shared | Public
-        	</li>
-        	<li>
-        		<input type="checkbox" name="data_check"/> 
-                <strong>Vitamin B</strong> | Shared
-        	</li>
-        	<li>
-        		<input type="checkbox" name="data_check"/> 
-                <strong>Vitamin A South Africa</strong>
-        	</li>
-        	<li>
-        		<input type="checkbox" name="data_check"/> 
-                <strong>Vitamin A Cameroon</strong>
-        	</li>
-        </ul>
-    </div>
-    <div class="">
-    	<input type="submit" value=""Next/>
-    </div>
-</div>
-
-<div class="modal" id="share_settings">
-	<div class="">
-        <a href="#">X</a>
-		<h4>Share a settings for 'Vitamin A' and 'Vitamin B'</h4>
-	</div>
-    <div class="">
-    	<p>Visibility: Private - Specific People <a href="#">Edit</a></p>
-        <p>Who has access</p>
-        <ul>
-        	<li>
-                <label>Carl M (carrrr77)</label>
-        		<select>
-        			<option value="editor" selected>Editor</option>
-        			<option value="read-only">Read-only</option>
-        		</select>
-        	</li>
-        	<li>
-                <label>Sunny Smith (sunnysocal)</label>
-        		<select>
-        			<option value="editor">Editor</option>
-        			<option value="read-only" selected>Read-only</option>
-        		</select>
-        	</li>
-        </ul>
-        <hr/>
-        <p>Enter names, emails or groups to invite people..</p>
-        <p>
-            <label>___________________________________________</label>
-            <select>
-                <option value="manager" selected>Manager</option>
-            </select>
-            <a href="#" class="btn">Share datasets</a>
-         </p>
-    </div>
-    <div class="">
-        <a href="#" class="btn">back</a>
-    	<input class="btn" type="submit" value="next"/>
+    <div class="modal-wrap cfix">
+        <div class="modal-header">
+            <a href="#" class="btn-close">X</a>
+            <h3>Share a dataset</h3>
+        </div>
+        <div class="modal-body">
+            <p>What do you want to share</p><br/>
+            <form class="pure-form pure-form-stacked">
+            <br/>
+            <ul class="form-list">
+                <li>
+                    <input type="checkbox" name="dmmata_check"/> 
+                    <strong>Vitamin A</strong> | Shared | Public
+                </li>
+                <li>
+                    <input type="checkbox" name="data_check"/> 
+                    <strong>Vitamin B</strong> | Shared
+                </li>
+                <li>
+                    <input type="checkbox" name="data_check"/> 
+                    <strong>Vitamin A South Africa</strong>
+                </li>
+                <li>
+                    <input type="checkbox" name="data_check"/> 
+                    <strong>Vitamin A Cameroon</strong>
+                </li>
+            </ul>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <input class="pure-button right" type="submit" value="Next"/>
+        </div>
     </div>
 </div>
 
@@ -368,6 +333,48 @@
     <div class="">
         <a href="#" class="btn">back</a>
     	<input class="btn" type="submit" value="next"/>
+    </div>
+</div>
+
+<div class="modal">
+    <div class="" id="share_settings_b">
+        <div class="">
+            <a href="#">X</a>
+            <h4>Share a settings for 'Vitamin A' and 'Vitamin B'</h4>
+        </div>
+        <div class="">
+            <p>Visibility: Private - Specific People <a href="#">Edit</a></p>
+            <p>Who has access</p>
+            <ul>
+                <li>
+                    <label>Carl M (carrrr77)</label>
+                    <select>
+                        <option value="editor" selected>Editor</option>
+                        <option value="read-only">Read-only</option>
+                    </select>
+                </li>
+                <li>
+                    <label>Sunny Smith (sunnysocal)</label>
+                    <select>
+                        <option value="editor">Editor</option>
+                        <option value="read-only" selected>Read-only</option>
+                    </select>
+                </li>
+            </ul>
+            <hr/>
+            <p>Enter names, emails or groups to invite people..</p>
+            <p>
+                <label>___________________________________________</label>
+                <select>
+                    <option value="manager" selected>Manager</option>
+                </select>
+                <a href="#" class="btn">Share datasets</a>
+             </p>
+        </div>
+        <div class="">
+            <a href="#" class="btn">back</a>
+            <input class="btn" type="submit" value="next"/>
+        </div>
     </div>
 </div>
 

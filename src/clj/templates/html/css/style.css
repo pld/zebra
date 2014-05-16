@@ -18,6 +18,29 @@ a:hover{
     text-decoration:none!important;
 }
 
+/*cleafix*/
+.cfix:before,
+.cfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+.cfix:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cfix {
+    *zoom: 1;
+}
+
+ul li{
+    list-style-type:none;
+    margin-bottom:0.6em;
+}
+
 table{
     width:100%;
 }
@@ -76,12 +99,6 @@ hr{
 .btn-small { font-size: 85%; }
 .btn-large { font-size: 110%; }
 .btn-xlarge { font-size: 125%; }
-
-/*modals*/
-.modal{
-    display:none;
-    padding:1em;
-}
 
 /*floats*/
 .right{
@@ -240,4 +257,42 @@ ul.submenu li{
 }
 
 /*modals*/
+.modal{
+    position: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 99999;
+    opacity:0;
+    pointer-events: none;
+    padding:0.6em;
+}
+.modal-header{
+}
+.modal:target {
+	opacity:1;
+	pointer-events: auto;
+}
 
+.modal > div.modal-wrap {
+	width: 50%;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+	background: #fff;
+}
+.btn-close{
+	font-weight: bold;
+    float:right;
+	text-align: center;
+	width: 24px;
+	text-decoration: none;
+}
+.btn-close:hover{
+    text-decoration:none;
+	color:#606061;
+}
