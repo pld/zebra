@@ -2,6 +2,7 @@
 body{
     font-family: Arial!important;
     font-size:13px;
+    padding-bottom:5em;
 }
 h1, h2, h3, h4, h5{
     margin:0.6em 0;
@@ -13,8 +14,8 @@ a{
 a:hover{
     text-decoration:underline;
 }
-.pure-menu li a:hover{
-    text-decoration:none;
+.pure-menu li a:hover, .pure-button{
+    text-decoration:none!important;
 }
 
 table{
