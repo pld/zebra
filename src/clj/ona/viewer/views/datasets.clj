@@ -71,6 +71,6 @@
   "Download the data for a specific dataset as CSV."
   [account dataset-id format]
   (let [file-path (api/download account dataset-id)
-        format (str "csv")
+        format "csv"
         download-name (str dataset-id "." format)]
     (get-file file-path download-name format)))
