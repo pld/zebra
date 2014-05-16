@@ -39,15 +39,6 @@
     
     <div class="pure-g-r">
     	<div class="pure-u-3-4 bar-left">
-<!--
-            <div class="pure-menu pure-menu-open pure-menu-horizontal">
-            	<ul class="nav-tab">
-                    <li><a href="#">My Datasets</a></li>
-                    <li><a href="#">Activity <span class="#">2</span></a></li>
-                    <li><a href="#">Starred</a></li>
-                </ul>
-            </div>
--->
             <ul class="tabs">
             <li>
                 <input type="radio" checked name="tabs" id="tab1">
@@ -69,7 +60,34 @@
                         <td><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm</td>
                         <td>
                             <strong>Vitamin A</strong> &nbsp;
-                                <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a>
+                            <span class="dropdown">
+                            	<a href="#" class="drop-toggle t-large"><i class="fa fa-sort-down"></i></a>
+                                <ul class="submenu">
+                                    <li><a href="#">Open</a></li>
+                                    <li><a href="#">Share</a></li>
+                                    <li><a href="#">Move to an org</a></li>
+                                    <li><a href="#">Add star</a></li>
+                                    <li><a href="#">Transfer ownership</a></li>
+                                    <li><a href="#">Put in a folder</a></li>
+                                    <li><a href="#">Replace xls form</a></li>
+                                    <li>
+                                        <span class="dropdown">
+                                            <a href="#">Make a copy 
+                                                <i class="fa fa-caret-square-o-right right"></i>
+                                            </a>
+                                            <ul class="submenu">
+                                                <li><a href="#">Copy to Garrm</a></li>
+                                                <li><a href="#">Copy to WHO (organization)</a></li>
+                                            </ul>
+                                        </span>
+                                    </li>
+                                    <li><a href="#">Rename</a></li>
+                                    <li><a href="#">Download</a></li>
+                                    <li><a href="#">Delete</a></li>
+                                    <li><a href="#">Cancel</a></li>
+                                </ul>
+                            </span>
+                                
                             <span class="t-state"> &nbsp;Shared &nbsp;&nbsp; Public</span>
                             <p>3 records added today</p>
                         </td>
