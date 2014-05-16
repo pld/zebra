@@ -53,7 +53,7 @@
     (parse-http :post url account {:form-params tags})))
 
 (defn download
-  "Download data for a spesified dataset in specified format."
+  "Download dataset in specified format."
   [account dataset-id]
   (let [filename (str dataset-id "." "csv")
         url (make-url "forms/" (:username account) "/" filename)]
