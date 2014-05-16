@@ -191,6 +191,7 @@ hr{
 .tabs{
     width: auto;
     list-style: none;
+/*    margin-bottom:5em;*/
     position: relative;
     padding: 0;
 }
@@ -202,9 +203,6 @@ hr{
     cursor: pointer;
     position: relative;
     padding:1em 2em;
-}
-.tabs label:hover{
-    
 }
 
 [id^=tab]:checked + label{
@@ -225,3 +223,21 @@ hr{
     width: 100%;
     z-index: 2;
 }
+
+/*DROPDOWN menus*/
+ul.submenu{
+    display:none;
+    position:absolute;
+}
+ul.submenu li{
+    float:none!important;
+    list-style:none;
+}
+/*submenu*/
+.menu li:hover > ul{
+    background:#778;
+    display:block;
+}
+
+/*modals*/
+
