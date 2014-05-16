@@ -74,3 +74,23 @@
         format "csv"
         download-name (str dataset-id "." format)]
     (get-file file-path download-name format)))
+
+(defn metadata
+  "View metadata for specific form"
+  [account dataset-id]
+  (let [metadata (api/metadata account dataset-id)
+        metadata-form (t/metadata-form dataset-id)]
+    (t/dashboard-items
+      "Dataset metadata"
+      (:username account)
+      (str "/dataset/" dataset-id)
+      metadata
+      metadata-form)))
+
+(defn update
+  "Update metadata for a specific dataset"
+  [account params]
+  (let [dataset-id :dataset-id
+        metadata {:description (:description params)}
+        updated-metadata (api/update account dataset-id metadata)]
+    (show account dataset-id)dataset-id))
