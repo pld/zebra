@@ -26,13 +26,14 @@
 
 (defn parse-csv-response
   [body filename]
-   (let [tempfile (java.io.File/createTempFile filename "")]
-
-  (.deleteOnExit (clojure.java.io/file tempfile))
-  (with-open [out-file (io/writer tempfile :append false)]
+   (let [tempfile (java.io.File/createTempFile filename "")
+         path (str (.getAbsolutePath tempfile))
+         file (clojure.java.io/file path)]
+  (.deleteOnExit file)
+  (with-open [out-file (io/writer file :append false)]
     (.write out-file body))
   (assoc
-    (response/file-response filename)
+    (response/file-response path)
     :headers
     {"Content-Type" " text/csv"
      "Content-disposition" (str "attachment;filename=" filename)})))
