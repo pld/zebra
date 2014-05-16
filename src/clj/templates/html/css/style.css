@@ -155,6 +155,11 @@ hr{
 #new_dataset{
     padding-top:2em;
 }
+#new_dataset .bar-left{
+    border-right:1px solid #CFCFCF;
+    margin-right:2em;
+    padding-right:4em;
+}
 .uploader{
     border:1px solid #CFCFCF;
     margin-bottom:2em;
@@ -174,3 +179,4 @@ hr{
 .teamheader .pure-button{
     margin-right:4.3em;
 }
+
