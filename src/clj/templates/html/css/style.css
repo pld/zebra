@@ -168,7 +168,9 @@ hr{
 
 /*teambox*/
 .searchbox{
+    border-top:1px solid #CFCFCF;
     margin-bottom:2em;
+    padding:0.6em 0;
 }
 .teambox{
     border:1px solid #CFCFCF;
