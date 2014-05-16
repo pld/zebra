@@ -37,6 +37,10 @@
         {{account :account} :session
          {file :file} :params}
         (datasets/create account file))
+  (GET "/dataset/:id/download"
+       {{account :account} :session
+        {id :id} :params}
+       (datasets/download account id :csv))
   (GET "/projects"
        {{account :account} :session}
        (projects/all account))

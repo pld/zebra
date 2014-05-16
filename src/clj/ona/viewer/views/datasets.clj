@@ -3,14 +3,16 @@
         [ona.viewer.views.partials :only [base]]
         [ring.util.response :only [redirect-after-post]])
   (:require [ona.api.dataset :as api]
-            [ona.viewer.views.templates :as t]))
+            [ona.viewer.views.templates :as t]
+            [ring.util.response :as response]))
 
 (defn all
   "Return all the datasets for this account."
   [account]
   (let [datasets (api/all account)
         actions  [{:name "view data"}
-                  {:name "view tags" :url "tags"}]]
+                  {:name "view tags" :url "tags"}
+                  {:name "download dataset" :url "download"}]]
     (for [dataset datasets]
       {:item-id (:formid dataset) :item-name (:title dataset) :actions actions})))
 
@@ -56,3 +58,19 @@
         tags-to-add {:tags (:tags params)}
         added-tags (api/add-tags account dataset-id tags-to-add)]
     (tags account dataset-id)))
+
+(defn get-file
+  [file-path download-name format]
+  (assoc
+    (response/file-response file-path format)
+    :headers
+    {"Content-Type" (str "text/" format)
+     "Content-disposition" (str "attachment;filename=" download-name)}))
+
+(defn download
+  "Download the data for a specific dataset as CSV."
+  [account dataset-id format]
+  (let [file-path (api/download account dataset-id)
+        format "csv"
+        download-name (str dataset-id "." format)]
+    (get-file file-path download-name format)))

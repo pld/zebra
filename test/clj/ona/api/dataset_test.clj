@@ -44,4 +44,11 @@
          (add-tags  account :dataset-id :tags) => :something
          (provided
            (make-url "forms/" username "/" :dataset-id "/" "labels") => url
-           (parse-http :post url account {:form-params :tags}) => :something)))
+           (parse-http :post url account {:form-params :tags}) => :something))
+
+  (facts "about dataset download"
+         (let [filename (str :dataset-id "." "csv")]
+           (download account :dataset-id) => :fake-file
+           (provided
+             (make-url "forms/" username "/" filename) => url
+             (parse-http :get url account nil filename) => :fake-file))))
