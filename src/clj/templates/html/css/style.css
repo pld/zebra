@@ -258,10 +258,10 @@ ul.submenu{
     -moz-box-shadow: 0px 1px 8px 0px rgba(22, 24, 0, 0.6);
     box-shadow: 0px 1px 8px 0px rgba(22, 24, 0, 0.6);
     display:none;
-    position:absolute;
-    margin-left:6em;
-    top:3px;
-    padding:0;
+    position:absolute!important;
+    margin-left:6em!important;
+    top:3px!important;
+    padding:0!important;
 }
 ul.submenu li{
     border-bottom:1px solid #CFCFCF;
