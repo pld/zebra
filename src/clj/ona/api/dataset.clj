@@ -29,7 +29,7 @@
 (defn update
   "Set the metadata for a dataset."
   [account dataset-id params]
-  (let [url (make-url "forms/" dataset-id)]
+  (let [url (make-url "forms/" (:username account) "/" dataset-id)]
     (parse-http :put url account {:form-params params})))
 
 (defn data
@@ -44,12 +44,16 @@
   (let [url (make-url "data/" (:username account) "/" dataset-id "/" record-id)]
     (parse-http :get url account)))
 
-(defn tags [account dataset-id]
+(defn tags
+  "Returns tags for a dataset"
+  [account dataset-id]
   (let [url (make-url "forms/" (:username account) "/" dataset-id "/" "labels")]
     (parse-http :get url account)))
 
-(defn add-tags [account dataset-id tags]
-  (let [url (make-url "forms/" (:username account) "/" dataset-id "/" "labels")]
+(defn add-tags
+  "Add tags to a dataset"
+  [account dataset-id tags]
+    (let [url (make-url "forms/" (:username account) "/" dataset-id "/" "labels")]
     (parse-http :post url account {:form-params tags})))
 
 (defn download
@@ -58,3 +62,9 @@
   (let [filename (str dataset-id "." "csv")
         url (make-url "forms/" (:username account) "/" filename)]
     (parse-http :get url account nil filename)))
+
+(defn metadata
+  "Show dataset metadata"
+  [account dataset-id]
+  (let [url (make-url "forms/" (:username account) "/" dataset-id)]
+    (parse-http :get url account)))

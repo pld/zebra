@@ -41,3 +41,19 @@
         (provided
           (api/download :fake-account dataset-id) => :file-path
           (get-file :file-path download-name format) => :fake-download)))
+
+(fact "about dataset metadata"
+      "Should show metadata for a specific dataset"
+     (metadata :fake-account :dataset-id) => (contains "some data")
+
+     (provided
+       (api/metadata :fake-account :dataset-id) => "some data")
+
+      "Should update metadata for a specific dataset"
+      (let [metadata-updates {:description "test description" :shared "True"}
+            params (merge {:dataset-id :dataset-id} metadata-updates)]
+        (update :fake-account params) => :something
+        (provided
+          (api/update :fake-account :dataset-id metadata-updates) => :updated-metadata
+          (metadata :fake-account :dataset-id) => :something)))
+

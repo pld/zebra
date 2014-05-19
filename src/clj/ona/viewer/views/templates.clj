@@ -101,6 +101,12 @@
   [:form](set-attr :action (str "/dataset/" dataset-id "/tags"))
   [:form :#dataset-id](set-attr :value dataset-id))
 
+(defsnippet metadata-form "templates/dataset-metadata.html"
+  [:body :div.content :> :.dataset-metadata-form]
+  [dataset-id]
+  [:form](set-attr :action (str "/dataset/" dataset-id "/metadata"))
+  [:form :#dataset-id](set-attr :value dataset-id))
+
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"
   ([page-title username url items]

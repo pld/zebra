@@ -5,7 +5,8 @@
 
 (def ^:private meths
   {:get client/get
-   :post client/post})
+   :post client/post
+   :put client/put})
 
 (def protocol "https")
 
@@ -36,7 +37,9 @@
 (defn parse-http
   "Send and parse an HTTP response as JSON."
   ([method url account]
-   (parse-http method url account {} nil))
+   (parse-http method url account {}))
+  ([method url account options]
+   (parse-http method url account options nil))
   ([method url account options filename]
    (let [options (if-let [{:keys [username password]} account]
                    (assoc options :basic-auth [username password])

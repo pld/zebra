@@ -12,7 +12,8 @@
   (let [datasets (api/all account)
         actions  [{:name "view data"}
                   {:name "view tags" :url "tags"}
-                  {:name "download dataset" :url "download"}]]
+                  {:name "download dataset" :url "download"}
+                  {:name "metadata" :url "metadata"}]]
     (for [dataset datasets]
       {:item-id (:formid dataset) :item-name (:title dataset) :actions actions})))
 
@@ -74,3 +75,24 @@
         format "csv"
         download-name (str dataset-id "." format)]
     (get-file file-path download-name format)))
+
+(defn metadata
+  "View metadata for specific form"
+  [account dataset-id]
+  (let [metadata (api/metadata account dataset-id)
+        metadata-form (t/metadata-form dataset-id)]
+    (t/dashboard-items
+      "Dataset metadata"
+      (:username account)
+      (str "/dataset/" dataset-id)
+      [{:item-name metadata}]
+      metadata-form)))
+
+(defn update
+  "Update metadata for a specific dataset"
+  [account params]
+  (let [dataset-id (:dataset-id params)
+        metadata-updates {:description (:description params)
+                          :shared (if (:shared params) "True" "False")}
+        updated-metadata (api/update account dataset-id metadata-updates)]
+    (metadata account dataset-id)))
