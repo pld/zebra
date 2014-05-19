@@ -41,6 +41,14 @@
        {{account :account} :session
         {id :id} :params}
        (datasets/download account id :csv))
+  (GET "/dataset/:id/metadata"
+       {{account :account} :session
+        {id :id} :params}
+        (datasets/metadata account id))
+  (POST "/dataset/:id/metadata"
+       {{account :account} :session
+        params :params}
+        (datasets/update account params))
   (GET "/projects"
        {{account :account} :session}
        (projects/all account))

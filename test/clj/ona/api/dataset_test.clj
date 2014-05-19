@@ -19,8 +19,15 @@
         "Should get correct url"
         (update account :dataset-id :params) => :something
         (provided
-          (make-url "forms/" :dataset-id) => url
+          (make-url "forms/" username "/" :dataset-id) => url
           (parse-http :put url account {:form-params :params}) => :something))
+
+  (fact "about dataset metadata"
+        "should get dataset metadata"
+        (metadata account :dataset-id) => :fake-metadata
+        (provided
+          (make-url "forms/" username "/" :dataset-id) => url
+          (parse-http :get url account) => :fake-metadata))
 
   (facts "about dataset-getdata"
          (data account :dataset-id) => :something

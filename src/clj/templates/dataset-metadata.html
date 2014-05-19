@@ -4,10 +4,11 @@
 <body>
   <div class="content">
     <div class="dataset-metadata-form">
-      <form action="/dataset/tags" method="post">
-        <input type="hidden" name="dataset-id" id="dataset-id" >
-        <input type="text" name="tags"/>
-        <input type="submit" value="Create tag">
+      <form action="/dataset/metadata" method="post">
+        <input type="hidden" name="dataset-id" id="dataset-id">
+        <label name="description"> Description </label>
+        <input type="text" name="description"/>
+        <input type="submit" value="Update metadata">
       </form>
     </div>
   </div>

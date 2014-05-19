@@ -12,7 +12,8 @@
   (let [datasets (api/all account)
         actions  [{:name "view data"}
                   {:name "view tags" :url "tags"}
-                  {:name "download dataset" :url "download"}]]
+                  {:name "download dataset" :url "download"}
+                  {:name "metadata" :url "metadata"}]]
     (for [dataset datasets]
       {:item-id (:formid dataset) :item-name (:title dataset) :actions actions})))
 
@@ -84,13 +85,13 @@
       "Dataset metadata"
       (:username account)
       (str "/dataset/" dataset-id)
-      metadata
+      [{:item-name metadata}]
       metadata-form)))
 
 (defn update
   "Update metadata for a specific dataset"
   [account params]
-  (let [dataset-id :dataset-id
-        metadata {:description (:description params)}
-        updated-metadata (api/update account dataset-id metadata)]
-    (show account dataset-id)dataset-id))
+  (let [dataset-id (:dataset-id params)
+        metadata-updates {:description (:description params)}
+        updated-metadata (api/update account dataset-id metadata-updates)]
+    (metadata account dataset-id)))
