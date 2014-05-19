@@ -92,6 +92,7 @@
   "Update metadata for a specific dataset"
   [account params]
   (let [dataset-id (:dataset-id params)
-        metadata-updates {:description (:description params)}
+        metadata-updates {:description (:description params)
+                          :shared (if (:shared params) "True" "False")}
         updated-metadata (api/update account dataset-id metadata-updates)]
     (metadata account dataset-id)))
