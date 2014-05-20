@@ -7,7 +7,8 @@
                                        do->
                                        first-of-type
                                        html
-                                       set-attr]
+                                       set-attr
+                                       nth-of-type]
          :rename {html enlive-html}] :reload))
 
 (def navigation-items
@@ -122,7 +123,8 @@
 (defsnippet home-content "templates/html/home.html"
   [:body :div#content]
   [items]
-  [:#datasets-table :tr] (clone-for [item items]))
+  [:#datasets-table [:tr first-of-type]] (clone-for [item items]
+                                                    [:tr (nth-of-type 2)] (content item)))
 
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"
