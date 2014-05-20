@@ -29,8 +29,20 @@
              (conj default-js javascript)
              default-js))))
 
-(deftemplate render-base-template "templates/html/base.html"
+(defsnippet link-css
+  (enlive-html [:link {:href "" :rel "stylesheet"}])
+  [:link]
+  [hrefs]
+  (clone-for [href hrefs]
+             [:link]
+             (set-attr :href href)))
+
+(deftemplate render-base-template "templates/base.html"
   [current-path username title page-content javascript]
+  [:head :link] nil
+  [:head] (append (link-css ["/css/pure-min.css"
+                             "/css/font-awesome.min.css"
+                             "/css/style.css"]))
   [:head :title] (content title)
   [:body :h1.title] (content title)
   [:body :h2.user-details](append username)
@@ -67,8 +79,8 @@
                            (str url-prefix "/" suffix)
                            url-prefix)]
                  [:a] (do->
-                       (content (str " >> " (:name action)))
-                       (set-attr :href url))))))
+                        (content (str " >> " (:name action)))
+                        (set-attr :href url))))))
 
 "List items snippet:renders any list of items"
 (defsnippet list-items "templates/list-items.html"
@@ -76,8 +88,8 @@
   [items url]
   [:p] (clone-for [item items]
                   [:p :a] (do->
-                           (content (:item-name item))
-                           (set-attr :href (str url (:item-id item))))
+                            (content (:item-name item))
+                            (set-attr :href (str url (:item-id item))))
                   [:p] (if-not (:item-id item)
                          (content (:item-name item))
                          identity)
@@ -110,9 +122,7 @@
 (defsnippet home-content "templates/html/home.html"
   [:body :div#content]
   [items]
-  [:#datasets-table :tr] (clone-for [item items]
-
-                                    ))
+  [:#datasets-table :tr] (clone-for [item items]))
 
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"
