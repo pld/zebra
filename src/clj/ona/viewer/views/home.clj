@@ -3,7 +3,8 @@
   (:require [ona.api.user :as api]
             [ring.util.response :as response]
             [ona.viewer.views.accounts :as accounts]
-            [ona.viewer.views.datasets :as datasets]))
+            [ona.viewer.views.datasets :as datasets]
+            [ona.viewer.views.templates :as t]))
 
 (defn dashboard
   "Render the users signed in home page."
@@ -11,8 +12,8 @@
   (dashboard-items "Datasets"
                    (:username account)
                    "dataset/"
-                   (datasets/all account)
-                   nil))
+                   []
+                   (t/home-content (datasets/all account))))
 
 (defn home-page
   "Render the signed out home page."

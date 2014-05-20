@@ -107,6 +107,13 @@
   [:form](set-attr :action (str "/dataset/" dataset-id "/metadata"))
   [:form :#dataset-id](set-attr :value dataset-id))
 
+(defsnippet home-content "templates/html/home.html"
+  [:body :div#content]
+  [items]
+  [:#datasets-table :tr] (clone-for [item items]
+
+                                    ))
+
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"
   ([page-title username url items]
