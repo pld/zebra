@@ -8,7 +8,7 @@
                                        first-of-type
                                        html
                                        set-attr]
-         :rename {html enlive-html}]))
+         :rename {html enlive-html}] :reload))
 
 (def navigation-items
   {"Home" "/"
@@ -29,7 +29,7 @@
              (conj default-js javascript)
              default-js))))
 
-(deftemplate render-base-template "templates/base.html"
+(deftemplate render-base-template "templates/html/base.html"
   [current-path username title page-content javascript]
   [:head :title] (content title)
   [:body :h1.title] (content title)
@@ -40,7 +40,7 @@
                                                    identity)
                                            [:li :a] (content caption)
                                            [:li :a] (set-attr :href url))
-  [:body :div.content] (append page-content)
+  [:body :div#content] (append page-content)
   [:body] (append (build-javascript javascript)))
 
 (defn base-template
