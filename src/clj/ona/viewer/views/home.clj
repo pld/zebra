@@ -13,7 +13,7 @@
                    (:username account)
                    "dataset/"
                    []
-                   (t/home-content (datasets/all account))))
+                   (t/home-content (datasets/all account) (:username account))))
 
 (defn home-page
   "Render the signed out home page."

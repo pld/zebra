@@ -8,7 +8,8 @@
                                        first-of-type
                                        html
                                        set-attr
-                                       nth-of-type]
+                                       nth-of-type
+                                       but]
          :rename {html enlive-html}] :reload))
 
 (def navigation-items
@@ -38,6 +39,10 @@
              [:link]
              (set-attr :href href)))
 
+(defsnippet share-dialog "templates/home.html"
+  [:body :div#share_dialog]
+  [])
+
 (deftemplate render-base-template "templates/base.html"
   [current-path username title page-content javascript]
   [:head :link] nil
@@ -54,6 +59,7 @@
                                            [:li :a] (content caption)
                                            [:li :a] (set-attr :href url))
   [:body :div#content] (append page-content)
+  [:body] (append (share-dialog))
   [:body] (append (build-javascript javascript)))
 
 (defn base-template
@@ -120,12 +126,13 @@
   [:form](set-attr :action (str "/dataset/" dataset-id "/metadata"))
   [:form :#dataset-id](set-attr :value dataset-id))
 
-(defsnippet home-content "templates/html/home.html"
+(defsnippet home-content "templates/home.html"
   [:body :div#content]
-  [items]
+  [items username]
+  [:#username](content username)
+  [:#datasets-table [:tr (but first-of-type)]] nil
   [:#datasets-table [:tr first-of-type]] (clone-for [item items]
-                                                    [:tr (nth-of-type 2)] (content item)))
-
+                                                    [:tr (nth-of-type 2) :strong] (content (:item-name item))))
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"
   ([page-title username url items]
