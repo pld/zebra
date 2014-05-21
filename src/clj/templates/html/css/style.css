@@ -248,8 +248,22 @@ hr{
 }
 
 /*DROPDOWN menus*/
+
+/*header dropdowns*/
+#prof-drop, #exp-drop{
+    margin-top:4em;
+}
+#exp-drop{
+    margin-left:9em!important;
+}
+#prof-drop{
+    margin-left:0em!important;
+}
+
+/*other dropdowns*/
 span.dropdown{
     position:relative;
+    z-index:50;
 }
 ul.submenu{
     background:#FFFFFF;
@@ -279,7 +293,7 @@ ul.submenu li a{
 ul.submenu li a:hover{
     background:#DDDDDD;
 }
-.dropdown:hover > ul{
+.dropdown:hover > ul.submenu{
     background:#778;
     display:block;
 }
