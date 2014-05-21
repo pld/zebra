@@ -11,8 +11,8 @@
   [account]
   (base/base-template
     "/"
-    "Datasets"
     (:username account)
+    "Home"
     (home/home-content
       (datasets/all account)
       (:username account))))
