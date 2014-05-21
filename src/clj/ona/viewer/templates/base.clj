@@ -32,8 +32,7 @@
              (conj default-js javascript)
              default-js))))
 
-(defsnippet link-css
-  (enlive-html [:link {:href "" :rel "stylesheet"}])
+(defsnippet link-css (enlive-html [:link {:href "" :rel "stylesheet"}])
   [:link]
   [hrefs]
   (clone-for [href hrefs]

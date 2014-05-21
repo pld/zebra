@@ -5,6 +5,7 @@
   (:require [ona.api.dataset :as api]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.forms :as forms]
+            [ona.viewer.templates.datasets :as datasets]
             [ring.util.response :as response]))
 
 (defn all
@@ -45,7 +46,8 @@
 (defn new-dataset
   "Render a page for creating a new dataset."
   [account]
-  (base/base-template "/dataset" (:username account) "New dataset" (forms/new-dataset-form)))
+  (base/base-template
+    "/dataset" (:username account) "New dataset" (datasets/new-dataset)))
 
 (defn create
   "Create a new dataset."

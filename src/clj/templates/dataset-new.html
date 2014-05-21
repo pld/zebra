@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<title>New Dataset</title>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link rel="stylesheet" type="text/css" href="../../../resources/public/css/pure-min.css">
+<link rel="stylesheet" href="../../../resources/public/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="../../../resources/public/css/style.css">
+</head>
+<body>
+<div id="main-menu">
+    <div class="pure-menu pure-menu-open pure-menu-horizontal container cls">
+<!--    <a href="#" class="pure-menu-heading"></a>-->
+        <ul>
+            <li class="pure-menu-selected">
+                <a href="user-profile-garrett.html"><i class="fa fa-user"></i> &nbsp;Me</a>
+            </li>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="#"><i class="fa t-large fa-plus-square"></i></a></li>
+            <li><a href="#">Explore</a></li>
+            <li><a href="#">Help</a></li>
+        </ul>
+    </div>
+</div>
+
+<div id="content" class="container">
+    <div>
+        <h1>Create New Dataset</h1>
+    </div>
+    
+    <div class="pure-g-r" id="new_dataset">
+        <div class="pure-u-3-5 bar-left">
+        	<h2>Select a source for the new dataset</h2>
+        
+            <h3>XLS</h3>
+            <div class="uploading">
+                Directions, guideline inks and notes on using xls forms, <br/>
+                help or support
+                <br/><br/>
+
+                <div class="uploader file-choose">
+                	<form action="datasets" id="form" enctype="multipart/form-data" method="post">
+                    	<input type="file" name="file"/>
+                    	<input type="submit" value="Upload dataset">
+                    	<a href="#" class="pure-button">Choose xls form to upload</a>
+        			</form>
+                </div>
+                <div class="uploader file-uploading">
+                    <h4>Uploading Filename.xls 1...
+                        <span class="">X</span>
+                    </h4>
+                </div>
+                <div class="uploader file-verified">
+                    <h4><span class="normal"></span> Filename 1
+                        <span class="">
+                            <a href="#">Preview</a> | 
+                            <a href="#">X</a>
+                        </span>
+                    </h4>
+                    <div>
+                        <a href="#" class="pure-button btn-large">Go to form settings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pure-u-1-6 bar-right">
+            <h2>Usage</h2><br/>
+            <h4>Pricing usage quotas</h4>
+            <br/><br/><br/>
+            <a href="#" class="pure-button btn-success btn-xlarge">Upgrade tout and link</a>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="share_settings">
+	<div class="">
+        <a href="#">X</a>
+		<h4>Preview Filename</h4>
+	</div>
+    
+    <form action="#" method="POST">
+    <div class="">
+        <p>Enketo Form</p>
+    </div>
+    <div class="">
+    	<a href="#" class="pure-button btn-success">Looks Good!</a> | 
+        <a href="#" class="pure-button">Replace this file</a>
+    </div>
+    </form>
+</div>
+</body>
+</html>

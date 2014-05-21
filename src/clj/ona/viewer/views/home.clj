@@ -9,11 +9,13 @@
 (defn dashboard
   "Render the users signed in home page."
   [account]
-  (base/dashboard-items "Datasets"
-                   (:username account)
-                   "dataset/"
-                   []
-                   (home/home-content (datasets/all account) (:username account))))
+  (base/base-template
+    "/"
+    "Datasets"
+    (:username account)
+    (home/home-content
+      (datasets/all account)
+      (:username account))))
 
 (defn home-page
   "Render the signed out home page."
