@@ -12,20 +12,30 @@
 </head>
 <body>
 <div id="main-menu">
-    <div class="pure-menu pure-menu-open pure-menu-horizontal container cls">
+<!--    <div classs="pure-menu pure-menu-open pure-menu-horizontal container cls">-->
+    <div class="vw-menu container cfix">
 <!--    <a href="#" class="pure-menu-heading"></a>-->
         <ul>
             <li class="pure-menu-selected">
                 <span class="dropdown">
-                    <a class="drop-toggle" href="user-profile-garrett.html"><i class="fa fa-user"></i> &nbsp;Me</a>
-                    <ul class="submenu">
+                <a href="user-profile-garrett.html"><i class="fa fa-user"></i> &nbsp;Me</a>
+                    <ul class="submenu" id="prof-drop">
                         <li><a href="#">My Profile</a></li>
                         <li><a href="#">My account</a></li>
                     </ul>
                 </span>
             </li>
             <li><a href="home.html">Home</a></li>
-            <li><a href="#"><i class="fa t-large fa-plus-square"></i></a></li>
+            <li><span class="dropdown">
+                    <a href="#"><i class="fa t-large fa-plus-square"></i></a>
+                    <ul class="submenu" id="exp-drop">
+                        <li>My Organizations</li>
+                        <li><a href="#">
+                            <img src="img/who-logo.jpg" class="avatar thumb"/><br/> WHO
+                        </a></li>
+                    </ul>
+                </span> 
+            </li>
             <li><a href="#">Explore</a></li>
             <li><a href="#">Help</a></li>
         </ul>
@@ -128,8 +138,8 @@
                         <td>
                             <strong>Vitamin A Cameroon</strong> &nbsp;
                              <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a> 
-                            <p>December enumeration of Cameroon by Sandy</p>
-                            <p>140 records added 2 months ago</p>
+                            <p>December enumeration of Cameroon by Sandy<br/>
+                                140 records added 2 months ago</p>
                         </td>
                         <td>1 dataset</td>
                     </tr>

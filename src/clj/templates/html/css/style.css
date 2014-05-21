@@ -1,8 +1,11 @@
 /*custom styles*/
+*{
+    margin:0;padding:0;
+}
 body{
     font-family: Arial!important;
     font-size:13px;
-    padding-bottom:5em;
+    padding-bottom:10em;
 }
 h1, h2, h3, h4, h5{
     margin:0.6em 0;
@@ -14,7 +17,7 @@ a{
 a:hover{
     text-decoration:underline;
 }
-.pure-menu li a:hover, .pure-button{
+.pure-menu li a:hover, .pure-button, .vw-menu li a:hover{
     text-decoration:none!important;
 }
 
@@ -120,10 +123,10 @@ hr{
     background:#DEDEDD;
     margin-top:1em;
 }
-#main-menu .pure-menu{
+#main-menu .pure-menu, #main-menu .vw-menu{
     background:#DEDEDD;
 }
-.pure-menu{
+.pure-menu, .vw-menu{
     margin-bottom:1em;
 }
 
@@ -247,7 +250,28 @@ hr{
     z-index: 2;
 }
 
+/*Top Menu*/
+.vw-menu ul li{
+    float:left;
+    position:relative;
+}
+.vw-menu ul li a{
+    color:#777;
+    padding:1em 2em;
+}
 /*DROPDOWN menus*/
+
+/*header dropdowns*/
+#prof-drop{
+    margin-left:1.5em!important;
+    margin-top:1.8em;
+}
+#exp-drop{
+    margin-left:0em!important;
+    margin-top:1em;
+}
+
+/*other dropdowns*/
 span.dropdown{
     position:relative;
 }
@@ -259,11 +283,11 @@ ul.submenu{
     box-shadow: 0px 1px 8px 0px rgba(22, 24, 0, 0.6);
     display:none;
     position:absolute!important;
-    margin-left:6em!important;
-    top:3px!important;
+    top:3px;
     padding:0!important;
 }
 ul.submenu li{
+    background:#FFFFFF;
     border-bottom:1px solid #CFCFCF;
     float:none!important;
     list-style:none;
@@ -279,9 +303,9 @@ ul.submenu li a{
 ul.submenu li a:hover{
     background:#DDDDDD;
 }
-.dropdown:hover > ul{
+.dropdown:hover > ul.submenu{
     background:#778;
-    display:block;
+    display:block!important;
 }
 
 /*modals*/
