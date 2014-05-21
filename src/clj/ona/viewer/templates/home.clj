@@ -18,4 +18,5 @@
    [:#username](content username)
    [:#datasets-table [:tr (but first-of-type)]] nil
    [:#datasets-table [:tr first-of-type]] (clone-for [item items]
-                                                     [:tr (nth-of-type 2) :strong] (content (:item-name item))))
+                                                     [:tr (nth-of-type 2) :strong] (content (:item-name item)))
+   [:#sidenav [:a first-of-type]] (set-attr :href "/dataset"))

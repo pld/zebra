@@ -40,6 +40,16 @@
              [:link]
              (set-attr :href href)))
 
+(defsnippet main-menu "templates/base.html"
+  [:#main-menu :div.pure-menu]
+  [current-path]
+  [:ul [:li first-of-type]](clone-for [[caption url] navigation-items]
+                                           [:li] (if (= current-path url)
+                                                   (set-attr :class "active")
+                                                   identity)
+                                           [:li :a] (content caption)
+                                           [:li :a] (set-attr :href url)))
+
 (deftemplate render-base-template "templates/base.html"
   [current-path username title page-content javascript]
   [:head :link] nil
@@ -49,12 +59,7 @@
   [:head :title] (content title)
   [:body :h1.title] (content title)
   [:body :h2.user-details](append username)
-  [:ul.nav [:li first-of-type]] (clone-for [[caption url] navigation-items]
-                                           [:li] (if (= current-path url)
-                                                   (set-attr :class "active")
-                                                   identity)
-                                           [:li :a] (content caption)
-                                           [:li :a] (set-attr :href url))
+  [:#main-menu :div.pure-menu](content (main-menu current-path))
   [:body :div#content] (append page-content)
   [:body] (append (build-javascript javascript)))
 
