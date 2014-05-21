@@ -1,4 +1,4 @@
-(ns ona.viewer.views.templates
+(ns ona.viewer.templates.base
   (:use [net.cgrand.enlive-html :only [append
                                        clone-for
                                        content
@@ -10,7 +10,8 @@
                                        set-attr
                                        nth-of-type
                                        but]
-         :rename {html enlive-html}] :reload))
+         :rename {html enlive-html}] :reload)
+  (:require [ona.viewer.templates.list-items :as l]))
 
 (def navigation-items
   {"Home" "/"
@@ -39,10 +40,6 @@
              [:link]
              (set-attr :href href)))
 
-(defsnippet share-dialog "templates/home.html"
-  [:body :div#share_dialog]
-  [])
-
 (deftemplate render-base-template "templates/base.html"
   [current-path username title page-content javascript]
   [:head :link] nil
@@ -59,7 +56,6 @@
                                            [:li :a] (content caption)
                                            [:li :a] (set-attr :href url))
   [:body :div#content] (append page-content)
-  [:body] (append (share-dialog))
   [:body] (append (build-javascript javascript)))
 
 (defn base-template
@@ -69,76 +65,12 @@
   ([current-path username title page-content javascript]
    (render-base-template current-path username title page-content javascript)))
 
-"Snippets are appended to the base template"
-
-"Sign-in form snippet"
-(defsnippet login-form "templates/login.html"
-  [:body :div.content :> :.signin-form]
-  [])
-
-(defn render-actions
-  "Render the actions for a list item."
-  [item url-base]
-  (if-let [actions (:actions item)]
-    (clone-for [action actions]
-               (let [url-prefix (str url-base (:item-id item))
-                     url (if-let [suffix (:url action)]
-                           (str url-prefix "/" suffix)
-                           url-prefix)]
-                 [:a] (do->
-                        (content (str " >> " (:name action)))
-                        (set-attr :href url))))))
-
-"List items snippet:renders any list of items"
-(defsnippet list-items "templates/list-items.html"
-  [:body :div.content :> :.list-items]
-  [items url]
-  [:p] (clone-for [item items]
-                  [:p :a] (do->
-                            (content (:item-name item))
-                            (set-attr :href (str url (:item-id item))))
-                  [:p] (if-not (:item-id item)
-                         (content (:item-name item))
-                         identity)
-                  [:p :span.actions :a] (render-actions item url)))
-
-(defsnippet new-dataset-form "templates/new-dataset.html"
-  [:body :div.content :> :.new-dataset-form]
-  [])
-
-(defsnippet new-organization-form "templates/new-organization.html"
-  [:body :div.content :> :.new-organization-form]
-  [])
-
-(defsnippet new-project-form "templates/new-project.html"
-  [:body :div.content :> :.new-project-form]
-  [])
-
-(defsnippet new-tag-form "templates/new-tag.html"
-  [:body :div.content :> :.new-tag-form]
-  [dataset-id]
-  [:form](set-attr :action (str "/dataset/" dataset-id "/tags"))
-  [:form :#dataset-id](set-attr :value dataset-id))
-
-(defsnippet metadata-form "templates/dataset-metadata.html"
-  [:body :div.content :> :.dataset-metadata-form]
-  [dataset-id]
-  [:form](set-attr :action (str "/dataset/" dataset-id "/metadata"))
-  [:form :#dataset-id](set-attr :value dataset-id))
-
-(defsnippet home-content "templates/home.html"
-  [:body :div#content]
-  [items username]
-  [:#username](content username)
-  [:#datasets-table [:tr (but first-of-type)]] nil
-  [:#datasets-table [:tr first-of-type]] (clone-for [item items]
-                                                    [:tr (nth-of-type 2) :strong] (content (:item-name item))))
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"
   ([page-title username url items]
    (dashboard-items page-title username url items nil))
   ([page-title username url items form]
-   (let [item-list (list-items items url)
+   (let [item-list (l/list-items items url)
          page-content (if form
                         (concat form item-list)
                         item-list)]

@@ -3,7 +3,8 @@
         [ona.viewer.views.partials :only [base]]
         [ring.util.response :only [redirect-after-post]])
   (:require [ona.api.dataset :as api]
-            [ona.viewer.views.templates :as t]
+            [ona.viewer.templates.base :as base]
+            [ona.viewer.templates.forms :as forms]
             [ring.util.response :as response]))
 
 (defn all
@@ -21,7 +22,7 @@
   "Show the data for a specific dataset."
   [account dataset-id]
   (let [dataset (api/data account dataset-id)]
-    (t/dashboard-items
+    (base/dashboard-items
       "Dataset"
       (:username account)
       (str "/dataset/" dataset-id)
@@ -32,8 +33,8 @@
   "View tags for a specific dataset"
   [account dataset-id]
   (let [tags (api/tags account dataset-id)
-        tag-form (t/new-tag-form dataset-id)]
-    (t/dashboard-items
+        tag-form (forms/new-tag-form dataset-id)]
+    (base/dashboard-items
       "Dataset tag"
       (:username account)
       (str "/dataset/" dataset-id)
@@ -44,7 +45,7 @@
 (defn new-dataset
   "Render a page for creating a new dataset."
   [account]
-  (t/base-template "/dataset" (:username account) "New dataset" (t/new-dataset-form)))
+  (base/base-template "/dataset" (:username account) "New dataset" (forms/new-dataset-form)))
 
 (defn create
   "Create a new dataset."
@@ -80,8 +81,8 @@
   "View metadata for specific form"
   [account dataset-id]
   (let [metadata (api/metadata account dataset-id)
-        metadata-form (t/metadata-form dataset-id)]
-    (t/dashboard-items
+        metadata-form (forms/metadata-form dataset-id)]
+    (base/dashboard-items
       "Dataset metadata"
       (:username account)
       (str "/dataset/" dataset-id)

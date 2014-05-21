@@ -1,7 +1,6 @@
 (ns ona.viewer.routes
   (:use [compojure.core]
         [ona.viewer.views.home :only [home-page]]
-        [ona.viewer.views.templates :only [base-template]]
         [ona.viewer.wrappers :only [wrap-basic-authentication wrap-logger]])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
