@@ -12,14 +12,28 @@
 </head>
 <body>
 <div id="main-menu">
-    <div class="pure-menu pure-menu-open pure-menu-horizontal container cls">
-<!--    <a href="#" class="pure-menu-heading"></a>-->
-        <ul>
-            <li class="pure-menu-selected">
-                <a href="user-profile-garrett.html"><i class="fa fa-user"></i> &nbsp;Me</a>
+    <div class="vw-menu container cfix">
+        <ul id="menu-items">
+            <li class="pure-menu-selected menu-item">
+                <div class="dropdown">
+                   <a href="user-profile-garrett.html"><i class="fa fa-user"></i> &nbsp;Me</a>
+                    <ul class="submenu" id="prof-drop">
+                        <li><a href="#">My Profile</a></li>
+                        <li><a href="#">My account</a></li>
+                    </ul>
+                </div>
             </li>
             <li><a href="home.html">Home</a></li>
-            <li><a href="#"><i class="fa t-large fa-plus-square"></i></a></li>
+            <li><div class="dropdown">
+                    <a href="#"><i class="fa t-large fa-plus-square"></i></a>
+                    <ul class="submenu" id="exp-drop">
+                        <li><br/>My Organizations<br/><br/></li>
+                        <li><a href="#">
+                            <img src="img/who-logo.jpg" class="avatar thumb"/><br/> WHO
+                        </a></li>
+                    </ul>
+                </div> 
+            </li>
             <li><a href="#">Explore</a></li>
             <li><a href="#">Help</a></li>
         </ul>
@@ -27,12 +41,9 @@
 </div>
 
 <div class="container">
-	<h1>Vitamin A South Africa/B</h1>
-    
-    <div class="pure-g-r">
-        <div class="pure-u-2-5"> 
-            <a href="user-profile-garrett.html">
-                <i class="fa fa-user"></i> &nbsp;garrm</a>
+    <div class="pure-g-r page-header">
+        <div class="pure-u-2-5">
+	       <h1>Vitamin A South Africa/B</h1>
         </div>
         
         <div class="pure-u-1-5">
@@ -49,7 +60,13 @@
                 <a href="#" class="pure-button">Download All</a>
             </span>
         </div>
-        <hr class="cls"/>
+    </div>
+    
+    <div class="pure-g-r user-bar cfix">
+        <div class="pure-u-2-5"> 
+            <a href="user-profile-garrett.html">
+                <i class="fa fa-user"></i> &nbsp;garrm</a>
+        </div>
     </div>
     
     <div class="pure-g-r">
