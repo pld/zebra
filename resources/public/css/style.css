@@ -193,10 +193,14 @@ hr{
 }
 
 /*teambox*/
-.searchbox{
-    border-top:1px solid #CFCFCF;
+.teambar{
+    border-bottom:1px solid #CFCFCF;
     margin-bottom:2em;
-    padding:0.6em 0;
+    padding-bottom:1em;
+}
+.searchbox{
+    margin-bottom:2em;
+    padding-bottom:0.6em;
 }
 .teambox{
     border:1px solid #CFCFCF;
@@ -250,6 +254,18 @@ hr{
     z-index: 2;
 }
 
+.page-header{
+    padding-top:1em;
+}
+.page-header h1{
+    margin-top:0;
+}
+.user-bar{
+    border-bottom:1px dotted #AFAFAF;
+    margin-bottom:1em;
+    padding-bottom:1em;
+}
+
 /*Top Menu*/
 .vw-menu ul li{
     float:left;
@@ -271,10 +287,20 @@ hr{
     margin-top:1em;
 }
 
-/*other dropdowns*/
-span.dropdown{
+div.dropdown{
+    display:inline-block;
     position:relative;
 }
+
+/*menu context*/
+.menu-context{
+    display:block!important;
+}
+.menu-context ul.submenu{
+    top:10px!important;
+    left:120px;
+}
+
 ul.submenu{
     background:#FFFFFF;
     border:1px solid #CFCFCF;
@@ -285,6 +311,7 @@ ul.submenu{
     position:absolute!important;
     top:3px;
     padding:0!important;
+    z-index:100;
 }
 ul.submenu li{
     background:#FFFFFF;
@@ -296,7 +323,7 @@ ul.submenu li{
 }
 ul.submenu li a{
     background:#FFFFFF;
-    display:block;
+    display:block!important;
     padding:0.6em;
     text-decoration:none;
 }
