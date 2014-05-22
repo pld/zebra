@@ -6,7 +6,7 @@
 
 (fact "about datasets"
       "Datasets all returns a list of datasets"
-      (-> (all :fake-account) first second last) => :fake-title
+      (-> (all :fake-account) first first last) => :fake-title
       (provided
         (api/all :fake-account) => [{:title :fake-title}])
 

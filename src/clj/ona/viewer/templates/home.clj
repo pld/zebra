@@ -14,11 +14,16 @@
 
 (defsnippet home-content "templates/home.html"
   [:body :div#content]
-  [items username]
+  [datasets username]
   [:#username](content username)
   [:#datasets-table [:tr (but first-of-type)]] nil
-  [:#datasets-table [:tr first-of-type]] (clone-for [item items]
-                                                    [:tr (nth-of-type 2) :strong] (content (:item-name item))
-                                                    [:ul.submenu [:li first-of-type] :a](set-attr :href (str "dataset/"(:item-id item))))
+  [:#datasets-table [:tr first-of-type]]
+  (clone-for [dataset datasets]
+             [:tr (nth-of-type 2) :strong] (content (:title dataset))
+             [:ul.submenu [:li first-of-type] :a](set-attr
+                                                   :href
+                                                   (str "dataset/" (:formid dataset)))
+             [:span.rec](content (str (:num_of_submissions dataset) " records")))
+
 
   [:#sidenav [:a first-of-type]] (set-attr :href "/dataset"))

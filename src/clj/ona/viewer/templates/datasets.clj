@@ -27,4 +27,5 @@
   [:div#sidenav [:p (nth-of-type 2)]](content (:description metadata))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
   [:p.tagbox [:span.tag first-of-type]](clone-for [tag (:tags metadata)]
-                                                               [:span.tag] (content tag)))
+                                                               [:span.tag] (content tag))
+  [:span.rec](content (str (count dataset) " records")))

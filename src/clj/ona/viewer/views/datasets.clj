@@ -11,13 +11,8 @@
 (defn all
   "Return all the datasets for this account."
   [account]
-  (let [datasets (api/all account)
-        actions  [{:name "view data"}
-                  {:name "view tags" :url "tags"}
-                  {:name "download dataset" :url "download"}
-                  {:name "metadata" :url "metadata"}]]
-    (for [dataset datasets]
-      {:item-id (:formid dataset) :item-name (:title dataset) :actions actions})))
+  (let [datasets (api/all account)]
+    datasets))
 
 (defn show
   "Show the data for a specific dataset."
