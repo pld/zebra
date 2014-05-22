@@ -61,7 +61,7 @@
   [:head :title] (content title)
   [:body :h1.title] (content title)
   [:body :h2.user-details](append username)
-  [:#main-menu :div.vw-menu](content (main-menu current-path))
+  [:#main-menu](content (main-menu current-path))
   [:body :div#content] (append page-content)
   [:body] (append (build-javascript javascript)))
 
