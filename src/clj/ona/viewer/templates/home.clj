@@ -13,10 +13,12 @@
          :rename {html enlive-html}] :reload))
 
 (defsnippet home-content "templates/home.html"
-   [:body :div#content]
-   [items username]
-   [:#username](content username)
-   [:#datasets-table [:tr (but first-of-type)]] nil
-   [:#datasets-table [:tr first-of-type]] (clone-for [item items]
-                                                     [:tr (nth-of-type 2) :strong] (content (:item-name item)))
-   [:#sidenav [:a first-of-type]] (set-attr :href "/dataset"))
+  [:body :div#content]
+  [items username]
+  [:#username](content username)
+  [:#datasets-table [:tr (but first-of-type)]] nil
+  [:#datasets-table [:tr first-of-type]] (clone-for [item items]
+                                                    [:tr (nth-of-type 2) :strong] (content (:item-name item))
+                                                    [:ul.submenu [:li first-of-type] :a](set-attr :href (str "dataset/"(:item-id item))))
+
+  [:#sidenav [:a first-of-type]] (set-attr :href "/dataset"))

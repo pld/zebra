@@ -15,3 +15,11 @@
 (defsnippet new-dataset "templates/dataset-new.html"
   [:body :div#content]
   [])
+
+(defsnippet show "templates/vitamin-a.html"
+  [:body :div#content]
+  [metadata dataset]
+
+  [:div.page-header [:div first-of-type] :h1](content (:title metadata))
+  [:div#sidenav [:p (nth-of-type 2)]](content (:description metadata))
+  )

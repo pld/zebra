@@ -11,9 +11,10 @@
         (api/all :fake-account) => [{:title :fake-title}])
 
       "Dataset show returns data for dataset"
-      (show :fake-account :dataset-id) => (contains (str :row))
+      (show :fake-account :dataset-id) => (contains "Some title")
       (provided
-        (api/data :fake-account :dataset-id) => [:row])
+        (api/data :fake-account :dataset-id) => [:row]
+        (api/metadata :fake-account :dataset-id) => {:title "Some title"})
 
       "Dataset new returns content for creating a dataset"
       (new-dataset :fake-account) =not=> nil)

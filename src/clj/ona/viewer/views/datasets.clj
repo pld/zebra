@@ -22,13 +22,14 @@
 (defn show
   "Show the data for a specific dataset."
   [account dataset-id]
-  (let [dataset (api/data account dataset-id)]
-    (base/dashboard-items
-      "Dataset"
+  (let [dataset (api/data account dataset-id)
+        metadata (api/metadata account dataset-id)]
+    (base/base-template
+      "/"
       (:username account)
-      (str "/dataset/" dataset-id)
-      (for [dataitem dataset]
-        {:item-id nil :item-name (str dataitem)}))))
+      (:title metadata)
+      (datasets/show metadata dataset)
+      )))
 
 (defn tags
   "View tags for a specific dataset"
