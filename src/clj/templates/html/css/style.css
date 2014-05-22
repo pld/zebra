@@ -256,7 +256,7 @@ hr{
     border-top:1px solid #CFCFCF;
     display: none;
     padding-top:2em;
-    padding-bottom:10em;
+    padding-bottom:5em;
     position: absolute;
     left: 0;
     text-align: left;
@@ -381,4 +381,19 @@ ul.submenu li a:hover{
 .btn-close:hover{
     text-decoration:none;
 	color:#606061;
+}
+
+/*tags*/
+.tag{
+    border:1px solid #CFCFCF;
+    border-radius:.3em;
+    color:#777;
+    display:inline-block;
+    margin-bottom:.3em;
+    margin-right:.3em;
+    padding:.4em .6em;
+}
+.tag:hover{
+    background:#EFEFEF;
+    cursor:pointer;
 }
