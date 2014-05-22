@@ -93,6 +93,16 @@ hr{
     padding:1em;
 }
 
+/*lists*/
+.infolist{
+    margin-left:1.5em;
+    padding-left:0;
+}
+.infolist li{
+    padding:0.1em;
+    list-style:square;
+}
+
 /*buttons*/
 .btn-success, .btn-error, .btn-warning,
 .btn-secondary {
@@ -221,7 +231,6 @@ hr{
 .tabs{
     width: auto;
     list-style: none;
-/*    margin-bottom:5em;*/
     position: relative;
     padding: 0;
 }
@@ -247,6 +256,7 @@ hr{
     border-top:1px solid #CFCFCF;
     display: none;
     padding-top:2em;
+    padding-bottom:10em;
     position: absolute;
     left: 0;
     text-align: left;
