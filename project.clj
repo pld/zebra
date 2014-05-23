@@ -8,7 +8,7 @@
                  [org.clojure/tools.logging "0.2.6"]
                  [cheshire "5.2.0"]
                  [clj-http "0.9.1"]
-                 [com.google.guava/guava "17.0"]
+                 [com.google.guava/guava "16.0"]
                  [compojure "1.1.1"]
                  [domina "1.0.2"]
                  [hiccup "1.0.0"]
@@ -20,17 +20,18 @@
              :pallet {:dependencies
                       [[com.palletops/app-deploy-crate "0.8.0-alpha.3"]
                        [com.palletops/java-crate "0.8.0-beta.6"]
-                       [com.palletops/pallet "0.8.0-RC.7"]
-                       [com.palletops/pallet-jclouds "1.7.0"]
+                       [com.palletops/pallet "0.8.0-RC.9"]
+                       [com.palletops/pallet-jclouds "1.7.3"]
                        [com.palletops/runit-crate "0.8.0-alpha.3"]
                        ;; Can be replaced with specific jcloud providers.
-                       [org.apache.jclouds/jclouds-allblobstore "1.7.1"]
-                       [org.apache.jclouds/jclouds-allcompute "1.7.1"]
-                       [org.apache.jclouds.driver/jclouds-slf4j "1.7.1"
+                       [org.apache.jclouds.provider/aws-ec2 "1.7.2"]
+                       [org.apache.jclouds.provider/aws-s3 "1.7.2"]
+;                       [org.apache.jclouds/jclouds-allcompute "1.7.2"]
+                       [org.apache.jclouds.driver/jclouds-slf4j "1.7.2"
                         ;; Exclude the declared version, which is old and
                         ;; can overrule the resolved version.
                         :exclusions [org.slf4j/slf4j-api]]
-                       [org.apache.jclouds.driver/jclouds-sshj "1.7.1"]
+                       [org.apache.jclouds.driver/jclouds-sshj "1.7.2"]
                        [ch.qos.logback/logback-classic "1.0.9"]]
                       :plugins [[com.palletops/pallet-lein "0.8.0-alpha.1"]]}
              :leiningen/reply {:dependencies
