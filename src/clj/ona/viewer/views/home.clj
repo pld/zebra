@@ -1,18 +1,26 @@
 (ns ona.viewer.views.home
-  (:use [ona.viewer.views.templates :only [dashboard-items]])
   (:require [ona.api.user :as api]
+            [ona.api.organization :as api-orgs]
             [ring.util.response :as response]
             [ona.viewer.views.accounts :as accounts]
-            [ona.viewer.views.datasets :as datasets]))
+            [ona.viewer.views.datasets :as datasets]
+            [ona.viewer.templates.base :as base]
+            [ona.viewer.templates.home :as home]))
 
 (defn dashboard
   "Render the users signed in home page."
   [account]
-  (dashboard-items "Datasets"
-                   (:username account)
-                   "dataset/"
-                   (datasets/all account)
-                   nil))
+  (let [username (:username account)
+        datasets (datasets/all account)
+        orgs (api-orgs/all account)]
+    (base/base-template
+      "/"
+      (:username account)
+      "Home"
+      orgs
+      (home/home-content
+        username
+        datasets))))
 
 (defn home-page
   "Render the signed out home page."

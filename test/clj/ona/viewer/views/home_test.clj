@@ -2,7 +2,8 @@
   (:use midje.sweet
         ona.viewer.views.home)
   (:require [ona.viewer.views.accounts :as accounts]
-            [ona.viewer.views.datasets :as datasets]))
+            [ona.viewer.views.datasets :as datasets]
+            [ona.api.organization :as api-orgs]))
 
 
 (facts "about home-page"
@@ -22,4 +23,5 @@
              account {:username username}]
          (dashboard account) => (contains username)
          (provided
-          (datasets/all account) => nil)))
+          (datasets/all account) => [{:title "Test dataset"}]
+          (api-orgs/all account) => [{:title "Test Org"}])))

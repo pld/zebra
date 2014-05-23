@@ -1,6 +1,6 @@
 (ns ona.viewer.views.accounts
-  (:use [ona.viewer.views.templates :only [base-template
-                                           login-form]])
+  (:use [ona.viewer.templates.base :only [base-template]]
+        [ona.viewer.templates.forms :only [login-form]])
   (:require [ona.api.user :as api]
             [ring.util.response :as response]))
 

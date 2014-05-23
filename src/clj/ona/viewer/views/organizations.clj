@@ -2,16 +2,17 @@
   (:use [hiccup core page]
         [ona.api.io :only [make-url]]
         [ona.viewer.views.partials :only [base]]
-        [ona.viewer.views.templates :only [dashboard-items
-                                           new-organization-form]])
+        [ona.viewer.templates.forms :only [new-organization-form]])
   (:require [ona.api.organization :as api]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [ona.viewer.templates.base :as base]
+            [ona.viewer.templates.organizations :as org-templates]))
 
 (defn all
   "Show all of the organizations for a user."
   [account]
   (let [organizations (api/all account)]
-    (dashboard-items
+    (base/dashboard-items
       "Organizations"
       (:username account)
       "organizations/"
@@ -32,11 +33,11 @@
 (defn profile
   "Retrieve the profile for an organization."
   [account org-name]
-  (let [organization (api/profile account org-name)]
-    (dashboard-items
-      (:name organization)
+  (let [organization (api/profile account org-name)
+        orgs (api/all account)]
+    (base/base-template
+      "/organizations"
       (:username account)
-      nil
-      (for [org_detail organization]
-        {:item-name (str org_detail)})
-      nil)))
+      (:name organization)
+      orgs
+      (org-templates/organization-page organization))))

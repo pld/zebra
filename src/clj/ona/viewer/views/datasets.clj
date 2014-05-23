@@ -3,37 +3,35 @@
         [ona.viewer.views.partials :only [base]]
         [ring.util.response :only [redirect-after-post]])
   (:require [ona.api.dataset :as api]
-            [ona.viewer.views.templates :as t]
+            [ona.viewer.templates.base :as base]
+            [ona.viewer.templates.forms :as forms]
+            [ona.viewer.templates.datasets :as datasets]
             [ring.util.response :as response]))
 
 (defn all
   "Return all the datasets for this account."
   [account]
-  (let [datasets (api/all account)
-        actions  [{:name "view data"}
-                  {:name "view tags" :url "tags"}
-                  {:name "download dataset" :url "download"}
-                  {:name "metadata" :url "metadata"}]]
-    (for [dataset datasets]
-      {:item-id (:formid dataset) :item-name (:title dataset) :actions actions})))
+  (let [datasets (api/all account)]
+    datasets))
 
 (defn show
   "Show the data for a specific dataset."
   [account dataset-id]
-  (let [dataset (api/data account dataset-id)]
-    (t/dashboard-items
-      "Dataset"
+  (let [dataset (api/data account dataset-id)
+        metadata (api/metadata account dataset-id)]
+    (base/base-template
+      "/"
       (:username account)
-      (str "/dataset/" dataset-id)
-      (for [dataitem dataset]
-        {:item-id nil :item-name (str dataitem)}))))
+      (:title metadata)
+      (datasets/show metadata dataset)
+      )))
 
 (defn tags
   "View tags for a specific dataset"
   [account dataset-id]
   (let [tags (api/tags account dataset-id)
-        tag-form (t/new-tag-form dataset-id)]
-    (t/dashboard-items
+        tag-form (forms/new-tag-form dataset-id)]
+    (base/dashboard-items
       "Dataset tag"
       (:username account)
       (str "/dataset/" dataset-id)
@@ -44,7 +42,8 @@
 (defn new-dataset
   "Render a page for creating a new dataset."
   [account]
-  (t/base-template "/dataset" (:username account) "New dataset" (t/new-dataset-form)))
+  (base/base-template
+    "/dataset" (:username account) "New dataset" (datasets/new-dataset)))
 
 (defn create
   "Create a new dataset."
@@ -80,8 +79,8 @@
   "View metadata for specific form"
   [account dataset-id]
   (let [metadata (api/metadata account dataset-id)
-        metadata-form (t/metadata-form dataset-id)]
-    (t/dashboard-items
+        metadata-form (forms/metadata-form dataset-id)]
+    (base/dashboard-items
       "Dataset metadata"
       (:username account)
       (str "/dataset/" dataset-id)

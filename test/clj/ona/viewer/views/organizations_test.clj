@@ -27,6 +27,7 @@
 
   (fact "profile shows organization detail"
         (let [organization :fake-organization]
-          (profile account name) => (contains (str :row))
+          (profile account name) => (contains "Fake Org")
           (provided
-            (api/profile account name) => [:row]))))
+            (api/profile account name) => {:name "Fake Org"}
+            (api/all account) => [{:name "Fake Org"}]))))
