@@ -3,3 +3,7 @@
 logs/
 resources/public/js
 target/
+.idea
+META-INF/
+lib/
+ona-viewer.iml
