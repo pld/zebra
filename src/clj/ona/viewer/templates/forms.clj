@@ -1,16 +1,6 @@
 (ns ona.viewer.templates.forms
-  (:use [net.cgrand.enlive-html :only [append
-                                       clone-for
-                                       content
-                                       defsnippet
-                                       deftemplate
-                                       do->
-                                       first-of-type
-                                       html
-                                       set-attr
-                                       nth-of-type
-                                       but]
-         :rename {html enlive-html}] :reload))
+  (:use [net.cgrand.enlive-html :only [defsnippet
+                                       set-attr]] :reload))
 
 (defsnippet login-form "templates/login.html"
   [:body :div.content :> :.signin-form]

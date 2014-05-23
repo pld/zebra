@@ -1,16 +1,8 @@
 (ns ona.viewer.templates.organizations
-  (:use [net.cgrand.enlive-html :only [append
-                                       clone-for
-                                       content
-                                       defsnippet
-                                       deftemplate
-                                       do->
+  (:use [net.cgrand.enlive-html :only [content
                                        first-of-type
-                                       html
-                                       set-attr
-                                       nth-of-type
-                                       but]
-         :rename {html enlive-html}] :reload))
+                                       defsnippet
+                                       set-attr]] :reload))
 
 (defsnippet organization-page "templates/org-profile.html"
   [:body :div#content]

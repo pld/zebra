@@ -1,18 +1,13 @@
 (ns ona.viewer.templates.home
   (:use [net.cgrand.enlive-html :only [append
-                                       clone-for
-                                       content
-                                       defsnippet
-                                       deftemplate
-                                       do->
-                                       first-of-type
-                                       html
-                                       set-attr
-                                       nth-of-type
                                        but
-                                       at]
-         :rename {html enlive-html}]
-         [ona.viewer.templates.modals :only [share-dialog]]:reload))
+                                       content
+                                       clone-for
+                                       defsnippet
+                                       first-of-type
+                                       set-attr
+                                       nth-of-type]]
+         [ona.viewer.templates.modals :only [share-dialog]] :reload))
 
 (defsnippet home-content "templates/home.html"
   [:body :div#content]

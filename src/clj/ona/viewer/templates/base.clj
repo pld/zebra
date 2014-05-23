@@ -4,12 +4,10 @@
                                        content
                                        defsnippet
                                        deftemplate
-                                       do->
                                        first-of-type
                                        html
                                        set-attr
-                                       nth-of-type
-                                       but]
+                                       nth-of-type]
          :rename {html enlive-html}] :reload)
   (:require [ona.viewer.templates.list-items :as l]))
 

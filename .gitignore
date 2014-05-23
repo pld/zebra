@@ -6,4 +6,4 @@ target/
 .idea
 META-INF/
 lib/
-ona-viewer.iml
+*.iml

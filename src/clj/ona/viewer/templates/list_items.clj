@@ -1,16 +1,9 @@
 (ns ona.viewer.templates.list-items
-  (:use [net.cgrand.enlive-html :only [append
-                                       clone-for
+  (:use [net.cgrand.enlive-html :only [clone-for
                                        content
                                        defsnippet
-                                       deftemplate
                                        do->
-                                       first-of-type
-                                       html
-                                       set-attr
-                                       nth-of-type
-                                       but]
-         :rename {html enlive-html}] :reload))
+                                       set-attr]] :reload))
 
 (defn render-actions
   "Render the actions for a list item."
