@@ -35,18 +35,9 @@
   [account org-name]
   (let [organization (api/profile account org-name)
         orgs (api/all account)]
-    ;(dashboard-items
-    ;  (:name organization)
-    ;  (:username account)
-    ;  nil
-    ;  (for [org_detail organization]
-    ;    {:item-name (str org_detail)})
-    ;  nil)
     (base/base-template
       "/organizations"
       (:username account)
       (:name organization)
       orgs
-      (org-templates/organization-page organization)
-      )
-    ))
+      (org-templates/organization-page organization))))

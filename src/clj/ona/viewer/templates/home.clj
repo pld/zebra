@@ -9,8 +9,10 @@
                                        html
                                        set-attr
                                        nth-of-type
-                                       but]
-         :rename {html enlive-html}] :reload))
+                                       but
+                                       at]
+         :rename {html enlive-html}]
+         [ona.viewer.templates.modals :only [share-dialog]]:reload))
 
 (defsnippet home-content "templates/home.html"
   [:body :div#content]
@@ -25,5 +27,7 @@
                                                    (str "dataset/" (:formid dataset)))
              [:span.rec](content (str (:num_of_submissions dataset) " records")))
 
-
-  [:#sidenav [:a first-of-type]] (set-attr :href "/dataset"))
+  ;; Set sidenav links
+  [:#sidenav [:a first-of-type]] (set-attr :href "/dataset")
+  [:#sidenav [:a (nth-of-type 2)]] (set-attr :href "/projects")
+  [:.modal-wrap](append (share-dialog)))

@@ -57,15 +57,18 @@
 
 (deftemplate render-base-template "templates/base.html"
   [current-path username title orgs page-content javascript]
+  ;; Set page title
+  [:head :title] (content title)
+  ;; Remove CSS and append from /rescources/public/css/
   [:head :link] nil
   [:head] (append (link-css ["/css/pure-min.css"
                              "/css/font-awesome.min.css"
                              "/css/style.css"]))
-  [:head :title] (content title)
-  [:body :h1.title] (content title)
-  [:body :h2.user-details](append username)
+  ;; Main Menu Items
   [:#main-menu](content (main-menu current-path orgs))
-  [:body :div#content] (append page-content)
+  ;;Page Content
+  [:body :div.content-wrap] (content page-content)
+  ;;Javascript
   [:body] (append (build-javascript javascript)))
 
 (defn base-template
