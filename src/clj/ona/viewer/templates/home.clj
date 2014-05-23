@@ -14,7 +14,7 @@
 
 (defsnippet home-content "templates/home.html"
   [:body :div#content]
-  [datasets username]
+  [username datasets]
   [:#username](content username)
   [:#datasets-table [:tr (but first-of-type)]] nil
   [:#datasets-table [:tr first-of-type]]

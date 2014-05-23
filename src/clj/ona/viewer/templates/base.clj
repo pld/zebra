@@ -39,7 +39,8 @@
 
 (defsnippet main-menu "templates/base.html"
   [:#main-menu :div.vw-menu]
-  [current-path]
+  [current-path orgs]
+  ;; Set menu items for user dropdown menu
   [:ul#menu-items [:li.menu-item first-of-type] :div.dropdown :ul.submenu [:li first-of-type]]
   (clone-for [[caption url] navigation-items]
              [:li] (if (= current-path url)
@@ -47,13 +48,15 @@
                      identity)
              [:li :a] (content caption)
              [:li :a] (set-attr :href url))
-
+  ;; Set Home, My Organization links
   [:ul#menu-items [:li (nth-of-type 2)] :a](set-attr :href "/")
-
-  )
+  [:ul#menu-items [:li (nth-of-type 3)] :div.dropdown :ul.submenu [:li (nth-of-type 2)]]
+  (clone-for [organization orgs]
+             [:li :a] (set-attr :href (str "organizations/" (:org organization)))
+             [:li :a :span.org-name] (content (:name organization))))
 
 (deftemplate render-base-template "templates/base.html"
-  [current-path username title page-content javascript]
+  [current-path username title orgs page-content javascript]
   [:head :link] nil
   [:head] (append (link-css ["/css/pure-min.css"
                              "/css/font-awesome.min.css"
@@ -61,16 +64,18 @@
   [:head :title] (content title)
   [:body :h1.title] (content title)
   [:body :h2.user-details](append username)
-  [:#main-menu](content (main-menu current-path))
+  [:#main-menu](content (main-menu current-path orgs))
   [:body :div#content] (append page-content)
   [:body] (append (build-javascript javascript)))
 
 (defn base-template
   "Defines the base template on which page content is appended using snippets"
   ([current-path username title page-content]
-   (base-template current-path username title page-content nil))
-  ([current-path username title page-content javascript]
-   (render-base-template current-path username title page-content javascript)))
+   (base-template current-path username title nil page-content nil))
+  ([current-path username title orgs page-content]
+   (base-template current-path username title orgs page-content nil))
+  ([current-path username title orgs page-content javascript]
+   (render-base-template current-path username title orgs page-content javascript)))
 
 (defn dashboard-items
   "Renders base template with page-title, username, a list of items and an optional form"
