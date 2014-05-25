@@ -1,5 +1,6 @@
 (ns ona.viewer.templates.base
   (:use [net.cgrand.enlive-html :only [append
+                                       but
                                        clone-for
                                        content
                                        defsnippet
@@ -38,6 +39,9 @@
 (defsnippet main-menu "templates/base.html"
   [:#main-menu :div.vw-menu]
   [current-path orgs]
+  ;; Remove all but 1 exsiting dropdown menu item
+  [:ul#menu-items [:li.menu-item first-of-type] :div.dropdown :ul.submenu [:li but first-of-type]]
+  nil
   ;; Set menu items for user dropdown menu
   [:ul#menu-items [:li.menu-item first-of-type] :div.dropdown :ul.submenu [:li first-of-type]]
   (clone-for [[caption url] navigation-items]
@@ -64,9 +68,9 @@
                              "/css/style.css"]))
   ;; Main Menu Items
   [:#main-menu](content (main-menu current-path orgs))
-  ;;Page Content
+  ;; Page Content
   [:body :div.content-wrap] (content page-content)
-  ;;Javascript
+  ;; Javascript
   [:body] (append (build-javascript javascript)))
 
 (defn base-template
