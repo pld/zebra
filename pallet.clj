@@ -12,7 +12,7 @@
            :image-id "us-east-1/ami-e2861d8b"}
    :location {:location-id "us-east-1a"}
    ;; TODO redirect 80 to 8080 via:
-   ;; iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+   ;; # iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
    ;; or start server on 80.
    :network {:inbound-ports [22 80 8080]}})
 
