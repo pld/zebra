@@ -75,6 +75,10 @@
        {{account :account} :session
         {name :name} :params}
        (organizations/members account name))
+  (POST "/organizations/:name/members"
+        {{account :account} :session
+         params :params}
+        (organizations/add-member account params))
 
   (route/resources "/")
   (route/not-found "Page not found"))

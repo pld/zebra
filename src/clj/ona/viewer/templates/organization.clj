@@ -34,4 +34,8 @@
   [:table.members [:tr (but first-of-type)]] nil
   [:table.members] (clone-for [member members]
                                        [:h3](content (:name member)))
-  [:a.teams] (set-attr :href (str  "/organizations/" (:org org) "/teams")))
+  [:a.teams] (set-attr :href (str  "/organizations/" (:org org) "/teams"))
+
+  [:form#adduser](set-attr :action (str "/organizations/" (:org org) "/members")
+                       :method "post")
+  [:form#adduser :#orgname](set-attr :value (:org org)))

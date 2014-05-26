@@ -21,3 +21,9 @@
 (defn members [account org-name]
   (let [url (make-url "orgs/" org-name "/members")]
     (parse-http :get url account)))
+
+(defn add-member
+  "Add user to and organization"
+  [account org-name member]
+  (let [url (make-url "org/" org-name "/members")]
+    (parse-http :post url account {:form-params member})))

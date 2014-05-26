@@ -42,4 +42,12 @@
         (members account name) => (contains "Fake Member")
         (provided
           (api/profile account name) => {:name "Fake Org"}
-          (api/members account name) => [{:name "Fake Member"}])))
+          (api/members account name) => [{:name "Fake Member"}]))
+
+  (fact "add member should add members to organization"
+        (let [member { :username "someuser"}
+               params (merge {:orgname name} member)]
+          (add-member account params) => :something
+          (provided
+            (api/add-member account name member) => :new-member
+            (members account name) => :something))))

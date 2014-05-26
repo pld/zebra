@@ -65,3 +65,12 @@
       (:name org)
       members
       (org-templates/members org members))))
+
+(defn add-member
+  "Add member to an organization"
+  [account params]
+  (let [org-name (:orgname params)
+        member {:username (:username params)}
+        added-user (api/add-member account org-name member)
+      ]
+    (members account org-name)))

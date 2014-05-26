@@ -37,4 +37,10 @@
          (members account :fake-orgname) => :something
          (provided
            (make-url "orgs/" :fake-orgname "/members") => url
-           (parse-http :get url account) => :something)))
+           (parse-http :get url account) => :something))
+
+  (facts "about add-member"
+         (add-member  account :orgname :member) => :something
+         (provided
+           (make-url "org/" :orgname "/members") => url
+           (parse-http :post url account {:form-params :member}) => :something)))
