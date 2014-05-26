@@ -21,5 +21,7 @@
 (defsnippet teams "templates/teams.html"
   [:body :div#content]
   [teams]
-  [:div.myteam] (clone-for [team teams]
+  [:div.myteams]nil
+  [:div.orgteams [:.orgteam (but first-of-type)]] nil
+  [:div.orgteams :.orgteam] (clone-for [team teams]
                            [:h3](content (:name team))))

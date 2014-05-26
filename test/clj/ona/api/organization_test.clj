@@ -27,7 +27,7 @@
 
   (facts "about teams"
          "should get correct url"
-         (teams account org-name) => :something
+         (teams account :fake-orgname) => :something
          (provided
-           (make-url "teams/" org-name) => url
+           (make-url "teams/" :fake-orgname) => url
            (parse-http :get url account) => :something)))
