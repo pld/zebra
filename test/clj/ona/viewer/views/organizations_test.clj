@@ -30,4 +30,10 @@
           (profile account name) => (contains "Fake Org")
           (provided
             (api/profile account name) => {:name "Fake Org"}
-            (api/all account) => [{:name "Fake Org"}]))))
+            (api/all account) => [{:name "Fake Org"}])))
+
+  (fact "teams shows organization teams"
+        (teams account name) => (contains "Fake Team")
+        (provided
+          (api/profile account name) => {:name "Fake Org"}
+          (api/teams account name) => [{:name "Fake Team"}])))

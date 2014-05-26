@@ -6,7 +6,7 @@
   (:require [ona.api.organization :as api]
             [clojure.string :as string]
             [ona.viewer.templates.base :as base]
-            [ona.viewer.templates.organizations :as org-templates]))
+            [ona.viewer.templates.organization :as org-templates]))
 
 (defn all
   "Show all of the organizations for a user."
@@ -40,4 +40,16 @@
       (:username account)
       (:name organization)
       orgs
-      (org-templates/organization-page organization))))
+      (org-templates/profile organization))))
+
+(defn teams
+  "Retrieve the profile for an organization."
+  [account org-name]
+  (let [organization (api/profile account org-name)
+        teams (api/teams account org-name)]
+    (base/base-template
+      "/organizations"
+      (:username account)
+      (:name organization)
+      teams
+      (org-templates/teams teams))))

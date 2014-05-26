@@ -23,4 +23,11 @@
            (parse-http :post
                        url
                        account
-                       {:form-params :data}) => :something)))
+                       {:form-params :data}) => :something))
+
+  (facts "about teams"
+         "should get correct url"
+         (teams account org-name) => :something
+         (provided
+           (make-url "teams/" org-name) => url
+           (parse-http :get url account) => :something)))

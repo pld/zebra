@@ -13,3 +13,7 @@
 (defn profile [account org-name]
   (let [url (make-url "orgs/" org-name)]
     (parse-http :get url account)))
+
+(defn teams [account org-name]
+  (let [url (make-url "teams/" org-name)]
+    (parse-http :get url account)))
