@@ -71,6 +71,10 @@
        {{account :account} :session
         {name :name} :params}
        (organizations/teams account name))
+  (GET "/organizations/:name/members"
+       {{account :account} :session
+        {name :name} :params}
+       (organizations/members account name))
 
   (route/resources "/")
   (route/not-found "Page not found"))

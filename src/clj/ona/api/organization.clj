@@ -17,3 +17,7 @@
 (defn teams [account org-name]
   (let [url (make-url "teams/" org-name)]
     (parse-http :get url account)))
+
+(defn members [account org-name]
+  (let [url (make-url "orgs/" org-name "/members")]
+    (parse-http :get url account)))

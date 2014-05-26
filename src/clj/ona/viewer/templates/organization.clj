@@ -15,13 +15,23 @@
   [:div.org-details :> :span.country] (content (:country organization))
   [:div.org-details :a.org-url] (content (:url organization))
   [:div.org-details :a.org-url] (set-attr :href (:url organization))
-  [:div.org-details :h4.teams :a] (set-attr :href (str (:org organization) "/teams")))
+  [:div.org-details :a.members] (set-attr :href (str  "/organizations/" (:org organization) "/members"))
+  [:div.org-details :a.teams] (set-attr :href (str  "/organizations/" (:org organization) "/teams")))
 
 
 (defsnippet teams "templates/teams.html"
   [:body :div#content]
-  [teams]
+  [org teams]
   [:div.myteams]nil
   [:div.orgteams [:.orgteam (but first-of-type)]] nil
   [:div.orgteams :.orgteam] (clone-for [team teams]
-                           [:h3](content (:name team))))
+                           [:h3](content (:name team)))
+  [:a.members] (set-attr :href (str "/organizations/" (:org org) "/members")))
+
+(defsnippet members "templates/members.html"
+  [:body :div#content]
+  [org members]
+  [:table.members [:tr (but first-of-type)]] nil
+  [:table.members] (clone-for [member members]
+                                       [:h3](content (:name member)))
+  [:a.teams] (set-attr :href (str  "/organizations/" (:org org) "/teams")))
