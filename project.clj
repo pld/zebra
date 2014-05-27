@@ -27,7 +27,6 @@
                        ;; Can be replaced with specific jcloud providers.
                        [org.apache.jclouds.provider/aws-ec2 "1.7.2"]
                        [org.apache.jclouds.provider/aws-s3 "1.7.2"]
-;                       [org.apache.jclouds/jclouds-allcompute "1.7.2"]
                        [org.apache.jclouds.driver/jclouds-slf4j "1.7.2"
                         ;; Exclude the declared version, which is old and
                         ;; can overrule the resolved version.
