@@ -8,15 +8,18 @@
 
 (defsnippet profile "templates/org-profile.html"
   [:body :div#content]
-  [organization]
+  [org-details]
+
   ;; Set organizaion details
-  [:div.org-details [:h4 first-of-type]] (content (:name organization))
-  [:div.org-details :> :span.city] (content (:city organization))
-  [:div.org-details :> :span.country] (content (:country organization))
-  [:div.org-details :a.org-url] (content (:url organization))
-  [:div.org-details :a.org-url] (set-attr :href (:url organization))
-  [:div.org-details :a.members] (set-attr :href (str  "/organizations/" (:org organization) "/members"))
-  [:div.org-details :a.teams] (set-attr :href (str  "/organizations/" (:org organization) "/teams")))
+  [:div.org-details [:h4 first-of-type]] (content (:name (:org org-details)))
+  [:div.org-details :> :span.city] (content (:city (:org org-details)))
+  [:div.org-details :> :span.country] (content (:country (:org org-details)))
+  [:div.org-details :a.org-url] (content (:url (:org org-details)))
+  [:div.org-details :a.org-url] (set-attr :href (:url (:org org-details)))
+  [:div.org-details :a.members] (content (str "Members (" (count(:teams org-details)) ")"))
+  [:div.org-details :a.members] (set-attr :href (str  "/organizations/" (:org (:org org-details)) "/members"))
+  [:div.org-details :a.teams] (content (str "Teams (" (count(:members org-details)) ")"))
+  [:div.org-details :a.teams] (set-attr :href (str  "/organizations/" (:org (:org org-details)) "/teams")))
 
 
 (defsnippet teams "templates/teams.html"

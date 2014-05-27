@@ -30,19 +30,23 @@
           (profile account name) => (contains "Fake Org")
           (provided
             (api/profile account name) => {:name "Fake Org"}
+            (api/teams account name) => [{:name "Fake Team"}]
+            (api/members account name) => [{:name "Fake Member"}]
             (api/all account) => [{:name "Fake Org"}])))
 
   (fact "teams shows organization teams"
         (teams account name) => (contains "Fake Team")
         (provided
           (api/profile account name) => {:name "Fake Org"}
-          (api/teams account name) => [{:name "Fake Team"}]))
+          (api/teams account name) => [{:name "Fake Team"}]
+          (api/all account) => [{:name "Fake Org"}]))
 
   (fact "members shows organization members"
         (members account name) => (contains "Fake Member")
         (provided
           (api/profile account name) => {:name "Fake Org"}
-          (api/members account name) => [{:name "Fake Member"}]))
+          (api/members account name) => ["Fake Member"]
+          (api/all account) => [{:name "Fake Org"}]))
 
   (fact "add member should add members to organization"
         (let [member { :username "someuser"}

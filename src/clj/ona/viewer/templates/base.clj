@@ -57,7 +57,7 @@
   [:ul#menu-items [:li (nth-of-type 2)] :a](set-attr :href "/")
   [:ul#menu-items [:li (nth-of-type 3)] :div.dropdown :ul.submenu [:li (nth-of-type 2)]]
   (clone-for [organization orgs]
-             [:li :a] (set-attr :href (str "organizations/" (:org organization)))
+             [:li :a] (set-attr :href (str "/organizations/" (:org organization)))
              [:li :a :span.org-name] (content (:name organization))))
 
 (deftemplate render-base-template "templates/base.html"

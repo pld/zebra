@@ -34,36 +34,41 @@
   "Retrieve the profile for an organization."
   [account org-name]
   (let [org (api/profile account org-name)
+        orgs (api/all account)
+        teams (api/teams account org-name)
+        members (api/members account org-name)
+        org-details {:org org :orgs orgs, :members members :teams teams}]
+    (base/base-template
+      "/organizations"
+      (:username account)
+      (:name org)
+      orgs
+      (org-templates/profile org-details))))
+
+(defn teams
+  "Retrieve the team for an organization."
+  [account org-name]
+  (let [org (api/profile account org-name)
+        teams (api/teams account org-name)
         orgs (api/all account)]
     (base/base-template
       "/organizations"
       (:username account)
       (:name org)
       orgs
-      (org-templates/profile org))))
-
-(defn teams
-  "Retrieve the team for an organization."
-  [account org-name]
-  (let [org (api/profile account org-name)
-        teams (api/teams account org-name)]
-    (base/base-template
-      "/organizations"
-      (:username account)
-      (:name org)
-      teams
       (org-templates/teams org teams))))
 
 (defn members
   "Retrieve the members for an organization."
   [account org-name]
   (let [org (api/profile account org-name)
-        members (api/members account org-name)]
+        members (api/members account org-name)
+        orgs (api/all account)]
     (base/base-template
       "/organizations"
       (:username account)
       (:name org)
-      members
+      orgs
       (org-templates/members org members))))
 
 (defn add-member
