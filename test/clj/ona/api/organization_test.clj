@@ -42,5 +42,5 @@
   (facts "about add-member"
          (add-member  account :orgname :member) => :something
          (provided
-           (make-url "org/" :orgname "/members") => url
+           (make-url "orgs/" :orgname "/members") => url
            (parse-http :post url account {:form-params :member}) => :something)))
