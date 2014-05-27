@@ -58,6 +58,26 @@
       orgs
       (org-templates/teams org teams))))
 
+(defn new-team
+  "Show new-team form for organization."
+  [account org-name]
+  (let [org (api/profile account org-name)
+        orgs (api/all account)]
+    (base/base-template
+      "/organizations"
+      (:username account)
+      (:name org)
+      orgs
+      (org-templates/new-team org))))
+
+(defn create-team
+  "Create a new team"
+  [account params]
+  (let [org-name (:organization params)
+        team {:name (:name params) :organization (:organization params)}
+        added-team (api/create-team account team)]
+    (teams account org-name)))
+
 (defn members
   "Retrieve the members for an organization."
   [account org-name]
@@ -76,6 +96,5 @@
   [account params]
   (let [org-name (:orgname params)
         member {:username (:username params)}
-        added-user (api/add-member account org-name member)
-      ]
+        added-user (api/add-member account org-name member)]
     (members account org-name)))

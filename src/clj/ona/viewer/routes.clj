@@ -71,6 +71,14 @@
        {{account :account} :session
         {name :name} :params}
        (organizations/teams account name))
+  (GET "/organizations/:name/new-team"
+       {{account :account} :session
+        {name :name} :params}
+       (organizations/new-team account name))
+  (POST "/organizations/:name/new-team"
+        {{account :account} :session
+         params :params}
+        (organizations/create-team account params))
   (GET "/organizations/:name/members"
        {{account :account} :session
         {name :name} :params}
