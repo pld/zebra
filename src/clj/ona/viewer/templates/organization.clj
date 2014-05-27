@@ -16,10 +16,18 @@
   [:div.org-details :> :span.country] (content (:country (:org org-details)))
   [:div.org-details :a.org-url] (content (:url (:org org-details)))
   [:div.org-details :a.org-url] (set-attr :href (:url (:org org-details)))
+  ;; Set Member details
   [:div.org-details :a.members] (content (str "Members (" (count(:teams org-details)) ")"))
   [:div.org-details :a.members] (set-attr :href (str  "/organizations/" (:org (:org org-details)) "/members"))
+  [:div.org-details :ul.members [:li (but first-of-type)]] nil
+  [:div.org-details :ul.members [:li first-of-type]](clone-for [team (:members org-details)]
+                                                                  [:li] (content team))
+  ;; Set Team details
   [:div.org-details :a.teams] (content (str "Teams (" (count(:members org-details)) ")"))
-  [:div.org-details :a.teams] (set-attr :href (str  "/organizations/" (:org (:org org-details)) "/teams")))
+  [:div.org-details :a.teams] (set-attr :href (str  "/organizations/" (:org (:org org-details)) "/teams"))
+  [:div.org-details :ul.teams [:li (but first-of-type)]] nil
+  [:div.org-details :ul.teams [:li first-of-type]](clone-for [team (:teams org-details)]
+                                                               [:li] (content (:name team))))
 
 
 (defsnippet teams "templates/teams.html"
