@@ -23,4 +23,30 @@
            (parse-http :post
                        url
                        account
-                       {:form-params :data}) => :something)))
+                       {:form-params :data}) => :something))
+
+  (facts "about teams"
+         "should get correct url"
+         (teams account :fake-orgname) => :something
+         (provided
+           (make-url "teams/" :fake-orgname) => url
+           (parse-http :get url account) => :something))
+
+  (facts "about create-team"
+         (create-team  account :params) => :something
+         (provided
+           (make-url "teams") => url
+           (parse-http :post url account {:form-params :params}) => :something))
+
+  (facts "about members"
+         "should get correct url"
+         (members account :fake-orgname) => :something
+         (provided
+           (make-url "orgs/" :fake-orgname "/members") => url
+           (parse-http :get url account) => :something))
+
+  (facts "about add-member"
+         (add-member  account :orgname :member) => :something
+         (provided
+           (make-url "orgs/" :orgname "/members") => url
+           (parse-http :post url account {:form-params :member}) => :something)))

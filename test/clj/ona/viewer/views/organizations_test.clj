@@ -30,4 +30,41 @@
           (profile account name) => (contains "Fake Org")
           (provided
             (api/profile account name) => {:name "Fake Org"}
-            (api/all account) => [{:name "Fake Org"}]))))
+            (api/teams account name) => [{:name "Fake Team"}]
+            (api/members account name) => [{:name "Fake Member"}]
+            (api/all account) => [{:name "Fake Org"}])))
+
+  (fact "teams shows organization teams"
+        (teams account name) => (contains "Fake Team")
+        (provided
+          (api/profile account name) => {:name "Fake Org"}
+          (api/teams account name) => [{:name "Fake Team"}]
+          (api/all account) => [{:name "Fake Org"}]))
+
+  (fact "new-team shows new team form"
+        (new-team account name) => (contains "Create team")
+        (provided
+          (api/profile account name) => {:name "Fake Org"}
+          (api/all account) => [{:name "Fake Org"}]))
+
+  (fact "create-team should create new team and show new team details"
+        (let [params {:name "new fake team" :organization name}]
+            (create-team account params) => :updated-teamlist
+              (provided
+                (api/create-team account params) => :new-team
+                (teams account name) => :updated-teamlist)))
+
+  (fact "members shows organization members"
+        (members account name) => (contains "Fake Member")
+        (provided
+          (api/profile account name) => {:name "Fake Org"}
+          (api/members account name) => ["Fake Member"]
+          (api/all account) => [{:name "Fake Org"}]))
+
+  (fact "add-member should add members to organization"
+        (let [member { :username "someuser"}
+               params (merge {:orgname name} member)]
+          (add-member account params) => :something
+          (provided
+            (api/add-member account name member) => :new-member
+            (members account name) => :something))))

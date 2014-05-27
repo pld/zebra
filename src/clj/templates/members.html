@@ -40,10 +40,10 @@
     </div>
 </div>
 
-<div class="container">
+<div id="content" class="container">
     <h3 class="pure-g-r teambar">
         <span class="pure-u-1-6">
-            <a href="teams.html">Teams (4)</a>
+            <a href="teams.html" class="teams">Teams (4)</a>
         </span>
         
         <span class="pure-u-1-6">
@@ -56,18 +56,19 @@
     </h3>
 
     <div>
-        <form class="pure-form">
-            <input type="text" name="search"/>
-            <a href="#" class="pure-button">Add Member</a>
+        <form id="adduser" class="pure-form" >
+            <input id="orgname" type="hidden" name="orgname">
+            <input type="text" name="username">
+            <input class="pure-button" type="submit" value="Add Member">
         </form>
     </div>
     
     <div class="row">
-        <table class="pure-table pure-table-horizontal">
+        <table class="pure-table pure-table-horizontal members">
         <tr>
             <td>
-            	<span class="">angang</span><br/>
-                <span class="">Angela</span>
+            	<span class="username">angang</span><br/>
+                <span class="name">Angela</span>
             </td>
             <td><a href="#">12 datasets, 15 forms</a></td>
             <td>1 team</td>

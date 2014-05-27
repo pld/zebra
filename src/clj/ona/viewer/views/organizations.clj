@@ -6,7 +6,7 @@
   (:require [ona.api.organization :as api]
             [clojure.string :as string]
             [ona.viewer.templates.base :as base]
-            [ona.viewer.templates.organizations :as org-templates]))
+            [ona.viewer.templates.organization :as org-templates]))
 
 (defn all
   "Show all of the organizations for a user."
@@ -33,11 +33,67 @@
 (defn profile
   "Retrieve the profile for an organization."
   [account org-name]
-  (let [organization (api/profile account org-name)
+  (let [org (api/profile account org-name)
+        orgs (api/all account)
+        teams (api/teams account org-name)
+        members (api/members account org-name)
+        org-details {:org org :orgs orgs, :members members :teams teams}]
+    (base/base-template
+      "/organizations"
+      (:username account)
+      (:name org)
+      orgs
+      (org-templates/profile org-details))))
+
+(defn teams
+  "Retrieve the team for an organization."
+  [account org-name]
+  (let [org (api/profile account org-name)
+        teams (api/teams account org-name)
         orgs (api/all account)]
     (base/base-template
       "/organizations"
       (:username account)
-      (:name organization)
+      (:name org)
       orgs
-      (org-templates/organization-page organization))))
+      (org-templates/teams org teams))))
+
+(defn new-team
+  "Show new-team form for organization."
+  [account org-name]
+  (let [org (api/profile account org-name)
+        orgs (api/all account)]
+    (base/base-template
+      "/organizations"
+      (:username account)
+      (:name org)
+      orgs
+      (org-templates/new-team org))))
+
+(defn create-team
+  "Create a new team"
+  [account params]
+  (let [org-name (:organization params)
+        added-team (api/create-team account params)]
+    (teams account org-name)))
+
+(defn members
+  "Retrieve the members for an organization."
+  [account org-name]
+  (let [org (api/profile account org-name)
+        members (api/members account org-name)
+        orgs (api/all account)]
+    (base/base-template
+      "/organizations"
+      (:username account)
+      (:name org)
+      orgs
+      (org-templates/members org members))))
+
+(defn add-member
+  "Add member to an organization"
+  [account params]
+  (let [org-name (:orgname params)
+        member {:username (:username params)}
+        added-user (api/add-member account org-name member)]
+    (members account org-name)))

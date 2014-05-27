@@ -67,6 +67,27 @@
        {{account :account} :session
         {name :name} :params}
        (organizations/profile account name))
+  (GET "/organizations/:name/teams"
+       {{account :account} :session
+        {name :name} :params}
+       (organizations/teams account name))
+  (GET "/organizations/:name/new-team"
+       {{account :account} :session
+        {name :name} :params}
+       (organizations/new-team account name))
+  (POST "/organizations/:orgname/new-team"
+        {{account :account} :session
+         params :params}
+        (organizations/create-team account params))
+  (GET "/organizations/:name/members"
+       {{account :account} :session
+        {name :name} :params}
+       (organizations/members account name))
+  (POST "/organizations/:name/members"
+        {{account :account} :session
+         params :params}
+        (organizations/add-member account params))
+
   (route/resources "/")
   (route/not-found "Page not found"))
 
