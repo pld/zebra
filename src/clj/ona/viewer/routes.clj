@@ -75,7 +75,7 @@
        {{account :account} :session
         {name :name} :params}
        (organizations/new-team account name))
-  (POST "/organizations/:name/new-team"
+  (POST "/organizations/:orgname/new-team"
         {{account :account} :session
          params :params}
         (organizations/create-team account params))

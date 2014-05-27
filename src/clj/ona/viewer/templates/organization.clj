@@ -37,7 +37,8 @@
   [:div.orgteams [:.orgteam (but first-of-type)]] nil
   [:div.orgteams :.orgteam] (clone-for [team teams]
                            [:h3](content (:name team)))
-  [:a.members] (set-attr :href (str "/organizations/" (:org org) "/members")))
+  [:a.members] (set-attr :href (str "/organizations/" (:org org) "/members"))
+  [:a.new-team](set-attr :href (str "/organizations/" (:org org) "/new-team")))
 
 (defsnippet new-team "templates/new-team.html"
   [:body :div#content]

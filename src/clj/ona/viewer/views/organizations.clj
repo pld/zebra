@@ -74,8 +74,7 @@
   "Create a new team"
   [account params]
   (let [org-name (:organization params)
-        team {:name (:name params) :organization (:organization params)}
-        added-team (api/create-team account team)]
+        added-team (api/create-team account params)]
     (teams account org-name)))
 
 (defn members
