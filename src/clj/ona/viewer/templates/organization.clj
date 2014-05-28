@@ -35,8 +35,9 @@
 [org members]
 [:tbody [:tr (but first-of-type)]] nil
 [:tbody [:tr first-of-type]] (clone-for [member members]
-                               [:span.name](content member)
-                               [:span.username](content member)))
+                               [:span.name](content (:username member))
+                               [:span.username](content (:username member))
+                               [:td :a] (content (str (:no-of-forms member) " forms"))))
 
 (defsnippet teams "templates/teams.html"
   [:body :div#content]
@@ -58,13 +59,13 @@
 
 (defsnippet team-info "templates/team-info.html"
   [:body :div#content]
-  [org team-id team-info team-members]
-  [:.team-name] (content (:name team-info))
-  [:div.members] (content (members-table org team-members))
-  [:form#add-user] (do-> (set-attr :action (str "/organizations/" (:org org) "/teams/" team-id))
+  [org team-data]
+  [:.team-name] (content (:name (:team-info team-data)))
+  [:div.members] (content (members-table org (:members-info team-data)))
+  [:form#add-user] (do-> (set-attr :action (str "/organizations/" (:org org) "/teams/" (:team-id team-data)))
                          (set-attr :method "post"))
   [:form#add-user :input#org](set-attr :value (:org org))
-  [:form#add-user :input#teamid](set-attr :value team-id))
+  [:form#add-user :input#teamid](set-attr :value (:team-id team-data)))
 
 (defsnippet new-team "templates/new-team.html"
   [:body :div#content]

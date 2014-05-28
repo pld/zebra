@@ -4,6 +4,7 @@
         [ona.viewer.views.partials :only [base]]
         [ona.viewer.templates.forms :only [new-organization-form]])
   (:require [ona.api.organization :as api]
+            [ona.api.dataset :as api-datasets]
             [clojure.string :as string]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.organization :as org-templates]))
@@ -64,13 +65,19 @@
   (let [org (api/profile account org-name)
         team-info (api/team-info account org-name team-id)
         team-members (api/team-members account org-name team-id)
+        members-info (for [user team-members]
+                       {:username user
+                        :no-of-forms (count (api-datasets/public account user))})
+        team-data {:team-id team-id
+                   :team-info team-info
+                   :members-info members-info}
         orgs (api/all account)]
     (base/base-template
       "/organizations"
       (:username account)
       (:name org)
       orgs
-      (org-templates/team-info org team-id team-info team-members))))
+      (org-templates/team-info org team-data))))
 
 (defn new-team
   "Show new-team form for organization."
@@ -105,13 +112,16 @@
   [account org-name]
   (let [org (api/profile account org-name)
         members (api/members account org-name)
+        members-info (for [user members]
+                       {:username user
+                        :no-of-forms (count (api-datasets/public account user))})
         orgs (api/all account)]
     (base/base-template
       "/organizations"
       (:username account)
       (:name org)
       orgs
-      (org-templates/members org members))))
+      (org-templates/members org members-info))))
 
 (defn add-member
   "Add member to an organization"

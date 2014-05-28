@@ -75,7 +75,7 @@
        {{account :account} :session
         {name :name
          team-id :team-id} :params}
-       (organizations/team-info account name, team-id))
+       (organizations/team-info account name team-id))
   (POST "/organizations/:name/teams/:team-id"
        {{account :account} :session
         params :params}

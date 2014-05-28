@@ -2,7 +2,8 @@
   (:use midje.sweet
         ona.viewer.views.organizations
         [ona.api.io :only [make-url]])
-  (:require [ona.api.organization :as api]))
+  (:require [ona.api.organization :as api]
+            [ona.api.dataset :as api-dataset]))
 
 (let [name "fake-org-name"
       fake-organization {:name name}
@@ -47,6 +48,7 @@
           (api/profile account name) => {:name "Fake Org"}
           (api/team-info account name :team-id) => {:name "Fake Team"}
           (api/team-members account name :team-id) => ["member"]
+          (api-dataset/public account "member") => [:fake-forms]
           (api/all account) => [{:name "Fake Org"}]))
 
   (fact "new-team shows new team form"
@@ -75,6 +77,7 @@
         (provided
           (api/profile account name) => {:name "Fake Org"}
           (api/members account name) => ["Fake Member"]
+          (api-dataset/public account "Fake Member") => [:fake-forms]
           (api/all account) => [{:name "Fake Org"}]))
 
   (fact "add-member should add members to organization"
