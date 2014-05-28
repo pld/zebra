@@ -29,3 +29,7 @@
   [dataset-id]
   [:form](set-attr :action (str "/dataset/" dataset-id "/metadata"))
   [:form :#dataset-id](set-attr :value dataset-id))
+
+(defsnippet sign-up-form "templates/sign-up.html"
+  [:body :div#content]
+  [])
