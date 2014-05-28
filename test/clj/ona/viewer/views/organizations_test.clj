@@ -42,10 +42,11 @@
           (api/all account) => [{:name "Fake Org"}]))
 
   (fact "team-info shows info for a specific team"
-        (team-info account name :team-id) => (contains "Fake Team")
+        (team-info account name :team-id) => (contains "Fake Team" "member" :gaps-ok)
         (provided
           (api/profile account name) => {:name "Fake Org"}
           (api/team-info account name :team-id) => {:name "Fake Team"}
+          (api/team-members account name :team-id) => ["member"]
           (api/all account) => [{:name "Fake Org"}]))
 
   (fact "new-team shows new team form"
