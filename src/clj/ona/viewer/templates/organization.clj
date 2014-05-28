@@ -37,9 +37,26 @@
   [:div.myteams] nil
   [:div.orgteams [:.orgteam (but first-of-type)]] nil
   [:div.orgteams :.orgteam] (clone-for [team teams]
-                           [:h3](content (:name team)))
+                              [:h3 :a.team-name](do->
+                                                  (content (:name team))
+                                                  (set-attr
+                                                    :href
+                                                    (str
+                                                      "/organizations/"
+                                                      (:org org)
+                                                      "/teams/"
+                                                      (last(clojure.string/split (str (:url team)) #"/"))))))
   [:a.members] (set-attr :href (str "/organizations/" (:org org) "/members"))
   [:a.new-team](set-attr :href (str "/organizations/" (:org org) "/new-team")))
+
+(defsnippet team-info "templates/team-info.html"
+  [:body :div#content]
+  [org team-id team-info]
+  [:.team-name](content (:name team-info))
+  [:form#add-user] (do-> (set-attr :action (str "/organizations/" (:org org) "/teams/" team-id))
+                         (set-attr :method "post"))
+  [:form#add-user :input#org](set-attr :value (:org org))
+  [:form#add-user :input#team-id](set-attr :value team-id))
 
 (defsnippet new-team "templates/new-team.html"
   [:body :div#content]

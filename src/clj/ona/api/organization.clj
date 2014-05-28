@@ -18,6 +18,10 @@
   (let [url (make-url "teams/" org-name)]
     (parse-http :get url account)))
 
+(defn team-info [account org-name team-id]
+  (let [url (make-url "teams/" org-name "/" team-id)]
+    (parse-http :get url account)))
+
 (defn create-team
   "Add a team to an organization"
   [account params]

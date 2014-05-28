@@ -71,6 +71,11 @@
        {{account :account} :session
         {name :name} :params}
        (organizations/teams account name))
+  (GET "/organizations/:name/teams/:team-id"
+       {{account :account} :session
+        {name :name
+         team-id :team-id} :params}
+       (organizations/team-info account name, team-id))
   (GET "/organizations/:name/new-team"
        {{account :account} :session
         {name :name} :params}

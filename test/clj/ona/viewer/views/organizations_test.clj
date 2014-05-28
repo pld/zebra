@@ -41,6 +41,13 @@
           (api/teams account name) => [{:name "Fake Team"}]
           (api/all account) => [{:name "Fake Org"}]))
 
+  (fact "team-info shows info for a specific team"
+        (team-info account name :team-id) => (contains "Fake Team")
+        (provided
+          (api/profile account name) => {:name "Fake Org"}
+          (api/team-info account name :team-id) => {:name "Fake Team"}
+          (api/all account) => [{:name "Fake Org"}]))
+
   (fact "new-team shows new team form"
         (new-team account name) => (contains "Create team")
         (provided

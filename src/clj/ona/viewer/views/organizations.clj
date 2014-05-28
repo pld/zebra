@@ -58,6 +58,19 @@
       orgs
       (org-templates/teams org teams))))
 
+(defn team-info
+  "Retrieve team-info for a specific team."
+  [account org-name team-id]
+  (let [org (api/profile account org-name)
+        team-info (api/team-info account org-name team-id)
+        orgs (api/all account)]
+    (base/base-template
+      "/organizations"
+      (:username account)
+      (:name org)
+      orgs
+      (org-templates/team-info org team-id team-info))))
+
 (defn new-team
   "Show new-team form for organization."
   [account org-name]

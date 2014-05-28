@@ -32,6 +32,13 @@
            (make-url "teams/" :fake-orgname) => url
            (parse-http :get url account) => :something))
 
+  (facts "about team-info"
+         "should get correct url"
+         (team-info account :fake-orgname :fake-team-id) => :something
+         (provided
+           (make-url "teams/" :fake-orgname "/":fake-team-id) => url
+           (parse-http :get url account) => :something))
+
   (facts "about create-team"
          (create-team  account :params) => :something
          (provided
