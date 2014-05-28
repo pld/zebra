@@ -62,6 +62,14 @@
                 (api/create-team account params) => :new-team
                 (teams account name) => :updated-teamlist)))
 
+  (fact "add-team member should add a user to a team"
+        (let [user { :username "someuser" :organization name}
+              params (merge {:org name :teamid 1} user)]
+          (add-team-member account params) => :something
+          (provided
+            (api/add-team-member account name 1 user) => :new-member
+            (team-info account name 1) => :something)))
+
   (fact "members shows organization members"
         (members account name) => (contains "Fake Member")
         (provided

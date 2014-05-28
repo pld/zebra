@@ -64,7 +64,7 @@
   [:form#add-user] (do-> (set-attr :action (str "/organizations/" (:org org) "/teams/" team-id))
                          (set-attr :method "post"))
   [:form#add-user :input#org](set-attr :value (:org org))
-  [:form#add-user :input#team-id](set-attr :value team-id))
+  [:form#add-user :input#teamid](set-attr :value team-id))
 
 (defsnippet new-team "templates/new-team.html"
   [:body :div#content]

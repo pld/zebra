@@ -32,6 +32,12 @@
   (let [url (make-url "teams")]
     (parse-http :post url account {:form-params params})))
 
+(defn add-team-member
+  "Add a user to a team"
+  [account org-name team-id user]
+  (let [url (make-url "teams/" org-name "/" team-id "/members")]
+    (parse-http :post url account {:form-params user})))
+
 (defn members [account org-name]
   (let [url (make-url "orgs/" org-name "/members")]
     (parse-http :get url account)))

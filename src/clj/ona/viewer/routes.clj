@@ -76,6 +76,10 @@
         {name :name
          team-id :team-id} :params}
        (organizations/team-info account name, team-id))
+  (POST "/organizations/:name/teams/:team-id"
+       {{account :account} :session
+        params :params}
+       (organizations/add-team-member account params))
   (GET "/organizations/:name/new-team"
        {{account :account} :session
         {name :name} :params}
