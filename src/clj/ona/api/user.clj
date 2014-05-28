@@ -1,5 +1,5 @@
 (ns ona.api.user
-  (:use [ona.api.io :only [auth_token make-url parse-http]]))
+  (:use [ona.api.io :only [make-url parse-http]]))
 
 (defn profile [account]
   (let [username (:username account)
