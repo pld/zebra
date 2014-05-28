@@ -14,6 +14,5 @@
                  :password password
                  :password2 password2}
         url (make-url "profiles")
-        data {:form-params profile
-              :headers {"Authorization" (str "Token " auth_token)}}]
+        data {:form-params profile}]
     (parse-http :post url nil data)))
