@@ -2,7 +2,8 @@
   (:use midje.sweet
         ona.viewer.views.organizations
         [ona.api.io :only [make-url]])
-  (:require [ona.api.organization :as api]))
+  (:require [ona.api.organization :as api]
+            [ona.api.dataset :as api-dataset]))
 
 (let [name "fake-org-name"
       fake-organization {:name name}
@@ -41,6 +42,15 @@
           (api/teams account name) => [{:name "Fake Team"}]
           (api/all account) => [{:name "Fake Org"}]))
 
+  (fact "team-info shows info for a specific team"
+        (team-info account name :team-id) => (contains "Fake Team" "member" :gaps-ok)
+        (provided
+          (api/profile account name) => {:name "Fake Org"}
+          (api/team-info account name :team-id) => {:name "Fake Team"}
+          (api/team-members account name :team-id) => ["member"]
+          (api-dataset/public account "member") => [:fake-forms]
+          (api/all account) => [{:name "Fake Org"}]))
+
   (fact "new-team shows new team form"
         (new-team account name) => (contains "Create team")
         (provided
@@ -54,11 +64,20 @@
                 (api/create-team account params) => :new-team
                 (teams account name) => :updated-teamlist)))
 
+  (fact "add-team member should add a user to a team"
+        (let [user { :username "someuser" :organization name}
+              params (merge {:org name :teamid 1} user)]
+          (add-team-member account params) => :something
+          (provided
+            (api/add-team-member account name 1 user) => :new-member
+            (team-info account name 1) => :something)))
+
   (fact "members shows organization members"
         (members account name) => (contains "Fake Member")
         (provided
           (api/profile account name) => {:name "Fake Org"}
           (api/members account name) => ["Fake Member"]
+          (api-dataset/public account "Fake Member") => [:fake-forms]
           (api/all account) => [{:name "Fake Org"}]))
 
   (fact "add-member should add members to organization"

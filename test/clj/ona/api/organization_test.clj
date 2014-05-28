@@ -32,11 +32,31 @@
            (make-url "teams/" :fake-orgname) => url
            (parse-http :get url account) => :something))
 
+  (facts "about team-info"
+         "should get correct url"
+         (team-info account :fake-orgname :fake-team-id) => :something
+         (provided
+           (make-url "teams/" :fake-orgname "/":fake-team-id) => url
+           (parse-http :get url account) => :something))
+
+  (facts "about team-members"
+         "should get correct url"
+         (team-members account :fake-orgname :fake-team-id) => :something
+         (provided
+           (make-url "teams/" :fake-orgname "/" :fake-team-id "/members") => url
+           (parse-http :get url account) => :something))
+
   (facts "about create-team"
          (create-team  account :params) => :something
          (provided
            (make-url "teams") => url
            (parse-http :post url account {:form-params :params}) => :something))
+
+  (facts "about add-team-member"
+         (add-team-member  account :fake-orgname :fake-team-id :user) => :something
+         (provided
+           (make-url "teams/" :fake-orgname "/" :fake-team-id "/members") => url
+           (parse-http :post url account {:form-params :user}) => :something))
 
   (facts "about members"
          "should get correct url"

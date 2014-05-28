@@ -17,6 +17,12 @@
   (let [url (make-url "forms")]
     (parse-http :get url account)))
 
+(defn public
+  "Return all public datasets for a specific user."
+  [account username]
+  (let [url (make-url "forms/" username)]
+    (parse-http :get url account)))
+
 (defn create
   "Create a new dataset from a file."
   [account uploaded-file]

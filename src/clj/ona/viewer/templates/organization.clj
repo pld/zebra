@@ -30,6 +30,14 @@
   [:div.org-details :ul.teams [:li first-of-type]](clone-for [team (:teams org-details)]
                                                                [:li] (content (:name team))))
 
+(defsnippet members-table "templates/members.html"
+[:table.members]
+[org members]
+[:tbody [:tr (but first-of-type)]] nil
+[:tbody [:tr first-of-type]] (clone-for [member members]
+                               [:span.name](content (:username member))
+                               [:span.username](content (:username member))
+                               [:td :a] (content (str (:no-of-forms member) " forms"))))
 
 (defsnippet teams "templates/teams.html"
   [:body :div#content]
@@ -37,9 +45,27 @@
   [:div.myteams] nil
   [:div.orgteams [:.orgteam (but first-of-type)]] nil
   [:div.orgteams :.orgteam] (clone-for [team teams]
-                           [:h3](content (:name team)))
+                              [:h3 :a.team-name](do->
+                                                  (content (:name team))
+                                                  (set-attr
+                                                    :href
+                                                    (str
+                                                      "/organizations/"
+                                                      (:org org)
+                                                      "/teams/"
+                                                      (last (clojure.string/split (str (:url team)) #"/"))))))
   [:a.members] (set-attr :href (str "/organizations/" (:org org) "/members"))
-  [:a.new-team](set-attr :href (str "/organizations/" (:org org) "/new-team")))
+  [:a.new-team] (set-attr :href (str "/organizations/" (:org org) "/new-team")))
+
+(defsnippet team-info "templates/team-info.html"
+  [:body :div#content]
+  [org team-data]
+  [:.team-name] (content (:name (:team-info team-data)))
+  [:div.members] (content (members-table org (:members-info team-data)))
+  [:form#add-user] (do-> (set-attr :action (str "/organizations/" (:org org) "/teams/" (:team-id team-data)))
+                         (set-attr :method "post"))
+  [:form#add-user :input#org](set-attr :value (:org org))
+  [:form#add-user :input#teamid](set-attr :value (:team-id team-data)))
 
 (defsnippet new-team "templates/new-team.html"
   [:body :div#content]
@@ -51,12 +77,7 @@
 (defsnippet members "templates/members.html"
   [:body :div#content]
   [org members]
-  [:table.members [:tr (but first-of-type)]] nil
-  [:table.members [:tr first-of-type]] (clone-for [member members]
-                                       [:span.name](content member)
-                                       [:span.username](content member))
-  [:a.teams] (set-attr :href (str  "/organizations/" (:org org) "/teams"))
-
-  [:form#adduser](set-attr :action (str "/organizations/" (:org org) "/members")
-                       :method "post")
-  [:form#adduser :#orgname](set-attr :value (:org org)))
+  [:div.members] (content (members-table org members))
+  [:form#adduser] (set-attr :action (str "/organizations/" (:org org) "/members")
+                           :method "post")
+  [:form#adduser :#orgname] (set-attr :value (:org org)))
