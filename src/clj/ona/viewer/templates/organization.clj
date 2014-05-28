@@ -52,14 +52,14 @@
                                                       "/organizations/"
                                                       (:org org)
                                                       "/teams/"
-                                                      (last(clojure.string/split (str (:url team)) #"/"))))))
+                                                      (last (clojure.string/split (str (:url team)) #"/"))))))
   [:a.members] (set-attr :href (str "/organizations/" (:org org) "/members"))
-  [:a.new-team](set-attr :href (str "/organizations/" (:org org) "/new-team")))
+  [:a.new-team] (set-attr :href (str "/organizations/" (:org org) "/new-team")))
 
 (defsnippet team-info "templates/team-info.html"
   [:body :div#content]
   [org team-id team-info team-members]
-  [:.team-name](content (:name team-info))
+  [:.team-name] (content (:name team-info))
   [:div.members] (content (members-table org team-members))
   [:form#add-user] (do-> (set-attr :action (str "/organizations/" (:org org) "/teams/" team-id))
                          (set-attr :method "post"))
@@ -77,6 +77,6 @@
   [:body :div#content]
   [org members]
   [:div.members] (content (members-table org members))
-  [:form#adduser](set-attr :action (str "/organizations/" (:org org) "/members")
+  [:form#adduser] (set-attr :action (str "/organizations/" (:org org) "/members")
                            :method "post")
-  [:form#adduser :#orgname](set-attr :value (:org org)))
+  [:form#adduser :#orgname] (set-attr :value (:org org)))
