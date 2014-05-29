@@ -42,8 +42,8 @@
       "/organizations"
       (:username account)
       (:name org)
-      orgs
-      (org-templates/profile org-details))))
+      (org-templates/profile org-details)
+      orgs)))
 
 (defn teams
   "Retrieve the team for an organization."
@@ -55,8 +55,8 @@
       "/organizations"
       (:username account)
       (:name org)
-      orgs
-      (org-templates/teams org teams))))
+      (org-templates/teams org teams)
+      orgs)))
 
 (defn team-info
   "Retrieve team-info for a specific team."
@@ -75,8 +75,8 @@
       "/organizations"
       (:username account)
       (:name org)
-      orgs
-      (org-templates/team-info org team-data))))
+      (org-templates/team-info org team-data)
+      orgs)))
 
 (defn new-team
   "Show new-team form for organization."
@@ -87,8 +87,8 @@
       "/organizations"
       (:username account)
       (:name org)
-      orgs
-      (org-templates/new-team org))))
+      (org-templates/new-team org)
+      orgs)))
 
 (defn create-team
   "Create a new team"
@@ -119,8 +119,8 @@
       "/organizations"
       (:username account)
       (:name org)
-      orgs
-      (org-templates/members org members-info))))
+      (org-templates/members org members-info)
+      orgs)))
 
 (defn add-member
   "Add member to an organization"

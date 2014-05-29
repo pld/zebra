@@ -81,10 +81,10 @@
 (defn base-template
   "Defines the base template on which page content is appended using snippets"
   ([current-path username title page-content]
-     (base-template current-path username title nil page-content nil))
-  ([current-path username title orgs page-content]
-     (base-template current-path username title orgs page-content nil))
-  ([current-path username title orgs page-content javascript]
+     (base-template current-path username title page-content nil nil))
+  ([current-path username title page-content orgs]
+     (base-template current-path username title page-content orgs nil))
+  ([current-path username title page-content orgs javascript]
      (let [logged-in? (not= title "Login")]
        (render-base-template
         current-path username title orgs page-content javascript logged-in?))))

@@ -42,7 +42,7 @@
   "Render a page for creating a new dataset."
   [account]
   (base/base-template
-    "/dataset" (:username account) "New dataset" (datasets/new-dataset)))
+   "/dataset" (:username account) "New dataset" (datasets/new-dataset)))
 
 (defn create
   "Create a new dataset."
