@@ -1,7 +1,8 @@
 (ns ona.api.io
   (:require [clj-http.client :as client]
             [cheshire.core :as json]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io])
+  (:use [slingshot.slingshot :only [try+]]))
 
 (def ^:private meths
   {:get client/get
@@ -11,6 +12,15 @@
 (def protocol "https")
 
 (def host "stage.ona.io")
+
+(defn- http-request
+  "Send an HTTP request and catch some exceptions."
+  [method url options]
+  (try+
+   (let [{:keys [status body]} ((meths method) url options)]
+     {:status status :body body})
+   (catch [:status 400] {:keys [body]}
+     {:status 400 :body body})))
 
 (defn make-url
   "Build an API url."
@@ -23,13 +33,13 @@
 
 (defn parse-csv-response
   [body filename]
-   (let [tempfile (java.io.File/createTempFile filename "")
-         path (str (.getAbsolutePath tempfile))
-         file (clojure.java.io/file path)]
-  (.deleteOnExit file)
-  (with-open [out-file (io/writer file :append false)]
-    (.write out-file body))
-  path))
+  (let [tempfile (java.io.File/createTempFile filename "")
+        path (str (.getAbsolutePath tempfile))
+        file (clojure.java.io/file path)]
+    (.deleteOnExit file)
+    (with-open [out-file (io/writer file :append false)]
+      (.write out-file body))
+    path))
 
 (defn parse-http
   "Send and parse an HTTP response as JSON."
@@ -41,7 +51,7 @@
    (let [options (if-let [{:keys [username password]} account]
                    (assoc options :basic-auth [username password])
                    options)
-         {:keys [body]} ((meths method) url options)]
-     (if filename
+         {:keys [status body]} (http-request method url options)]
+     (if (and filename (< status 400))
        (parse-csv-response body filename)
        (parse-json-response body)))))
