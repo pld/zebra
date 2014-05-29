@@ -10,6 +10,7 @@
 
 (defn- upload-error
   []
+  (dom/remove-class! (dom/by-id "file-choose") "hidden")
   (dom/remove-class! (dom/by-id "file-verified") "hidden"))
 
 (defn uploader
@@ -17,7 +18,7 @@
   [form-id path]
   (let [io (IframeIo.)]
     (dom/add-class! (dom/by-id "file-choose") "hidden")
-    (dom/set-text! (dom/by-id "filename")
+    (dom/set-text! (dom/by-class "filename")
                    (.-value (dom/by-id "file")))
     (dom/remove-class! (dom/by-id "file-uploading") "hidden")
     (gev/listen io
