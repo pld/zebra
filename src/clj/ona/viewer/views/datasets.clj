@@ -2,6 +2,7 @@
   (:use [hiccup core page]
         [ring.util.response :only [redirect-after-post]])
   (:require [ona.api.dataset :as api]
+            [ona.api.organization :as api-orgs]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.forms :as forms]
             [ona.viewer.templates.datasets :as datasets]
@@ -46,7 +47,7 @@
    (:username account)
    "New dataset"
    (datasets/new-dataset)
-   nil
+   (api-orgs/all account)
    "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");"))
 
 (defn create
