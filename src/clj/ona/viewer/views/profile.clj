@@ -3,6 +3,7 @@
         [ona.viewer.templates.base :only [base-template]]
         [ona.viewer.templates.forms :only [sign-up-form]])
   (:require [ona.api.user :as api]
+            [ona.api.dataset :as api-dataset]
             [ring.util.response :as response]
             [ona.viewer.templates.profile :as profile]))
 
@@ -23,9 +24,10 @@
 (defn user-profile
   "Show use profile "
   [account username]
-  (let [profile (api/profile account username)]
+  (let [profile (api/profile account username)
+        datasets (api-dataset/all account)]
   (base-template
     "/profile"
     (:username account)
     (:name profile)
-    (profile/user-profile profile))))
+    (profile/user-profile profile datasets))))

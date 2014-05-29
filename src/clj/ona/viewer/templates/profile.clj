@@ -2,11 +2,12 @@
   (:use [net.cgrand.enlive-html :only [content
                                        defsnippet
                                        do->
-                                       set-attr]]))
+                                       set-attr]] :reload)
+  (:require [ona.viewer.templates.datasets :as dst-templates]))
 
 (defsnippet user-profile "templates/user-profile-garrett.html"
   [:body :div#content]
-  [profile]
+  [profile datasets]
   ;; Set user detial on righ side -bar
   [:h2.username] (content (:name profile))
   [:img.avatar] (set-attr :src (:gravatar profile))
@@ -20,5 +21,7 @@
   [:span.city] (content (:city profile))
   [:span.country] (content (:country profile))
   [:span.works-in] (content "")
-  [:span.member-since] (content ""))
-
+  [:span.member-since] (content "")
+  ;; Show users datasets
+  [:label.tab1] (content (str (count datasets) " datasets"))
+  [:div.datasets-table] (content (dst-templates/datasets-table datasets )))
