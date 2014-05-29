@@ -58,3 +58,25 @@
           (api/update :fake-account :dataset-id metadata-updates) => :updated-metadata
           (metadata :fake-account :dataset-id) => :something)))
 
+(fact "about dataset delete"
+      "Should delete a dataset"
+      (:status (delete :fake-account :dataset-id)) => 302
+      (provided
+       (api/delete :fake-account :dataset-id) => nil))
+
+(fact "about dataset/create"
+      "Should return :text value on error"
+      (create :fake-account :params) => :response
+      (provided
+       (api/create :fake-account :params) => {:type "alert-error"
+                                              :text :response})
+
+      "Should return link to preview URL on success"
+      (create :fake-account :params) => {:preview-url :preview-url
+                                         :settings-url (str "/dataset/" :dataset-id)
+                                         :delete-url (str "/dataset/"
+                                                          :dataset-id
+                                                          "/delete")}
+      (provided
+       (api/create :fake-account :params) => {:formid :dataset-id}
+       (api/online-data-entry-link :fake-account :dataset-id) => :preview-url))

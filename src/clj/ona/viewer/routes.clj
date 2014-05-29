@@ -26,9 +26,13 @@
 (defroutes dataset-routes
   (GET "/dataset" {{account :account} :session} (datasets/new-dataset account))
   (GET "/dataset/:id"
-      {{account :account} :session
-       {id :id} :params}
-      (datasets/show account id))
+       {{account :account} :session
+        {id :id} :params}
+       (datasets/show account id))
+  (GET "/dataset/:id/delete"
+       {{account :account} :session
+        {id :id} :params}
+       (datasets/delete account id))
   (GET "/dataset/:id/tags"
       {{account :account} :session
        {id :id} :params}

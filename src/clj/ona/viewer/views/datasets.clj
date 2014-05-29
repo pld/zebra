@@ -53,9 +53,13 @@
   "Create a new dataset."
   [account params]
   (let [response (api/create account params)]
-;    (throw (Exception. (str response)))
-    )
-  (redirect-after-post "/"))
+    (if (and (contains? response :type) (= (:type response) "alert-error"))
+      (:text response)
+      (let [dataset-id (:formid response)
+            preview-url (api/online-data-entry-link account dataset-id)]
+        {:settings-url (str "/dataset/" dataset-id)
+         :preview-url preview-url
+         :delete-url (str "/dataset/" dataset-id "/delete")}))))
 
 (defn create-tags
   "Create tags for a specific dataset"
@@ -101,3 +105,9 @@
                           :shared (if (:shared params) "True" "False")}
         updated-metadata (api/update account dataset-id metadata-updates)]
     (metadata account dataset-id)))
+
+(defn delete
+  "Delete a dataset by ID."
+  [account id]
+  (api/delete account id)
+  (response/redirect "/"))

@@ -53,13 +53,13 @@
 (defn tags
   "Returns tags for a dataset"
   [account dataset-id]
-  (let [url (make-url "forms/" (:username account) "/" dataset-id "/" "labels")]
+  (let [url (make-url "forms/" (:username account) "/" dataset-id "/labels")]
     (parse-http :get url account)))
 
 (defn add-tags
   "Add tags to a dataset"
   [account dataset-id tags]
-    (let [url (make-url "forms/" (:username account) "/" dataset-id "/" "labels")]
+    (let [url (make-url "forms/" (:username account) "/" dataset-id "/labels")]
     (parse-http :post url account {:form-params tags})))
 
 (defn download
@@ -70,7 +70,19 @@
     (parse-http :get url account nil filename)))
 
 (defn metadata
-  "Show dataset metadata"
+  "Show dataset metadata."
   [account dataset-id]
   (let [url (make-url "forms/" (:username account) "/" dataset-id)]
     (parse-http :get url account)))
+
+(defn online-data-entry-link
+  "Return link to online data entry."
+  [account dataset-id]
+  (let [url (make-url "forms/" (:username account) "/" dataset-id "/enketo")]
+    (:enketo_url (parse-http :get url account))))
+
+(defn delete
+  "Delete a dataset by ID."
+  [account dataset-id]
+  (let [url (make-url "forms/" dataset-id)]
+    (parse-http :delete url account)))

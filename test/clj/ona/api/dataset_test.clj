@@ -44,13 +44,13 @@
   (facts "about dataset-get-tags"
          (tags account :dataset-id) => :something
          (provided
-           (make-url "forms/" username "/" :dataset-id "/" "labels" ) => url
+           (make-url "forms/" username "/" :dataset-id "/labels") => url
            (parse-http :get url account) => :something))
 
   (facts "about dataset-add-tag"
          (add-tags  account :dataset-id :tags) => :something
          (provided
-           (make-url "forms/" username "/" :dataset-id "/" "labels") => url
+           (make-url "forms/" username "/" :dataset-id "/labels") => url
            (parse-http :post url account {:form-params :tags}) => :something))
 
   (facts "about dataset download"
@@ -58,4 +58,16 @@
            (download account :dataset-id) => :fake-file
            (provided
              (make-url "forms/" username "/" filename) => url
-             (parse-http :get url account nil filename) => :fake-file))))
+             (parse-http :get url account nil filename) => :fake-file)))
+
+  (facts "about online-data-entry-link"
+         (online-data-entry-link account :dataset-id) => :response
+         (provided
+          (make-url "forms/" username "/" :dataset-id "/enketo") => url
+          (parse-http :get url account) => {:enketo_url :response}))
+
+  (facts "about dataset delete"
+         (delete account :dataset-id) => :response
+         (provided
+          (make-url "forms/" :dataset-id) => url
+          (parse-http :delete url account) => :response)))
