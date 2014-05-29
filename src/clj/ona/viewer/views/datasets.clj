@@ -42,12 +42,19 @@
   "Render a page for creating a new dataset."
   [account]
   (base/base-template
-   "/dataset" (:username account) "New dataset" (datasets/new-dataset)))
+   "/dataset"
+   (:username account)
+   "New dataset"
+   (datasets/new-dataset)
+   nil
+   "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");"))
 
 (defn create
   "Create a new dataset."
   [account params]
-  (api/create account params)
+  (let [response (api/create account params)]
+;    (throw (Exception. (str response)))
+    )
   (redirect-after-post "/"))
 
 (defn create-tags

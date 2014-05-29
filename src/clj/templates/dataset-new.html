@@ -41,18 +41,18 @@
                 help or support
                 <br/><br/>
 
-                <div class="uploader file-choose">
-                	<form action="datasets" id="form" enctype="multipart/form-data" method="post">
-                    	<input type="file" name="file"/>
-                    	<input type="submit" value="Upload XLSForm">
+                <div class="uploader" id="file-choose">
+                	<form id="form" enctype="multipart/form-data" method="post">
+                    	<input id="file" type="file" name="file"/>
+                    	<input type="button" id="upload-button" value="Upload XLSForm">
                         </form>
                 </div>
-                <div class="uploader file-uploading hidden">
-                    <h4>Uploading Filename.xls 1...
-                        <span class="">X</span>
+                <div class="uploader hidden" id="file-uploading">
+                    <h4>Uploading <span id="filename">Filename.xls</span> 1...
+                        <span class="right">X</span>
                     </h4>
                 </div>
-                <div class="uploader file-verified hidden">
+                <div class="uploader hidden" id="file-verified">
                     <h4><span class="normal"></span> Filename 1
                         <span class="">
                             <a href="#">Preview</a> |

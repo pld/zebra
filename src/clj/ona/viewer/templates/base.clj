@@ -26,10 +26,11 @@
   [javascript]
   (let [default-js [[:script {:src "/js/out/goog/base.js" :type "text/javascript"}]
                     [:script {:src "/js/main.js" :type "text/javascript"}]
-                    [:script {:type "text/javascript"} "goog.require(\"ona.core\")"]]]
+                    [:script {:type "text/javascript"} "goog.require(\"ona.upload\")"]]]
     (apply enlive-html
            (if javascript
-             (conj default-js javascript)
+             (conj default-js
+                   [:script {:type "text/javascript"} javascript])
              default-js))))
 
 (defsnippet link-css (enlive-html [:link {:href "" :rel "stylesheet"}])
