@@ -3,7 +3,8 @@
         [ona.viewer.templates.base :only [base-template]]
         [ona.viewer.templates.forms :only [sign-up-form]])
   (:require [ona.api.user :as api]
-            [ring.util.response :as response]))
+            [ring.util.response :as response]
+            [ona.viewer.templates.profile :as profile]))
 
 (defn sign-up []
   (base-template "/join" "" "Register" (sign-up-form)))
@@ -18,3 +19,13 @@
              ""
              "Register"
              (str "Created a profile:" profile))))
+
+(defn user-profile
+  "Show use profile "
+  [account username]
+  (let [profile (api/profile account username)]
+  (base-template
+    "/profile"
+    (:username account)
+    (:name profile)
+    (profile/user-profile profile))))

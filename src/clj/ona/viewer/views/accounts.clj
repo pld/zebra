@@ -14,7 +14,7 @@
   [params]
   (let [{:keys [username password]} params
         account {:username username :password password}
-        profile (api/profile account)]
+        profile (api/profile account username)]
     (if-not (:detail profile)
       (assoc
         (response/redirect "/")
