@@ -19,8 +19,8 @@
   (try+
    (let [{:keys [status body]} ((meths method) url options)]
      {:status status :body body})
-   (catch [:status 400] {:keys [body]}
-     {:status 400 :body body})))
+   (catch #(>= 400 (:status %)) {:keys [status body]}
+     {:status 500 :body body})))
 
 (defn make-url
   "Build an API url."
