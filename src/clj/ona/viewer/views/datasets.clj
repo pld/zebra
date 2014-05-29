@@ -1,6 +1,5 @@
 (ns ona.viewer.views.datasets
   (:use [hiccup core page]
-        [ona.viewer.views.partials :only [base]]
         [ring.util.response :only [redirect-after-post]])
   (:require [ona.api.dataset :as api]
             [ona.viewer.templates.base :as base]
