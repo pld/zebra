@@ -33,9 +33,9 @@
   [:tbody [:tr first-of-type]]
   (clone-for [dataset datasets]
              [:tr (nth-of-type 2) :strong] (content (:title dataset))
-             [:ul.submenu :li.open :a](set-attr
-                                                   :href
-                                                   (str "dataset/" (:formid dataset)))
+             [:ul.submenu :li.open :a] (set-attr
+                                         :href
+                                         (str "/dataset/" (:formid dataset)))
              [:ul.submenu :li.share] nil
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
@@ -44,7 +44,9 @@
              [:ul.submenu :li.replace ] nil
              [:ul.submenu :li.copy ] nil
              [:ul.submenu :li.rename ] nil
-             [:ul.submenu :li.download ] nil
+             [:ul.submenu :li.download :a] (set-attr
+                                             :href
+                                             (str "/dataset/" (:formid dataset) "/download"))
              [:ul.submenu :li.delete ] nil
              [:ul.submenu :li.cancel ] nil
              [:span.rec](content (str (:num_of_submissions dataset) " records"))))
