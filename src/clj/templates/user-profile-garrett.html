@@ -40,24 +40,27 @@
     </div>
 </div>
 
-<div class="container">
+<div id="content" class="container">
     <div class="pure-g-r">
         <div class="pure-u-1-5 bar-left">
-            <h2>Garrett Mehl</h2>
+            <h2 class="username">Garrett Mehl</h2>
             <p>
                 <img class="avatar" src="img/gmehl.jpg" alt="Garrett Mehl"/><br/><br/>
                 <a href="#" class="pure-button btn-secondary">Settings</a> 
-                <a href="dataset-new.html" class="pure-button btn-secondary">New Dataset</a>
+                <a href="dataset-new.html" class="pure-button btn-secondary new-dataset">New Dataset</a>
             </p><hr/>
             <p>
                 <ul class="infolist">
-                	<li>Title/occupation: Health</li>
-                    <li>Organization: <a href="org-profile-joined.html">WHO</a></li>
-                    <li>Website: <a href="http://who.int">www.who.int</a></li>
-                    <li>Twitter: <a href="https://www.twitter.com/">@garrett_mehl</a></li>
-                    <li>Based in: Geneva, Switzerland</li>
-                    <li>Works in: India, mHealth</li>
-                    <li>Member since: Jan 17, 2014</li>
+                	<li>Title/occupation: <span class="occupation"></span></li>
+                    <li>Organization: <a href="org-profile-joined.html" class="org">WHO</a></li>
+                    <li>Website: <a href="http://who.int" class="website">www.who.int</a></li>
+                    <li>Twitter: <a href="https://www.twitter.com/" class="twitter">@garrett_mehl</a></li>
+                    <li>Based in:
+                        <span class="city">Geneva</span>,
+                        <span class="country">Switzerland</span>
+                    </li>
+                    <li>Works in: <span class="works-in"> India, mHealth </span></li>
+                    <li>Member since: <span class="member-since"> Jan 17, 2014</span></li>
                 </ul>
             </p>
         </div>
@@ -66,75 +69,77 @@
             <ul class="tabs">
                 <li>
                     <input type="radio" checked name="tabs" id="tab1">
-                    <label for="tab1">12 Datasets (2 public)</label>
+                    <label for="tab1" class="tab1">12 Datasets (2 public)</label>
                     <div id="tab-content1" class="tab-content">
-                        <table class="pure-table pure-table-horizontal">
-                        <tr>
-                            <td>
-                               <p><img class="avatar thumb" src="img/who-logo.jpg" alt="WHO"/> garrm<p>
-                            </td>
-                            <td>
-                                <i class="icon"></i> <strong>Vitamin A</strong>
-                                &nbsp; <a href="#"><i class="fa fa-star"></i></a> &nbsp;
-                                <span class="t-state">Shared &nbsp;&nbsp; Public</span>
-                                <p>Last record 2 hours ago</p>
-                            </td>
-                            <td>34 Records</td>
-                        </tr>
-                        <tr>
-                            <td>
-                               <p><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm<p>
-                            </td>
-                            <td>
-                                <strong>Vitamin B</strong>
-                                &nbsp; <a href="#"><i class="fa fa-star"></i></a> &nbsp;
-                                <span class="t-state">Shared</span>
+                        <div class="datasets-table">
+                            <table class="pure-table pure-table-horizontal">
+                            <tr>
+                                <td>
+                                   <p><img class="avatar thumb" src="img/who-logo.jpg" alt="WHO"/> garrm<p>
+                                </td>
+                                <td>
+                                    <i class="icon"></i> <strong>Vitamin A</strong>
+                                    &nbsp; <a href="#"><i class="fa fa-star"></i></a> &nbsp;
+                                    <span class="t-state">Shared &nbsp;&nbsp; Public</span>
+                                    <p>Last record 2 hours ago</p>
+                                </td>
+                                <td>34 Records</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                   <p><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm<p>
+                                </td>
+                                <td>
+                                    <strong>Vitamin B</strong>
+                                    &nbsp; <a href="#"><i class="fa fa-star"></i></a> &nbsp;
+                                    <span class="t-state">Shared</span>
 
-                                <p>
-                                    <span>Nigerian Ministry of Health Study</span><br/>
-                                    Last record 6 hours ago</p>
-                            </td>
-                            <td>755 Records</td>
-                        </tr>
-                        <tr>
-                            <td>
-                               <p><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm<p>
-                            </td>
-                            <td>
-                                <i class="fa fa-folder"></i>&nbsp; Vitamin A South Africa</strong>
-                                &nbsp; <a href="#"><i class="fa fa-star"></i></a> &nbsp;
-                                <span class="t-state">Public</span>
-                                <p>
-                                    <span>September enumeration of S. Africa by Jeff</span><br/>
-                                    Last record 12 hours ago</p>
-                            </td>
-                            <td>2 datasets</td>
-                        </tr>
-                        <tr>
-                            <td>
-                               <p><img class="avatar thumb" src="img/ona-logo.png" alt="ONA"/> <a href="org-profile.html">ONA</a><p>
-                            </td>
-                            <td>
-                                <i class="fa fa-folder"></i>&nbsp; <strong>Vitamin A Cameroon</strong>
-                                &nbsp; <a href="#"><i class="fa fa-star"></i></a>
-                                <p>
-                                    <span>December enumeration of Cameroon by Sandy</span><br/>
-                                    Last record 2 months ago</p>
-                            </td>
-                            <td>1 dataset</td>
-                        </tr>
-                        <tr>
-                            <td>
-                               <p><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> WHO<p>
-                            </td>
-                            <td>
-                                <strong>Vitamin C</strong>
-                                &nbsp; <a href="#"><i class="fa fa-star"></i></a>
-                                <p>Last record 1 year ago</p>
-                            </td>
-                            <td>222 Records</td>
-                        </tr>
-                        </table>
+                                    <p>
+                                        <span>Nigerian Ministry of Health Study</span><br/>
+                                        Last record 6 hours ago</p>
+                                </td>
+                                <td>755 Records</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                   <p><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> garrm<p>
+                                </td>
+                                <td>
+                                    <i class="fa fa-folder"></i>&nbsp; Vitamin A South Africa</strong>
+                                    &nbsp; <a href="#"><i class="fa fa-star"></i></a> &nbsp;
+                                    <span class="t-state">Public</span>
+                                    <p>
+                                        <span>September enumeration of S. Africa by Jeff</span><br/>
+                                        Last record 12 hours ago</p>
+                                </td>
+                                <td>2 datasets</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                   <p><img class="avatar thumb" src="img/ona-logo.png" alt="ONA"/> <a href="org-profile.html">ONA</a><p>
+                                </td>
+                                <td>
+                                    <i class="fa fa-folder"></i>&nbsp; <strong>Vitamin A Cameroon</strong>
+                                    &nbsp; <a href="#"><i class="fa fa-star"></i></a>
+                                    <p>
+                                        <span>December enumeration of Cameroon by Sandy</span><br/>
+                                        Last record 2 months ago</p>
+                                </td>
+                                <td>1 dataset</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                   <p><img class="avatar thumb" src="img/avatar.jpg" alt="User"/> WHO<p>
+                                </td>
+                                <td>
+                                    <strong>Vitamin C</strong>
+                                    &nbsp; <a href="#"><i class="fa fa-star"></i></a>
+                                    <p>Last record 1 year ago</p>
+                                </td>
+                                <td>222 Records</td>
+                            </tr>
+                            </table>
+                        </div>
                     </div>
                 </li>
                 <li>

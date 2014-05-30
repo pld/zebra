@@ -41,10 +41,12 @@
 
 (defsnippet main-menu "templates/base.html"
   [:#main-menu :div.vw-menu]
-  [current-path orgs logged-in?]
+  [current-path orgs logged-in? username]
   ;; Remove all but 1 exsiting dropdown menu item
   [:ul#menu-items [:li.menu-item first-of-type] :div.dropdown :ul.submenu [:li but first-of-type]]
   nil
+  ;;Set user profile link
+  [:ul#menu-items :li.menu-item :div.dropdown :a] (set-attr :href (str "/profile/" username))
   ;; Set menu items for user dropdown menu
   [:ul#menu-items [:li.menu-item first-of-type] :div.dropdown :ul.submenu [:li first-of-type]]
   (clone-for [[caption url] (navigation-items logged-in?)]
@@ -70,7 +72,7 @@
                              "/css/font-awesome.min.css"
                              "/css/style.css"]))
   ;; Main Menu Items
-  [:#main-menu](content (main-menu current-path orgs logged-in?))
+  [:#main-menu](content (main-menu current-path orgs logged-in? username))
   ;; Page Content
   [:body :div.content-wrap] (content page-content)
   ;; Javascript

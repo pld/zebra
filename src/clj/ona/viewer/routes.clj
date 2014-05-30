@@ -20,6 +20,9 @@
   (GET "/logout" [] (accounts/logout))
   (GET "/join" [] (profile/sign-up))
   (POST "/join" {params :params} (profile/submit-sign-up params))
+  (GET "/profile/:username"
+       {{account :account} :session
+        {username :username} :params} (profile/user-profile account username))
   (GET "/dataset" {{account :account} :session} (datasets/new-dataset account))
   (GET "/dataset/:id"
        {{account :account} :session

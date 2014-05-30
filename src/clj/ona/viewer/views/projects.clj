@@ -1,7 +1,6 @@
 (ns ona.viewer.views.projects
   (:use [hiccup core page]
         [ona.api.io :only [make-url]]
-        [ona.viewer.views.partials :only [base]]
         [ona.viewer.templates.base :only [dashboard-items]]
         [ona.viewer.templates.forms :only [new-project-form]])
   (:require [ona.api.project :as api]))

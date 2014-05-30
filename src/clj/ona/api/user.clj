@@ -1,9 +1,8 @@
 (ns ona.api.user
   (:use [ona.api.io :only [make-url parse-http]]))
 
-(defn profile [account]
-  (let [username (:username account)
-        url (make-url "profiles/" username)]
+(defn profile [account username]
+  (let [url (make-url "profiles/" username)]
     (parse-http :get url account)))
 
 (defn create [params]
