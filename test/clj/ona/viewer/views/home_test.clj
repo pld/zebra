@@ -23,5 +23,5 @@
              account {:username username}]
          (dashboard account) => (contains username)
          (provided
-          (datasets/all account) => [{:title "Test dataset"}]
+          (datasets/all account) => [{:title "Test dataset" :num_of_submissions 2}]
           (api-orgs/all account) => [{:title "Test Org"}])))

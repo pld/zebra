@@ -15,7 +15,7 @@
   [:div.org-details [:h4 first-of-type]] (content (:name (:org org-details)))
   [:div.org-details :> :span.city] (content (:city (:org org-details)))
   [:div.org-details :> :span.country] (content (:country (:org org-details)))
-  [:div.org-details :a.org-url] (do-> (content (:url (:org org-details)))
+  [:div.org-details :a.org-url] (do-> (content (:home_page (:org org-details)))
                                       (set-attr :href (:url (:org org-details))))
   ;; Set Member details
   [:div.org-details :a.members] (do-> (content (str "Members (" (count(:members org-details)) ")"))

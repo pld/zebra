@@ -10,14 +10,14 @@
       session {:account :fake-account}]
   (fact "should parse account"
         (let [id "1"]
-          (main-routes {:request-method :get
+          (dataset-routes {:request-method :get
                         :uri (str "/dataset/" id)
                         :session session}) => (contains result)
           (provided
             (datasets/show :fake-account id) => result)))
 
   (fact "should parse account"
-        (main-routes {:request-method :get
+        (project-routes {:request-method :get
                       :uri "/projects"
                       :session session}) => (contains result)
         (provided
@@ -25,7 +25,7 @@
 
   (fact "should parse account and params in project post"
         (let [params {:param-key :param-value}]
-          (main-routes {:request-method :post
+          (project-routes {:request-method :post
                         :uri "/projects"
                         :params params
                         :session session}) => (contains result)
@@ -33,7 +33,7 @@
             (projects/create :fake-account params) => result)))
 
   (fact "should parse account"
-        (main-routes {:request-method :get
+        (org-routes {:request-method :get
                       :uri "/organizations"
                       :session session}) => (contains result)
         (provided
@@ -41,7 +41,7 @@
 
   (fact "should parse account and params in organization post"
         (let [params {:param-key :param-value}]
-          (main-routes {:request-method :post
+          (org-routes {:request-method :post
                         :uri "/organizations"
                         :params params
                         :session session}) => (contains result)
@@ -50,7 +50,7 @@
 
   (fact "should parse account in organization profile"
         (let [name "orgname"]
-          (main-routes {:request-method :get
+          (org-routes {:request-method :get
                         :uri (str "/organizations/" name)
                         :session session}) => (contains result)
           (provided

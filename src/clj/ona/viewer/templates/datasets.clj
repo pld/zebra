@@ -3,6 +3,7 @@
                                        clone-for
                                        content
                                        defsnippet
+                                       do->
                                        first-of-type
                                        nth-of-type
                                        set-attr]] :reload))
@@ -32,7 +33,26 @@
   [:tbody [:tr first-of-type]]
   (clone-for [dataset datasets]
              [:tr (nth-of-type 2) :strong] (content (:title dataset))
-             [:ul.submenu [:li first-of-type] :a](set-attr
-                                                   :href
-                                                   (str "dataset/" (:formid dataset)))
-             [:span.rec](content (str (:num_of_submissions dataset) " records"))))
+             [:ul.submenu :li.open :a] (set-attr
+                                         :href
+                                         (str "/dataset/" (:formid dataset)))
+             [:ul.submenu :li.share] nil
+             [:ul.submenu :li.move] nil
+             [:ul.submenu :li.star] nil
+             [:ul.submenu :li.transfer] nil
+             [:ul.submenu :li.folder] nil
+             [:ul.submenu :li.replace] nil
+             [:ul.submenu :li.copy] nil
+             [:ul.submenu :li.rename] nil
+             [:ul.submenu :li.download :a] (set-attr
+                                             :href
+                                             (str "/dataset/" (:formid dataset) "/download"))
+             [:ul.submenu :li.delete] nil
+             [:ul.submenu :li.cancel] nil
+             [:span.rec](content (str (if (< (:num_of_submissions dataset) 0)
+                                        0
+                                        (:num_of_submissions dataset))
+                                      " records"))
+             [:span.t-state] (content (if (:public_data dataset)
+                                        "Public"
+                                        "Private"))))
