@@ -14,51 +14,56 @@
             [ring.adapter.jetty :as ring])
   (:gen-class))
 
-(defroutes main-routes
-  (GET "/" {session :session} (home-page session))
-  (POST "/login" {params :params} (accounts/submit-login params))
-  (GET "/logout" [] (accounts/logout))
+(defroutes user-routes
   (GET "/join" [] (profile/sign-up))
   (POST "/join" {params :params} (profile/submit-sign-up params))
+  (POST "/login" {params :params} (accounts/submit-login params))
+  (GET "/logout" [] (accounts/logout))
   (GET "/profile/:username"
        {{account :account} :session
-        {username :username} :params} (profile/user-profile account username))
+        {username :username} :params} (profile/user-profile account username)))
+
+(defroutes dataset-routes
   (GET "/dataset" {{account :account} :session} (datasets/new-dataset account))
   (GET "/dataset/:id"
-       {{account :account} :session
-        {id :id} :params}
-       (datasets/show account id))
+      {{account :account} :session
+       {id :id} :params}
+      (datasets/show account id))
   (GET "/dataset/:id/tags"
-       {{account :account} :session
-        {id :id} :params}
-       (datasets/tags account id))
+      {{account :account} :session
+       {id :id} :params}
+      (datasets/tags account id))
   (POST "/dataset/:id/tags"
-        {{account :account} :session
-         params :params}
-        (datasets/create-tags account params))
+       {{account :account} :session
+        params :params}
+       (datasets/create-tags account params))
   (POST "/datasets"
-        {{account :account} :session
-         {file :file} :params}
-        (datasets/create account file))
+       {{account :account} :session
+        {file :file} :params}
+       (datasets/create account file))
   (GET "/dataset/:id/download"
-       {{account :account} :session
-        {id :id} :params}
-       (datasets/download account id :csv))
+      {{account :account} :session
+       {id :id} :params}
+      (datasets/download account id :csv))
   (GET "/dataset/:id/metadata"
-       {{account :account} :session
-        {id :id} :params}
-        (datasets/metadata account id))
+      {{account :account} :session
+       {id :id} :params}
+      (datasets/metadata account id))
   (POST "/dataset/:id/metadata"
        {{account :account} :session
         params :params}
-        (datasets/update account params))
+       (datasets/update account params)))
+
+(defroutes project-routes
   (GET "/projects"
-       {{account :account} :session}
-       (projects/all account))
+      {{account :account} :session}
+      (projects/all account))
   (POST "/projects"
-        {{account :account} :session
-         params :params}
-        (projects/create account params))
+       {{account :account} :session
+        params :params}
+       (projects/create account params)))
+
+(defroutes org-routes
   (GET "/organizations"
        {{account :account} :session}
        (organizations/all account))
@@ -80,9 +85,9 @@
          team-id :team-id} :params}
        (organizations/team-info account name team-id))
   (POST "/organizations/:name/teams/:team-id"
-       {{account :account} :session
-        params :params}
-       (organizations/add-team-member account params))
+        {{account :account} :session
+         params :params}
+        (organizations/add-team-member account params))
   (GET "/organizations/:name/new-team"
        {{account :account} :session
         {name :name} :params}
@@ -98,17 +103,27 @@
   (POST "/organizations/:name/members"
         {{account :account} :session
          params :params}
-        (organizations/add-member account params))
+        (organizations/add-member account params)))
 
+(defroutes main-routes
+  (GET "/" {session :session} (home-page session))
   (route/resources "/")
   (route/not-found "Page not found"))
 
+(defroutes app-routes
+    org-routes
+    user-routes
+    dataset-routes
+    project-routes
+    org-routes
+    main-routes)
+
 (defn ona-viewer [verbose?]
-  (-> (routes main-routes)
+  (-> (routes app-routes)
       (wrap-basic-authentication)
       (wrap-resource "public")
       (#(wrap-logger % verbose?))
-      (handler/site main-routes)))
+      (handler/site app-routes)))
 
 (def app
   (ona-viewer true))
