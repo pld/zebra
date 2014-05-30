@@ -49,4 +49,7 @@
                                              (str "/dataset/" (:formid dataset) "/download"))
              [:ul.submenu :li.delete ] nil
              [:ul.submenu :li.cancel ] nil
-             [:span.rec](content (str (:num_of_submissions dataset) " records"))))
+             [:span.rec](content (str (if (< (:num_of_submissions dataset) 0)
+                                        0
+                                        (:num_of_submissions dataset))
+                                      " records"))))
