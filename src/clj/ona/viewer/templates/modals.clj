@@ -1,5 +1,6 @@
 (ns ona.viewer.templates.modals
-  (:use [net.cgrand.enlive-html :only [defsnippet
+  (:use [net.cgrand.enlive-html :only [but
+                                       defsnippet
                                        clone-for
                                        content
                                        first-of-type]] :reload))
