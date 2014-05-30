@@ -72,11 +72,12 @@
                                               :text :response})
 
       "Should return link to preview URL on success"
-      (create :fake-account :params) => {:preview-url :preview-url
-                                         :settings-url (str "/dataset/" :dataset-id)
-                                         :delete-url (str "/dataset/"
-                                                          :dataset-id
-                                                          "/delete")}
+      (cheshire.core/parse-string (:body (create :fake-account :params)) true) =>
+      {:preview-url "preview-url"
+       :settings-url (str "/dataset/" :dataset-id "/sharing")
+       :delete-url (str "/dataset/"
+                        :dataset-id
+                        "/delete")}
       (provided
        (api/create :fake-account :params) => {:formid :dataset-id}
        (api/online-data-entry-link :fake-account :dataset-id) => :preview-url))

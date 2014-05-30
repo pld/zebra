@@ -6,7 +6,14 @@
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.forms :as forms]
             [ona.viewer.templates.datasets :as datasets]
+            [cheshire.core :as cheshire]
             [ring.util.response :as response]))
+
+(defn- json-response
+  [body]
+  {:status 200
+   :headers {"Content-Type" "application/json; charset=utf-8"}
+   :body (cheshire/generate-string body)})
 
 (defn all
   "Return all the datasets for this account."
@@ -58,9 +65,10 @@
       (:text response)
       (let [dataset-id (:formid response)
             preview-url (api/online-data-entry-link account dataset-id)]
-        {:settings-url (str "/dataset/" dataset-id)
-         :preview-url preview-url
-         :delete-url (str "/dataset/" dataset-id "/delete")}))))
+        (json-response
+         {:settings-url (str "/dataset/" dataset-id "/sharing")
+          :preview-url preview-url
+          :delete-url (str "/dataset/" dataset-id "/delete")})))))
 
 (defn create-tags
   "Create tags for a specific dataset"
@@ -112,3 +120,14 @@
   [account id]
   (api/delete account id)
   (response/redirect "/"))
+
+(defn sharing
+  "Sharing settings for a new dataset."
+  [account dataset-id]
+  (base/base-template
+   "/dataset"
+   (:username account)
+   "New dataset"
+   (datasets/sharing)
+   (api-orgs/all account)
+   "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");"))

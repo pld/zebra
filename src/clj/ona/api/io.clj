@@ -1,11 +1,13 @@
 (ns ona.api.io
+  (:import [com.fasterxml.jackson.core JsonParseException])
   (:require [clj-http.client :as client]
             [cheshire.core :as json]
             [clojure.java.io :as io])
   (:use [slingshot.slingshot :only [try+]]))
 
 (def ^:private meths
-  {:get client/get
+  {:delete client/delete
+   :get client/get
    :post client/post
    :put client/put})
 
@@ -19,8 +21,8 @@
   (try+
    (let [{:keys [status body]} ((meths method) url options)]
      {:status status :body body})
-   (catch #(>= 400 (:status %)) {:keys [status body]}
-     {:status 500 :body body})))
+   (catch #(<= 400 (:status %)) {:keys [status body]}
+     {:status status :body body})))
 
 (defn make-url
   "Build an API url."
@@ -29,7 +31,10 @@
 
 (defn parse-json-response
   [body]
-  (json/parse-string body true))
+  (try+
+   (json/parse-string body true)
+   (catch JsonParseException _
+       "Improperly formatted API response.")))
 
 (defn parse-csv-response
   [body filename]
