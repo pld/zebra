@@ -39,17 +39,20 @@
              [:ul.submenu :li.share] nil
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
-             [:ul.submenu :li.transfer ] nil
-             [:ul.submenu :li.folder ] nil
-             [:ul.submenu :li.replace ] nil
-             [:ul.submenu :li.copy ] nil
-             [:ul.submenu :li.rename ] nil
+             [:ul.submenu :li.transfer] nil
+             [:ul.submenu :li.folder] nil
+             [:ul.submenu :li.replace] nil
+             [:ul.submenu :li.copy] nil
+             [:ul.submenu :li.rename] nil
              [:ul.submenu :li.download :a] (set-attr
                                              :href
                                              (str "/dataset/" (:formid dataset) "/download"))
-             [:ul.submenu :li.delete ] nil
-             [:ul.submenu :li.cancel ] nil
+             [:ul.submenu :li.delete] nil
+             [:ul.submenu :li.cancel] nil
              [:span.rec](content (str (if (< (:num_of_submissions dataset) 0)
                                         0
                                         (:num_of_submissions dataset))
-                                      " records"))))
+                                      " records"))
+             [:span.t-state] (content (if (:public_data dataset)
+                                        "Public"
+                                        "Private"))))
