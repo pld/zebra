@@ -28,12 +28,13 @@
   [account dataset-id]
   (let [dataset (api/data account dataset-id)
         metadata (api/metadata account dataset-id)
-        data-entry-link (api/online-data-entry-link account dataset-id)]
+        data-entry-link (api/online-data-entry-link account dataset-id)
+        username (:username account)]
     (base/base-template
-      "/"
-      (:username account)
-      (:title metadata)
-      (datasets/show metadata dataset data-entry-link))))
+     "/"
+     username
+     (:title metadata)
+     (datasets/show dataset-id metadata dataset data-entry-link username))))
 
 (defn tags
   "View tags for a specific dataset"
@@ -90,10 +91,11 @@
 
 (defn download
   "Download the data for a specific dataset as CSV."
-  [account dataset-id format]
+  [account dataset-id format-keyword]
   (let [file-path (api/download account dataset-id)
-        format "csv"
-        download-name (str dataset-id "." format)]
+        format (name format-keyword)
+        metadata (api/metadata account dataset-id)
+        download-name (str (:id_string metadata) "." format)]
     (get-file file-path download-name format)))
 
 (defn metadata
