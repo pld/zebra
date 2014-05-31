@@ -3,6 +3,7 @@
         [ring.util.response :only [redirect-after-post]])
   (:require [ona.api.dataset :as api]
             [ona.api.organization :as api-orgs]
+            [ona.viewer.sharing :as sharing]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.forms :as forms]
             [ona.viewer.templates.datasets :as datasets]
@@ -111,23 +112,34 @@
   [account params]
   (let [dataset-id (:dataset-id params)
         metadata-updates {:description (:description params)
-                          :shared (if (:shared params) "True" "False")}
-        updated-metadata (api/update account dataset-id metadata-updates)]
+                          :shared (if (:shared params) "True" "False")}]
+    (api/update account dataset-id metadata-updates)
     (metadata account dataset-id)))
 
 (defn delete
   "Delete a dataset by ID."
   [account id]
   (api/delete account id)
-  (response/redirect "/"))
+  (response/redirect "/dataset"))
 
 (defn sharing
   "Sharing settings for a new dataset."
   [account dataset-id]
-  (base/base-template
-   "/dataset"
-   (:username account)
-   "New dataset"
-   (datasets/sharing)
-   (api-orgs/all account)
-   "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");"))
+  (let [metadata (api/metadata account dataset-id)]
+    (base/base-template
+     "/dataset"
+     (:username account)
+     "New dataset - Form settings"
+     (forms/sharing (:title metadata) dataset-id)
+     (api-orgs/all account))))
+
+(defn sharing-update
+  "Update sharing settings."
+  [account params]
+  (let [dataset-id (:dataset-id params)
+        sharing-settings ((keyword sharing/settings) params)
+        update-data {:shared (if (= sharing-settings sharing/open-all)
+                               "True"
+                               "False")}]
+    (api/update account dataset-id update-data)
+    (redirect-after-post (str "/dataset/" dataset-id))))

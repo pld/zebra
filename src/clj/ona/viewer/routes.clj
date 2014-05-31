@@ -2,8 +2,7 @@
   (:use [compojure.core]
         [ona.viewer.views.home :only [home-page]]
         [ona.viewer.wrappers :only [wrap-basic-authentication wrap-logger]]
-        [ring.middleware.resource]
-        [ring.middleware.json :only [wrap-json-response]])
+        [ring.middleware.resource])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
             [compojure.response :as response]
@@ -54,6 +53,10 @@
        {{account :account} :session
         {id :id} :params}
        (datasets/sharing account id))
+  (POST "/dataset/sharing"
+        {{account :account} :session
+         params :params}
+        (datasets/sharing-update account params))
   (GET "/dataset/:id/metadata"
       {{account :account} :session
        {id :id} :params}
