@@ -12,12 +12,15 @@
   [:body :div#content]
   [])
 
-(defsnippet show "templates/vitamin-a.html"
+(defsnippet show "templates/show.html"
   [:body :div#content]
-  [metadata dataset]
+  [metadata dataset data-entry-link]
 
   ;; Page-title
   [:div.page-header [:div first-of-type] :h1] (content (:title metadata))
+
+  ;; Top nav
+  [:a#enter-data] (set-attr :href data-entry-link)
 
   ;; Sidenav
   [:div#sidenav [:p (nth-of-type 2)]] (content (:description metadata))

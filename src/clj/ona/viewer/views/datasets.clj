@@ -27,13 +27,13 @@
   "Show the data for a specific dataset."
   [account dataset-id]
   (let [dataset (api/data account dataset-id)
-        metadata (api/metadata account dataset-id)]
+        metadata (api/metadata account dataset-id)
+        data-entry-link (api/online-data-entry-link account dataset-id)]
     (base/base-template
       "/"
       (:username account)
       (:title metadata)
-      (datasets/show metadata dataset)
-      )))
+      (datasets/show metadata dataset data-entry-link))))
 
 (defn tags
   "View tags for a specific dataset"
