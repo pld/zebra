@@ -30,6 +30,7 @@
   (apply str (concat [protocol "://" host "/api/v1/"] postfix)))
 
 (defn parse-json-response
+  "Parse a body as JSON catching formatting exceptions."
   [body]
   (try+
    (json/parse-string body true)
@@ -37,6 +38,7 @@
        "Improperly formatted API response.")))
 
 (defn parse-csv-response
+  "Parse CSV response by writing into a temp file and returning the path."
   [body filename]
   (let [tempfile (java.io.File/createTempFile filename "")
         path (str (.getAbsolutePath tempfile))

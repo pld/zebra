@@ -11,6 +11,7 @@
             [ring.util.response :as response]))
 
 (defn- json-response
+  "Return body wrappen in a JSON response."
   [body]
   {:status 200
    :headers {"Content-Type" "application/json; charset=utf-8"}

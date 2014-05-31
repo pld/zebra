@@ -5,20 +5,24 @@
             [goog.events :as gev]))
 
 (defn- set-href
+  "Set the href of id to value. "
   [id value]
   (dom/set-attr! (dom/by-id id) "href" value))
 
 (defn- upload-complete
+  "Execute on upload complete."
   []
   (dom/add-class! (dom/by-id "file-uploading") "hidden"))
 
 (defn- upload-error
+  "Execute on upload error."
   [response-text]
   (dom/set-text! (dom/by-id "error") response-text)
   (dom/remove-class! (dom/by-id "file-choose") "hidden")
   (dom/remove-class! (dom/by-id "file-error") "hidden"))
 
 (defn- upload-success
+  "Execute on upload success."
   [response-text]
   (let [parsed-response (JSON/parse response-text)]
     (set-href "preview" (aget parsed-response "preview-url"))
