@@ -26,10 +26,11 @@
   [javascript]
   (let [default-js [[:script {:src "/js/out/goog/base.js" :type "text/javascript"}]
                     [:script {:src "/js/main.js" :type "text/javascript"}]
-                    [:script {:type "text/javascript"} "goog.require(\"ona.core\")"]]]
+                    [:script {:type "text/javascript"} "goog.require(\"ona.upload\")"]]]
     (apply enlive-html
            (if javascript
-             (conj default-js javascript)
+             (conj default-js
+                   [:script {:type "text/javascript"} javascript])
              default-js))))
 
 (defsnippet link-css (enlive-html [:link {:href "" :rel "stylesheet"}])
@@ -81,10 +82,10 @@
 (defn base-template
   "Defines the base template on which page content is appended using snippets"
   ([current-path username title page-content]
-     (base-template current-path username title nil page-content nil))
-  ([current-path username title orgs page-content]
-     (base-template current-path username title orgs page-content nil))
-  ([current-path username title orgs page-content javascript]
+     (base-template current-path username title page-content nil nil))
+  ([current-path username title page-content orgs]
+     (base-template current-path username title page-content orgs nil))
+  ([current-path username title page-content orgs javascript]
      (let [logged-in? (not= title "Login")]
        (render-base-template
         current-path username title orgs page-content javascript logged-in?))))

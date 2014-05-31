@@ -32,7 +32,7 @@
                             <img src="img/who-logo.jpg" class="avatar thumb"/><br/> WHO
                         </a></li>
                     </ul>
-                </div> 
+                </div>
             </li>
             <li><a href="#">Explore</a></li>
             <li><a href="#">Help</a></li>
@@ -40,37 +40,42 @@
     </div>
 </div>
 
-<div class="container">
+<div id="content" class="container">
     <div>
         <h1>Create New Dataset</h1>
     </div>
-    
+
     <div class="pure-g-r" id="new_dataset">
         <div class="pure-u-3-5 bar-left">
-            <h2>Settings for your form Filename 1.xls</h2>
+            <h2>Settings for your form <span id="title">Filename 1.xls</span></h2>
 
             <h3>XLS</h3>
             <div class="uploading">
                 This determines who can submit records to this dataset
                 <br/><br/>
-                
-                <form class="pure-form pure-form-stacked">
+
+                <form id="form" class="pure-form pure-form-stacked" method="post">
+                <input type="hidden" name="dataset-id" id="dataset-id"/>
                 <p>
-                    <input type="radio" name="form_setting"/> Private - no one but you can add records<br/></p>
-                
+                    <input type="radio" id="private" name="form_setting"/> Private - no one but you can add records<br/></p>
+
                 <p>
-                    <input type="radio" name="form_setting"/> Open - specific people can add records (Ona account needed)<br/>
+                    <input type="radio" id="open-account" name="form_setting"/> Open - specific people can add records (Ona account needed)<br/>
                 </p>
                 <p>
-                    <input type="radio" name="form_setting"/> Open - anybody with link can add records (no Ona account needed)
+                    <input type="radio" id="open-all" name="form_setting"/> Open - anybody with link can add records (no Ona account needed)
+                </p>
+                <p>
+                <input type="radio" id="closed" name="form_setting"/> Closed - inactive, no submissions whatsoever can be added
                 </p>
                 <p><br/>
-                    <a href="#" class="pure-button">Dataset share settings</a>
+                  <a id="back" href="#" class="pure-button">Back</a>
+                  <input type="submit" id="next" value="Next">
                 </p>
                 </form>
             </div>
         </div>
-    
+
         <div class="pure-u-1-6 bar-right">
             <h4>Pricing usage quotas</h4>
             <br/><br/>
@@ -84,13 +89,13 @@
         <a href="#">X</a>
 		<h4>Preview Filename</h4>
 	</div>
-    
+
     <form action="#" method="POST">
     <div class="">
         <p>Enketo Form</p>
     </div>
     <div class="">
-    	<a href="#" class="pure-button">Looks Good!</a> | 
+    	<a href="#" class="pure-button">Looks Good!</a> |
         <a href="#" class="pure-button">Replace this file</a>
     </div>
     </form>

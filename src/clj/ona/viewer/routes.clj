@@ -26,9 +26,13 @@
 (defroutes dataset-routes
   (GET "/dataset" {{account :account} :session} (datasets/new-dataset account))
   (GET "/dataset/:id"
-      {{account :account} :session
-       {id :id} :params}
-      (datasets/show account id))
+       {{account :account} :session
+        {id :id} :params}
+       (datasets/show account id))
+  (GET "/dataset/:id/delete"
+       {{account :account} :session
+        {id :id} :params}
+       (datasets/delete account id))
   (GET "/dataset/:id/tags"
       {{account :account} :session
        {id :id} :params}
@@ -45,6 +49,14 @@
       {{account :account} :session
        {id :id} :params}
       (datasets/download account id :csv))
+  (GET "/dataset/:id/sharing"
+       {{account :account} :session
+        {id :id} :params}
+       (datasets/sharing account id))
+  (POST "/dataset/sharing"
+        {{account :account} :session
+         params :params}
+        (datasets/sharing-update account params))
   (GET "/dataset/:id/metadata"
       {{account :account} :session
        {id :id} :params}

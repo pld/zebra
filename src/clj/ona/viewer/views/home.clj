@@ -17,10 +17,10 @@
       "/"
       (:username account)
       "Home"
-      orgs
       (home/home-content
         username
-        datasets))))
+        datasets)
+      orgs)))
 
 (defn home-page
   "Render the signed out home page."

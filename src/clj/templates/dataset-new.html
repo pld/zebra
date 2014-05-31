@@ -30,43 +30,47 @@
     <div>
         <h1>Create New Dataset</h1>
     </div>
-    
+
     <div class="pure-g-r" id="new_dataset">
         <div class="pure-u-3-5 bar-left">
         	<h2>Select a source for the new dataset</h2>
-        
+
             <h3>XLS</h3>
             <div class="uploading">
                 Directions, guideline inks and notes on using xls forms, <br/>
                 help or support
                 <br/><br/>
 
-                <div class="uploader file-choose">
-                	<form action="datasets" id="form" enctype="multipart/form-data" method="post">
-                    	<input type="file" name="file"/>
-                    	<input type="submit" value="Upload dataset">
-                    	<a href="#" class="pure-button">Choose xls form to upload</a>
-        			</form>
+                <div class="uploader" id="file-choose">
+                	<form id="form" enctype="multipart/form-data" method="post">
+                    	<input id="file" type="file" name="file"/>
+                    	<input type="button" id="upload-button" value="Upload XLSForm">
+                        </form>
                 </div>
-                <div class="uploader file-uploading">
-                    <h4>Uploading Filename.xls 1...
-                        <span class="">X</span>
+                <div class="uploader hidden" id="file-uploading">
+                    <h4>Uploading <span class="filename">Filename.xls</span>...
+                        <span class="right">X</span>
                     </h4>
                 </div>
-                <div class="uploader file-verified">
-                    <h4><span class="normal"></span> Filename 1
-                        <span class="">
-                            <a href="#">Preview</a> | 
-                            <a href="#">X</a>
+                <div class="uploader hidden" id="file-error">
+                    <h4>Error: <span id="error"></span>
+                    </h4>
+                </div>
+
+                <div class="uploader hidden" id="file-verified">
+                    <h4><span class="normal"></span> <span class="filename">Filename 1</span>
+                        <span class="right">
+                            <a id="preview" href="#" target="_blank">Preview</a> |
+                            <a id="delete" href="#">X</a>
                         </span>
                     </h4>
                     <div>
-                        <a href="#" class="pure-button btn-large">Go to form settings</a>
+                        <a id="settings" href="#" class="pure-button btn-large">Go to form settings</a>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="pure-u-1-6 bar-right">
             <h2>Usage</h2><br/>
             <h4>Pricing usage quotas</h4>
@@ -81,13 +85,13 @@
         <a href="#">X</a>
 		<h4>Preview Filename</h4>
 	</div>
-    
+
     <form action="#" method="POST">
     <div class="">
         <p>Enketo Form</p>
     </div>
     <div class="">
-    	<a href="#" class="pure-button btn-success">Looks Good!</a> | 
+    	<a href="#" class="pure-button btn-success">Looks Good!</a> |
         <a href="#" class="pure-button">Replace this file</a>
     </div>
     </form>

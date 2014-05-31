@@ -15,7 +15,9 @@
                  [hiccup "1.0.0"]
                  [ring.middleware.logger "0.4.0"]
                  [ring/ring-jetty-adapter "1.2.2"]
-                 [enlive "1.1.5"]]
+                 [ring/ring-json "0.3.1"]
+                 [enlive "1.1.5"]
+                 [slingshot "0.10.3"]]
   :jvm-opts ^:replace ["-Xmx1g"]
   :profiles {:dev {:dependencies [[midje "1.6.3"]]}
              :pallet {:dependencies

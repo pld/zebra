@@ -16,14 +16,14 @@
   [:body :div#content]
   [metadata dataset]
 
-  ;;Page-title
-  [:div.page-header [:div first-of-type] :h1](content (:title metadata))
+  ;; Page-title
+  [:div.page-header [:div first-of-type] :h1] (content (:title metadata))
 
-  ;;Sidenav
-  [:div#sidenav [:p (nth-of-type 2)]](content (:description metadata))
+  ;; Sidenav
+  [:div#sidenav [:p (nth-of-type 2)]] (content (:description metadata))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
-  [:p.tagbox [:span.tag first-of-type]](clone-for [tag (:tags metadata)]
-                                                               [:span.tag] (content tag))
+  [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (:tags metadata)]
+                                                   [:span.tag] (content tag))
   [:span.rec](content (str (count dataset) " records")))
 
 (defsnippet datasets-table "templates/home.html"
@@ -34,8 +34,8 @@
   (clone-for [dataset datasets]
              [:tr (nth-of-type 2) :strong] (content (:title dataset))
              [:ul.submenu :li.open :a] (set-attr
-                                         :href
-                                         (str "/dataset/" (:formid dataset)))
+                                        :href
+                                        (str "/dataset/" (:formid dataset)))
              [:ul.submenu :li.share] nil
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
@@ -45,9 +45,11 @@
              [:ul.submenu :li.copy] nil
              [:ul.submenu :li.rename] nil
              [:ul.submenu :li.download :a] (set-attr
-                                             :href
-                                             (str "/dataset/" (:formid dataset) "/download"))
-             [:ul.submenu :li.delete] nil
+                                            :href
+                                            (str "/dataset/" (:formid dataset) "/download"))
+             [:ul.submenu :li.delete :a] (set-attr
+                                       :href
+                                       (str "/dataset/" (:formid dataset) "/delete"))
              [:ul.submenu :li.cancel] nil
              [:span.rec](content (str (if (< (:num_of_submissions dataset) 0)
                                         0
