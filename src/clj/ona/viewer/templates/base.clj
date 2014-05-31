@@ -12,7 +12,17 @@
          :rename {html enlive-html}] :reload)
   (:require [ona.viewer.templates.list-items :as l]))
 
-(defn navigation-items
+(defn include-js
+  "Incude a path to a JavaScript file."
+  [path]
+  [:script {:src path :type "text/javascript"}])
+
+(defn js-tag
+  "Create a JavaScript tag with content."
+  [content]
+  [:script {:type "text/javascript"} content])
+
+(defn- navigation-items
   "Render a nav menu based on user logged in state."
   [logged-in?]
   (if logged-in?
@@ -21,14 +31,13 @@
      "Sign-out" "/logout"}
     {"Sign-up" "join"}))
 
-(defn build-javascript
+(defn- build-javascript
   "Render default and custom JavaScript."
   [javascript]
   (if javascript
-    (let [default-js [[:script {:src "/js/out/goog/base.js" :type "text/javascript"}]
-                      [:script {:src "/js/main.js" :type "text/javascript"}]
-                      ]]
-      (apply enlive-html (concat default-js javascript)))))
+    (apply enlive-html (concat [(include-js "/js/out/goog/base.js")
+                                (include-js "/js/main.js")]
+                               javascript))))
 
 (defsnippet link-css (enlive-html [:link {:href "" :rel "stylesheet"}])
   [:link]

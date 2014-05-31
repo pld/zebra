@@ -34,7 +34,11 @@
      "/"
      username
      (:title metadata)
-     (datasets/show dataset-id metadata dataset data-entry-link username))))
+     (datasets/show dataset-id metadata dataset data-entry-link username)
+     (api-orgs/all account)
+     [(base/include-js "http://maps.googleapis.com/maps/api/js?sensor=false")
+      (base/js-tag "goog.require(\"ona.mapview\");")
+      (base/js-tag "ona.mapview.init(\"map\");")])))
 
 (defn tags
   "View tags for a specific dataset"
@@ -58,12 +62,8 @@
    "New dataset"
    (datasets/new-dataset)
    (api-orgs/all account)
-   [[:script
-     {:type "text/javascript"}
-     "goog.require(\"ona.upload\");"]
-    [:script
-     {:type "text/javascript"}
-     "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");"]]))
+   [(base/js-tag "goog.require(\"ona.upload\");")
+    (base/js-tag "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");")]))
 
 (defn create
   "Create a new dataset."
