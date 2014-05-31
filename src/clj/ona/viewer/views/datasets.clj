@@ -58,7 +58,12 @@
    "New dataset"
    (datasets/new-dataset)
    (api-orgs/all account)
-   "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");"))
+   [[:script
+     {:type "text/javascript"}
+     "goog.require(\"ona.upload\");"]
+    [:script
+     {:type "text/javascript"}
+     "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");"]]))
 
 (defn create
   "Create a new dataset."

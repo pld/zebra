@@ -24,14 +24,11 @@
 (defn build-javascript
   "Render default and custom JavaScript."
   [javascript]
-  (let [default-js [[:script {:src "/js/out/goog/base.js" :type "text/javascript"}]
-                    [:script {:src "/js/main.js" :type "text/javascript"}]
-                    [:script {:type "text/javascript"} "goog.require(\"ona.upload\")"]]]
-    (apply enlive-html
-           (if javascript
-             (conj default-js
-                   [:script {:type "text/javascript"} javascript])
-             default-js))))
+  (if javascript
+    (let [default-js [[:script {:src "/js/out/goog/base.js" :type "text/javascript"}]
+                      [:script {:src "/js/main.js" :type "text/javascript"}]
+                      ]]
+      (apply enlive-html (concat default-js javascript)))))
 
 (defsnippet link-css (enlive-html [:link {:href "" :rel "stylesheet"}])
   [:link]
@@ -43,22 +40,39 @@
 (defsnippet main-menu "templates/base.html"
   [:#main-menu :div.vw-menu]
   [current-path orgs logged-in? username]
+  ;; Set user profile link
+  [:ul#menu-items
+   :li.menu-item
+   :div.dropdown
+   :a]
+  (set-attr :href (str "/profile/" username))
+
   ;; Remove all but 1 exsiting dropdown menu item
-  [:ul#menu-items [:li.menu-item first-of-type] :div.dropdown :ul.submenu [:li but first-of-type]]
-  nil
-  ;;Set user profile link
-  [:ul#menu-items :li.menu-item :div.dropdown :a] (set-attr :href (str "/profile/" username))
+  [:ul#menu-items
+   [:li.menu-item first-of-type]
+   :div.dropdown :ul.submenu
+   [:li but first-of-type]] nil
+
   ;; Set menu items for user dropdown menu
-  [:ul#menu-items [:li.menu-item first-of-type] :div.dropdown :ul.submenu [:li first-of-type]]
+   [:ul#menu-items
+    [:li.menu-item first-of-type]
+    :div.dropdown :ul.submenu
+    [:li first-of-type]]
   (clone-for [[caption url] (navigation-items logged-in?)]
              [:li] (if (= current-path url)
                      (set-attr :class "active")
                      identity)
              [:li :a] (content caption)
              [:li :a] (set-attr :href url))
+
   ;; Set Home, My Organization links
-  [:ul#menu-items [:li (nth-of-type 2)] :a](set-attr :href "/")
-  [:ul#menu-items [:li (nth-of-type 3)] :div.dropdown :ul.submenu [:li (nth-of-type 2)]]
+  [:ul#menu-items
+   [:li (nth-of-type 2)]
+   :a] (set-attr :href "/")
+   [:ul#menu-items
+    [:li (nth-of-type 3)]
+    :div.dropdown :ul.submenu
+    [:li (nth-of-type 2)]]
   (clone-for [organization orgs]
              [:li :a] (set-attr :href (str "/organizations/" (:org organization)))
              [:li :a :span.org-name] (content (:name organization))))
