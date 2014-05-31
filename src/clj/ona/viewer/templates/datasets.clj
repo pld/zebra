@@ -12,15 +12,24 @@
   [:body :div#content]
   [])
 
-(defsnippet show "templates/vitamin-a.html"
+(defsnippet show "templates/show.html"
   [:body :div#content]
-  [metadata dataset]
+  [dataset-id metadata dataset data-entry-link username]
 
   ;; Page-title
   [:div.page-header [:div first-of-type] :h1] (content (:title metadata))
 
+  ;; Top nav
+  [:a.enter-data] (set-attr :href data-entry-link)
+  [:a#user-profile] (set-attr :href (str "/profile/" username))
+  [:span#user-name] (content username)
+  [:a#download-all] (set-attr :href (str "/dataset/" dataset-id "/download"))
+
   ;; Sidenav
-  [:div#sidenav [:p (nth-of-type 2)]] (content (:description metadata))
+  [:div#sidenav [:p#description]] (content (:description metadata))
+  [:div#sidenav [:a#form-source]] (do->
+                                   (content (str (:id_string metadata)) ".xls")
+                                   (set-attr :href (str "/")))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
   [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (:tags metadata)]
                                                    [:span.tag] (content tag))

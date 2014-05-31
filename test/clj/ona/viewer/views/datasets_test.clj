@@ -37,11 +37,13 @@
       "Downloads dataset with specified format"
       (let [dataset-id :dataset-id
             format (str "csv")
-            download-name (str dataset-id "." format)]
+            id-string :id-string
+            download-name (str id-string "." format)]
         (download :fake-account dataset-id format) => :fake-download
         (provided
           (api/download :fake-account dataset-id) => :file-path
-          (get-file :file-path download-name format) => :fake-download)))
+          (get-file :file-path download-name format) => :fake-download
+          (api/metadata :fake-account dataset-id) => {:id_string id-string})))
 
 (fact "about dataset metadata"
       "Should show metadata for a specific dataset"
