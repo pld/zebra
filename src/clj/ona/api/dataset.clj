@@ -84,5 +84,5 @@
 (defn delete
   "Delete a dataset by ID."
   [account dataset-id]
-  (let [url (make-url "forms/" dataset-id)]
+  (let [url (make-url "forms/" (:username account) "/" dataset-id)]
     (parse-http :delete url account)))

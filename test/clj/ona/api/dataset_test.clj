@@ -69,5 +69,5 @@
   (facts "about dataset delete"
          (delete account :dataset-id) => :response
          (provided
-          (make-url "forms/" :dataset-id) => url
+          (make-url "forms/" username "/" :dataset-id) => url
           (parse-http :delete url account) => :response)))
