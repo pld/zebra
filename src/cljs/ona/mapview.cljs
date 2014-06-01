@@ -2,50 +2,39 @@
   (:require [domina :as dom]
             [goog.events :as gev]))
 
-(def overlay-defaults
-  "Default overlay options."
-  {:minZ 3
-   :maxZ 10
-   :tileSize (google.maps.Size. 256 256)})
+(def L (this-as ct (aget ct "L")))
 
-(defn mk-overlay
-  "Returns a Google Maps overlay given the name, url generation function, and
-  opacity."
-  [name-str url-func opacity]
-  (let [opts (clj->js
-              (merge overlay-defaults
-                     {:name name-str
-                      :opacity opacity
-                      :getTileUrl url-func}))]
-    (google.maps.ImageMapType. opts)))
+(def center (clj->js [-1.28 36.8]))
 
-(def map-opts
-  "Default map options."
-  {:zoom 5
-   :mapTypeId google.maps.MapTypeId.ROADMAP
-   :center (google.maps.LatLng. -1, 37)
-   :styles [{:stylers [{:visibility "on"}]}]})
+(def zoom 7)
 
-(defn init-map
-  [element overlays]
-  (let [options (clj->js map-opts)
-        map (google.maps.Map. element options)
-        types (.-overlayMapTypes map)]
-    (doseq [layer overlays]
-      (.push types layer))
-    map))
+(def tile-url
+  "http://{s}.tile.osm.org/{z}/{x}/{y}.png")
 
-(defn load-map
-  [map-id]
-  (letfn [(tile-url [coord zoom]
-            (str (.-URL js/document)
-                 zoom "/" (.-x coord) "/") (.-y coord) ".png")]
-    (init-map
-     (dom/by-id map-id)
-     [(mk-overlay "iucn" tile-url 0.6)])))
+(def tile-options
+  (clj->js {:maxZoom 18
+            :attribution "&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors"}))
 
-(defn ^:export init
-  "Load the map."
-  [map-id]
-  (gev/listen js/window "load" (fn [event]
-                                 (load-map map-id))))
+(defn- point-style
+ [feature, lat-lng]
+ (-> L (.circleMarker
+        lat-lng
+        (clj->js {:radius 8
+                  :fillColor "#ff7800"
+                  :color "#000"
+                  :weight 1
+                  :opacity 1
+                  :fillOpacity 1}))))
+
+(defn leaflet
+  [id data-var-name]
+  (let [data (this-as ct (aget ct data-var-name))
+        map (-> L (.map id)
+                (.setView center zoom))]
+    (-> L (.tileLayer tile-url tile-options)
+        (.addTo map))
+
+    (-> L (.geoJson
+           data
+           (clj->js {:pointToLayer point-style}))
+        (.addTo map))))

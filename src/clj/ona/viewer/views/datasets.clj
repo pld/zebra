@@ -10,6 +10,18 @@
             [cheshire.core :as cheshire]
             [ring.util.response :as response]))
 
+(defn- as-geojson
+  [dataset]
+  (cheshire/generate-string
+   {:type "FeatureCollection"
+    :features (for [record dataset
+                    :let [geo (:_geolocation record)]
+                    :when (not (some nil? geo))]
+                {:type "Feature"
+;                 :properties record
+                 :geometry {:type "Point"
+                            :coordinates (reverse (map read-string geo))}})}))
+
 (defn- json-response
   "Return body wrappen in a JSON response."
   [body]
@@ -29,16 +41,20 @@
   (let [dataset (api/data account dataset-id)
         metadata (api/metadata account dataset-id)
         data-entry-link (api/online-data-entry-link account dataset-id)
-        username (:username account)]
+        username (:username account)
+        data-var-name "data"]
     (base/base-template
      "/"
      username
      (:title metadata)
      (datasets/show dataset-id metadata dataset data-entry-link username)
      (api-orgs/all account)
-     [(base/include-js "http://maps.googleapis.com/maps/api/js?sensor=false")
+     [(base/include-js "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js")
+      [:link {:rel "stylesheet"
+              :href "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"}]
       (base/js-tag "goog.require(\"ona.mapview\");")
-      (base/js-tag "ona.mapview.init(\"map\");")])))
+      (base/js-tag (str "var " data-var-name "=" (as-geojson dataset) ";"))
+      (base/js-tag (str "ona.mapview.leaflet(\"map\",\"" data-var-name "\");"))])))
 
 (defn tags
   "View tags for a specific dataset"
