@@ -43,7 +43,8 @@
   :plugins [[lein-cljsbuild "1.0.2"]
             [lein-midje "3.1.3"]
             [lein-pdo "0.1.1"]
-            [lein-ring "0.7.1"]]
+            [lein-ring "0.7.1"]
+            [com.cemerick/clojurescript.test "0.3.1"]]
   :local-repo-classpath true
   :repositories {"sonatype" "https://oss.sonatype.org/content/repositories/releases/"}
   :aliases {"up" ["pdo" "cljsbuild" "auto" "dev," "ring" "server-headless"]
