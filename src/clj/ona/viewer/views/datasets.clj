@@ -18,7 +18,7 @@
                     :let [geo (:_geolocation record)]
                     :when (not (some nil? geo))]
                 {:type "Feature"
-;                 :properties record
+                 :properties {:popup (str record)}
                  :geometry {:type "Point"
                             :coordinates (reverse (map read-string geo))}})}))
 
