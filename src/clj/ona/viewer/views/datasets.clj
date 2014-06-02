@@ -61,7 +61,7 @@
         tag-form (forms/new-tag-form dataset-id)]
     (base/dashboard-items
       "Dataset tag"
-      (:username account)
+      account
       (str "/dataset/" dataset-id)
       (for [tagitem tags]
         {:item-id nil :item-name (str tagitem)})
