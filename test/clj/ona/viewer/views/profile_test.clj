@@ -13,4 +13,5 @@
           (user-profile account username) => (contains "Some User")
           (provided
             (api/profile account username) => {:name "Some User"}
-            (api-dataset/all account) => [{:title "Test dataset" :num_of_submissions 2}])))
+            (api-dataset/all account) => [{:title "Test dataset"
+                                           :num_of_submissions 2}])))

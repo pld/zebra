@@ -25,8 +25,8 @@
   [account username]
   (let [profile (api/profile account username)
         datasets (api-dataset/all account)]
-  (base-template
-    "/profile"
-    account
-    (:name profile)
-    (profile/user-profile profile datasets))))
+    (base-template
+     "/profile"
+     account
+     (:name profile)
+     (profile/user-profile profile datasets))))

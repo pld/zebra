@@ -8,7 +8,8 @@
 (defsnippet user-profile "templates/user-profile-garrett.html"
   [:body :div#content]
   [profile datasets]
-  ;; Set user detial on righ side -bar
+
+  ;; Set user detial on right side bar
   [:h2.username] (content (:name profile))
   [:img.avatar] (set-attr :src (:gravatar profile))
   [:a.new-dataset] (set-attr :href "/dataset")
@@ -17,11 +18,14 @@
   [:a.website](do-> (content (:website profile))
                     (set-attr :href (:website profile)))
   [:a.twitter] (do-> (content (:twitter profile))
-                     (set-attr :href (str "http://www.twitter.com/"(:twitter profile))))
+                     (set-attr :href (str "http://www.twitter.com/"
+                                          (:twitter profile))))
   [:span.city] (content (:city profile))
   [:span.country] (content (:country profile))
   [:span.works-in] (content "")
   [:span.member-since] (content "")
+
   ;; Show users datasets
   [:label.tab1] (content (str (count datasets) " datasets"))
-  [:div.datasets-table] (content (dst-templates/datasets-table datasets )))
+  [:div.datasets-table] (content (dst-templates/datasets-table datasets
+                                                               (:name profile))))
