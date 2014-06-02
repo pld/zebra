@@ -1,6 +1,5 @@
 (ns ona.viewer.views.organizations
   (:use [ona.api.io :only [make-url]]
-        [ona.viewer.views.partials :only [base]]
         [ona.viewer.templates.forms :only [new-organization-form]])
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-datasets]
