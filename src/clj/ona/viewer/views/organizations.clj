@@ -1,6 +1,5 @@
 (ns ona.viewer.views.organizations
-  (:use [hiccup core page]
-        [ona.api.io :only [make-url]]
+  (:use [ona.api.io :only [make-url]]
         [ona.viewer.views.partials :only [base]]
         [ona.viewer.templates.forms :only [new-organization-form]])
   (:require [ona.api.organization :as api]

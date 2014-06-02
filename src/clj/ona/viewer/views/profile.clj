@@ -1,6 +1,5 @@
 (ns ona.viewer.views.profile
-  (:use [hiccup core page]
-        [ona.viewer.templates.base :only [base-template]]
+  (:use [ona.viewer.templates.base :only [base-template]]
         [ona.viewer.templates.forms :only [sign-up-form]])
   (:require [ona.api.user :as api]
             [ona.api.dataset :as api-dataset]
