@@ -37,10 +37,11 @@
 
 (defsnippet datasets-table "templates/home.html"
   [:#datasets-table]
-  [datasets]
+  [datasets username]
   [:tbody [:tr (but first-of-type)]] nil
   [:tbody [:tr first-of-type]]
   (clone-for [dataset datasets]
+             [:.username] (content username)
              [:tr (nth-of-type 2) :strong] (content (:title dataset))
              [:ul.submenu :li.open :a] (set-attr
                                         :href
@@ -55,12 +56,14 @@
              [:ul.submenu :li.rename] nil
              [:ul.submenu :li.download :a] (set-attr
                                             :href
-                                            (str "/dataset/" (:formid dataset) "/download"))
+                                            (str "/dataset/"
+                                                 (:formid dataset)
+                                                 "/download"))
              [:ul.submenu :li.delete :a] (set-attr
                                        :href
                                        (str "/dataset/" (:formid dataset) "/delete"))
              [:ul.submenu :li.cancel] nil
-             [:span.rec](content (str (if (< (:num_of_submissions dataset) 0)
+             [:span.rec] (content (str (if (< (:num_of_submissions dataset) 0)
                                         0
                                         (:num_of_submissions dataset))
                                       " records"))
