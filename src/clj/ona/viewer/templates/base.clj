@@ -9,18 +9,10 @@
                                        html
                                        set-attr
                                        nth-of-type]
-         :rename {html enlive-html}] :reload)
-  (:require [ona.viewer.templates.list-items :as l]))
-
-(defn include-js
-  "Incude a path to a JavaScript file."
-  [path]
-  [:script {:src path :type "text/javascript"}])
-
-(defn js-tag
-  "Create a JavaScript tag with content."
-  [content]
-  [:script {:type "text/javascript"} content])
+         :rename {html enlive-html}] :reload
+         [ona.viewer.templates.helpers :only [include-js js-tag]])
+  (:require [ona.api.organization :as api-orgs]
+            [ona.viewer.templates.list-items :as l]))
 
 (defn- navigation-items
   "Render a nav menu based on user logged in state."
@@ -104,12 +96,12 @@
 
 (defn base-template
   "Defines the base template on which page content is appended using snippets"
-  ([current-path username title page-content]
-     (base-template current-path username title page-content nil nil))
-  ([current-path username title page-content orgs]
-     (base-template current-path username title page-content orgs nil))
-  ([current-path username title page-content orgs javascript]
-     (let [logged-in? (not= title "Login")]
+  ([current-path account title page-content]
+     (base-template current-path account title page-content nil))
+  ([current-path account title page-content javascript]
+     (let [logged-in? (not= title "Login")
+           username (:username account)
+           orgs (api-orgs/all account)]
        (render-base-template
         current-path username title orgs page-content javascript logged-in?))))
 

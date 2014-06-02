@@ -18,26 +18,38 @@
   [:div.org-details :a.org-url] (do-> (content (:home_page (:org org-details)))
                                       (set-attr :href (:url (:org org-details))))
   ;; Set Member details
-  [:div.org-details :a.members] (do-> (content (str "Members (" (count(:members org-details)) ")"))
-                                      (set-attr :href (str  "/organizations/" (:org (:org org-details)) "/members")))
+  [:div.org-details :a.members] (do-> (content (str
+                                                "Members ("
+                                                (count(:members org-details)) ")"))
+                                      (set-attr :href (str
+                                                       "/organizations/"
+                                                       (:org (:org org-details))
+                                                       "/members")))
   [:div.org-details :ul.members [:li (but first-of-type)]] nil
-  [:div.org-details :ul.members [:li first-of-type]](clone-for [team (:members org-details)]
-                                                                  [:li] (content team))
-  ;; Set Team details
-  [:div.org-details :a.teams] (do-> (content (str "Teams (" (count(:teams org-details)) ")"))
-                                    (set-attr :href (str  "/organizations/" (:org (:org org-details)) "/teams")))
+  [:div.org-details
+   :ul.members
+   [:li first-of-type]] (clone-for [team (:members org-details)] [:li] (content team))
+   ;; Set Team details
+  [:div.org-details :a.teams] (do-> (content (str
+                                              "Teams ("
+                                              (count(:teams org-details)) ")"))
+                                    (set-attr :href (str
+                                                     "/organizations/"
+                                                     (:org (:org org-details))
+                                                     "/teams")))
   [:div.org-details :ul.teams [:li (but first-of-type)]] nil
-  [:div.org-details :ul.teams [:li first-of-type]](clone-for [team (:teams org-details)]
-                                                               [:li] (content (:name team))))
+  [:div.org-details
+   :ul.teams
+   [:li first-of-type]] (clone-for [team (:teams org-details)] [:li] (content (:name team))))
 
 (defsnippet members-table "templates/members.html"
-[:table.members]
-[org members]
-[:tbody [:tr (but first-of-type)]] nil
-[:tbody [:tr first-of-type]] (clone-for [member members]
-                               [:span.name](content (:username member))
-                               [:span.username](content (:username member))
-                               [:td :a] (content (str (:no-of-forms member) " forms"))))
+  [:table.members]
+  [org members]
+  [:tbody [:tr (but first-of-type)]] nil
+  [:tbody [:tr first-of-type]] (clone-for [member members]
+                                          [:span.name](content (:username member))
+                                          [:span.username](content (:username member))
+                                          [:td :a] (content (str (:no-of-forms member) " forms"))))
 
 (defsnippet teams "templates/teams.html"
   [:body :div#content]
@@ -45,15 +57,15 @@
   [:div.myteams] nil
   [:div.orgteams [:.orgteam (but first-of-type)]] nil
   [:div.orgteams :.orgteam] (clone-for [team teams]
-                              [:h3 :a.team-name](do->
-                                                  (content (:name team))
-                                                  (set-attr
-                                                    :href
-                                                    (str
-                                                      "/organizations/"
-                                                      (:org org)
-                                                      "/teams/"
-                                                      (last (clojure.string/split (str (:url team)) #"/"))))))
+                                       [:h3 :a.team-name](do->
+                                                          (content (:name team))
+                                                          (set-attr
+                                                           :href
+                                                           (str
+                                                            "/organizations/"
+                                                            (:org org)
+                                                            "/teams/"
+                                                            (last (clojure.string/split (str (:url team)) #"/"))))))
   [:a.members] (set-attr :href (str "/organizations/" (:org org) "/members"))
   [:a.new-team] (set-attr :href (str "/organizations/" (:org org) "/new-team")))
 

@@ -28,6 +28,6 @@
         datasets (api-dataset/all account)]
   (base-template
     "/profile"
-    (:username account)
+    account
     (:name profile)
     (profile/user-profile profile datasets))))
