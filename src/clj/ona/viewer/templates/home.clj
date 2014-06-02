@@ -17,4 +17,4 @@
   [:div.datasets-table] (content (datasets/datasets-table datasets username))
 
   ;; Set sidenav links
-  [:#sidenav [:a first-of-type]] (set-attr :href "/projects"))
+  [:#sidenav [:a first-of-type]] (set-attr :href "/project"))

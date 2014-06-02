@@ -67,6 +67,9 @@
        (datasets/update account params)))
 
 (defroutes project-routes
+  (GET "/project"
+       {{account :account} :session}
+       (projects/new account))
   (GET "/projects"
       {{account :account} :session}
       (projects/all account))

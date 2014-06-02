@@ -1,6 +1,6 @@
 (ns ona.viewer.views.projects
   (:use [ona.api.io :only [make-url]]
-        [ona.viewer.templates.base :only [dashboard-items]]
+        [ona.viewer.templates.base :only [base-template dashboard-items]]
         [ona.viewer.templates.forms :only [new-project-form]])
   (:require [ona.api.project :as api]))
 
@@ -15,6 +15,15 @@
       (for [project projects]
         {:item-name (str project)})
       (new-project-form))))
+
+(defn new
+  "Form for creating a new project."
+  [account]
+  (base-template
+   "/project"
+   account
+   "New Project"
+   (new-project-form)))
 
 (defn create
   "Create a new project for the current user."
