@@ -11,16 +11,14 @@
   "Render the users signed in home page."
   [account]
   (let [username (:username account)
-        datasets (datasets/all account)
-        orgs (api-orgs/all account)]
+        datasets (datasets/all account)]
     (base/base-template
       "/"
-      (:username account)
+      account
       "Home"
       (home/home-content
         username
-        datasets)
-      orgs)))
+        datasets))))
 
 (defn home-page
   "Render the signed out home page."

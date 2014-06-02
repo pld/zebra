@@ -1,6 +1,5 @@
 (ns ona.viewer.views.organizations
-  (:use [hiccup core page]
-        [ona.api.io :only [make-url]]
+  (:use [ona.api.io :only [make-url]]
         [ona.viewer.templates.forms :only [new-organization-form]])
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-datasets]
@@ -14,10 +13,8 @@
   (let [organizations (api/all account)]
     (base/dashboard-items
       "Organizations"
-      (:username account)
+      account
       "organizations/"
-      (for [organization organizations]
-        {:item-id (:org organization) :item-name (:name organization)})
       (new-organization-form))))
 
 (defn create
@@ -34,29 +31,27 @@
   "Retrieve the profile for an organization."
   [account org-name]
   (let [org (api/profile account org-name)
-        orgs (api/all account)
         teams (api/teams account org-name)
         members (api/members account org-name)
-        org-details {:org org :orgs orgs, :members members :teams teams}]
+        org-details {:org org
+                     :members members
+                     :teams teams}]
     (base/base-template
       "/organizations"
-      (:username account)
+      account
       (:name org)
-      (org-templates/profile org-details)
-      orgs)))
+      (org-templates/profile org-details))))
 
 (defn teams
   "Retrieve the team for an organization."
   [account org-name]
   (let [org (api/profile account org-name)
-        teams (api/teams account org-name)
-        orgs (api/all account)]
+        teams (api/teams account org-name)]
     (base/base-template
       "/organizations"
-      (:username account)
+      account
       (:name org)
-      (org-templates/teams org teams)
-      orgs)))
+      (org-templates/teams org teams))))
 
 (defn team-info
   "Retrieve team-info for a specific team."
@@ -69,26 +64,22 @@
                         :no-of-forms (count (api-datasets/public account user))})
         team-data {:team-id team-id
                    :team-info team-info
-                   :members-info members-info}
-        orgs (api/all account)]
+                   :members-info members-info}]
     (base/base-template
       "/organizations"
-      (:username account)
+      account
       (:name org)
-      (org-templates/team-info org team-data)
-      orgs)))
+      (org-templates/team-info org team-data))))
 
 (defn new-team
   "Show new-team form for organization."
   [account org-name]
-  (let [org (api/profile account org-name)
-        orgs (api/all account)]
+  (let [org (api/profile account org-name)]
     (base/base-template
       "/organizations"
-      (:username account)
+      account
       (:name org)
-      (org-templates/new-team org)
-      orgs)))
+      (org-templates/new-team org))))
 
 (defn create-team
   "Create a new team"
@@ -113,14 +104,12 @@
         members (api/members account org-name)
         members-info (for [user members]
                        {:username user
-                        :no-of-forms (count (api-datasets/public account user))})
-        orgs (api/all account)]
+                        :no-of-forms (count (api-datasets/public account user))})]
     (base/base-template
       "/organizations"
-      (:username account)
+      account
       (:name org)
-      (org-templates/members org members-info)
-      orgs)))
+      (org-templates/members org members-info))))
 
 (defn add-member
   "Add member to an organization"

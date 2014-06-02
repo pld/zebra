@@ -12,7 +12,6 @@
                  [com.google.guava/guava "16.0"]
                  [compojure "1.1.1"]
                  [domina "1.0.2"]
-                 [hiccup "1.0.0"]
                  [ring.middleware.logger "0.4.0"]
                  [ring/ring-jetty-adapter "1.2.2"]
                  [ring/ring-json "0.3.1"]

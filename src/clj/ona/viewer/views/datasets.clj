@@ -1,8 +1,7 @@
 (ns ona.viewer.views.datasets
-  (:use [hiccup core page]
-        [ring.util.response :only [redirect-after-post]])
+  (:use [ring.util.response :only [redirect-after-post]]
+        [ona.viewer.templates.helpers :only [include-js js-tag]])
   (:require [ona.api.dataset :as api]
-            [ona.api.organization :as api-orgs]
             [ona.viewer.sharing :as sharing]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.forms :as forms]
@@ -45,16 +44,15 @@
         data-var-name "data"]
     (base/base-template
      "/"
-     username
+     account
      (:title metadata)
      (datasets/show dataset-id metadata dataset data-entry-link username)
-     (api-orgs/all account)
-     [(base/include-js "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js")
+     [(include-js "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js")
       [:link {:rel "stylesheet"
               :href "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"}]
-      (base/js-tag "goog.require(\"ona.mapview\");")
-      (base/js-tag (str "var " data-var-name "=" (as-geojson dataset) ";"))
-      (base/js-tag (str "ona.mapview.leaflet(\"map\",\"" data-var-name "\");"))])))
+      (js-tag "goog.require(\"ona.mapview\");")
+      (js-tag (str "var " data-var-name "=" (as-geojson dataset) ";"))
+      (js-tag (str "ona.mapview.leaflet(\"map\",\"" data-var-name "\");"))])))
 
 (defn tags
   "View tags for a specific dataset"
@@ -63,7 +61,7 @@
         tag-form (forms/new-tag-form dataset-id)]
     (base/dashboard-items
       "Dataset tag"
-      (:username account)
+      account
       (str "/dataset/" dataset-id)
       (for [tagitem tags]
         {:item-id nil :item-name (str tagitem)})
@@ -74,12 +72,11 @@
   [account]
   (base/base-template
    "/dataset"
-   (:username account)
+   account
    "New dataset"
    (datasets/new-dataset)
-   (api-orgs/all account)
-   [(base/js-tag "goog.require(\"ona.upload\");")
-    (base/js-tag "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");")]))
+   [(js-tag "goog.require(\"ona.upload\");")
+    (js-tag "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");")]))
 
 (defn create
   "Create a new dataset."
@@ -152,10 +149,9 @@
   (let [metadata (api/metadata account dataset-id)]
     (base/base-template
      "/dataset"
-     (:username account)
+     account
      "New dataset - Form settings"
-     (forms/sharing (:title metadata) dataset-id)
-     (api-orgs/all account))))
+     (forms/sharing (:title metadata) dataset-id))))
 
 (defn sharing-update
   "Update sharing settings."
