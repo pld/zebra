@@ -1,7 +1,8 @@
 (ns ona.viewer.views.projects
   (:use [ona.api.io :only [make-url]]
         [ona.viewer.templates.base :only [base-template dashboard-items]]
-        [ona.viewer.templates.forms :only [new-project-form]])
+        [ona.viewer.templates.forms :only [new-project-form]]
+        [ona.viewer.templates.projects :only [project-settings]])
   (:require [ona.api.project :as api]))
 
 (defn all
@@ -13,8 +14,7 @@
       (:username account)
       "projects/"
       (for [project projects]
-        {:item-name (str project)})
-      (new-project-form))))
+        {:item-name (str project)}))))
 
 (defn new
   "Form for creating a new project."
@@ -25,6 +25,15 @@
    "New Project"
    (new-project-form)))
 
+(defn settings
+  "Show the settings for a project."
+  [account project]
+  (base-template
+   "/project/" (:id project) "settings"
+   account
+   "Project Settings"
+   (project-settings (:name project))))
+
 (defn create
   "Create a new project for the current user."
   [account params]
@@ -32,4 +41,4 @@
         data {:name (:name params)
               :owner owner}
         project (api/create account data)]
-    (all account)))
+    (settings account project)))

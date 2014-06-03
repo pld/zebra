@@ -20,4 +20,4 @@
         (provided
          (api/create account data) => :new-project
          (make-url "users/username") => :url
-         (all account) => :something)))
+         (settings account :new-project) => :something)))
