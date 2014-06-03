@@ -6,8 +6,27 @@
     <div class="content">
       <div class="new-project-form">
         <form action="projects" method="post">
-          <input type="text" name="name"/>
-          <input type="submit" value="Create project">
+          <p id="errors"></p>
+          <p>
+            <label>Name your project</label>
+            <input type="text" name="name"/>
+          </p>
+          <p>
+            <label>Add a description</label>
+            <input type="text" name="description"/>
+          </p>
+          <p>
+            <label>Choose a</label>
+            <select>
+              <option>project category</option>
+              <option value="agriculture">agriculture</option>
+            </select>
+          </p>
+          <p>
+            <label>Location</label>
+            <input type="text" name="location"/>
+          </p>
+          <input type="submit" value="Next">
         </form>
       </div>
     </div>

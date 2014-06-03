@@ -72,13 +72,24 @@
        (datasets/update account params)))
 
 (defroutes project-routes
-  (GET "/projects"
-      {{account :account} :session}
-      (projects/all account))
-  (POST "/projects"
+  (GET "/project"
+       {{account :account} :session}
+       (projects/new-project account))
+  (GET "/project/:id/forms"
        {{account :account} :session
-        params :params}
-       (projects/create account params)))
+        {id :id} :params}
+       (projects/forms account id))
+  (GET "/project/:id/settings"
+       {{account :account} :session
+        {id :id} :params}
+       (projects/settings account id))
+  (GET "/projects"
+       {{account :account} :session}
+       (projects/all account))
+  (POST "/projects"
+        {{account :account} :session
+         params :params}
+        (projects/create account params)))
 
 (defroutes org-routes
   (GET "/organizations"
