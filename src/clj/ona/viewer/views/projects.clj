@@ -16,7 +16,7 @@
       (:username account)
       "projects/"
       (for [project projects]
-        {:item-name (str project)}))))
+        {:name (str project)}))))
 
 (defn new-project
   "Form for creating a new project."

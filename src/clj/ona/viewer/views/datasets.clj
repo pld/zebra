@@ -67,7 +67,7 @@
       account
       (str "/dataset/" dataset-id)
       (for [tagitem tags]
-        {:item-id nil :item-name (str tagitem)})
+        {:id nil :name (str tagitem)})
       tag-form)))
 
 (defn new-dataset
@@ -128,7 +128,7 @@
       "Dataset metadata"
       (:username account)
       (str "/dataset/" dataset-id)
-      [{:item-name metadata}]
+      [{:name metadata}]
       metadata-form)))
 
 (defn update

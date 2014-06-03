@@ -23,9 +23,9 @@
   [items url]
   [:p] (clone-for [item items]
                   [:p :a] (do->
-                            (content (:item-name item))
-                            (set-attr :href (str url (:item-id item))))
-                  [:p] (if-not (:item-id item)
-                         (content (:item-name item))
+                            (content (:name item))
+                            (set-attr :href (str url (:id item))))
+                  [:p] (if-not (:id item)
+                         (content (:name item))
                          identity)
                   [:p :span.actions :a] (render-actions item url)))

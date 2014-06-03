@@ -5,6 +5,7 @@
                                        content
                                        defsnippet
                                        deftemplate
+                                       do->
                                        first-of-type
                                        html
                                        set-attr
@@ -18,7 +19,7 @@
   "Render a nav menu based on user logged in state."
   [logged-in?]
   (if logged-in?
-    {"Project" "/projects"
+    {"Projects" "/projects"
      "Organizations" "/organizations"
      "Sign-out" "/logout"}
     {"Sign-up" "join"}))
@@ -49,31 +50,25 @@
   (set-attr :href (str "/profile/" username))
 
   ;; Remove all but 1 exsiting dropdown menu item
-  [:ul#menu-items
-   [:li.menu-item first-of-type]
-   :div.dropdown :ul.submenu
-   [:li but first-of-type]] nil
+  [:ul#prof-drop [:li but first-of-type]] nil
 
   ;; Set menu items for user dropdown menu
-   [:ul#menu-items
-    [:li.menu-item first-of-type]
-    :div.dropdown :ul.submenu
-    [:li first-of-type]]
+  [:ul#prof-drop [:li first-of-type]]
   (clone-for [[caption url] (navigation-items logged-in?)]
              [:li] (if (= current-path url)
                      (set-attr :class "active")
                      identity)
-             [:li :a] (content caption)
-             [:li :a] (set-attr :href url))
+             [:a] (do-> (content caption)
+                            (set-attr :href url)))
 
   ;; Set Home, My Organization links
   [:ul#menu-items
    [:li (nth-of-type 2)]
    :a] (set-attr :href "/")
-   [:ul#menu-items
-    [:li (nth-of-type 3)]
-    :div.dropdown :ul.submenu
-    [:li (nth-of-type 2)]]
+  [:ul#menu-items
+   [:li (nth-of-type 3)]
+   :div.dropdown :ul.submenu
+   [:li (nth-of-type 2)]]
   (clone-for [organization orgs]
              [:li :a] (set-attr :href (str "/organizations/" (:org organization)))
              [:li :a :span.org-name] (content (:name organization))))
@@ -114,7 +109,7 @@
          page-content (if form
                         (concat form item-list)
                         item-list)]
-     (base-template "/"
+     (base-template url
                     account
                     (str "Dashboard: " page-title)
                     page-content))))
