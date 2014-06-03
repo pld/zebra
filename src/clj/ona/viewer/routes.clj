@@ -69,7 +69,7 @@
 (defroutes project-routes
   (GET "/project"
        {{account :account} :session}
-       (projects/new account))
+       (projects/new-project account))
   (GET "/projects"
       {{account :account} :session}
       (projects/all account))

@@ -24,4 +24,14 @@
             (parse-http :post
                         url
                         account
-                        {:form-params :data}) => data))))
+                        {:form-params :data}) => data))
+
+         "Should throw an exception if special __all__ error key returned"
+         (let [error :error]
+           (create account :data) => (throws clojure.lang.ExceptionInfo)
+           (provided
+            (make-url "projects") => url
+            (parse-http :post
+                        url
+                        account
+                        {:form-params :data}) => {:__all__ error}))))

@@ -19,7 +19,8 @@
 
 (defsnippet new-project-form "templates/new-project.html"
   [:body :div.content :> :.new-project-form]
-  [])
+  [errors]
+  [:#errors] (content errors))
 
 (defsnippet new-tag-form "templates/new-tag.html"
   [:body :div.content :> :.new-tag-form]
