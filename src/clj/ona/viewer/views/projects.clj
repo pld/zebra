@@ -14,7 +14,7 @@
     (dashboard-items
       "Projects"
       (:username account)
-      "projects/"
+      "/projects"
       (for [project projects]
         {:name (str project)}))))
 
@@ -34,7 +34,7 @@
   [account id]
   (let [project (api/get-project account id)]
     (base-template
-     (str "project/" (:id project) "/forms")
+     (str "/project/" (:id project) "/forms")
      account
      "Project Forms"
      (project-forms project))))

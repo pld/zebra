@@ -19,10 +19,10 @@
   "Render a nav menu based on user logged in state."
   [logged-in?]
   (if logged-in?
-    {"Projects" "/projects"
-     "Organizations" "/organizations"
-     "Sign-out" "/logout"}
-    {"Sign-up" "join"}))
+    (array-map "Organizations" "/organizations"
+               "Projects" "/projects"
+               "Sign-out" "/logout")
+    (array-map "Sign-up" "join")))
 
 (defn- build-javascript
   "Render default and custom JavaScript."
@@ -58,17 +58,13 @@
              [:li] (if (= current-path url)
                      (set-attr :class "active")
                      identity)
-             [:a] (do-> (content caption)
-                            (set-attr :href url)))
+             [:li :a] (do-> (content caption)
+                            (set-attr :href url)
+                            (set-attr :data-test url)))
 
   ;; Set Home, My Organization links
-  [:ul#menu-items
-   [:li (nth-of-type 2)]
-   :a] (set-attr :href "/")
-  [:ul#menu-items
-   [:li (nth-of-type 3)]
-   :div.dropdown :ul.submenu
-   [:li (nth-of-type 2)]]
+  [:a#home-link] (set-attr :href "/")
+  [:ul#exp-drop [:li (nth-of-type 2)]]
   (clone-for [organization orgs]
              [:li :a] (set-attr :href (str "/organizations/" (:org organization)))
              [:li :a :span.org-name] (content (:name organization))))
