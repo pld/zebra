@@ -2,6 +2,7 @@
   (:use [ring.util.response :only [redirect-after-post]]
         [ona.viewer.templates.helpers :only [include-js js-tag]])
   (:require [ona.api.dataset :as api]
+            [ona.api.project :as api-project]
             [ona.viewer.sharing :as sharing]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.forms :as forms]
@@ -72,14 +73,19 @@
 
 (defn new-dataset
   "Render a page for creating a new dataset."
-  [account]
-  (base/base-template
-   "/dataset"
-   account
-   "New dataset"
-   (datasets/new-dataset)
-   [(js-tag "goog.require(\"ona.upload\");")
-    (js-tag "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");")]))
+  ([account]
+     (new-dataset account nil))
+  ([account project-id]
+     (let [project (if project-id
+                     (api-project/get-project project-id)
+                     {})]
+       (base/base-template
+        "/dataset"
+        account
+        "New dataset"
+        (datasets/new-dataset project)
+        [(js-tag "goog.require(\"ona.upload\");")
+         (js-tag "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");")]))))
 
 (defn create
   "Create a new dataset."
