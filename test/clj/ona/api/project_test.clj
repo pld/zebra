@@ -17,10 +17,11 @@
 
   (facts "about project-create"
          "Should associate data"
-         (create account :data) => :something
-         (provided
-          (make-url "projects") => url
-          (parse-http :post
-                      url
-                      account
-                      {:form-params :data}) => :something)))
+         (let [data {:url "a/b/c/id"}]
+           (create account :data) => (merge data {:id "id"})
+           (provided
+            (make-url "projects") => url
+            (parse-http :post
+                        url
+                        account
+                        {:form-params :data}) => data))))
