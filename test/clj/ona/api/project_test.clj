@@ -37,11 +37,20 @@
                         account
                         {:form-params :data}) => {:__all__ error})))
 
-  (facts "about project-find"
+  (facts "about get-project"
          "Should find project for id"
          (get-project account :id) => parsed-data
          (provided
           (make-url "projects/" username "/" :id) => url
+          (parse-http :get
+                      url
+                      account) => data))
+
+    (facts "about get-forms"
+         "Should find forms for id"
+         (get-forms account :id) => data
+         (provided
+          (make-url "projects/" username "/" :id "/forms") => url
           (parse-http :get
                       url
                       account) => data)))

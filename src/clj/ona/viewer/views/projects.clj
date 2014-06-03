@@ -32,12 +32,13 @@
 (defn forms
   "Show the forms for a project."
   [account id]
-  (let [project (api/get-project account id)]
+  (let [project (api/get-project account id)
+        forms (api/get-forms account id)]
     (base-template
      (str "/project/" (:id project) "/forms")
      account
      "Project Forms"
-     (project-forms project))))
+     (project-forms project forms))))
 
 (defn settings
   "Show the settings for a project."

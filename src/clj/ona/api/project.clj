@@ -9,6 +9,10 @@
   (merge project-data
          {:id (-> (project-data :url) (split #"/") last)}))
 
+(defn get-forms [account id]
+  (let [url (make-url "projects/" (:username account) "/" id "/forms")]
+    (parse-http :get url account)))
+
 (defn get-project [account id]
   (let [url (make-url "projects/" (:username account) "/" id)]
     (add-id (parse-http :get url account))))
