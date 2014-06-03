@@ -67,7 +67,8 @@
                                                             "/teams/"
                                                             (last (clojure.string/split (str (:url team)) #"/"))))))
   [:a.members] (set-attr :href (str "/organizations/" (:org org) "/members"))
-  [:a.new-team] (set-attr :href (str "/organizations/" (:org org) "/new-team")))
+  [:a.new-team] (set-attr :href (str "/organizations/" (:org org) "/new-team"))
+  [:span.no-of-teams] (content (str (count teams))))
 
 (defsnippet team-info "templates/team-info.html"
   [:body :div#content]
@@ -89,6 +90,8 @@
 (defsnippet members "templates/members.html"
   [:body :div#content]
   [org members]
+  [:span.no-of-members] (content (str (count members)))
+  [:a#teams] (set-attr :href (str "/organizations/" (:org org) "/teams"))
   [:div.members] (content (members-table org members))
   [:form#adduser] (set-attr :action (str "/organizations/" (:org org) "/members")
                            :method "post")
