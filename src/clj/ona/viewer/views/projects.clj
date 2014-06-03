@@ -13,7 +13,7 @@
   (let [projects (api/all account)]
     (dashboard-items
       "Projects"
-      (:username account)
+      account
       "/projects"
       (for [project projects]
         {:name (str project)}))))
