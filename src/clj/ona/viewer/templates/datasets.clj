@@ -1,4 +1,5 @@
 (ns ona.viewer.templates.datasets
+  (:import [java.util.Date])
   (:use [net.cgrand.enlive-html :only [but
                                        clone-for
                                        content
@@ -12,9 +13,25 @@
   [:body :div#content]
   [])
 
+(defsnippet show-table "templates/show-table.html"
+  [:table#submissions]
+  [dataset]
+  [:thead [:th (but first-of-type)]] nil
+  [:tbody [:tr (but first-of-type)]] nil
+  [:thead [:th first-of-type]] (clone-for [key (keys (first dataset))]
+                                [:th] (content (str key)))
+  [:tbody [:tr first-of-type]] (clone-for [submission dataset]
+                                [:tr [:td (but first-of-type)]] nil
+                                [:tr [first-of-type]] (clone-for [key (keys (first dataset))]
+                                         [:td] (content (str (get submission key))))))
+
+(defsnippet show-map "templates/show.html"
+  [:div#map]
+  [])
+
 (defsnippet show "templates/show.html"
   [:body :div#content]
-  [dataset-id metadata dataset data-entry-link username]
+  [dataset-id metadata dataset data-entry-link username context]
 
   ;; Page-title
   [:div.page-header [:div first-of-type] :h1] (content (:title metadata))
@@ -24,16 +41,22 @@
   [:a#user-profile] (set-attr :href (str "/profile/" username))
   [:span#user-name] (content username)
   [:a#download-all] (set-attr :href (str "/dataset/" dataset-id "/download"))
+  [:a#table](set-attr :href (str "/dataset/" dataset-id "/table"))
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (:description metadata))
   [:div#sidenav [:a#form-source]] (do->
                                    (content (str (:id_string metadata)) ".xls")
                                    (set-attr :href (str "/")))
+  [:p.activity :span.latest](content (str "Latest around " (:last_submission_time metadata) " ago"))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
   [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (:tags metadata)]
                                                    [:span.tag] (content tag))
-  [:span.rec](content (str (count dataset) " records")))
+  [:span.rec](content (str (count dataset) " records"))
+  ;context
+  [:div.dataset-context] (content (if (= context "table")
+                                    (show-table dataset)
+                                    (show-map))))
 
 (defsnippet datasets-table "templates/home.html"
   [:#datasets-table]

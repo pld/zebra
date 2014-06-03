@@ -36,23 +36,26 @@
 
 (defn show
   "Show the data for a specific dataset."
-  [account dataset-id]
-  (let [dataset (api/data account dataset-id)
+  ([account dataset-id]
+   (show account dataset-id nil))
+  ([account dataset-id context]
+   (let [dataset (api/data account dataset-id)
         metadata (api/metadata account dataset-id)
         data-entry-link (api/online-data-entry-link account dataset-id)
         username (:username account)
         data-var-name "data"]
-    (base/base-template
-     "/"
-     account
-     (:title metadata)
-     (datasets/show dataset-id metadata dataset data-entry-link username)
-     [(include-js "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js")
-      [:link {:rel "stylesheet"
-              :href "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"}]
-      (js-tag "goog.require(\"ona.mapview\");")
-      (js-tag (str "var " data-var-name "=" (as-geojson dataset) ";"))
-      (js-tag (str "ona.mapview.leaflet(\"map\",\"" data-var-name "\");"))])))
+
+     (base/base-template
+       "/"
+       account
+       (:title metadata)
+       (datasets/show dataset-id metadata dataset data-entry-link username context)
+       [(include-js "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js")
+        [:link {:rel "stylesheet"
+                :href "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"}]
+        (js-tag "goog.require(\"ona.mapview\");")
+        (js-tag (str "var " data-var-name "=" (as-geojson dataset) ";"))
+        (js-tag (str "ona.mapview.leaflet(\"map\",\"" data-var-name "\");"))]))))
 
 (defn tags
   "View tags for a specific dataset"
