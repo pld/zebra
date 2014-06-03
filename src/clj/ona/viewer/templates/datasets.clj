@@ -1,4 +1,5 @@
 (ns ona.viewer.templates.datasets
+  (:import [java.util.Date])
   (:use [net.cgrand.enlive-html :only [but
                                        clone-for
                                        content
@@ -30,6 +31,7 @@
   [:div#sidenav [:a#form-source]] (do->
                                    (content (str (:id_string metadata)) ".xls")
                                    (set-attr :href (str "/")))
+  [:p.activity :span.latest](content (str "Latest around " (:last_submission_time metadata) " ago"))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
   [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (:tags metadata)]
                                                    [:span.tag] (content tag))
