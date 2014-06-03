@@ -15,7 +15,15 @@
 
 (defsnippet show-table "templates/show-table.html"
   [:table#submissions]
-  [])
+  [dataset]
+  [:thead [:th (but first-of-type)]] nil
+  [:tbody [:tr (but first-of-type)]] nil
+  [:thead [:th first-of-type]] (clone-for [key (keys (first dataset))]
+                                [:th] (content (str key)))
+  [:tbody [:tr first-of-type]] (clone-for [submission dataset]
+                                [:tr [:td (but first-of-type)]] nil
+                                [:tr [first-of-type]] (clone-for [key (keys (first dataset))]
+                                         [:td] (content (str (get submission key))))))
 
 (defsnippet show-map "templates/show.html"
   [:div#map]
@@ -33,6 +41,7 @@
   [:a#user-profile] (set-attr :href (str "/profile/" username))
   [:span#user-name] (content username)
   [:a#download-all] (set-attr :href (str "/dataset/" dataset-id "/download"))
+  [:a#table](set-attr :href (str "/dataset/" dataset-id "/table"))
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (:description metadata))
@@ -45,8 +54,8 @@
                                                    [:span.tag] (content tag))
   [:span.rec](content (str (count dataset) " records"))
   ;context
-  [:div.dataset_context] (content (if (= context "table")
-                                    (show-table)
+  [:div.dataset-context] (content (if (= context "table")
+                                    (show-table dataset)
                                     (show-map))))
 
 (defsnippet datasets-table "templates/home.html"
