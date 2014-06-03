@@ -6,7 +6,9 @@
 (let [url :fake-url
       username :fake-username
       password :fake-password
-      account {:username username :password password}]
+      account {:username username :password password}
+      data {:url "a/b/c/id"}
+      parsed-data (merge data {:id "id"})]
 
   (facts "about projects"
          "Should get correct url"
@@ -17,14 +19,13 @@
 
   (facts "about project-create"
          "Should associate data"
-         (let [data {:url "a/b/c/id"}]
-           (create account :data) => (merge data {:id "id"})
-           (provided
-            (make-url "projects") => url
-            (parse-http :post
-                        url
-                        account
-                        {:form-params :data}) => data))
+         (create account :data) => parsed-data
+         (provided
+          (make-url "projects") => url
+          (parse-http :post
+                      url
+                      account
+                      {:form-params :data}) => data)
 
          "Should throw an exception if special __all__ error key returned"
          (let [error :error]
@@ -34,4 +35,13 @@
             (parse-http :post
                         url
                         account
-                        {:form-params :data}) => {:__all__ error}))))
+                        {:form-params :data}) => {:__all__ error})))
+
+  (facts "about project-find"
+         "Should find project for id"
+         (get-project account :id) => parsed-data
+         (provided
+          (make-url "projects/" username "/" :id) => url
+          (parse-http :get
+                      url
+                      account) => data)))

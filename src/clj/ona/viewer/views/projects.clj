@@ -2,7 +2,8 @@
   (:use [ona.api.io :only [make-url]]
         [ona.viewer.templates.base :only [base-template dashboard-items]]
         [ona.viewer.templates.forms :only [new-project-form]]
-        [ona.viewer.templates.projects :only [project-settings]]
+        [ona.viewer.templates.projects :only [project-forms project-settings]]
+        [ring.util.response :only [redirect-after-post]]
         [slingshot.slingshot :only [try+]])
   (:require [ona.api.project :as api]))
 
@@ -28,14 +29,29 @@
        "New Project"
        (new-project-form errors))))
 
+(defn forms
+  "Show the forms for a project."
+  [account id]
+  (let [project (api/get-project account id)]
+    (base-template
+     (str "project/" (:id project) "/forms")
+     account
+     "Project Forms"
+     (project-forms project))))
+
 (defn settings
   "Show the settings for a project."
-  [account project]
-  (base-template
-   (str "/project/" (:id project) "settings")
-   account
-   "Project Settings"
-   (project-settings (:name project) [(:username account)])))
+  [account id]
+  (let [project (api/get-project account id)
+        username (:username account)
+        ;; TODO fille this with the shared users when API finished
+        shared-user [username]]
+    (base-template
+     (str "/project/" (:id project) "/settings")
+     account
+     "Project Settings"
+     (project-settings project username shared-user))))
+
 
 (defn create
   "Create a new project for the current user."
@@ -44,6 +60,7 @@
         data {:name (:name params)
               :owner owner}]
     (try+
-     (settings account (api/create account data))
+     (let [project (api/create account data)]
+       (redirect-after-post (str "/project/" (:id project) "/settings")))
      (catch vector? errors
        (new-project account errors)))))

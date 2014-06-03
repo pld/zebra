@@ -3,6 +3,16 @@
         [ona.api.io :only [make-url parse-http]]
         [slingshot.slingshot :only [throw+]]))
 
+(defn- add-id
+  "Parse and add the projects ID."
+  [project-data]
+  (merge project-data
+         {:id (-> (project-data :url) (split #"/") last)}))
+
+(defn get-project [account id]
+  (let [url (make-url "projects/" (:username account) "/" id)]
+    (add-id (parse-http :get url account))))
+
 (defn all [account]
   (let [url (make-url "projects")]
     (parse-http :get url account)))
@@ -13,5 +23,4 @@
                                  {:form-params data})]
     (if-let [error (:__all__ project-data)]
       (throw+ error)
-      (merge project-data
-             {:id (-> (project-data :url) (split #"/") last)}))))
+      (add-id project-data))))
