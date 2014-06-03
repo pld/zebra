@@ -34,6 +34,7 @@
   "Check if an error was returned by "
   [io]
   (try
+    (js/alert (.getResponseText io))
     (not (aget (JSON/parse (.getResponseText io)) "settings-url"))
     (catch js/SyntaxError e
       true)))

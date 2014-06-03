@@ -27,10 +27,19 @@
   (GET "/dataset"
        {{account :account} :session}
        (datasets/new-dataset account))
-  (GET "/project/:id/new-form"
+  (POST "/dataset"
+        {{account :account} :session
+         {file :file} :params}
+        (datasets/create account file))
+  (GET "/project/:id/new-dataset"
        {{account :account} :session
         {project-id :id} :params}
        (datasets/new-dataset account project-id))
+  (POST "/project/:id/new-dataset"
+        {{account :account} :session
+         {file :file
+          project-id :id} :params}
+        (datasets/create account file project-id))
   (GET "/dataset/:id"
        {{account :account} :session
         {id :id} :params}
@@ -47,10 +56,6 @@
         {{account :account} :session
          params :params}
         (datasets/create-tags account params))
-  (POST "/datasets"
-        {{account :account} :session
-         {file :file} :params}
-        (datasets/create account file))
   (GET "/dataset/:id/download"
        {{account :account} :session
         {id :id} :params}

@@ -70,4 +70,15 @@
          (delete account :dataset-id) => :response
          (provided
           (make-url "forms/" username "/" :dataset-id) => url
-          (parse-http :delete url account) => :response)))
+          (parse-http :delete url account) => :response))
+
+  (facts "about create dataset"
+         (create account :file) => :response
+         (provided
+          (#'ona.api.dataset/uploaded->file :file) => :xlsfile
+          (make-url "forms") => url
+          (parse-http :post
+                      url
+                      account
+                      {:multipart [{:name "xls_file"
+                                    :content :xlsfile}]}) => :response)))

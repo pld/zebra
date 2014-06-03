@@ -77,28 +77,35 @@
      (new-dataset account nil))
   ([account project-id]
      (let [project (if project-id
-                     (api-project/get-project project-id)
-                     {})]
+                     (api-project/get-project account project-id)
+                     {})
+           upload-path (if project-id
+                         (str "project/" project-id "/new-dataset")
+                         "dataset")]
        (base/base-template
-        "/dataset"
+        (str "/" upload-path)
         account
         "New dataset"
         (datasets/new-dataset project)
         [(js-tag "goog.require(\"ona.upload\");")
-         (js-tag "ona.upload.init(\"upload-button\", \"form\", \"/datasets\");")]))))
+         (js-tag (str "ona.upload.init(\"upload-button\", \"form\", \"/"
+                      upload-path
+                      "\");"))]))))
 
 (defn create
   "Create a new dataset."
-  [account params]
-  (let [response (api/create account params)]
-    (if (and (contains? response :type) (= (:type response) "alert-error"))
-      (:text response)
-      (let [dataset-id (:formid response)
-            preview-url (api/online-data-entry-link account dataset-id)]
-        (json-response
-         {:settings-url (str "/dataset/" dataset-id "/sharing")
-          :preview-url preview-url
-          :delete-url (str "/dataset/" dataset-id "/delete")})))))
+  ([account file]
+     (create account file nil))
+  ([account file project-id]
+     (let [response (api/create account file project-id)]
+       (if (and (contains? response :type) (= (:type response) "alert-error"))
+         (:text response)
+         (let [dataset-id (:formid response)
+               preview-url (api/online-data-entry-link account dataset-id)]
+           (json-response
+            {:settings-url (str "/dataset/" dataset-id "/sharing")
+             :preview-url preview-url
+             :delete-url (str "/dataset/" dataset-id "/delete")}))))))
 
 (defn create-tags
   "Create tags for a specific dataset"
