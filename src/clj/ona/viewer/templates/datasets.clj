@@ -13,9 +13,17 @@
   [:body :div#content]
   [])
 
+(defsnippet show-table "templates/show-table.html"
+  [:table#submissions]
+  [])
+
+(defsnippet show-map "templates/show.html"
+  [:div#map]
+  [])
+
 (defsnippet show "templates/show.html"
   [:body :div#content]
-  [dataset-id metadata dataset data-entry-link username]
+  [dataset-id metadata dataset data-entry-link username context]
 
   ;; Page-title
   [:div.page-header [:div first-of-type] :h1] (content (:title metadata))
@@ -35,7 +43,11 @@
   [:p.tagbox [:span.tag (but first-of-type)]] nil
   [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (:tags metadata)]
                                                    [:span.tag] (content tag))
-  [:span.rec](content (str (count dataset) " records")))
+  [:span.rec](content (str (count dataset) " records"))
+  ;context
+  [:div.dataset_context] (content (if (= context "table")
+                                    (show-table)
+                                    (show-map))))
 
 (defsnippet datasets-table "templates/home.html"
   [:#datasets-table]
