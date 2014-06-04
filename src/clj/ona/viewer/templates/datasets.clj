@@ -42,7 +42,7 @@
   [:a#user-profile] (set-attr :href (str "/profile/" username))
   [:span#user-name] (content username)
   [:a#download-all] (set-attr :href (str "/dataset/" dataset-id "/download"))
-  [:a#table](set-attr :href (str "/dataset/" dataset-id "/table"))
+  [:a#table](set-attr :href (str "/dataset/" dataset-id "/show/table"))
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (:description metadata))

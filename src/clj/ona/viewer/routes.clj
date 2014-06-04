@@ -35,6 +35,11 @@
        {{account :account} :session
         {project-id :id} :params}
        (datasets/new-dataset account project-id))
+  (GET "/dataset/:id/show/:context"
+       {{account :account} :session
+        {id :id
+         context :context} :params}
+       (datasets/show account id context))
   (POST "/project/:id/new-dataset"
         {{account :account} :session
          {file :file
