@@ -12,11 +12,9 @@
   [account]
   (let [username (:username account)
         datasets (datasets/all account)
-        public-datasets (count (filter true? (for [dataset datasets] 
-                                               (:public_data dataset))))
-        private-datasets (count (filter false? (for [dataset datasets]
-                                                (:public_data dataset))))
-        dataset-details {:no-of-public public-datasets :no-of-private private-datasets}]
+        freq (frequencies (for [dataset datasets]
+                            (:public_data dataset)))
+        dataset-details {:no-of-public (get freq true) :no-of-private (get freq false)}]
     (base/base-template
       "/"
       account
