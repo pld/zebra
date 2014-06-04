@@ -24,5 +24,4 @@
 (defn logout
   "Logout the user by empying the session."
   []
-  {:body (base-template "logout" "" "Log Out" "Successfully logged out.")
-   :session nil})
+  (response/redirect "/"))
