@@ -1,4 +1,8 @@
-Ona viewer that connects to the Ona API.
+## ona viewer
+
+#### A user interface that connects to the Ona API.
+
+![https://secure.travis-ci.org/onaio/ona-viewer.png?branch=master](http://travis-ci.org/onaio/onadata)
 
 This is a web application that uses [Ring][1] and
 [Compojure][2].
