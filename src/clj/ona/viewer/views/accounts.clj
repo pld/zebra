@@ -24,4 +24,7 @@
 (defn logout
   "Logout the user by empying the session."
   []
-  (response/redirect "/"))
+  {:status 302
+   :headers {"Location" "/"}
+   :body ""
+   :session nil})
