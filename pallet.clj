@@ -1,8 +1,21 @@
-(require '[pallet.api :refer [make-user plan-fn]]
+(require '[pallet.actions :refer [exec-script*]]
+         '[pallet.api :refer [make-user plan-fn]]
          '[pallet.crate.automated-admin-user :as automated-admin-user]
          '[pallet.crate.java :as java]
          '[pallet.crate.runit :as runit]
          '[pallet.crate.app-deploy :as app-deploy])
+
+(def external-port 80)
+(def internal-port 8080)
+
+(def iptables-setup
+  (str  "iptables -t nat -I PREROUTING -p tcp --dport "
+        external-port
+        " -j REDIRECT --to-port "
+        internal-port))
+
+(def run-command
+  "java -jar /opt/ona-viewer/ona-viewer.jar > /dev/null")
 
 (def ona-viewer-node-spec
   "Server specification for Ona viewer."
@@ -11,10 +24,7 @@
            :os-64-bit true
            :image-id "us-east-1/ami-e2861d8b"}
    :location {:location-id "us-east-1a"}
-   ;; TODO redirect 80 to 8080 via:
-   ;; # iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
-   ;; or start server on 80.
-   :network {:inbound-ports [22 80 8080]}})
+   :network {:inbound-ports [22 external-port internal-port]}})
 
 (def ona-viewer-server
   "Group spec with app deploy paths for Ona viewer."
@@ -26,12 +36,13 @@
                           {:from-lein
                            [{:project-path "target/ona-viewer-%s-standalone.jar"
                              :path "ona-viewer/ona-viewer.jar"}]}
-                          :run-command "java -jar /opt/ona-viewer/ona-viewer.jar > /dev/null"}
+                          :run-command run-command}
                          :instance-id :ona-viewer)]))
 
 (defproject ona-viewer
   :provider {:aws-ec2
              {:node-spec ona-viewer-node-spec
               :phases {:bootstrap
-                       (plan-fn (automated-admin-user))}}}
+                       (plan-fn (automated-admin-user)
+                                (exec-script* (iptables-setup)))}}}
   :groups [ona-viewer-server])
