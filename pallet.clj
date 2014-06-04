@@ -4,6 +4,9 @@
          '[pallet.crate.runit :as runit]
          '[pallet.crate.app-deploy :as app-deploy])
 
+(def run-command
+  "java -jar /opt/ona-viewer/ona-viewer.jar > /dev/null")
+
 (def ona-viewer-node-spec
   "Server specification for Ona viewer."
   {:image {:os-family :ubuntu
@@ -26,7 +29,7 @@
                           {:from-lein
                            [{:project-path "target/ona-viewer-%s-standalone.jar"
                              :path "ona-viewer/ona-viewer.jar"}]}
-                          :run-command "java -jar /opt/ona-viewer/ona-viewer.jar > /dev/null"}
+                          :run-command run-command}
                          :instance-id :ona-viewer)]))
 
 (defproject ona-viewer
