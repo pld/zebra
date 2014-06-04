@@ -15,6 +15,7 @@
       "Organizations"
       account
       "organizations/"
+      organizations
       (new-organization-form))))
 
 (defn create

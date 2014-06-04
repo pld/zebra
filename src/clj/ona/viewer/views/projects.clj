@@ -13,10 +13,10 @@
   (let [projects (api/all account)]
     (dashboard-items
       "Projects"
-      (:username account)
-      "projects/"
+      account
+      "/projects"
       (for [project projects]
-        {:item-name (str project)}))))
+        {:name (str project)}))))
 
 (defn new-project
   "Form for creating a new project."
@@ -32,12 +32,13 @@
 (defn forms
   "Show the forms for a project."
   [account id]
-  (let [project (api/get-project account id)]
+  (let [project (api/get-project account id)
+        forms (api/get-forms account id)]
     (base-template
-     (str "project/" (:id project) "/forms")
+     (str "/project/" (:id project) "/forms")
      account
      "Project Forms"
-     (project-forms project))))
+     (project-forms project forms))))
 
 (defn settings
   "Show the settings for a project."

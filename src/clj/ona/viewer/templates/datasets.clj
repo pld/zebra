@@ -11,7 +11,8 @@
 
 (defsnippet new-dataset "templates/dataset-new.html"
   [:body :div#content]
-  [])
+  [project]
+  [:span#project-name] (content (:name project)))
 
 (defsnippet show-table "templates/show-table.html"
   [:table#submissions]

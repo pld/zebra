@@ -24,9 +24,11 @@
 
 (defsnippet project-forms "templates/project-forms.html"
   [:body :div.content]
-  [project]
+  [project forms]
 
   [:#name] (content (:name project))
   ;; TODO this will work once the API sends back this content
   [:#description] (content (:description project))
-  [:#addform] (set-attr :href "/dataset"))
+  [:#addform] (set-attr :href (str "/project/" (:id project) "/new-dataset"))
+  [:#forms [:li]] (clone-for [form forms]
+                             [:.formname] (content (:title form))))

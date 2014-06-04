@@ -24,7 +24,22 @@
         {username :username} :params} (profile/user-profile account username)))
 
 (defroutes dataset-routes
-  (GET "/dataset" {{account :account} :session} (datasets/new-dataset account))
+  (GET "/dataset"
+       {{account :account} :session}
+       (datasets/new-dataset account))
+  (POST "/dataset"
+        {{account :account} :session
+         {file :file} :params}
+        (datasets/create account file))
+  (GET "/project/:id/new-dataset"
+       {{account :account} :session
+        {project-id :id} :params}
+       (datasets/new-dataset account project-id))
+  (POST "/project/:id/new-dataset"
+        {{account :account} :session
+         {file :file
+          project-id :id} :params}
+        (datasets/create account file project-id))
   (GET "/dataset/:id"
        {{account :account} :session
         {id :id} :params}
@@ -34,26 +49,17 @@
         {id :id} :params}
        (datasets/delete account id))
   (GET "/dataset/:id/tags"
-      {{account :account} :session
-       {id :id} :params}
-      (datasets/tags account id))
+       {{account :account} :session
+        {id :id} :params}
+       (datasets/tags account id))
   (POST "/dataset/:id/tags"
-       {{account :account} :session
-        params :params}
-       (datasets/create-tags account params))
-  (GET "/dataset/:id/:context"
-       {{account :account} :session
-        {id :id
-         context :context} :params}
-       (datasets/show account id context))
-  (POST "/datasets"
-       {{account :account} :session
-        {file :file} :params}
-       (datasets/create account file))
+        {{account :account} :session
+         params :params}
+        (datasets/create-tags account params))
   (GET "/dataset/:id/download"
-      {{account :account} :session
-       {id :id} :params}
-      (datasets/download account id :csv))
+       {{account :account} :session
+        {id :id} :params}
+       (datasets/download account id :csv))
   (GET "/dataset/:id/sharing"
        {{account :account} :session
         {id :id} :params}
@@ -63,13 +69,13 @@
          params :params}
         (datasets/sharing-update account params))
   (GET "/dataset/:id/metadata"
-      {{account :account} :session
-       {id :id} :params}
-      (datasets/metadata account id))
-  (POST "/dataset/:id/metadata"
        {{account :account} :session
-        params :params}
-       (datasets/update account params)))
+        {id :id} :params}
+       (datasets/metadata account id))
+  (POST "/dataset/:id/metadata"
+        {{account :account} :session
+         params :params}
+        (datasets/update account params)))
 
 (defroutes project-routes
   (GET "/project"

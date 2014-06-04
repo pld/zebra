@@ -5,14 +5,14 @@
                                        set-attr]] :reload)
   (:require [ona.viewer.templates.datasets :as dst-templates]))
 
-(defsnippet user-profile "templates/user-profile-garrett.html"
+(defsnippet user-profile "templates/user-profile-show.html"
   [:body :div#content]
   [profile datasets]
 
   ;; Set user detial on right side bar
   [:h2.username] (content (:name profile))
   [:img.avatar] (set-attr :src (:gravatar profile))
-  [:a.new-dataset] (set-attr :href "/dataset")
+  [:a#new-project] (set-attr :href "/project")
   [:span.occupation] (content "")
   [:a.org ] (content (:organization profile))
   [:a.website](do-> (content (:website profile))
