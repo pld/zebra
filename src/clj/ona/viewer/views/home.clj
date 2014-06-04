@@ -12,14 +12,10 @@
   [account]
   (let [username (:username account)
         datasets (datasets/all account)
-        no-public-datasets 0
-        no-private-datasets 0
-        public-datasets (loop [dataset datasets]
-                             (when (:public_data dataset)
-                               (recur (inc no-public-datasets))))
-        private-datasets (loop [dataset datasets]
-                          (when (not (:public_data dataset))
-                            (recur (inc no-private-datasets))))
+        public-datasets (count (filter true? (for [dataset datasets] 
+                                               (:public_data dataset))))
+        private-datasets (count (filter false? (for [dataset datasets]
+                                                (:public_data dataset))))
         dataset-details {:no-of-public public-datasets :no-of-private private-datasets}]
     (base/base-template
       "/"
