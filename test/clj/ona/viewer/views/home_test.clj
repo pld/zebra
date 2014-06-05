@@ -14,8 +14,8 @@
 
        "Home page goes to dashboard if account in session"
        (let [fake-account :fake-account]
-         (home-page {:account fake-account}) => :dashboard
-         (provided (dashboard fake-account) => :dashboard)))
+         (home-page {:account fake-account} :fake-search-term) => :dashboard
+         (provided (dashboard fake-account :fake-search-term) => :dashboard)))
 
 (facts "about dashboard"
        "Should contain username"
