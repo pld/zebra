@@ -49,10 +49,9 @@
   [:div#sidenav [:a#form-source]] (do->
                                    (content (str (:id_string metadata)) ".xls")
                                    (set-attr :href (str "/")))
-  [:p.activity :span.latest](content (str
-                                       "Latest around "
-                                       (u/get-now-interval (:last_submission_time metadata))
-                                       " ago"))
+  [:p.activity :span.latest](content (if-let [interval (u/get-now-interval (:last_submission_time metadata))]
+                                       (str "Latest around " interval" ago")
+                                       "No submissions made"))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
   [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (:tags metadata)]
                                                    [:span.tag] (content tag))
