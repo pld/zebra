@@ -82,8 +82,8 @@
          params :params}
         (datasets/update account params))
   (GET "/search"  {session :session
-                   {search-term :search-term} :params}
-       (home-page session search-term)))
+                   {query :query} :params}
+       (home-page session query)))
 
 (defroutes project-routes
   (GET "/project"
