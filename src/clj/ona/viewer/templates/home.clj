@@ -21,5 +21,8 @@
 
   ;; Dataset details
   [:span#public-datasets] (content (str (:no-of-public dataset-details)))
-  [:span#private-datasets] (content (str (:no-of-private dataset-details))))
+  [:span#private-datasets] (content (str (:no-of-private dataset-details)))
+
+  ;; Search Form
+  [:form#search-form] (set-attr :action "/search"))
 

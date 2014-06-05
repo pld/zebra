@@ -80,7 +80,10 @@
   (POST "/dataset/:id/metadata"
         {{account :account} :session
          params :params}
-        (datasets/update account params)))
+        (datasets/update account params))
+  (GET "/search"  {session :session
+                   {search-term :search-term} :params}
+       (home-page session search-term)))
 
 (defroutes project-routes
   (GET "/project"
