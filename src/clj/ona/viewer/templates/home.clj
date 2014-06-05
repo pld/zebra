@@ -12,7 +12,7 @@
 
 (defsnippet home-content "templates/home.html"
   [:body :div#content]
-  [username datasets dataset-details]
+  [username datasets dataset-details query]
   [:.username] (content username)
   [:div.datasets-table] (content (datasets/datasets-table datasets username))
 
@@ -24,5 +24,5 @@
   [:span#private-datasets] (content (str (:no-of-private dataset-details)))
 
   ;; Search Form
-  [:form#search-form] (set-attr :action "/search"))
-
+  [:form#search-form] (set-attr :action "/search")
+  [:input#search-query] (set-attr :value query))
