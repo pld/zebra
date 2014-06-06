@@ -11,9 +11,11 @@
                                        set-attr
                                        nth-of-type]
          :rename {html enlive-html}] :reload
-         [ona.viewer.templates.helpers :only [include-js js-tag]])
+         [ona.viewer.templates.helpers :only [include-js js-tag org-url]])
   (:require [ona.api.organization :as api-orgs]
             [ona.viewer.templates.list-items :as l]))
+
+
 
 (defn- navigation-items
   "Render a nav menu based on user logged in state."
@@ -65,9 +67,9 @@
   ;; Set Home, My Organization links
   [:a#home-link] (set-attr :href "/")
   [:ul#exp-drop [:li (nth-of-type 2)]]
-  (clone-for [organization orgs]
-             [:li :a] (set-attr :href (str "/organizations/" (:org organization)))
-             [:li :a :span.org-name] (content (:name organization))))
+  (clone-for [org orgs]
+             [:li :a] (set-attr :href (org-url org))
+             [:li :a :span.org-name] (content (:name org))))
 
 (deftemplate render-base-template "templates/base.html"
   [current-path username title orgs page-content javascript logged-in?]
@@ -90,9 +92,15 @@
   ([current-path account title page-content]
      (base-template current-path account title page-content nil))
   ([current-path account title page-content javascript]
+     (base-template current-path
+                    account
+                    title
+                    page-content
+                    javascript
+                    (api-orgs/all account)))
+  ([current-path account title page-content javascript orgs]
      (let [logged-in? (not= title "Login")
-           username (:username account)
-           orgs (api-orgs/all account)]
+           username (:username account)]
        (render-base-template
         current-path username title orgs page-content javascript logged-in?))))
 
