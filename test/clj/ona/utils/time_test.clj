@@ -1,6 +1,6 @@
 (ns ona.utils.time_test
   (:use midje.sweet
-        ona.viewer.utils.time)
+        ona.utils.time)
   (:require [clj-time.local :as l]))
 
 (fact "get-get-now interval should return interval between the time now and submission time"
