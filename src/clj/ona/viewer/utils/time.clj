@@ -3,6 +3,11 @@
   (:require [clj-time.core :as t]
             [clj-time.local :as l]))
 
+(def seconds-in-minute 60)
+(def minutes-in-hour 60)
+(def hours-in-day 24)
+(def days-in-year 365)
+
 (defn pluralize-number
   "Create an appropriately pluralized string prefix by number."
   [number kind]
@@ -14,13 +19,13 @@
   "Convert an interval to an amount of time string."
   [interval]
   (let [interval-in-secs (t/in-seconds interval)
-        interval-in-mins (if (> interval-in-secs 60)
+        interval-in-mins (if (> interval-in-secs seconds-in-minute)
                            (t/in-minutes interval))
-        interval-in-hours (if (> interval-in-mins 60)
+        interval-in-hours (if (> interval-in-mins minutes-in-hour)
                             (t/in-hours interval))
-        interval-in-days (if (> interval-in-hours 24)
+        interval-in-days (if (> interval-in-hours hours-in-day)
                            (t/in-days interval))
-        interval-in-years (if (> interval-in-days 366)
+        interval-in-years (if (> interval-in-days days-in-year)
                             (t/in-years interval))]
     (if interval-in-years
       (pluralize-number interval-in-years "year")
