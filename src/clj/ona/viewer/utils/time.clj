@@ -27,16 +27,16 @@
                            (t/in-days interval))
         interval-in-years (if (> interval-in-days days-in-year)
                             (t/in-years interval))]
-    (if interval-in-years
-      (pluralize-number interval-in-years "year")
-      (if interval-in-days
-        (pluralize-number interval-in-days "day")
-        (if interval-in-hours
-          (pluralize-number interval-in-hours "hour")
-          (if interval-in-mins
-            (pluralize-number interval-in-mins "minute")
-            (if interval-in-secs
-              (pluralize-number interval-in-secs "second"))))))))
+    (or (and interval-in-years
+             (pluralize-number interval-in-years "year"))
+        (and interval-in-days
+             (pluralize-number interval-in-days "day"))
+        (and interval-in-hours
+             (pluralize-number interval-in-hours "hour"))
+        (and interval-in-mins
+             (pluralize-number interval-in-mins "minute"))
+        (and interval-in-secs
+             (pluralize-number interval-in-secs "second")))))
 
 (defn date->days-ago-str
   "Get time interval in secs, mins, hours days or years for a given date time"
