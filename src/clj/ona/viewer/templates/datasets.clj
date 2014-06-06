@@ -1,5 +1,4 @@
 (ns ona.viewer.templates.datasets
-  (:import [java.util.Date])
   (:use [net.cgrand.enlive-html :only [but
                                        clone-for
                                        content
@@ -7,7 +6,26 @@
                                        do->
                                        first-of-type
                                        nth-of-type
-                                       set-attr]] :reload))
+                                       set-attr]]
+        :reload
+        [ona.utils.numeric :only [pluralize-number]])
+  (:require [ona.utils.time :as t]))
+
+(defn- latest-submission-str
+  "String for the latest submission made."
+  [metadata]
+  (if-let [interval (t/date->days-ago-str (:last_submission_time metadata))]
+    (str "Latest around "
+         interval
+         " ago.")
+    "No submissions made."))
+
+(defn- submission-made-str
+  "String for the number of submissions made."
+  [dataset]
+  (let [no-submission (t/get-no-submissions-today dataset)]
+    (str (pluralize-number no-submission "submission")
+         " made today.")))
 
 (defsnippet new-dataset "templates/dataset-new.html"
   [:body :div#content]
@@ -49,12 +67,14 @@
   [:div#sidenav [:a#form-source]] (do->
                                    (content (str (:id_string metadata)) ".xls")
                                    (set-attr :href (str "/")))
-  [:p.activity :span.latest](content (str "Latest around " (:last_submission_time metadata) " ago"))
+  [:p.activity :span.submissions] (content (submission-made-str dataset))
+  [:p.activity :span.latest] (content (latest-submission-str metadata))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
   [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (:tags metadata)]
                                                    [:span.tag] (content tag))
-  [:span.rec](content (str (count dataset) " records"))
-  ;context
+  [:span.rec] (content (str (count dataset) " records"))
+
+  ;; Context
   [:div.dataset-context] (content (if (= context "table")
                                     (show-table dataset)
                                     (show-map))))
