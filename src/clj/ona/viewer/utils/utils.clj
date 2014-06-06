@@ -12,22 +12,22 @@
                      (l/local-now))
           interval-in-secs (t/in-seconds interval)
           interval-in-mins (if (> interval-in-secs 60)
-                             (t/in-minutes interval))
+                             (t/in-minutes interval)0)
           interval-in-hours (if (> interval-in-mins 60)
-                              (t/in-hours interval))
+                              (t/in-hours interval)0)
           interval-in-days (if (> interval-in-hours 24)
-                             (t/in-days interval))
+                             (t/in-days interval)0)
           interval-in-years (if (> interval-in-days 366)
-                              (t/in-years interval))]
-      (if interval-in-years
+                              (t/in-years interval)0)]
+      (if (> interval-in-years 0)
         (str interval-in-years " years")
-        (if interval-in-days
+        (if (> interval-in-days 0)
           (str interval-in-days " days")
-          (if interval-in-hours
+          (if (> interval-in-hours 0)
             (str interval-in-hours " hours")
-            (if interval-in-mins
+            (if (> interval-in-mins 0)
               (str interval-in-mins " minutes")
-              (if interval-in-secs
+              (if (> interval-in-secs 0)
                 (str interval-in-secs " seconds")))))))
     nil))
 
