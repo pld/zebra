@@ -6,9 +6,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<link rel="stylesheet" type="text/css" href="css/pure-min.css"/>
-<link rel="stylesheet" href="css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<link rel="stylesheet" type="text/css" href="../../../resources/public/css/pure-min.css">
+<link rel="stylesheet" href="../../../resources/public/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="../../../resources/public/css/style.css">
 </head>
 <body>
 <div id="main-menu">
@@ -77,45 +77,48 @@
                     <input type="radio" checked name="tabs" id="tab1">
                     <label for="tab1">Datasets</label>
                     <div id="tab-content1" class="tab-content">
-                        <table class="pure-table pure-table-horizontal">
-                        <tr>
-                            <td>
-                               <p><img class="avatar thumb" src="/img/ona-logo.png" alt="Ona"/> Ona<p>
-                                Author: <span>mberg</span>
-                            </td>
-                            <td>
-                                <i class="fa fa-folder"></i>&nbsp; <strong>Pizza</strong>
-                                &nbsp; <a href="#"><i class="fa fa-star"></i></a>
-                                <p>Last record 2 hours ago</p>
-                            </td>
-                            <td>10 datasets</td>
-                        </tr>
-                        <tr>
-                            <td>
-                               <p><img class="avatar thumb" src="/img/avatar.jpg" alt="User"/> Ona<p>
-                                Created: <span>larry</span>
-                            </td>
-                            <td>
-                                <i class="fa fa-folder"></i>&nbsp; <strong>Office Checkins</strong>
-                                &nbsp; <a href="#"><i class="fa fa-star"></i></a>
-                                <p>Last record 6 hours ago</p>
-                            </td>
-                            <td>2 datasets</td>
-                        </tr>
-                        <tr>
-                            <td>
-                               <p><img class="avatar thumb" src="/img/avatar.jpg" alt="User"/> Ona<p>
-                                Author: <span>pld</span>
-                            </td>
-                            <td>
-                                <i class="fa fa-folder"></i> <strong>Countries Visited</strong>
-                                &nbsp; <a href="#"><i class="fa fa-star"></i></a>
-                                <p>
-                                    <span>List of places we've all worked</span><br/>
-                                    Last record 12 hours ago</p>
-                            </td>
-                            <td>1 dataset</td>
-                        </tr>
+                        <table id="projects" class="pure-table pure-table-horizontal">
+                        <tbody>
+                            <tr>
+                                <td>
+                                   <p><img class="avatar thumb" src="/img/ona-logo.png" alt="Ona"/> Ona<p>
+                                    Author: <span>mberg</span>
+                                </td>
+                                <td>
+                                    <i class="fa fa-folder"></i>&nbsp;
+                                    <strong><span id="project-name">Pizza</span></strong>
+                                    &nbsp; <a href="#"><i class="fa fa-star"></i></a>
+                                    <p>Last record 2 hours ago</p>
+                                </td>
+                                <td>10 datasets</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                   <p><img class="avatar thumb" src="/img/avatar.jpg" alt="User"/> Ona<p>
+                                    Created: <span>larry</span>
+                                </td>
+                                <td>
+                                    <i class="fa fa-folder"></i>&nbsp; <strong>Office Checkins</strong>
+                                    &nbsp; <a href="#"><i class="fa fa-star"></i></a>
+                                    <p>Last record 6 hours ago</p>
+                                </td>
+                                <td>2 datasets</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                   <p><img class="avatar thumb" src="/img/avatar.jpg" alt="User"/> Ona<p>
+                                    Author: <span>pld</span>
+                                </td>
+                                <td>
+                                    <i class="fa fa-folder"></i> <strong>Countries Visited</strong>
+                                    &nbsp; <a href="#"><i class="fa fa-star"></i></a>
+                                    <p>
+                                        <span>List of places we've all worked</span><br/>
+                                        Last record 12 hours ago</p>
+                                </td>
+                                <td>1 dataset</td>
+                            </tr>
+                        </tbody>
                         </table>
                     </div>
                 </li>

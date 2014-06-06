@@ -3,6 +3,7 @@
         [ona.viewer.templates.forms :only [new-organization-form]])
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-datasets]
+            [ona.api.project :as api-projects]
             [clojure.string :as string]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.organization :as org-templates]))
@@ -34,9 +35,11 @@
   (let [org (api/profile account org-name)
         teams (api/teams account org-name)
         members (api/members account org-name)
+        projects (api-projects/all account)
         org-details {:org org
                      :members members
-                     :teams teams}]
+                     :teams teams
+                     :projects projects}]
     (base/base-template
       "/organizations"
       account

@@ -5,7 +5,8 @@
                                        do->
                                        first-of-type
                                        defsnippet
-                                       set-attr]] :reload))
+                                       set-attr]] :reload)
+  (:require [ona.viewer.templates.projects :as project-templates]))
 
 (defsnippet profile "templates/org-profile.html"
   [:body :div#content]
@@ -40,7 +41,9 @@
   [:div.org-details :ul.teams [:li (but first-of-type)]] nil
   [:div.org-details
    :ul.teams
-   [:li first-of-type]] (clone-for [team (:teams org-details)] [:li] (content (:name team))))
+   [:li first-of-type]] (clone-for [team (:teams org-details)] [:li] (content (:name team)))
+  ;; Organization projects
+  [:div#tab-content1] (content (project-templates/project-list (:projects org-details))))
 
 (defsnippet members-table "templates/members.html"
   [:table.members]
