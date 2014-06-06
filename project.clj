@@ -17,7 +17,8 @@
                  [ring/ring-json "0.3.1"]
                  [enlive "1.1.5"]
                  [slingshot "0.10.3"]
-                 [clj-time "0.7.0"]]
+                 [clj-time "0.7.0"]
+                 [inflections "0.9.7"]]
   :jvm-opts ^:replace ["-Xmx1g"]
   :profiles {:dev {:dependencies [[midje "1.6.3"]]}
              :pallet {:dependencies

@@ -7,7 +7,7 @@
                                        first-of-type
                                        nth-of-type
                                        set-attr]] :reload)
-  (:require [ona.viewer.utils.utils :as u]))
+  (:require [ona.viewer.utils.time :as t]))
 
 (defsnippet new-dataset "templates/dataset-new.html"
   [:body :div#content]
@@ -49,8 +49,8 @@
   [:div#sidenav [:a#form-source]] (do->
                                    (content (str (:id_string metadata)) ".xls")
                                    (set-attr :href (str "/")))
-  [:p.activity :span.submissions](content (str (u/get-no-submissions-today dataset) " submissions made today."))
-  [:p.activity :span.latest](content (if-let [interval (u/get-now-interval (:last_submission_time metadata))]
+  [:p.activity :span.submissions](content (str (t/get-no-submissions-today dataset) " submissions made today."))
+  [:p.activity :span.latest](content (if-let [interval (t/date->days-ago-str (:last_submission_time metadata))]
                                        (str "Latest around " interval" ago.")
                                        "No submissions made."))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
