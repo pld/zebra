@@ -7,6 +7,8 @@
 (def minutes-in-hour 60)
 (def hours-in-day 24)
 (def days-in-year 365)
+(def start-of-today (t/today-at 00 00 00))
+(def end-of-today (t/today-at 23 59 59))
 
 (defn pluralize-number
   "Create an appropriately pluralized string prefix by number."
@@ -50,8 +52,8 @@
 
 (defn during-today?
   [time-str]
-  (t/within? (t/interval (t/today-at 00 00 00)
-                         (t/today-at 23 59 59))
+  (t/within? (t/interval start-of-today
+                         end-of-today)
              (l/to-local-date-time time-str)))
 
 (defn get-no-submissions-today
