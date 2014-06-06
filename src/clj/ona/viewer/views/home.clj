@@ -8,6 +8,13 @@
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.home :as home]))
 
+(defn- get-public-private-dataset-counts
+  [all-datasets]
+  (let [freq (frequencies (for [dataset all-datasets]
+                            (:public_data dataset)))]
+    {:no-of-public (get freq true)
+     :no-of-private (get freq false)}))
+
 (defn- search-datasets
   "Return datasets' with a dataset title matching the query."
   [query datasets]
@@ -20,26 +27,26 @@
 (defn dashboard
   "Render the users signed in home page."
   ([account]
-   (dashboard account nil))
+     (dashboard account nil))
   ([account query]
-  (let [username (:username account)
-        all-datasets (datasets/all account)
-        freq (frequencies (for [dataset all-datasets]
-                            (:public_data dataset)))
-        dataset-details {:no-of-public (get freq true)
-                         :no-of-private (get freq false)}
-        datasets (if query
-                   (search-datasets query all-datasets)
-                   all-datasets)]
-    (base/base-template
-      "/"
-      account
-      "Home"
-      (home/home-content
-        username
-        datasets
-        dataset-details
-        query)))))
+     (let [username (:username account)
+           all-datasets (datasets/all account)
+           dataset-details (get-public-private-dataset-counts all-datasets)
+           datasets (if query
+                      (search-datasets query all-datasets)
+                      all-datasets)
+           orgs (api-orgs/all account)]
+       (base/base-template
+        "/"
+        account
+        "Home"
+        (home/home-content username
+                           datasets
+                           dataset-details
+                           query
+                           orgs)
+        nil
+        orgs))))
 
 (defn home-page
   "Render the signed out home page."

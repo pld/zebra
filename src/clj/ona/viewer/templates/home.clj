@@ -4,15 +4,17 @@
                                        content
                                        clone-for
                                        defsnippet
+                                       do->
                                        first-of-type
                                        set-attr
                                        nth-of-type]]
-         [ona.viewer.templates.modals :only [share-dialog]] :reload)
+        [ona.viewer.templates.modals :only [share-dialog]] :reload
+        [ona.viewer.templates.helpers :only [org-url]])
   (:require [ona.viewer.templates.datasets :as datasets]))
 
 (defsnippet home-content "templates/home.html"
   [:body :div#content]
-  [username datasets dataset-details query]
+  [username datasets dataset-details query orgs]
   [:.username] (content username)
   [:div.datasets-table] (content (datasets/datasets-table datasets username))
 
@@ -25,4 +27,9 @@
 
   ;; Search Form
   [:form#search-form] (set-attr :action "/search")
-  [:input#search-query] (set-attr :value query))
+  [:input#search-query] (set-attr :value query)
+
+  ;; Set right hand org nav links
+  [:span.organization-links [:a]] (clone-for [org orgs]
+                                             [:a] (do-> (set-attr :href (org-url org))
+                                                        (content (:name org)))))
