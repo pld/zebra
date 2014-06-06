@@ -49,7 +49,8 @@
         </div>
 
         <div class="pure-u-1-2">
-            <span class="t-normal right">My Organizations: <a href="http://www.who.int">WHO</a></span>
+          <span class="t-normal right organization-links">My Organizations:
+            <a href="http://www.who.int">WHO</a></span>
         </div>
     </div>
 
@@ -64,8 +65,8 @@
                         Sort: Last record time | Last edit me
 
                         <span class="right">
-                            <form class="pure-form">
-                            <input type="text" name="search_dataset"/>
+                            <form id="search-form" class="pure-form">
+                            <input type="text" name="query" id="search-query"/>
                             <input class="pure-button" type="submit" value="Search"/>
                             </form>
                         </span>
@@ -288,7 +289,7 @@
 
             <p>
                 Datasets<br/>
-                Public: 1 | Private: 3<br/>
+                Public: <span id="public-datasets">1</span> | Private: <span id="private-datasets">1</span><br/>
                 <a href="#">Upgrade</a>
             </p>
         </div>
