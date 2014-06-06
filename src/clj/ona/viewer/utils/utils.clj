@@ -30,3 +30,12 @@
               (if interval-in-secs
                 (str interval-in-secs " seconds")))))))
     nil))
+
+(defn get-no-submissions-today
+  [dataset]
+  (count (remove nil?
+                 (for [data dataset]
+                   (if (t/within? (t/interval (t/today-at 00 00 00) (t/today-at 23 59 59))
+                                            (l/to-local-date-time (:_submission_time data)))
+                     data
+                     )))))
