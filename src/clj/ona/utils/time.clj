@@ -6,32 +6,29 @@
 (def seconds-in-minute 60)
 (def minutes-in-hour 60)
 (def hours-in-day 24)
+(def days-in-month-average 30)
 (def days-in-year 365)
+
+(def seconds-in-hour (* minutes-in-hour seconds-in-minute))
+(def seconds-in-day (* hours-in-day seconds-in-hour))
+(def seconds-in-month-average (* days-in-month-average seconds-in-day))
+(def seconds-in-year (* days-in-year seconds-in-day))
+
 (def start-of-today (t/today-at 00 00 00))
 (def end-of-today (t/today-at 23 59 59))
 
 (defn interval->time-str
   "Convert an interval to an amount of time string."
   [interval]
-  (let [interval-in-secs (t/in-seconds interval)
-        interval-in-mins (if (> interval-in-secs seconds-in-minute)
-                           (t/in-minutes interval))
-        interval-in-hours (if (> interval-in-mins minutes-in-hour)
-                            (t/in-hours interval))
-        interval-in-days (if (> interval-in-hours hours-in-day)
-                           (t/in-days interval))
-        interval-in-years (if (> interval-in-days days-in-year)
-                            (t/in-years interval))]
-    (or (and interval-in-years
-             (pluralize-number interval-in-years "year"))
-        (and interval-in-days
-             (pluralize-number interval-in-days "day"))
-        (and interval-in-hours
-             (pluralize-number interval-in-hours "hour"))
-        (and interval-in-mins
-             (pluralize-number interval-in-mins "minute"))
-        (and interval-in-secs
-             (pluralize-number interval-in-secs "second")))))
+  (let [interval-in-secs (t/in-seconds interval)]
+    (apply pluralize-number
+           (condp <= interval-in-secs
+             seconds-in-year [(t/in-years interval) "year"]
+             seconds-in-month-average [(t/in-months interval) "month"]
+             seconds-in-day [(t/in-days interval) "day"]
+             seconds-in-hour [(t/in-hours interval) "hour"]
+             seconds-in-minute [(t/in-minutes interval) "minute"]
+             [(interval-in-secs "second")]))))
 
 (defn date->days-ago-str
   "Get time interval in secs, mins, hours days or years for a given date time"
