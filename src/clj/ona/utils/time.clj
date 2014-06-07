@@ -6,10 +6,12 @@
 (def seconds-in-minute 60)
 (def minutes-in-hour 60)
 (def hours-in-day 24)
+(def days-in-month-average 30)
 (def days-in-year 365)
 
 (def seconds-in-hour (* minutes-in-hour seconds-in-minute))
 (def seconds-in-day (* hours-in-day seconds-in-hour))
+(def seconds-in-month-average (* days-in-month-average seconds-in-day))
 (def seconds-in-year (* days-in-year seconds-in-day))
 
 (def start-of-today (t/today-at 00 00 00))
@@ -22,6 +24,7 @@
     (apply pluralize-number
            (condp <= interval-in-secs
              seconds-in-year [(t/in-years interval) "year"]
+             seconds-in-month-average [(t/in-months interval) "month"]
              seconds-in-day [(t/in-days interval) "day"]
              seconds-in-hour [(t/in-hours interval) "hour"]
              seconds-in-minute [(t/in-minutes interval) "minute"]
