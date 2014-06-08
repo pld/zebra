@@ -5,7 +5,8 @@
         [ona.viewer.templates.projects :only [project-forms project-settings]]
         [ring.util.response :only [redirect-after-post]]
         [slingshot.slingshot :only [try+]])
-  (:require [ona.api.project :as api]))
+  (:require [ona.api.project :as api]
+            [ona.viewer.urls :as u]))
 
 (defn all
   "List all of the users projects."
@@ -35,7 +36,7 @@
   (let [project (api/get-project account id)
         forms (api/get-forms account id)]
     (base-template
-     (str "/project/" (:id project) "/forms")
+     (u/project-forms project)
      account
      "Project Forms"
      (project-forms project forms))))
@@ -48,7 +49,7 @@
         ;; TODO fille this with the shared users when API finished
         shared-user [username]]
     (base-template
-     (str "/project/" (:id project) "/settings")
+     (u/project-settings project)
      account
      "Project Settings"
      (project-settings project username shared-user))))
@@ -62,6 +63,6 @@
               :owner owner}]
     (try+
      (let [project (api/create account data)]
-       (redirect-after-post (str "/project/" (:id project) "/settings")))
+       (redirect-after-post (u/project-settings project)))
      (catch vector? errors
        (new-project account errors)))))

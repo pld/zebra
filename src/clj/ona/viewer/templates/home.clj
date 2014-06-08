@@ -8,9 +8,9 @@
                                        first-of-type
                                        set-attr
                                        nth-of-type]]
-        [ona.viewer.templates.modals :only [share-dialog]] :reload
-        [ona.viewer.templates.helpers :only [org-url]])
-  (:require [ona.viewer.templates.datasets :as datasets]))
+        [ona.viewer.templates.modals :only [share-dialog]] :reload)
+  (:require [ona.viewer.templates.datasets :as datasets]
+            [ona.viewer.urls :as u]))
 
 (defsnippet home-content "templates/home.html"
   [:body :div#content]
@@ -19,7 +19,7 @@
   [:div.datasets-table] (content (datasets/datasets-table datasets username))
 
   ;; Set sidenav links
-  [:#sidenav [:a first-of-type]] (set-attr :href "/project")
+  [:#sidenav [:a first-of-type]] (set-attr :href u/project-new)
 
   ;; Dataset details
   [:span#public-datasets] (content (str (:no-of-public dataset-details)))
@@ -31,5 +31,5 @@
 
   ;; Set right hand org nav links
   [:span.organization-links [:a]] (clone-for [org orgs]
-                                             [:a] (do-> (set-attr :href (org-url org))
+                                             [:a] (do-> (set-attr :href (u/org org))
                                                         (content (:name org)))))
