@@ -5,7 +5,8 @@
             [ona.api.dataset :as api-datasets]
             [clojure.string :as string]
             [ona.viewer.templates.base :as base]
-            [ona.viewer.templates.organization :as org-templates]))
+            [ona.viewer.templates.organization :as org-templates]
+            [ona.viewer.urls :as u]))
 
 (defn all
   "Show all of the organizations for a user."
@@ -38,7 +39,7 @@
                      :members members
                      :teams teams}]
     (base/base-template
-      "/organizations"
+      (u/org org)
       account
       (:name org)
       (org-templates/profile org-details))))

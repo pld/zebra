@@ -9,7 +9,8 @@
                                        set-attr]]
         :reload
         [ona.utils.numeric :only [pluralize-number]])
-  (:require [ona.utils.time :as t]))
+  (:require [ona.viewer.urls :as u]
+            [ona.utils.time :as t]))
 
 (defn- latest-submission-str
   "String for the latest submission made."
@@ -38,11 +39,15 @@
   [:thead [:th (but first-of-type)]] nil
   [:tbody [:tr (but first-of-type)]] nil
   [:thead [:th first-of-type]] (clone-for [key (keys (first dataset))]
-                                [:th] (content (str key)))
-  [:tbody [:tr first-of-type]] (clone-for [submission dataset]
-                                [:tr [:td (but first-of-type)]] nil
-                                [:tr [first-of-type]] (clone-for [key (keys (first dataset))]
-                                         [:td] (content (str (get submission key))))))
+                                          [:th] (content (str key)))
+  [:tbody [:tr first-of-type]]
+  (clone-for [submission dataset]
+             [:tr [:td (but first-of-type)]] nil
+             [:tr [first-of-type]] (clone-for [key
+                                               (keys
+                                                (first dataset))]
+                                              [:td] (content (str (get submission
+                                                                       key))))))
 
 (defsnippet show-map "templates/show.html"
   [:div#map]
@@ -57,10 +62,10 @@
 
   ;; Top nav
   [:a.enter-data] (set-attr :href data-entry-link)
-  [:a#user-profile] (set-attr :href (str "/profile/" username))
+  [:a#user-profile] (set-attr :href (u/profile username))
   [:span#user-name] (content username)
-  [:a#download-all] (set-attr :href (str "/dataset/" dataset-id "/download"))
-  [:a#table](set-attr :href (str "/dataset/" dataset-id "/show/table"))
+  [:a#download-all] (set-attr :href (u/dataset-download dataset-id))
+  [:a#table](set-attr :href (u/dataset-table dataset-id))
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (:description metadata))
@@ -89,7 +94,7 @@
              [:tr (nth-of-type 2) :strong] (content (:title dataset))
              [:ul.submenu :li.open :a] (set-attr
                                         :href
-                                        (str "/dataset/" (:formid dataset)))
+                                        (u/dataset (:formid dataset)))
              [:ul.submenu :li.share] nil
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
@@ -100,12 +105,10 @@
              [:ul.submenu :li.rename] nil
              [:ul.submenu :li.download :a] (set-attr
                                             :href
-                                            (str "/dataset/"
-                                                 (:formid dataset)
-                                                 "/download"))
+                                            (u/dataset-download (:formid dataset)))
              [:ul.submenu :li.delete :a] (set-attr
-                                       :href
-                                       (str "/dataset/" (:formid dataset) "/delete"))
+                                          :href
+                                          (u/dataset-delete (:formid dataset)))
              [:ul.submenu :li.cancel] nil
              [:span.rec] (content (str (if (< (:num_of_submissions dataset) 0)
                                         0

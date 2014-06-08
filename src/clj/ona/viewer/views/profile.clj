@@ -4,7 +4,8 @@
   (:require [ona.api.user :as api]
             [ona.api.dataset :as api-dataset]
             [ring.util.response :as response]
-            [ona.viewer.templates.profile :as profile]))
+            [ona.viewer.templates.profile :as profile]
+            [ona.viewer.urls :as u]))
 
 (defn sign-up []
   (base-template "/join" "" "Register" (sign-up-form)))
@@ -26,7 +27,7 @@
   (let [profile (api/profile account username)
         datasets (api-dataset/all account)]
     (base-template
-     "/profile"
+     (u/profile username)
      account
      (:name profile)
      (profile/user-profile profile datasets))))
