@@ -39,7 +39,7 @@
        {{account :account} :session
         {id :id
          context :context} :params}
-       (datasets/show account id context))
+       (datasets/show account id (keyword context)))
   (POST "/project/:id/new-dataset"
         {{account :account} :session
          {file :file
