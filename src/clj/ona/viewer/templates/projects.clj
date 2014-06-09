@@ -37,9 +37,9 @@
 
 (defsnippet project-list "templates/org-profile.html"
   [:table#projects]
-  [projects]
+  [project-details]
   [:tbody [:tr (but first-of-type)]] nil
-  [:tbody [:tr first-of-type]] (clone-for [project projects]
-                                [:span#project-name](content (:name (:project project )))
-                                [:p#last-project-modification]
-                                (content (str "Last record " (:last-modification project) " ago"))))
+  [:tbody [:tr first-of-type]] (clone-for [project project-details]
+                                [:span#project-name](content (:name (:project project)))
+                                [:p#last-project-modification] (content (str "Last record " (:last-modification project) " ago"))
+                                [:span#no-of-datasets] (content (str (:no-of-datasets project) " datasets"))))

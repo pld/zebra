@@ -8,7 +8,8 @@
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.organization :as org-templates]
             [ona.viewer.urls :as u]
-            [ona.utils.time :as t]))
+            [ona.utils.time :as t]
+            [ona.utils.string :as s]))
 
 (defn all
   "Show all of the organizations for a user."
@@ -30,15 +31,19 @@
               :org org}
         organization (api/create account data)]
     (all account)))
-(defn- project-details
+
+(defn project-details
   "Gets organization project details"
   [account]
   (let [projects (api-projects/all account)
         project-details (for [project projects]
                           {:project project
-                           :last-modification (t/date->days-ago-str(:date_modified project))})]
-    project-details)
-)
+                           :last-modification (t/date->days-ago-str (:date_modified project))
+                           :no-of-datasets (count
+                                             (api-projects/get-forms
+                                               account
+                                               (s/last-url-param (:url project))))})]
+    project-details))
 
 (defn profile
   "Retrieve the profile for an organization."
@@ -46,11 +51,11 @@
   (let [org (api/profile account org-name)
         teams (api/teams account org-name)
         members (api/members account org-name)
-        projects (project-details account)
+        project-details (project-details account)
         org-details {:org org
                      :members members
                      :teams teams
-                     :projects projects}]
+                     :project-details project-details}]
     (base/base-template
       (u/org org)
       account
