@@ -54,6 +54,17 @@
   []
   [:div#map [:img]] nil)
 
+(defn- view-for-context
+  "Return the view appropriate for the passed context."
+  [context dataset]
+  (condp = context
+    :map (show-map)
+    :table (show-table dataset)
+    ;; TODO make these views real
+    :chart (show-map)
+    :photo (show-map)
+    :activity (show-map)))
+
 (defsnippet show "templates/show.html"
   [:body :div#content]
   [dataset-id metadata dataset data-entry-link username context]
@@ -66,8 +77,13 @@
   [:a#user-profile] (set-attr :href (u/profile username))
   [:span#user-name] (content username)
   [:a#download-all] (set-attr :href (u/dataset-download dataset-id))
+
+  ;; View nav
   [:a#map-link](set-attr :href (u/dataset dataset-id))
   [:a#table-link](set-attr :href (u/dataset-table dataset-id))
+  [:a#chart-link](set-attr :href (u/dataset-chart dataset-id))
+  [:a#photo-link](set-attr :href (u/dataset-photo dataset-id))
+  [:a#activity-link](set-attr :href (u/dataset-activity dataset-id))
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (:description metadata))
@@ -82,9 +98,7 @@
   [:span.rec] (content (str (count dataset) " records"))
 
   ;; Context
-  [:div.dataset-context] (content (if (= context "table")
-                                    (show-table dataset)
-                                    (show-map))))
+  [:div.dataset-context] (content (view-for-context context dataset)))
 
 (defsnippet datasets-table "templates/home.html"
   [:#datasets-table]

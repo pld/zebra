@@ -30,6 +30,19 @@
    :headers {"Content-Type" "application/json; charset=utf-8"}
    :body (cheshire/generate-string body)})
 
+(defn- js-for-context
+  "Return the JavaScript appropriate for the context."
+  [context dataset]
+  (condp = context
+    :map (let [data-var-name "data"]
+           [(include-js "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js")
+            [:link {:rel "stylesheet"
+                    :href "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"}]
+            (js-tag "goog.require(\"ona.mapview\");")
+            (js-tag (str "var " data-var-name "=" (as-geojson dataset) ";"))
+            (js-tag (str "ona.mapview.leaflet(\"map\",\"" data-var-name "\");"))])
+    nil))
+
 (defn all
   "Return all the datasets for this account."
   [account]
@@ -39,25 +52,19 @@
 (defn show
   "Show the data for a specific dataset."
   ([account dataset-id]
-   (show account dataset-id nil))
+   (show account dataset-id :map))
   ([account dataset-id context]
    (let [dataset (api/data account dataset-id)
         metadata (api/metadata account dataset-id)
         data-entry-link (api/online-data-entry-link account dataset-id)
-        username (:username account)
-        data-var-name "data"]
+        username (:username account)]
 
      (base/base-template
        "/"
        account
        (:title metadata)
        (datasets/show dataset-id metadata dataset data-entry-link username context)
-       [(include-js "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js")
-        [:link {:rel "stylesheet"
-                :href "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"}]
-        (js-tag "goog.require(\"ona.mapview\");")
-        (js-tag (str "var " data-var-name "=" (as-geojson dataset) ";"))
-        (js-tag (str "ona.mapview.leaflet(\"map\",\"" data-var-name "\");"))]))))
+       (js-for-context context dataset)))))
 
 (defn tags
   "View tags for a specific dataset"
