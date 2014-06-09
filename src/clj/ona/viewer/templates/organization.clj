@@ -26,7 +26,6 @@
   [:div.org-details :a.org-url] (do-> (content (:home_page (:org org-details)))
                                       (set-attr :href (:url (:org org-details))))
   [:div.org-details :img] (set-attr :src (gravatar (-> org-details :org :email)))
-  [:img.avatar] (set-attr :src (gravatar (-> org-details :org :email)))
 
   ;; Set Member details
   [:div.org-details :a.members] (do-> (content (str
@@ -40,7 +39,8 @@
   [:div.org-details
    :ul.members
    [:li first-of-type]] (clone-for [team (:members org-details)] [:li] (content team))
-   ;; Set Team details
+
+  ;; Set Team details
   [:div.org-details :a.teams] (do-> (content (teams-str org-details))
                                     (set-attr :href (str
                                                      "/organizations/"
@@ -50,8 +50,12 @@
   [:div.org-details
    :ul.teams
    [:li first-of-type]] (clone-for [team (:teams org-details)] [:li] (content (:name team)))
+
   ;; Organization projects
-  [:div#tab-content1] (content (project-templates/project-list (:project-details org-details))))
+  [:div#tab-content1] (content
+                       (project-templates/project-list
+                        (-> org-details :org :email)
+                        (:project-details org-details))))
 
 (defsnippet members-table "templates/members.html"
   [:table.members]
