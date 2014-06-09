@@ -2,9 +2,9 @@
 
 ;; Datasets
 (defn dataset
-  "Build dataset show link from dataset."
-  [dataset]
-  (str "/dataset/" (:formid dataset)))
+  "Build dataset show link from dataset id."
+  [dataset-id]
+  (str "/dataset/" dataset-id))
 
 (defn dataset-delete
   "Build dataset delete link from dataset id."

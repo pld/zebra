@@ -3,7 +3,8 @@
         ona.viewer.views.organizations
         [ona.api.io :only [make-url]])
   (:require [ona.api.organization :as api]
-            [ona.api.dataset :as api-dataset]))
+            [ona.api.dataset :as api-dataset]
+            [ona.api.project :as api-projects]))
 
 (let [name "fake-org-name"
       fake-organization {:name name}
@@ -86,4 +87,15 @@
           (add-member account params) => :something
           (provided
             (api/add-member account name member) => :new-member
-            (members account name) => :something))))
+            (members account name) => :something)))
+
+  (facts "get project details for and organizations projects"
+         (project-details account) => (contains {:last-modification "2 days",
+                                                 :no-of-datasets 1,
+                                                 :project {:date_modified "2014-06-06T13:29:01.600",
+                                                           :name "Some project",
+                                                           :url "http://someurl/12"}})
+         (provided
+           (api-projects/all account) => [{:name "Some project"
+                                           :url "http://someurl/12"
+                                           :date_modified "2014-06-06T13:29:01.600"}])))
