@@ -2,7 +2,7 @@
 
 ;; Datasets
 (defn dataset
-  "Build dataset show link from dataset."
+  "Build dataset show link from dataset id."
   [dataset-id]
   (str "/dataset/" dataset-id))
 

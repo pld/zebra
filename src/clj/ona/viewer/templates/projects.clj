@@ -1,7 +1,9 @@
 (ns ona.viewer.templates.projects
-  (:use [net.cgrand.enlive-html :only [clone-for
+  (:use [net.cgrand.enlive-html :only [but
+                                       clone-for
                                        content
                                        defsnippet
+                                       first-of-type
                                        set-attr]]))
 
 (defn- user-string
@@ -32,3 +34,12 @@
   [:#addform] (set-attr :href (str "/project/" (:id project) "/new-dataset"))
   [:#forms [:li]] (clone-for [form forms]
                              [:.formname] (content (:title form))))
+
+(defsnippet project-list "templates/org-profile.html"
+  [:table#projects]
+  [project-details]
+  [:tbody [:tr (but first-of-type)]] nil
+  [:tbody [:tr first-of-type]] (clone-for [project project-details]
+                                [:span#project-name](content (:name (:project project)))
+                                [:p#last-project-modification] (content (str "Last record " (:last-modification project) " ago"))
+                                [:span#no-of-datasets] (content (str (:no-of-datasets project) " datasets"))))

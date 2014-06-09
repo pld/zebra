@@ -5,7 +5,9 @@
                                        do->
                                        first-of-type
                                        defsnippet
-                                       set-attr]] :reload))
+                                       set-attr]] :reload)
+  (:require [ona.viewer.templates.projects :as project-templates]
+            [ona.utils.string :as s]))
 
 (defsnippet profile "templates/org-profile.html"
   [:body :div#content]
@@ -40,7 +42,9 @@
   [:div.org-details :ul.teams [:li (but first-of-type)]] nil
   [:div.org-details
    :ul.teams
-   [:li first-of-type]] (clone-for [team (:teams org-details)] [:li] (content (:name team))))
+   [:li first-of-type]] (clone-for [team (:teams org-details)] [:li] (content (:name team)))
+  ;; Organization projects
+  [:div#tab-content1] (content (project-templates/project-list (:project-details org-details))))
 
 (defsnippet members-table "templates/members.html"
   [:table.members]
@@ -65,7 +69,7 @@
                                                             "/organizations/"
                                                             (:org org)
                                                             "/teams/"
-                                                            (last (clojure.string/split (str (:url team)) #"/"))))))
+                                                            (s/last-url-param (:url team))))))
   [:a.members] (set-attr :href (str "/organizations/" (:org org) "/members"))
   [:a.new-team] (set-attr :href (str "/organizations/" (:org org) "/new-team"))
   [:span.no-of-teams] (content (str (count teams))))
