@@ -10,10 +10,6 @@
   [:body :div.content :> :.signin-form]
   [])
 
-(defsnippet new-dataset-form "templates/new-dataset.html"
-  [:body :div.content :> :.new-dataset-form]
-  [])
-
 (defsnippet new-organization-form "templates/new-organization.html"
   [:body :div.content :> :.new-organization-form]
   [])

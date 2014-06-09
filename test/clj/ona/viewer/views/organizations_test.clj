@@ -4,22 +4,22 @@
         [ona.api.io :only [make-url]])
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-dataset]
-            [ona.api.project :as api-projects]))
+            [ona.api.project :as api-projects]
+            [clj-time.format :as f]
+            [clj-time.core :as t]
+            [clj-time.local :as l]))
 
 (let [name "fake-org-name"
       fake-organization {:name name}
       username "username"
       account {:username username}]
   (fact "all returns the organizations"
-        (let []
-          (all :fake-account) => (contains name)
-          (provided
-            (api/all :fake-account) => [fake-organization])))
+        (all :fake-account) => (contains name)
+        (provided
+         (api/all :fake-account) => [fake-organization]))
 
   (fact "create shows new organization"
-        (let [username "username"
-              account {:username username}
-              organization-name "new-organization"
+        (let [organization-name "new-organization"
               params {:name organization-name
                       :org organization-name}]
           (create account params) => :something
@@ -28,13 +28,12 @@
             (all account) => :something)))
 
   (fact "profile shows organization detail"
-        (let [organization :fake-organization]
-          (profile account name) => (contains "Fake Org")
-          (provided
-            (api/profile account name) => {:name "Fake Org"}
-            (api/teams account name) => [{:name "Fake Team"}]
-            (api/members account name) => [{:name "Fake Member"}]
-            (api/all account) => [{:name "Fake Org"}])))
+        (profile account name) => (contains "Fake Org")
+        (provided
+         (api/profile account name) => {:name "Fake Org"}
+         (api/teams account name) => [{:name "Fake Team"}]
+         (api/members account name) => [{:name "Fake Member"}]
+         (api/all account) => [{:name "Fake Org"}]))
 
   (fact "teams shows organization teams"
         (teams account name) => (contains "Fake Team")
@@ -90,12 +89,17 @@
             (members account name) => :something)))
 
   (facts "get project details for and organizations projects"
-         (project-details account) => (contains {:last-modification "2 days",
-                                                 :no-of-datasets 1,
-                                                 :project {:date_modified "2014-06-06T13:29:01.600",
-                                                           :name "Some project",
-                                                           :url "http://someurl/12"}})
-         (provided
-           (api-projects/all account) => [{:name "Some project"
-                                           :url "http://someurl/12"
-                                           :date_modified "2014-06-06T13:29:01.600"}])))
+         (let [days-ago 2
+               days-ago-2 (t/minus (l/local-now) (t/days days-ago))
+               days-ago-2-str (f/unparse (f/formatters :date-time) days-ago-2)]
+           (project-details account) => (contains
+                                         {:last-modification (str days-ago
+                                                                  " days")
+                                          :no-of-datasets 1
+                                          :project {:date_modified days-ago-2-str
+                                                    :name "Some project"
+                                                    :url "http://someurl/12"}})
+           (provided
+            (api-projects/all account) => [{:name "Some project"
+                                            :url "http://someurl/12"
+                                            :date_modified days-ago-2-str}]))))
