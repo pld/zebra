@@ -14,9 +14,10 @@
 
 (defsnippet home-content "templates/home.html"
   [:body :div#content]
-  [username datasets dataset-details query orgs]
-  [:.username] (content username)
-  [:div.datasets-table] (content (datasets/datasets-table datasets username))
+  [profile datasets dataset-details query orgs]
+  [:.username] (content (:username profile))
+  [:div.datasets-table] (content (datasets/datasets-table datasets
+                                                          profile))
 
   ;; Set sidenav links
   [:#sidenav [:a first-of-type]] (set-attr :href u/project-new)
