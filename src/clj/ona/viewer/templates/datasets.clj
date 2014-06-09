@@ -51,7 +51,8 @@
 
 (defsnippet show-map "templates/show.html"
   [:div#map]
-  [])
+  []
+  [:div#map [:img]] nil)
 
 (defsnippet show "templates/show.html"
   [:body :div#content]
