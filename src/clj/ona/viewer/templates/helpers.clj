@@ -9,8 +9,3 @@
   "Create a JavaScript tag with content."
   [content]
   [:script {:type "text/javascript"} content])
-
-(defn org-url
-  "Build url for an organization."
-  [org]
-  (str "/organizations/" (:org org)))

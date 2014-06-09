@@ -1,5 +1,4 @@
 (ns ona.viewer.templates.datasets
-  (:import [java.util.Date])
   (:use [net.cgrand.enlive-html :only [but
                                        clone-for
                                        content
@@ -7,7 +6,27 @@
                                        do->
                                        first-of-type
                                        nth-of-type
-                                       set-attr]] :reload))
+                                       set-attr]]
+        :reload
+        [ona.utils.numeric :only [pluralize-number]])
+  (:require [ona.viewer.urls :as u]
+            [ona.utils.time :as t]))
+
+(defn- latest-submission-str
+  "String for the latest submission made."
+  [metadata]
+  (if-let [interval (t/date->days-ago-str (:last_submission_time metadata))]
+    (str "Latest around "
+         interval
+         " ago.")
+    "No submissions made."))
+
+(defn- submission-made-str
+  "String for the number of submissions made."
+  [dataset]
+  (let [no-submission (t/get-no-submissions-today dataset)]
+    (str (pluralize-number no-submission "submission")
+         " made today.")))
 
 (defsnippet new-dataset "templates/dataset-new.html"
   [:body :div#content]
@@ -20,11 +39,15 @@
   [:thead [:th (but first-of-type)]] nil
   [:tbody [:tr (but first-of-type)]] nil
   [:thead [:th first-of-type]] (clone-for [key (keys (first dataset))]
-                                [:th] (content (str key)))
-  [:tbody [:tr first-of-type]] (clone-for [submission dataset]
-                                [:tr [:td (but first-of-type)]] nil
-                                [:tr [first-of-type]] (clone-for [key (keys (first dataset))]
-                                         [:td] (content (str (get submission key))))))
+                                          [:th] (content (str key)))
+  [:tbody [:tr first-of-type]]
+  (clone-for [submission dataset]
+             [:tr [:td (but first-of-type)]] nil
+             [:tr [first-of-type]] (clone-for [key
+                                               (keys
+                                                (first dataset))]
+                                              [:td] (content (str (get submission
+                                                                       key))))))
 
 (defsnippet show-map "templates/show.html"
   [:div#map]
@@ -39,22 +62,24 @@
 
   ;; Top nav
   [:a.enter-data] (set-attr :href data-entry-link)
-  [:a#user-profile] (set-attr :href (str "/profile/" username))
+  [:a#user-profile] (set-attr :href (u/profile username))
   [:span#user-name] (content username)
-  [:a#download-all] (set-attr :href (str "/dataset/" dataset-id "/download"))
-  [:a#table](set-attr :href (str "/dataset/" dataset-id "/show/table"))
+  [:a#download-all] (set-attr :href (u/dataset-download dataset-id))
+  [:a#table](set-attr :href (u/dataset-table dataset-id))
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (:description metadata))
   [:div#sidenav [:a#form-source]] (do->
                                    (content (str (:id_string metadata)) ".xls")
                                    (set-attr :href (str "/")))
-  [:p.activity :span.latest](content (str "Latest around " (:last_submission_time metadata) " ago"))
+  [:p.activity :span.submissions] (content (submission-made-str dataset))
+  [:p.activity :span.latest] (content (latest-submission-str metadata))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
   [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (:tags metadata)]
                                                    [:span.tag] (content tag))
-  [:span.rec](content (str (count dataset) " records"))
-  ;context
+  [:span.rec] (content (str (count dataset) " records"))
+
+  ;; Context
   [:div.dataset-context] (content (if (= context "table")
                                     (show-table dataset)
                                     (show-map))))
@@ -69,7 +94,7 @@
              [:tr (nth-of-type 2) :strong] (content (:title dataset))
              [:ul.submenu :li.open :a] (set-attr
                                         :href
-                                        (str "/dataset/" (:formid dataset)))
+                                        (u/dataset (:formid dataset)))
              [:ul.submenu :li.share] nil
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
@@ -80,12 +105,10 @@
              [:ul.submenu :li.rename] nil
              [:ul.submenu :li.download :a] (set-attr
                                             :href
-                                            (str "/dataset/"
-                                                 (:formid dataset)
-                                                 "/download"))
+                                            (u/dataset-download (:formid dataset)))
              [:ul.submenu :li.delete :a] (set-attr
-                                       :href
-                                       (str "/dataset/" (:formid dataset) "/delete"))
+                                          :href
+                                          (u/dataset-delete (:formid dataset)))
              [:ul.submenu :li.cancel] nil
              [:span.rec] (content (str (if (< (:num_of_submissions dataset) 0)
                                         0

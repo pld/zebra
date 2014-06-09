@@ -3,7 +3,8 @@
                                        content
                                        defsnippet
                                        set-attr]] :reload)
-  (:require [ona.viewer.sharing :as sharing]))
+  (:require [ona.viewer.sharing :as sharing]
+            [ona.viewer.urls :as u]))
 
 (defsnippet login-form "templates/login.html"
   [:body :div.content :> :.signin-form]
@@ -25,20 +26,20 @@
 (defsnippet new-tag-form "templates/new-tag.html"
   [:body :div.content :> :.new-tag-form]
   [dataset-id]
-  [:form](set-attr :action (str "/dataset/" dataset-id "/tags"))
+  [:form](set-attr :action (u/dataset-tags dataset-id))
   [:form :#dataset-id](set-attr :value dataset-id))
 
 (defsnippet metadata-form "templates/dataset-metadata.html"
   [:body :div.content :> :.dataset-metadata-form]
   [dataset-id]
-  [:form](set-attr :action (str "/dataset/" dataset-id "/metadata"))
+  [:form](set-attr :action (u/dataset-metadata dataset-id))
   [:form :#dataset-id](set-attr :value dataset-id))
 
 (defsnippet sharing "templates/dataset-new-sharing.html"
   [:body :div#content]
   [title dataset-id]
   [:span#title] (content title)
-  [:form#form] (set-attr :action (str "/dataset/sharing"))
+  [:form#form] (set-attr :action u/dataset-sharing-post)
   [[:input (attr= :type "radio")]] (set-attr :name sharing/settings)
   [:input#dataset-id] (set-attr :value dataset-id)
   [:input#private] (set-attr :value sharing/private)

@@ -15,7 +15,8 @@
       (show :fake-account :dataset-id) => (contains "Some title")
       (provided
         (api/data :fake-account :dataset-id) => [:row]
-        (api/metadata :fake-account :dataset-id) => {:title "Some title"})
+        (api/metadata :fake-account :dataset-id) => {:title "Some title"
+                                                     :last_submission_time "2014-6-3T20:18:23Z"})
 
       "Dataset new returns content for creating a dataset"
       (new-dataset :fake-account) =not=> nil

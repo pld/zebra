@@ -7,6 +7,7 @@
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.forms :as forms]
             [ona.viewer.templates.datasets :as datasets]
+            [ona.viewer.urls :as u]
             [cheshire.core :as cheshire]
             [ring.util.response :as response]))
 
@@ -66,7 +67,7 @@
     (base/dashboard-items
       "Dataset tag"
       account
-      (str "/dataset/" dataset-id)
+      (u/dataset dataset-id)
       (for [tagitem tags]
         {:id nil :name (str tagitem)})
       tag-form)))
@@ -80,7 +81,7 @@
                      (api-project/get-project account project-id)
                      {})
            upload-path (if project-id
-                         (str "project/" project-id "/new-dataset")
+                         (u/project-new-dataset project)
                          "dataset")]
        (base/base-template
         (str "/" upload-path)
@@ -103,9 +104,9 @@
          (let [dataset-id (:formid response)
                preview-url (api/online-data-entry-link account dataset-id)]
            (json-response
-            {:settings-url (str "/dataset/" dataset-id "/sharing")
+            {:settings-url (u/dataset-sharing dataset-id)
              :preview-url preview-url
-             :delete-url (str "/dataset/" dataset-id "/delete")}))))))
+             :delete-url (u/dataset-delete dataset-id)}))))))
 
 (defn create-tags
   "Create tags for a specific dataset"
@@ -140,7 +141,7 @@
     (base/dashboard-items
       "Dataset metadata"
       (:username account)
-      (str "/dataset/" dataset-id)
+      (u/dataset {:formid dataset-id})
       [{:name metadata}]
       metadata-form)))
 
@@ -178,4 +179,4 @@
                                "True"
                                "False")}]
     (api/update account dataset-id update-data)
-    (redirect-after-post (str "/dataset/" dataset-id))))
+    (redirect-after-post (u/dataset dataset-id))))
