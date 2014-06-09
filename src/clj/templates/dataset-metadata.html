@@ -4,13 +4,15 @@
 <body>
   <div class="content">
     <div class="dataset-metadata-form">
-      <form action="/dataset/metadata" method="post">
+      <h2>Settings for your form <span id="title">Filename 1.xls</span></h2>
+      <form action="/dataset/metadata" method="post" class="pure-form pure-form-stacked">
         <input type="hidden" name="dataset-id" id="dataset-id"/>
         <label name="description">Description</label>
         <input type="text" name="description"/>
-        <label name="Shared">Share</label>
-        <input type="checkbox" name="shared" value="shared"/>
-        <input type="submit" value="Update metadata"/>
+        <label name="tags">Tags</label>
+        <input type="text" name="tags"/>
+        <a id="back" href="#" class="pure-button">Back</a>
+        <input type="submit" value="Finish" class="pure-button"/>
       </form>
     </div>
   </div>

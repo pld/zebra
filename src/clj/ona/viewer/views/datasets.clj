@@ -141,7 +141,7 @@
     (base/dashboard-items
       "Dataset metadata"
       (:username account)
-      (u/dataset {:formid dataset-id})
+      (u/dataset dataset-id)
       [{:name metadata}]
       metadata-form)))
 
@@ -149,10 +149,9 @@
   "Update metadata for a specific dataset"
   [account params]
   (let [dataset-id (:dataset-id params)
-        metadata-updates {:description (:description params)
-                          :shared (if (:shared params) "True" "False")}]
+        metadata-updates {:description (:description params)}]
     (api/update account dataset-id metadata-updates)
-    (metadata account dataset-id)))
+    (redirect-after-post (u/dataset dataset-id))))
 
 (defn delete
   "Delete a dataset by ID."
@@ -179,4 +178,4 @@
                                "True"
                                "False")}]
     (api/update account dataset-id update-data)
-    (redirect-after-post (u/dataset dataset-id))))
+    (redirect-after-post (u/dataset-metadata dataset-id))))

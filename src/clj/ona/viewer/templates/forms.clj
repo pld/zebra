@@ -32,8 +32,9 @@
 (defsnippet metadata-form "templates/dataset-metadata.html"
   [:body :div.content :> :.dataset-metadata-form]
   [dataset-id]
-  [:form](set-attr :action (u/dataset-metadata dataset-id))
-  [:form :#dataset-id](set-attr :value dataset-id))
+  [:form] (set-attr :action (u/dataset-metadata dataset-id))
+  [:form :#dataset-id] (set-attr :value dataset-id)
+  [:a#back] (set-attr :href (u/dataset-sharing dataset-id)))
 
 (defsnippet sharing "templates/dataset-new-sharing.html"
   [:body :div#content]

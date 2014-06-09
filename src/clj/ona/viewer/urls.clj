@@ -3,8 +3,8 @@
 ;; Datasets
 (defn dataset
   "Build dataset show link from dataset."
-  [dataset]
-  (str "/dataset/" (:formid dataset)))
+  [dataset-id]
+  (str "/dataset/" dataset-id))
 
 (defn dataset-delete
   "Build dataset delete link from dataset id."
@@ -26,7 +26,7 @@
   [dataset-id]
   (str "/dataset/" dataset-id "/sharing"))
 
-(def dataset-sharing-post "dataset/sharing")
+(def dataset-sharing-post "/dataset/sharing")
 
 (defn dataset-table
   "Build dataset table link from dataset id."
