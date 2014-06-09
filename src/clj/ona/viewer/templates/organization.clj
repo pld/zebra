@@ -5,9 +5,15 @@
                                        do->
                                        first-of-type
                                        defsnippet
-                                       set-attr]] :reload)
+                                       set-attr]]
+        :reload
+        [clavatar.core :only [gravatar]])
   (:require [ona.viewer.templates.projects :as project-templates]
             [ona.utils.string :as s]))
+
+(defn- teams-str
+  [org-details]
+  (str "Teams (" (-> org-details :teams count) ")"))
 
 (defsnippet profile "templates/org-profile.html"
   [:body :div#content]
@@ -19,6 +25,8 @@
   [:div.org-details :> :span.country] (content (:country (:org org-details)))
   [:div.org-details :a.org-url] (do-> (content (:home_page (:org org-details)))
                                       (set-attr :href (:url (:org org-details))))
+  [:div.org-details :img] (set-attr :src (gravatar (-> org-details :org :email)))
+
   ;; Set Member details
   [:div.org-details :a.members] (do-> (content (str
                                                 "Members ("
@@ -31,10 +39,9 @@
   [:div.org-details
    :ul.members
    [:li first-of-type]] (clone-for [team (:members org-details)] [:li] (content team))
-   ;; Set Team details
-  [:div.org-details :a.teams] (do-> (content (str
-                                              "Teams ("
-                                              (count(:teams org-details)) ")"))
+
+  ;; Set Team details
+  [:div.org-details :a.teams] (do-> (content (teams-str org-details))
                                     (set-attr :href (str
                                                      "/organizations/"
                                                      (:org (:org org-details))
@@ -43,8 +50,12 @@
   [:div.org-details
    :ul.teams
    [:li first-of-type]] (clone-for [team (:teams org-details)] [:li] (content (:name team)))
+
   ;; Organization projects
-  [:div#tab-content1] (content (project-templates/project-list (:project-details org-details))))
+  [:div#tab-content1] (content
+                       (project-templates/project-list
+                        (-> org-details :org :email)
+                        (:project-details org-details))))
 
 (defsnippet members-table "templates/members.html"
   [:table.members]

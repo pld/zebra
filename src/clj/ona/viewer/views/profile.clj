@@ -22,7 +22,7 @@
              (str "Created a profile:" profile))))
 
 (defn user-profile
-  "Show use profile "
+  "Show profile for a username."
   [account username]
   (let [profile (api/profile account username)
         datasets (api-dataset/all account)]

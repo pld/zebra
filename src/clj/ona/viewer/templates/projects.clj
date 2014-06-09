@@ -4,7 +4,8 @@
                                        content
                                        defsnippet
                                        first-of-type
-                                       set-attr]]))
+                                       set-attr]]
+        [clavatar.core :only [gravatar]]))
 
 (defn- user-string
   [logged-in-username shared-username]
@@ -37,9 +38,11 @@
 
 (defsnippet project-list "templates/org-profile.html"
   [:table#projects]
-  [project-details]
+  [org-email projects]
   [:tbody [:tr (but first-of-type)]] nil
-  [:tbody [:tr first-of-type]] (clone-for [project project-details]
-                                [:span#project-name](content (:name (:project project)))
-                                [:p#last-project-modification] (content (str "Last record " (:last-modification project) " ago"))
-                                [:span#no-of-datasets] (content (str (:no-of-datasets project) " datasets"))))
+  [:tbody [:tr first-of-type]]
+  (clone-for [project projects]
+             [:img.avatar] (set-attr :src (gravatar org-email))
+             [:span#project-name] (content (:name (:project project)))
+             [:p#last-project-modification] (content (str "Last record " (:last-modification project) " ago"))
+             [:span#no-of-datasets] (content (str (:no-of-datasets project) " datasets"))))

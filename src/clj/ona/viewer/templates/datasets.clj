@@ -8,7 +8,8 @@
                                        nth-of-type
                                        set-attr]]
         :reload
-        [ona.utils.numeric :only [pluralize-number]])
+        [ona.utils.numeric :only [pluralize-number]]
+        [clavatar.core :only [gravatar]])
   (:require [ona.viewer.urls :as u]
             [ona.utils.time :as t]))
 
@@ -102,11 +103,12 @@
 
 (defsnippet datasets-table "templates/home.html"
   [:#datasets-table]
-  [datasets username]
+  [datasets profile]
   [:tbody [:tr (but first-of-type)]] nil
   [:tbody [:tr first-of-type]]
   (clone-for [dataset datasets]
-             [:.username] (content username)
+             [:.avatar] (set-attr :src (gravatar (:email profile)))
+             [:.username] (content (:username profile))
              [:tr (nth-of-type 2) :strong] (content (:title dataset))
              [:ul.submenu :li.open :a] (set-attr
                                         :href
