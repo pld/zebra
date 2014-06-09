@@ -30,4 +30,5 @@
           (datasets/all account) => [{:title "Test dataset" :num_of_submissions 2}]
           (api-orgs/all account) => [{:title "Test Org"}]
           (api-user/profile account) => account
-          (gravatar email) => email)))
+          (gravatar email) => email
+          (gravatar nil) => nil)))
