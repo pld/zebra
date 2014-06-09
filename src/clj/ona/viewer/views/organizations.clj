@@ -7,7 +7,8 @@
             [clojure.string :as string]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.organization :as org-templates]
-            [ona.viewer.urls :as u]))
+            [ona.viewer.urls :as u]
+            [ona.utils.time :as t]))
 
 (defn all
   "Show all of the organizations for a user."
@@ -29,6 +30,15 @@
               :org org}
         organization (api/create account data)]
     (all account)))
+(defn- project-details
+  "Gets organization project details"
+  [account]
+  (let [projects (api-projects/all account)
+        project-details (for [project projects]
+                          {:project project
+                           :last-modification (t/date->days-ago-str(:date_modified project))})]
+    project-details)
+)
 
 (defn profile
   "Retrieve the profile for an organization."
@@ -36,7 +46,7 @@
   (let [org (api/profile account org-name)
         teams (api/teams account org-name)
         members (api/members account org-name)
-        projects (api-projects/all account)
+        projects (project-details account)
         org-details {:org org
                      :members members
                      :teams teams

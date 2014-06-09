@@ -40,4 +40,6 @@
   [projects]
   [:tbody [:tr (but first-of-type)]] nil
   [:tbody [:tr first-of-type]] (clone-for [project projects]
-                                          [:span#project-name](content (:name project))))
+                                [:span#project-name](content (:name (:project project )))
+                                [:p#last-project-modification]
+                                (content (str "Last record " (:last-modification project) " ago"))))
