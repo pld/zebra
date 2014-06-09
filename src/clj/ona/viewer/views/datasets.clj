@@ -141,7 +141,7 @@
     (base/dashboard-items
       "Dataset metadata"
       (:username account)
-      (u/dataset {:formid dataset-id})
+      (u/dataset dataset-id)
       [{:name metadata}]
       metadata-form)))
 
