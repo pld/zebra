@@ -8,7 +8,8 @@
                                        nth-of-type
                                        set-attr]]
         :reload
-        [ona.utils.numeric :only [pluralize-number]])
+        [ona.utils.numeric :only [pluralize-number]]
+        [clavatar.core :only [gravatar]])
   (:require [ona.viewer.urls :as u]
             [ona.utils.time :as t]))
 
@@ -51,7 +52,19 @@
 
 (defsnippet show-map "templates/show.html"
   [:div#map]
-  [])
+  []
+  [:div#map [:img]] nil)
+
+(defn- view-for-context
+  "Return the view appropriate for the passed context."
+  [context dataset]
+  (condp = context
+    :map (show-map)
+    :table (show-table dataset)
+    ;; TODO make these views real
+    :chart (show-map)
+    :photo (show-map)
+    :activity (show-map)))
 
 (defsnippet show "templates/show.html"
   [:body :div#content]
@@ -66,7 +79,13 @@
   [:span#user-name] (content username)
   [:a#sharing] (set-attr :href (u/dataset-sharing dataset-id))
   [:a#download-all] (set-attr :href (u/dataset-download dataset-id))
-  [:a#table](set-attr :href (u/dataset-table dataset-id))
+
+  ;; View nav
+  [:a#map-link](set-attr :href (u/dataset dataset-id))
+  [:a#table-link](set-attr :href (u/dataset-table dataset-id))
+  [:a#chart-link](set-attr :href (u/dataset-chart dataset-id))
+  [:a#photo-link](set-attr :href (u/dataset-photo dataset-id))
+  [:a#activity-link](set-attr :href (u/dataset-activity dataset-id))
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (:description metadata))
@@ -81,17 +100,16 @@
   [:span.rec] (content (str (count dataset) " records"))
 
   ;; Context
-  [:div.dataset-context] (content (if (= context "table")
-                                    (show-table dataset)
-                                    (show-map))))
+  [:div.dataset-context] (content (view-for-context context dataset)))
 
 (defsnippet datasets-table "templates/home.html"
   [:#datasets-table]
-  [datasets username]
+  [datasets profile]
   [:tbody [:tr (but first-of-type)]] nil
   [:tbody [:tr first-of-type]]
   (clone-for [dataset datasets]
-             [:.username] (content username)
+             [:.avatar] (set-attr :src (gravatar (:email profile)))
+             [:.username] (content (:username profile))
              [:tr (nth-of-type 2) :strong] (content (:title dataset))
              [:ul.submenu :li.open :a] (set-attr
                                         :href

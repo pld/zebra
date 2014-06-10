@@ -2,6 +2,7 @@
   (:use [ona.utils.string :only [substring?]])
   (:require [ona.api.user :as api]
             [ona.api.organization :as api-orgs]
+            [ona.api.user :as api-user]
             [ring.util.response :as response]
             [ona.viewer.views.accounts :as accounts]
             [ona.viewer.views.datasets :as datasets]
@@ -35,12 +36,13 @@
            datasets (if query
                       (search-datasets query all-datasets)
                       all-datasets)
-           orgs (api-orgs/all account)]
+           orgs (api-orgs/all account)
+           profile (api-user/profile account)]
        (base/base-template
         "/"
         account
         "Home"
-        (home/home-content username
+        (home/home-content profile
                            datasets
                            dataset-details
                            query

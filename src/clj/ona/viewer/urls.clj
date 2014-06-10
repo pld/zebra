@@ -28,6 +28,22 @@
 
 (def dataset-sharing-post "/dataset/sharing")
 
+(defn dataset-chart
+  "Build dataset chart link from dataset id."
+  [dataset-id]
+  (str "/dataset/" dataset-id "/show/chart"))
+
+(defn dataset-photo
+  "Build dataset photo link from dataset id."
+  [dataset-id]
+  (str "/dataset/" dataset-id "/show/photo"))
+
+(defn dataset-activity
+  "Build dataset activity link from dataset id."
+  [dataset-id]
+  (str "/dataset/" dataset-id "/show/activity"))
+
+
 (defn dataset-table
   "Build dataset table link from dataset id."
   [dataset-id]

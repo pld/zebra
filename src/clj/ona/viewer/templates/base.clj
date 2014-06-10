@@ -11,7 +11,8 @@
                                        set-attr
                                        nth-of-type]
          :rename {html enlive-html}] :reload
-         [ona.viewer.templates.helpers :only [include-js js-tag]])
+         [ona.viewer.templates.helpers :only [include-js js-tag]]
+         [clavatar.core :only [gravatar]])
   (:require [ona.api.organization :as api-orgs]
             [ona.viewer.templates.list-items :as l]
             [ona.viewer.urls :as u]))
@@ -70,6 +71,7 @@
   [:ul#exp-drop [:li (nth-of-type 2)]]
   (clone-for [org orgs]
              [:li :a] (set-attr :href (u/org org))
+             [:li :img] (set-attr :src (gravatar (:email org)))
              [:li :a :span.org-name] (content (:name org))))
 
 (deftemplate render-base-template "templates/base.html"
