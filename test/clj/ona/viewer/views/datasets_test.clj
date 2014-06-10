@@ -61,11 +61,12 @@
        (api/metadata :fake-account :dataset-id) => "some data")
 
       "Should update metadata for a specific dataset"
-      (let [metadata-updates {:description "test description"}
-            params (merge {:dataset-id :dataset-id} metadata-updates)]
+      (let [metadata-updates {:description "test description" :title "test title"}
+            dataset-id 1
+            params (merge {:dataset-id dataset-id} metadata-updates)]
         (update :fake-account params) => (contains {:status 303})
         (provided
-          (api/update :fake-account :dataset-id metadata-updates) => :updated-metadata)))
+          (api/update :fake-account dataset-id metadata-updates) => :updated-metadata)))
 
 (fact "about dataset delete"
       "Should delete a dataset"
