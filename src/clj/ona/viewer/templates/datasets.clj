@@ -77,6 +77,7 @@
   [:a.enter-data] (set-attr :href data-entry-link)
   [:a#user-profile] (set-attr :href (u/profile username))
   [:span#user-name] (content username)
+  [:a#sharing] (set-attr :href (u/dataset-sharing dataset-id))
   [:a#download-all] (set-attr :href (u/dataset-download dataset-id))
 
   ;; View nav
@@ -113,7 +114,7 @@
              [:ul.submenu :li.open :a] (set-attr
                                         :href
                                         (u/dataset (:formid dataset)))
-             [:ul.submenu :li.share] nil
+             [:ul.submenu :li.share :a] (set-attr :href (u/dataset-sharing (:formid dataset)))
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
              [:ul.submenu :li.transfer] nil
