@@ -5,7 +5,9 @@
                                        defsnippet
                                        first-of-type
                                        set-attr]]
-        [clavatar.core :only [gravatar]]))
+        [clavatar.core :only [gravatar]])
+  (:require [ona.utils.string :as s]
+            [ona.viewer.urls :as u]))
 
 (defn- user-string
   [logged-in-username shared-username]
@@ -45,4 +47,5 @@
              [:img.avatar] (set-attr :src (gravatar org-email))
              [:span#project-name] (content (:name (:project project)))
              [:p#last-project-modification] (content (str "Last record " (:last-modification project) " ago"))
-             [:span#no-of-datasets] (content (str (:no-of-datasets project) " datasets"))))
+             [:span#no-of-datasets] (content (str (:no-of-datasets project) " datasets"))
+             [:a#open] (set-attr :href (u/project-forms (s/last-url-param (:url (:project project)))))))

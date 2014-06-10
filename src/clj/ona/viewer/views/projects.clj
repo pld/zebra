@@ -36,7 +36,7 @@
   (let [project (api/get-project account id)
         forms (api/get-forms account id)]
     (base-template
-     (u/project-forms project)
+     (u/project-forms id)
      account
      "Project Forms"
      (project-forms project forms))))

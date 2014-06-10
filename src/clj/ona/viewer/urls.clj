@@ -69,8 +69,8 @@
 ;; Projects
 (defn project-forms
   "Build the project forms url from a project"
-  [project]
-  (str "/project/" (:id project) "/forms"))
+  [project-id]
+  (str "/project/" project-id "/forms"))
 
 (defn project-new-dataset
   "Build the project settings url from a project-id"
