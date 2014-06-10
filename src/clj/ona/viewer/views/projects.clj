@@ -6,6 +6,7 @@
         [ring.util.response :only [redirect-after-post]]
         [slingshot.slingshot :only [try+]])
   (:require [ona.api.project :as api]
+            [ona.api.user :as api-user]
             [ona.viewer.urls :as u]))
 
 (defn all
@@ -34,12 +35,13 @@
   "Show the forms for a project."
   [account id]
   (let [project (api/get-project account id)
-        forms (api/get-forms account id)]
+        forms (api/get-forms account id)
+        profile (api-user/profile account)]
     (base-template
      (u/project-forms id)
      account
      "Project Forms"
-     (project-forms project forms))))
+     (project-forms project forms profile))))
 
 (defn settings
   "Show the settings for a project."

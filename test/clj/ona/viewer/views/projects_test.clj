@@ -4,7 +4,8 @@
         [ona.api.io :only [make-url]]
         [ona.helpers :only [slingshot-exception]]
         [ring.util.response :only [redirect-after-post]])
-  (:require [ona.api.project :as api]))
+  (:require [ona.api.project :as api]
+            [ona.api.user :as api-user]))
 
 (fact "all returns the projects"
       (let [fake-project :project]
@@ -48,4 +49,6 @@
          "Should show project name"
          (forms fake-account id) => (contains project-name)
          (provided
-          (api/get-project fake-account id) => project)))
+          (api/get-project fake-account id) => project
+          (api/get-forms fake-account id) => [{:title "Test Form" :num_of_submissions 2}]
+          (api-user/profile fake-account) => :fake-profile)))

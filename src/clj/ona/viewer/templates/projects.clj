@@ -7,7 +7,8 @@
                                        set-attr]]
         [clavatar.core :only [gravatar]])
   (:require [ona.utils.string :as s]
-            [ona.viewer.urls :as u]))
+            [ona.viewer.urls :as u]
+            [ona.viewer.templates.datasets :as datasets]))
 
 (defn- user-string
   [logged-in-username shared-username]
@@ -29,14 +30,16 @@
 
 (defsnippet project-forms "templates/project-forms.html"
   [:body :div.content]
-  [project forms]
+  [project forms profile]
 
   [:#name] (content (:name project))
   ;; TODO this will work once the API sends back this content
   [:#description] (content (:description project))
   [:#addform] (set-attr :href (str "/project/" (:id project) "/new-dataset"))
   [:#forms [:li]] (clone-for [form forms]
-                             [:.formname] (content (:title form))))
+                             [:.formname] (content (:title form)))
+  [:div.datasets-table] (content (datasets/datasets-table forms
+                                                          profile)))
 
 (defsnippet project-list "templates/org-profile.html"
   [:table#projects]
