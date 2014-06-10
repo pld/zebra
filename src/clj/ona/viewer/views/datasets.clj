@@ -137,7 +137,7 @@
   "View metadata for specific form"
   [account dataset-id]
   (let [metadata (api/metadata account dataset-id)
-        metadata-form (forms/metadata-form dataset-id)]
+        metadata-form (forms/metadata-form dataset-id (:title metadata))]
     (base/dashboard-items
       "Dataset metadata"
       (:username account)
