@@ -5,7 +5,7 @@
                                        set-attr]] :reload)
   (:require [ona.viewer.templates.datasets :as dst-templates]))
 
-(defsnippet user-profile "templates/user-profile-show.html"
+(defsnippet user-profile "templates/profile/show.html"
   [:body :div#content]
   [profile datasets]
 

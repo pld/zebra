@@ -144,7 +144,7 @@
   "View metadata for specific form"
   [account dataset-id]
   (let [metadata (api/metadata account dataset-id)
-        metadata-form (forms/metadata-form dataset-id)]
+        metadata-form (forms/metadata-form dataset-id metadata)]
     (base/dashboard-items
       "Dataset metadata"
       (:username account)
@@ -157,9 +157,11 @@
   [account params]
   (let [dataset-id (:dataset-id params)
         metadata-updates {:description (:description params)
-                          :shared (if (:shared params) "True" "False")}]
+                          :title (:title params)}
+        tags {:tags (:tags params)}]
     (api/update account dataset-id metadata-updates)
-    (metadata account dataset-id)))
+    (api/add-tags account dataset-id tags)
+    (redirect-after-post (u/dataset dataset-id))))
 
 (defn delete
   "Delete a dataset by ID."
@@ -175,7 +177,7 @@
      "/dataset"
      account
      "New dataset - Form settings"
-     (forms/sharing (:title metadata) dataset-id))))
+     (forms/sharing metadata dataset-id))))
 
 (defn sharing-update
   "Update sharing settings."
@@ -186,4 +188,4 @@
                                "True"
                                "False")}]
     (api/update account dataset-id update-data)
-    (redirect-after-post (u/dataset dataset-id))))
+    (redirect-after-post (u/dataset-metadata dataset-id))))

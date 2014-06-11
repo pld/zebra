@@ -16,7 +16,7 @@
     (str shared-username " (you)")
     shared-username))
 
-(defsnippet project-settings "templates/project-settings.html"
+(defsnippet project-settings "templates/project/settings.html"
   [:body :div.content]
   [project username shared-users]
 
@@ -28,7 +28,7 @@
   [:#back] (set-attr :href "/project")
   [:#done] (set-attr :href (str "/project/" (:id project) "/forms")))
 
-(defsnippet project-forms "templates/project-forms.html"
+(defsnippet project-forms "templates/project/forms.html"
   [:body :div.content]
   [project forms profile]
 
@@ -41,7 +41,7 @@
   [:div.datasets-table] (content (datasets/datasets-table forms
                                                           profile)))
 
-(defsnippet project-list "templates/org-profile.html"
+(defsnippet project-list "templates/organization/profile.html"
   [:table#projects]
   [org-email projects]
   [:tbody [:tr (but first-of-type)]] nil

@@ -13,6 +13,25 @@
   (:require [ona.viewer.urls :as u]
             [ona.utils.time :as t]))
 
+(def hidden-column-prefix \_)
+
+(defn- filter-hidden-columns
+  "Remove hidden columns from a dataset map."
+  [dataset]
+  (map
+   #(select-keys % (for [[k v] %
+                         :when (not=
+                                (-> k name first)
+                                \_)] k)) dataset))
+
+(defn- clean-for-table
+  "Take a dataset hash and return headers and rows lists."
+  [dataset]
+  (let [filtered-dataset (filter-hidden-columns dataset)
+        sorted-dataset (map #(into (sorted-map) %) filtered-dataset)]
+    [(map name (-> sorted-dataset first keys))
+     (map vals sorted-dataset)]))
+
 (defn- latest-submission-str
   "String for the latest submission made."
   [metadata]
@@ -29,28 +48,25 @@
     (str (pluralize-number no-submission "submission")
          " made today.")))
 
-(defsnippet new-dataset "templates/dataset-new.html"
+(defsnippet new-dataset "templates/dataset/new.html"
   [:body :div#content]
   [project]
   [:span#project-name] (content (:name project)))
 
-(defsnippet show-table "templates/show-table.html"
+(defsnippet show-table "templates/dataset/table.html"
   [:table#submissions]
-  [dataset]
+  [headers rows]
   [:thead [:th (but first-of-type)]] nil
   [:tbody [:tr (but first-of-type)]] nil
-  [:thead [:th first-of-type]] (clone-for [key (keys (first dataset))]
-                                          [:th] (content (str key)))
+  [:thead [:th first-of-type]] (clone-for [header headers]
+                                          [:th] (content header))
   [:tbody [:tr first-of-type]]
-  (clone-for [submission dataset]
+  (clone-for [row rows]
              [:tr [:td (but first-of-type)]] nil
-             [:tr [first-of-type]] (clone-for [key
-                                               (keys
-                                                (first dataset))]
-                                              [:td] (content (str (get submission
-                                                                       key))))))
+             [:tr [first-of-type]] (clone-for [v row]
+                                              [:td] (content (str v)))))
 
-(defsnippet show-map "templates/show.html"
+(defsnippet show-map "templates/dataset/show.html"
   [:div#map]
   []
   [:div#map [:img]] nil)
@@ -60,13 +76,13 @@
   [context dataset]
   (condp = context
     :map (show-map)
-    :table (show-table dataset)
+    :table (apply show-table (clean-for-table dataset))
     ;; TODO make these views real
     :chart (show-map)
     :photo (show-map)
     :activity (show-map)))
 
-(defsnippet show "templates/show.html"
+(defsnippet show "templates/dataset/show.html"
   [:body :div#content]
   [dataset-id metadata dataset data-entry-link username context]
 
@@ -77,6 +93,7 @@
   [:a.enter-data] (set-attr :href data-entry-link)
   [:a#user-profile] (set-attr :href (u/profile username))
   [:span#user-name] (content username)
+  [:a#sharing] (set-attr :href (u/dataset-sharing dataset-id))
   [:a#download-all] (set-attr :href (u/dataset-download dataset-id))
 
   ;; View nav
@@ -113,7 +130,7 @@
              [:ul.submenu :li.open :a] (set-attr
                                         :href
                                         (u/dataset (:formid dataset)))
-             [:ul.submenu :li.share] nil
+             [:ul.submenu :li.share :a] (set-attr :href (u/dataset-sharing (:formid dataset)))
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
              [:ul.submenu :li.transfer] nil

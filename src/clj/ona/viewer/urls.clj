@@ -26,7 +26,7 @@
   [dataset-id]
   (str "/dataset/" dataset-id "/sharing"))
 
-(def dataset-sharing-post "dataset/sharing")
+(def dataset-sharing-post "/dataset/sharing")
 
 (defn dataset-chart
   "Build dataset chart link from dataset id."
