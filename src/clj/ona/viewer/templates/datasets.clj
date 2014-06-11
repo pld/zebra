@@ -13,15 +13,21 @@
   (:require [ona.viewer.urls :as u]
             [ona.utils.time :as t]))
 
+(def hidden-column-prefix \_)
+
+(defn- filter-hidden-columns
+  "Remove hidden columns from a dataset map."
+  [dataset]
+  (map
+   #(select-keys % (for [[k v] %
+                         :when (not=
+                                (-> k name first)
+                                \_)] k)) dataset))
+
 (defn- clean-for-table
   "Take a dataset hash and return headers and rows lists."
   [dataset]
-  (let [filtered-dataset (map
-                          #(select-keys % (for
-                                              [[k v] %
-                                               :when (not=
-                                                      (-> k name first)
-                                                      \_)] k)) dataset)
+  (let [filtered-dataset (filter-hidden-columns dataset)
         sorted-dataset (map #(into (sorted-map) %) filtered-dataset)]
     [(map name (-> sorted-dataset first keys))
      (map vals sorted-dataset)]))
