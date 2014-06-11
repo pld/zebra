@@ -7,7 +7,6 @@
                                        set-attr]]
         [clavatar.core :only [gravatar]])
   (:require [ona.utils.string :as s]
-            [ona.utils.time :as t]
             [ona.viewer.urls :as u]
             [ona.viewer.templates.datasets :as datasets]))
 
@@ -16,17 +15,6 @@
   (if (= logged-in-username shared-username)
     (str shared-username " (you)")
     shared-username))
-
-(defn- latest-submitted-form
-  [forms]
-  (let [intervals (for [form forms]
-                    { (:formid form)
-                      (t/interval->time-int (:last_submission_time form))})
-        all-intervals (apply merge intervals)
-        latest-formid (key (apply max-key val all-intervals))]
-    (for [form forms]
-      (if (= (:formid form) latest-formid)
-        form))))
 
 (defsnippet project-settings "templates/project/settings.html"
   [:body :div.content]
@@ -42,7 +30,7 @@
 
 (defsnippet project-forms "templates/project/forms.html"
   [:body :div.content]
-  [project forms profile]
+  [project forms profile latest-form all-submissions]
 
   [:#name] (content (:name project))
 
@@ -53,10 +41,7 @@
   ;; Side nav
   ;; TODO this will work once the API sends back this content
   [:#description] (content (:description project))
-  [:div#project-activity] (content (datasets/activity
-                                     []
-                                     (latest-submitted-form forms)))
-  ;[:div#project-activity] (content (latest-submitted-form forms))
+  [:div#project-activity] (content (datasets/activity all-submissions latest-form))
 
   ;;Project Forms
   [:div.datasets-table] (content (datasets/datasets-table forms

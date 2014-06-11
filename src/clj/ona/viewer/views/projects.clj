@@ -7,7 +7,28 @@
         [slingshot.slingshot :only [try+]])
   (:require [ona.api.project :as api]
             [ona.api.user :as api-user]
-            [ona.viewer.urls :as u]))
+            [ona.api.dataset :as api-dataset]
+            [ona.viewer.urls :as u]
+            [ona.utils.time :as t]))
+
+(defn- latest-submitted-form
+  "Parses forms from all projects and returns form with latest submission time"
+  [forms]
+  (let [intervals (for [form forms]
+                    { (:formid form)
+                      (t/interval->time-int (:last_submission_time form))})
+        all-intervals (apply merge intervals)
+        latest-formid (key (apply max-key val all-intervals))]
+    (first (for [form forms]
+             (if (= (:formid form) latest-formid)
+               form)))))
+
+(defn- all-submissions
+  "Get all submission for dataset"
+  ;; TODO  move functionality to api to reduce number of API calls
+  [forms account]
+  (for [form forms]
+   (api-dataset/data account (:formid form))))
 
 (defn all
   "List all of the users projects."
@@ -36,12 +57,14 @@
   [account id]
   (let [project (api/get-project account id)
         forms (api/get-forms account id)
-        profile (api-user/profile account)]
+        profile (api-user/profile account)
+        latest-form (latest-submitted-form forms)
+        all-submissions (all-submissions forms account)]
     (base-template
      (u/project-forms id)
      account
      "Project Forms"
-     (project-forms project forms profile))))
+     (project-forms project forms profile latest-form all-submissions))))
 
 (defn settings
   "Show the settings for a project."
