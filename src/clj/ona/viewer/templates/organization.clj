@@ -15,7 +15,7 @@
   [org-details]
   (str "Teams (" (-> org-details :teams count) ")"))
 
-(defsnippet profile "templates/org-profile.html"
+(defsnippet profile "templates/organization/profile.html"
   [:body :div#content]
   [org-details]
 
@@ -57,7 +57,7 @@
                         (-> org-details :org :email)
                         (:project-details org-details))))
 
-(defsnippet members-table "templates/members.html"
+(defsnippet members-table "templates/organization/members.html"
   [:table.members]
   [org members]
   [:tbody [:tr (but first-of-type)]] nil
@@ -66,7 +66,7 @@
                                           [:span.username](content (:username member))
                                           [:td :a] (content (str (:no-of-forms member) " forms"))))
 
-(defsnippet teams "templates/teams.html"
+(defsnippet teams "templates/organization/teams.html"
   [:body :div#content]
   [org teams]
   [:div.myteams] nil
@@ -85,7 +85,7 @@
   [:a.new-team] (set-attr :href (str "/organizations/" (:org org) "/new-team"))
   [:span.no-of-teams] (content (str (count teams))))
 
-(defsnippet team-info "templates/team-info.html"
+(defsnippet team-info "templates/team/show.html"
   [:body :div#content]
   [org team-data]
   [:.team-name] (content (:name (:team-info team-data)))
@@ -95,14 +95,14 @@
   [:form#add-user :input#org](set-attr :value (:org org))
   [:form#add-user :input#teamid](set-attr :value (:team-id team-data)))
 
-(defsnippet new-team "templates/new-team.html"
+(defsnippet new-team "templates/team/new.html"
   [:body :div#content]
   [org]
   [:form#new-team] (do-> (set-attr :action (str "/organizations/" (:org org) "/new-team"))
                          (set-attr :method "post"))
   [:form#new-team  :input#org](set-attr :value (:org org)))
 
-(defsnippet members "templates/members.html"
+(defsnippet members "templates/organization/members.html"
   [:body :div#content]
   [org members]
   [:span.no-of-members] (content (str (count members)))
