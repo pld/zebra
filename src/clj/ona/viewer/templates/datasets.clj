@@ -13,6 +13,19 @@
   (:require [ona.viewer.urls :as u]
             [ona.utils.time :as t]))
 
+(defn- clean-for-table
+  "Take a dataset hash and return headers and rows lists."
+  [dataset]
+  (let [filtered-dataset (map
+                          #(select-keys % (for
+                                              [[k v] %
+                                               :when (not=
+                                                      (-> k name first)
+                                                      \_)] k)) dataset)
+        sorted-dataset (map #(into (sorted-map) %) filtered-dataset)]
+    [(map name (-> sorted-dataset first keys))
+     (map vals sorted-dataset)]))
+
 (defn- latest-submission-str
   "String for the latest submission made."
   [metadata]
@@ -36,19 +49,16 @@
 
 (defsnippet show-table "templates/dataset/table.html"
   [:table#submissions]
-  [dataset]
+  [headers rows]
   [:thead [:th (but first-of-type)]] nil
   [:tbody [:tr (but first-of-type)]] nil
-  [:thead [:th first-of-type]] (clone-for [key (keys (first dataset))]
-                                          [:th] (content (str key)))
+  [:thead [:th first-of-type]] (clone-for [header headers]
+                                          [:th] (content header))
   [:tbody [:tr first-of-type]]
-  (clone-for [submission dataset]
+  (clone-for [row rows]
              [:tr [:td (but first-of-type)]] nil
-             [:tr [first-of-type]] (clone-for [key
-                                               (keys
-                                                (first dataset))]
-                                              [:td] (content (str (get submission
-                                                                       key))))))
+             [:tr [first-of-type]] (clone-for [v row]
+                                              [:td] (content (str v)))))
 
 (defsnippet show-map "templates/dataset/show.html"
   [:div#map]
@@ -60,7 +70,7 @@
   [context dataset]
   (condp = context
     :map (show-map)
-    :table (show-table dataset)
+    :table (apply show-table (clean-for-table dataset))
     ;; TODO make these views real
     :chart (show-map)
     :photo (show-map)
