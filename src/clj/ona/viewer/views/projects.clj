@@ -14,12 +14,14 @@
 (defn- latest-submitted-form
   "Parses forms from all projects and returns form with latest submission time"
   [forms]
-  (let [intervals (map #(into {} {(:formid %)
-                                   (t/time->interval-from-now (:last_submission_time %))})
+  (let [forms-w-intervals (map #(into {} {(:formid %)
+                                   {:form %
+                                    :time (t/time->interval-from-now (:last_submission_time %))}
+                                  })
                        forms)
-        all-intervals (apply merge intervals)
-        latest-formid (key (apply max-key val all-intervals))]
-    (first (filter #(= (:formid %) latest-formid) forms))))
+        all-forms-w-intervals (apply merge forms-w-intervals)
+        latest-formid (key (apply min-key #(-> % val :time) all-forms-w-intervals))]
+    (:form (get all-forms-w-intervals latest-formid))))
 
 (defn- all-submissions
   "Get all submission for dataset"

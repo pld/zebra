@@ -44,7 +44,7 @@
   "Gets interval from now for a given time"
   [time]
   (if time
-    (t/interval (l/to-local-date-time time) (l/local-now))))
+    (t/in-seconds (t/interval (l/to-local-date-time time) (l/local-now)))))
 
 (defn during-today?
   "Was the submission made during the current day?"
