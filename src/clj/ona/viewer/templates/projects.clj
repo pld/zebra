@@ -7,6 +7,7 @@
                                        set-attr]]
         [clavatar.core :only [gravatar]])
   (:require [ona.utils.string :as s]
+            [ona.utils.time :as t]
             [ona.viewer.urls :as u]
             [ona.viewer.templates.datasets :as datasets]))
 
@@ -15,6 +16,17 @@
   (if (= logged-in-username shared-username)
     (str shared-username " (you)")
     shared-username))
+
+(defn- latest-submitted-form
+  [forms]
+  (let [intervals (for [form forms]
+                    { (:formid form)
+                      (t/interval->time-int (:last_submission_time form))})
+        all-intervals (apply merge intervals)
+        latest-formid (key (apply max-key val all-intervals))]
+    (for [form forms]
+      (if (= (:formid form) latest-formid)
+        form))))
 
 (defsnippet project-settings "templates/project/settings.html"
   [:body :div.content]
@@ -33,13 +45,20 @@
   [project forms profile]
 
   [:#name] (content (:name project))
+
+  ;;Top Nav
+  [:div#username] (content (datasets/user-link (:username profile)))
+  [:#addform] (set-attr :href (str "/project/" (:id project) "/new-dataset"))
+
+  ;; Side nav
   ;; TODO this will work once the API sends back this content
   [:#description] (content (:description project))
-  [:#addform] (set-attr :href (str "/project/" (:id project) "/new-dataset"))
-  [:#forms [:li]] (clone-for [form forms]
-                             [:.formname] (content (:title form)))
-  [:a#user-profile] (set-attr :href (u/profile (:username profile)))
-  [:span#user-name] (content (:username profile))
+  [:div#project-activity] (content (datasets/activity
+                                     []
+                                     (latest-submitted-form forms)))
+  ;[:div#project-activity] (content (latest-submitted-form forms))
+
+  ;;Project Forms
   [:div.datasets-table] (content (datasets/datasets-table forms
                                                           profile)))
 
