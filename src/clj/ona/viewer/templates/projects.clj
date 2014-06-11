@@ -38,6 +38,8 @@
   [:#addform] (set-attr :href (str "/project/" (:id project) "/new-dataset"))
   [:#forms [:li]] (clone-for [form forms]
                              [:.formname] (content (:title form)))
+  [:a#user-profile] (set-attr :href (u/profile (:username profile)))
+  [:span#user-name] (content (:username profile))
   [:div.datasets-table] (content (datasets/datasets-table forms
                                                           profile)))
 
