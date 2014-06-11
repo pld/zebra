@@ -36,7 +36,7 @@
 
   ;;Top Nav
   [:div#username] (content (datasets/user-link (:username profile)))
-  [:#addform] (set-attr :href (str "/project/" (:id project) "/new-dataset"))
+  [:#addform] (set-attr :href (u/project-new-dataset (:id project)))
 
   ;; Side nav
   ;; TODO this will work once the API sends back this content

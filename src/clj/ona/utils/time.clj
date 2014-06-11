@@ -40,12 +40,11 @@
       (interval->time-str interval))
     nil))
 
-(defn interval->time-int
-  "Get time interval as an interger"
-  [latest-submission-time]
-  (if-let [time latest-submission-time]
-    (t/interval (l/to-local-date-time time) (l/local-now))
-    nil))
+(defn time->interval-from-now
+  "Gets interval from now for a given time"
+  [time]
+  (if time
+    (t/interval (l/to-local-date-time time) (l/local-now))))
 
 (defn during-today?
   "Was the submission made during the current day?"

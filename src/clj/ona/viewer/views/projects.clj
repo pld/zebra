@@ -14,9 +14,9 @@
 (defn- latest-submitted-form
   "Parses forms from all projects and returns form with latest submission time"
   [forms]
-  (let [intervals (for [form forms]
-                    { (:formid form)
-                      (t/interval->time-int (:last_submission_time form))})
+  (let [intervals (map #(into {} {(:formid %)
+                                   (t/time->interval-from-now (:last_submission_time %))})
+                       forms)
         all-intervals (apply merge intervals)
         latest-formid (key (apply max-key val all-intervals))]
     (first (for [form forms]
@@ -27,8 +27,7 @@
   "Get all submission for dataset"
   ;; TODO  move functionality to api to reduce number of API calls
   [forms account]
-  (for [form forms]
-   (api-dataset/data account (:formid form))))
+  (map #(api-dataset/data account (:formid %)) forms))
 
 (defn all
   "List all of the users projects."
