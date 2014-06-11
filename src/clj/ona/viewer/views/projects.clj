@@ -19,9 +19,7 @@
                        forms)
         all-intervals (apply merge intervals)
         latest-formid (key (apply max-key val all-intervals))]
-    (first (for [form forms]
-             (if (= (:formid form) latest-formid)
-               form)))))
+    (first (filter #(= (:formid %) latest-formid) forms))))
 
 (defn- all-submissions
   "Get all submission for dataset"
