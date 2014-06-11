@@ -13,22 +13,22 @@
   [:body :div.content :> :.signin-form]
   [])
 
-(defsnippet new-organization-form "templates/new-organization.html"
+(defsnippet new-organization-form "templates/organization/new.html"
   [:body :div.content :> :.new-organization-form]
   [])
 
-(defsnippet new-project-form "templates/new-project.html"
+(defsnippet new-project-form "templates/project/new.html"
   [:body :div.content :> :.new-project-form]
   [errors]
   [:#errors] (content errors))
 
-(defsnippet new-tag-form "templates/new-tag.html"
+(defsnippet new-tag-form "templates/dataset/tag.html"
   [:body :div.content :> :.new-tag-form]
   [dataset-id]
   [:form](set-attr :action (u/dataset-tags dataset-id))
   [:form :#dataset-id](set-attr :value dataset-id))
 
-(defsnippet metadata-form "templates/dataset-metadata.html"
+(defsnippet metadata-form "templates/dataset/metadata.html"
   [:body :div.content :> :.dataset-metadata-form]
   [dataset-id metadata]
   [:form] (set-attr :action (u/dataset-metadata dataset-id))
@@ -40,7 +40,7 @@
   [:input#tags] (set-attr :value (join ", " (:tags metadata))))
 
 
-(defsnippet sharing "templates/dataset-new-sharing.html"
+(defsnippet sharing "templates/dataset/new-sharing.html"
   [:body :div#content]
   [metadata dataset-id]
   [:span#title] (content (:title metadata))

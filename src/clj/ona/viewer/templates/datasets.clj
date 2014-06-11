@@ -29,12 +29,12 @@
     (str (pluralize-number no-submission "submission")
          " made today.")))
 
-(defsnippet new-dataset "templates/dataset-new.html"
+(defsnippet new-dataset "templates/dataset/new.html"
   [:body :div#content]
   [project]
   [:span#project-name] (content (:name project)))
 
-(defsnippet show-table "templates/show-table.html"
+(defsnippet show-table "templates/dataset/table.html"
   [:table#submissions]
   [dataset]
   [:thead [:th (but first-of-type)]] nil
@@ -50,7 +50,7 @@
                                               [:td] (content (str (get submission
                                                                        key))))))
 
-(defsnippet show-map "templates/show.html"
+(defsnippet show-map "templates/dataset/show.html"
   [:div#map]
   []
   [:div#map [:img]] nil)
@@ -66,7 +66,7 @@
     :photo (show-map)
     :activity (show-map)))
 
-(defsnippet show "templates/show.html"
+(defsnippet show "templates/dataset/show.html"
   [:body :div#content]
   [dataset-id metadata dataset data-entry-link username context]
 
