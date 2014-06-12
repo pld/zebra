@@ -28,7 +28,7 @@
              seconds-in-day [(t/in-days interval) "day"]
              seconds-in-hour [(t/in-hours interval) "hour"]
              seconds-in-minute [(t/in-minutes interval) "minute"]
-             [(interval-in-secs "second")]))))
+             [interval-in-secs "second"]))))
 
 (defn date->days-ago-str
   "Get time interval in secs, mins, hours days or years for a given date time"
