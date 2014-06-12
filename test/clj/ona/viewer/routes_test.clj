@@ -24,9 +24,11 @@
           (projects/all :fake-account) => result))
 
   (fact "should parse account and params in project post"
-        (let [params {:param-key :param-value}]
+        (let [username "username"
+              params {:param-key :param-value
+                      :owner username}]
           (project-routes {:request-method :post
-                        :uri "/projects"
+                           :uri (str "/projects/" username)
                         :params params
                         :session session}) => (contains result)
           (provided

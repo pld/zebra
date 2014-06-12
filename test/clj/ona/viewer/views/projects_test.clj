@@ -23,21 +23,22 @@
        (let [username "username"
              account {:username username}
              project-name "new-project"
-             params {:name project-name}
+             params {:name project-name
+                     :owner username}
              data (assoc params :owner :url)]
 
          "Should go to settings on success"
-         (let [redirect-url (str "/project/" :id "/settings")]
+         (let [redirect-url (str "/project/" username "/" :id "/settings")]
            (create account params) => :something
            (provided
-            (api/create account data) => {:id :id}
+            (api/create account data username) => {:id :id}
             (make-url "users/username") => :url
             (redirect-after-post redirect-url) => :something))
 
          "Should go to new on thrown error"
          (create account params) => :something
          (provided
-          (api/create account data) =throws=> (slingshot-exception [])
+          (api/create account data username) =throws=> (slingshot-exception [])
           (make-url "users/username") => :url
           (new-project account []) => :something)))
 
@@ -47,16 +48,16 @@
       fake-account {:username username}
       project {:id id :name project-name}]
   (fact "settings for a project shows project name"
-        (settings fake-account id) => (contains project-name)
+        (settings fake-account username id) => (contains project-name)
         (provided
-         (api/get-project fake-account id) => project))
+         (api/get-project fake-account username id) => project))
 
   (facts "forms for project"
          "Should show project name"
-         (forms fake-account id) => (contains project-name)
+         (forms fake-account username id) => (contains project-name)
          (provided
-          (api/get-project fake-account id) => project
-          (api/get-forms fake-account id) => [{:title "Test Form" :num_of_submissions 2}]
+          (api/get-project fake-account username id) => project
+          (api/get-forms fake-account username id) => [{:title "Test Form" :num_of_submissions 2}]
           (api-user/profile fake-account) => :fake-profile))
 
   (let [two-days-ago 2

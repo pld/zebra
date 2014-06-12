@@ -19,8 +19,9 @@
 
 (defsnippet new-project-form "templates/project/new.html"
   [:body :div.content :> :.new-project-form]
-  [errors]
-  [:#errors] (content errors))
+  [owner errors]
+  [:#errors] (content errors)
+  [:form] (set-attr :action (str "/projects/" owner)))
 
 (defsnippet new-tag-form "templates/dataset/tag.html"
   [:body :div.content :> :.new-tag-form]

@@ -23,9 +23,9 @@
 
       "New dataset takes project id for project specific dataset"
       (let [project-name "the project name"]
-        (new-dataset :fake-account :project-id) => (contains project-name)
+        (new-dataset :fake-account :owner :project-id) => (contains project-name)
         (provided
-         (api-project/get-project :fake-account :project-id) => {:name project-name})))
+         (api-project/get-project :fake-account :owner :project-id) => {:name project-name})))
 
 (fact "about dataset tags"
       "Tags returns all tags for a specific dataset"

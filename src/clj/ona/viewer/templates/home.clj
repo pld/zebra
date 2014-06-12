@@ -20,7 +20,7 @@
                                                           profile))
 
   ;; Set sidenav links
-  [:#sidenav [:a first-of-type]] (set-attr :href u/project-new)
+  [:#sidenav [:a first-of-type]] (set-attr :href (u/project-new (:username profile)))
 
   ;; Dataset details
   [:span#public-datasets] (content (str (:no-of-public dataset-details)))

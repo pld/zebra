@@ -34,15 +34,16 @@
 
 (defn project-details
   "Gets organization project details"
-  [account]
-  (let [projects (api-projects/all account)
+  [account owner]
+  (let [projects (api-projects/all account owner)
         project-details (for [project projects]
                           {:project project
                            :last-modification (t/date->days-ago-str (:date_modified project))
                            :no-of-datasets (count
-                                             (api-projects/get-forms
-                                               account
-                                               (s/last-url-param (:url project))))})]
+                                            (api-projects/get-forms
+                                             account
+                                             owner
+                                             (s/last-url-param (:url project))))})]
     project-details))
 
 (defn profile
@@ -51,7 +52,7 @@
   (let [org (api/profile account org-name)
         teams (api/teams account org-name)
         members (api/members account org-name)
-        project-details (project-details account)
+        project-details (project-details account org-name)
         org-details {:org org
                      :members members
                      :teams teams

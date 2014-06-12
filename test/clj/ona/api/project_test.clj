@@ -19,9 +19,9 @@
 
   (facts "about project-create"
          "Should associate data"
-         (create account :data) => parsed-data
+         (create account :data username) => parsed-data
          (provided
-          (make-url "projects") => url
+          (make-url "projects/" username) => url
           (parse-http :post
                       url
                       account
@@ -29,9 +29,9 @@
 
          "Should throw an exception if special __all__ error key returned"
          (let [error :error]
-           (create account :data) => (throws clojure.lang.ExceptionInfo)
+           (create account :data username) => (throws clojure.lang.ExceptionInfo)
            (provided
-            (make-url "projects") => url
+            (make-url "projects/" username) => url
             (parse-http :post
                         url
                         account
