@@ -27,7 +27,7 @@
                       :email email}]
          (dashboard account) => (contains [username email] :in-any-order :gaps-ok)
          (provided
-          (api-projects/all account usename) =>
+          (api-projects/all account username) =>
           [{:title "Test dataset" :num_of_submissions 2}]
           (api-orgs/all account) => [{:title "Test Org"}]
           (api-user/profile account) => account

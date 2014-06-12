@@ -8,9 +8,7 @@
             [clojure.string :as string]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.organization :as org-templates]
-            [ona.viewer.urls :as u]
-            [ona.utils.time :as t]
-            [ona.utils.string :as s]))
+            [ona.viewer.urls :as u]))
 
 (defn all
   "Show all of the organizations for a user."

@@ -1,5 +1,7 @@
 (ns ona.viewer.helpers.projects
-  :require [ona.api.project :as api])
+  (:require [ona.api.project :as api]
+            [ona.utils.string :as s]
+            [ona.utils.time :as t]))
 
 (defn project-details
   "Gets project details for an account and owner."
