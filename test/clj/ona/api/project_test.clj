@@ -12,9 +12,9 @@
 
   (facts "about projects"
          "Should get correct url"
-         (all account) => :something
+         (all account username) => :something
          (provided
-          (make-url "projects") => url
+          (make-url "projects/" username) => url
           (parse-http :get url account) => :something))
 
   (facts "about project-create"
@@ -39,7 +39,7 @@
 
   (facts "about get-project"
          "Should find project for id"
-         (get-project account :id) => parsed-data
+         (get-project account username :id) => parsed-data
          (provided
           (make-url "projects/" username "/" :id) => url
           (parse-http :get
@@ -48,7 +48,7 @@
 
     (facts "about get-forms"
          "Should find forms for id"
-         (get-forms account :id) => data
+         (get-forms account username :id) => data
          (provided
           (make-url "projects/" username "/" :id "/forms") => url
           (parse-http :get
