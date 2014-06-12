@@ -96,7 +96,7 @@
         "New dataset"
         (datasets/new-dataset project)
         [(js-tag "goog.require(\"ona.upload\");")
-         (js-tag (str "ona.upload.init(\"upload-button\", \"form\", \"/"
+         (js-tag (str "ona.upload.init(\"upload-button\", \"form\", \""
                       upload-path
                       "\");"))]))))
 

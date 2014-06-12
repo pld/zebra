@@ -81,7 +81,7 @@
      (u/project-settings project owner)
      account
      "Project Settings"
-     (project-settings project username shared-user))))
+     (project-settings owner project username shared-user))))
 
 
 (defn create

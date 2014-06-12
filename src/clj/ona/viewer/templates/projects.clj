@@ -18,7 +18,7 @@
 
 (defsnippet project-settings "templates/project/settings.html"
   [:body :div.content]
-  [project username shared-users]
+  [owner project username shared-users]
 
   [:#name] (content (:name project))
   [:#users [:li]] (clone-for [user shared-users]
@@ -26,7 +26,7 @@
 
   ;; Buttons
   [:#back] (set-attr :href "/project")
-  [:#done] (set-attr :href (str "/project/" (:id project) "/forms")))
+  [:#done] (set-attr :href (u/project-forms (:id project) owner)))
 
 (defsnippet project-forms "templates/project/forms.html"
   [:body :div.content]

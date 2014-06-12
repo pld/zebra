@@ -75,7 +75,7 @@
 (defn project-new-dataset
   "Build the project settings url from a project-id"
   [project-id owner]
-  (str "project/" owner "/" project-id "/new-dataset"))
+  (str "/project/" owner "/" project-id "/new-dataset"))
 
 (defn project-settings
   "Build the project settings url from a project"
