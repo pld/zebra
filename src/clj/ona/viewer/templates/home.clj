@@ -17,7 +17,7 @@
   [profile projects project-details query orgs]
   [:.username] (content (:username profile))
   [:div#tab-content1] (content (projects/project-list profile
-                                                        projects))
+                                                      projects))
 
   ;; Set sidenav links
   [:#sidenav [:a first-of-type]] (set-attr :href (u/project-new (:username profile)))
