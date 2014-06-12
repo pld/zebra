@@ -3,8 +3,15 @@
         ona.viewer.views.projects
         [ona.api.io :only [make-url]]
         [ona.helpers :only [slingshot-exception]]
-        [ring.util.response :only [redirect-after-post]])
-  (:require [ona.api.project :as api]))
+        [ring.util.response :only [redirect-after-post]]
+        [midje.util :only [testable-privates]])
+  (:require [ona.api.project :as api]
+            [ona.api.user :as api-user]
+            [clj-time.format :as f]
+            [clj-time.core :as t]
+            [clj-time.local :as l]))
+
+(testable-privates ona.viewer.views.projects latest-submitted-form)
 
 (fact "all returns the projects"
       (let [fake-project :project]
@@ -48,4 +55,27 @@
          "Should show project name"
          (forms fake-account id) => (contains project-name)
          (provided
-          (api/get-project fake-account id) => project)))
+          (api/get-project fake-account id) => project
+          (api/get-forms fake-account id) => [{:title "Test Form" :num_of_submissions 2}]
+          (api-user/profile fake-account) => :fake-profile))
+
+  (let [two-days-ago 2
+        days-ago-2 (t/minus (l/local-now) (t/days two-days-ago))
+        days-ago-2-str (f/unparse (f/formatters :date-time) days-ago-2)
+        three-days-ago 3
+        days-ago-3 (t/minus (l/local-now) (t/days three-days-ago))
+        days-ago-3-str (f/unparse (f/formatters :date-time) days-ago-3)
+        form {:formid 1
+              :last_submission_time days-ago-2-str}
+        forms [form
+               {:formid 2
+                :last_submission_time days-ago-3-str}]
+        forms-with-empty [form {:formid 2}]]
+    (facts "Should show latest sumbission"
+           (latest-submitted-form forms) => form)
+
+    (facts "Should show nothing if no forms"
+           (latest-submitted-form []) => nil)
+
+    (facts "Should ignore forms with no latest submission time"
+           (latest-submitted-form forms-with-empty) => form)))

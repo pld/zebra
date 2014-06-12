@@ -28,7 +28,7 @@
              seconds-in-day [(t/in-days interval) "day"]
              seconds-in-hour [(t/in-hours interval) "hour"]
              seconds-in-minute [(t/in-minutes interval) "minute"]
-             [(interval-in-secs "second")]))))
+             [interval-in-secs "second"]))))
 
 (defn date->days-ago-str
   "Get time interval in secs, mins, hours days or years for a given date time"
@@ -39,6 +39,12 @@
                     (l/local-now))]
       (interval->time-str interval))
     nil))
+
+(defn time->interval-from-now
+  "Gets interval from now for a given time"
+  [time]
+  (if time
+    (t/in-seconds (t/interval (l/to-local-date-time time) (l/local-now)))))
 
 (defn during-today?
   "Was the submission made during the current day?"

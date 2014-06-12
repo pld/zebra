@@ -6,8 +6,10 @@
 (defn- add-id
   "Parse and add the projects ID."
   [project-data]
-  (merge project-data
-         {:id (-> (project-data :url) (split #"/") last)}))
+  (if-let [error (:detail project-data)]
+    (throw+ error)
+    (merge project-data
+           {:id (-> (project-data :url) (split #"/") last)})))
 
 (defn get-forms [account id]
   (let [url (make-url "projects/" (:username account) "/" id "/forms")]

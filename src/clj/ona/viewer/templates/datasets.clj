@@ -82,6 +82,18 @@
     :photo (show-map)
     :activity (show-map)))
 
+(defsnippet user-link "templates/dataset/show.html"
+  [:div#user-link ]
+  [username]
+  [:a#user-profile] (set-attr :href (u/profile username))
+  [:span#user-name] (content username))
+
+(defsnippet activity "templates/dataset/show.html"
+  [:p#activity]
+  [dataset metadata]
+  [:span#submissions] (content (submission-made-str dataset))
+  [:span#latest] (content (latest-submission-str metadata)))
+
 (defsnippet show "templates/dataset/show.html"
   [:body :div#content]
   [dataset-id metadata dataset data-entry-link username context]
@@ -91,8 +103,7 @@
 
   ;; Top nav
   [:a.enter-data] (set-attr :href data-entry-link)
-  [:a#user-profile] (set-attr :href (u/profile username))
-  [:span#user-name] (content username)
+  [:div#username] (content (user-link username))
   [:a#sharing] (set-attr :href (u/dataset-sharing dataset-id))
   [:a#download-all] (set-attr :href (u/dataset-download dataset-id))
 
@@ -108,8 +119,7 @@
   [:div#sidenav [:a#form-source]] (do->
                                    (content (str (:id_string metadata)) ".xls")
                                    (set-attr :href (str "/")))
-  [:p.activity :span.submissions] (content (submission-made-str dataset))
-  [:p.activity :span.latest] (content (latest-submission-str metadata))
+  [:div#dataset-activity] (content (activity dataset metadata))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
   [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (:tags metadata)]
                                                    [:span.tag] (content tag))
