@@ -12,8 +12,8 @@
 (defn- counts-for-collection
   [collection k]
   (let [freq (frequencies (map #(k %) collection))]
-    {:no-of-public (get freq true)
-     :no-of-private (get freq false)}))
+    {:no-of-public (get freq true 0)
+     :no-of-private (get freq false 0)}))
 
 (defn- get-public-private-dataset-counts
   [datasets]
@@ -21,6 +21,8 @@
 
 (defn- get-public-private-project-counts
   [projects]
+  ;; TODO should work with more project metadata
+  ;; verify works when onadata#319 is closed.
   (counts-for-collection projects :public))
 
 (defn- search-collection
