@@ -1,29 +1,36 @@
 (ns ona.viewer.views.home
-  (:use [ona.utils.string :only [substring?]])
+  (:use [ona.utils.string :only [substring?]]
+        [ona.viewer.helpers.projects :only [project-details]])
   (:require [ona.api.user :as api]
             [ona.api.organization :as api-orgs]
             [ona.api.user :as api-user]
             [ring.util.response :as response]
             [ona.viewer.views.accounts :as accounts]
-            [ona.viewer.views.datasets :as datasets]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.home :as home]))
 
-(defn- get-public-private-dataset-counts
-  [all-datasets]
-  (let [freq (frequencies (for [dataset all-datasets]
-                            (:public_data dataset)))]
+(defn- counts-for-collection
+  [collection k]
+  (let [freq (frequencies (map #(k %) collection))]
     {:no-of-public (get freq true)
      :no-of-private (get freq false)}))
 
-(defn- search-datasets
-  "Return datasets' with a dataset title matching the query."
-  [query datasets]
+(defn- get-public-private-dataset-counts
+  [datasets]
+  (counts-for-collection datasets :public_data))
+
+(defn- get-public-private-project-counts
+  [projects]
+  (counts-for-collection projects :public))
+
+(defn- search-collection
+  "Return collections with a key matching the query."
+  [query collection k]
   (remove
    nil?
-   (for [dataset datasets]
-     (if (substring? query (:title dataset))
-       dataset))))
+   (for [member collection]
+     (if (substring? query (k member))
+       member))))
 
 (defn dashboard
   "Render the users signed in home page."
@@ -31,11 +38,11 @@
      (dashboard account nil))
   ([account query]
      (let [username (:username account)
-           all-datasets (datasets/all account)
-           dataset-details (get-public-private-dataset-counts all-datasets)
-           datasets (if query
-                      (search-datasets query all-datasets)
-                      all-datasets)
+           all-projects (project-details account username)
+           project-details (get-public-private-project-counts all-projects)
+           projects (if query
+                      (search-collection query all-projects :name)
+                      all-projects)
            orgs (api-orgs/all account)
            profile (api-user/profile account)]
        (base/base-template
@@ -43,8 +50,8 @@
         account
         "Home"
         (home/home-content profile
-                           datasets
-                           dataset-details
+                           projects
+                           project-details
                            query
                            orgs)
         nil

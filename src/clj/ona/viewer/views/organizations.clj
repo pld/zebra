@@ -1,5 +1,6 @@
 (ns ona.viewer.views.organizations
   (:use [ona.api.io :only [make-url]]
+        [ona.viewer.helpers.projects :only [project-details]]
         [ona.viewer.templates.forms :only [new-organization-form]])
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-datasets]
@@ -31,20 +32,6 @@
               :org org}
         organization (api/create account data)]
     (all account)))
-
-(defn project-details
-  "Gets organization project details"
-  [account owner]
-  (let [projects (api-projects/all account owner)
-        project-details (for [project projects]
-                          {:project project
-                           :last-modification (t/date->days-ago-str (:date_modified project))
-                           :no-of-datasets (count
-                                            (api-projects/get-forms
-                                             account
-                                             owner
-                                             (s/last-url-param (:url project))))})]
-    project-details))
 
 (defn profile
   "Retrieve the profile for an organization."

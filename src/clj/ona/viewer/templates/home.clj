@@ -9,22 +9,22 @@
                                        set-attr
                                        nth-of-type]]
         [ona.viewer.templates.modals :only [share-dialog]] :reload)
-  (:require [ona.viewer.templates.datasets :as datasets]
+  (:require [ona.viewer.templates.projects :as projects]
             [ona.viewer.urls :as u]))
 
 (defsnippet home-content "templates/home.html"
   [:body :div#content]
-  [profile datasets dataset-details query orgs]
+  [profile projects project-details query orgs]
   [:.username] (content (:username profile))
-  [:div.datasets-table] (content (datasets/datasets-table datasets
-                                                          profile))
+  [:div#tab-content1] (content (projects/project-list profile
+                                                        projects))
 
   ;; Set sidenav links
   [:#sidenav [:a first-of-type]] (set-attr :href (u/project-new (:username profile)))
 
   ;; Dataset details
-  [:span#public-datasets] (content (str (:no-of-public dataset-details)))
-  [:span#private-datasets] (content (str (:no-of-private dataset-details)))
+  [:span#public-projects] (content (str (:no-of-public project-details)))
+  [:span#private-projects] (content (str (:no-of-private project-details)))
 
   ;; Search Form
   [:form#search-form] (set-attr :action "/search")
