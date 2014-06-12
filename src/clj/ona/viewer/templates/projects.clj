@@ -48,20 +48,27 @@
   [:div.datasets-table] (content (datasets/datasets-table forms
                                                           profile)))
 
-(defsnippet project-list "templates/organization/profile.html"
+(defsnippet render-project-list "templates/organization/profile.html"
   [:div#tab-inner]
-  [profile projects]
+  [profile projects owner]
   ;; Set links
-  [:a#new-project] (set-attr :href (u/project-new (select-value profile [:org :username])))
+  [:a#new-project] (set-attr :href (u/project-new owner))
 
   [:tbody [:tr (but first-of-type)]] nil
   [:tbody [:tr first-of-type]]
   (clone-for [project projects]
              [:img.avatar] (set-attr :src (gravatar (:email profile)))
-             [:span#owner-name] (content (select-value profile [:org :username]))
+             [:span#owner-name] (content owner)
              [:span#project-name] (content (-> project :project :name))
              [:p#last-project-modification] (content (str "Last record " (:last-modification project) " ago"))
              [:span#no-of-datasets] (content (str (:no-of-datasets project) " datasets"))
              [:a#open] (set-attr :href (u/project-forms
                                         (-> project :project :url s/last-url-param)
-                                        (select-value profile [:org :username])))))
+                                        owner))))
+
+(defn project-list
+  "Helper to build arguments for project list template."
+  [profile projects]
+  (render-project-list profile
+                       projects
+                       (select-value profile [:org :username])))
