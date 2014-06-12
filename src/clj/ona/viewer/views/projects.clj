@@ -36,8 +36,8 @@
 
 (defn all
   "List all of the users projects."
-  [account]
-  (let [projects (api/all account)]
+  [account owner]
+  (let [projects (api/all account owner)]
     (dashboard-items
       "Projects"
       account

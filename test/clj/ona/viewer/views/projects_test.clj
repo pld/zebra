@@ -15,9 +15,9 @@
 
 (fact "all returns the projects"
       (let [fake-project :project]
-        (all :fake-account) => (contains (str fake-project))
+        (all :fake-account :fake-owner) => (contains (str fake-project))
         (provided
-         (api/all :fake-account) => [fake-project])))
+         (api/all :fake-account :fake-owner) => [fake-project])))
 
 (facts "create new project"
        (let [username "username"

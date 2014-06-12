@@ -102,9 +102,10 @@
         {id :id
          owner :owner} :params}
        (projects/settings account owner id))
-  (GET "/projects"
-       {{account :account} :session}
-       (projects/all account))
+  (GET "/projects/:owner"
+       {{account :account} :session
+        {owner :owner} :params}
+       (projects/all account owner))
   (POST "/projects/:owner"
         {{account :account} :session
          params :params}
