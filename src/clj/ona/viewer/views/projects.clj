@@ -14,7 +14,6 @@
 (defn- latest-submitted-form
   "Parses forms from all projects and returns form with latest submission time"
   [forms]
-
   (let [forms-w-intervals
         (for [form forms
               :let [last-submit (:last_submission_time form)]
@@ -37,8 +36,8 @@
 
 (defn all
   "List all of the users projects."
-  [account]
-  (let [projects (api/all account)]
+  [account owner]
+  (let [projects (api/all account owner)]
     (dashboard-items
       "Projects"
       account
@@ -48,51 +47,52 @@
 
 (defn new-project
   "Form for creating a new project."
-  ([account]
-     (new-project account nil))
-  ([account errors]
+  ([account owner]
+     (new-project account owner nil))
+  ([account owner errors]
       (base-template
        "/project"
        account
        "New Project"
-       (new-project-form errors))))
+       (new-project-form owner errors))))
 
 (defn forms
   "Show the forms for a project."
-  [account id]
-  (let [project (api/get-project account id)
-        forms (api/get-forms account id)
+  [account owner id]
+  (let [project (api/get-project account owner id)
+        forms (api/get-forms account owner id)
         profile (api-user/profile account)
         latest-form (latest-submitted-form forms)
         all-submissions (all-submissions forms account)]
     (base-template
-     (u/project-forms id)
+     (u/project-forms id owner)
      account
      "Project Forms"
-     (project-forms project forms profile latest-form all-submissions))))
+     (project-forms owner project forms profile latest-form all-submissions))))
 
 (defn settings
   "Show the settings for a project."
-  [account id]
-  (let [project (api/get-project account id)
+  [account owner id]
+  (let [project (api/get-project account owner id)
         username (:username account)
         ;; TODO fille this with the shared users when API finished
         shared-user [username]]
     (base-template
-     (u/project-settings project)
+     (u/project-settings project owner)
      account
      "Project Settings"
-     (project-settings project username shared-user))))
+     (project-settings owner project username shared-user))))
 
 
 (defn create
   "Create a new project for the current user."
   [account params]
-  (let [owner (make-url (str "users/" (:username account)))
+  (let [owner (:owner params)
+        owner-url (make-url (str "users/" owner))
         data {:name (:name params)
-              :owner owner}]
+              :owner owner-url}]
     (try+
-     (let [project (api/create account data)]
-       (redirect-after-post (u/project-settings project)))
+     (let [project (api/create account data owner)]
+       (redirect-after-post (u/project-settings project owner)))
      (catch vector? errors
        (new-project account errors)))))

@@ -24,8 +24,8 @@
                       :org organization-name}]
           (create account params) => :something
           (provided
-            (api/create account params) => :new-organization
-            (all account) => :something)))
+           (api/create account params) => :new-organization
+           (all account) => :something)))
 
   (fact "profile shows organization detail"
         (profile account name) => (contains "Fake Org")
@@ -33,73 +33,74 @@
          (api/profile account name) => {:name "Fake Org"}
          (api/teams account name) => [{:name "Fake Team"}]
          (api/members account name) => [{:name "Fake Member"}]
-         (api/all account) => [{:name "Fake Org"}]))
+         (api-projects/all account name) => [{:name "Fake Org"}]))
 
   (fact "teams shows organization teams"
         (teams account name) => (contains "Fake Team")
         (provided
-          (api/profile account name) => {:name "Fake Org"}
-          (api/teams account name) => [{:name "Fake Team"}]
-          (api/all account) => [{:name "Fake Org"}]))
+         (api/profile account name) => {:name "Fake Org"}
+         (api/teams account name) => [{:name "Fake Team"}]
+         (api/all account) => [{:name "Fake Org"}]))
 
   (fact "team-info shows info for a specific team"
         (team-info account name :team-id) => (contains "Fake Team" "member" :gaps-ok)
         (provided
-          (api/profile account name) => {:name "Fake Org"}
-          (api/team-info account name :team-id) => {:name "Fake Team"}
-          (api/team-members account name :team-id) => ["member"]
-          (api-dataset/public account "member") => [:fake-forms]
-          (api/all account) => [{:name "Fake Org"}]))
+         (api/profile account name) => {:name "Fake Org"}
+         (api/team-info account name :team-id) => {:name "Fake Team"}
+         (api/team-members account name :team-id) => ["member"]
+         (api-dataset/public account "member") => [:fake-forms]
+         (api/all account) => [{:name "Fake Org"}]))
 
   (fact "new-team shows new team form"
         (new-team account name) => (contains "Create team")
         (provided
-          (api/profile account name) => {:name "Fake Org"}
-          (api/all account) => [{:name "Fake Org"}]))
+         (api/profile account name) => {:name "Fake Org"}
+         (api/all account) => [{:name "Fake Org"}]))
 
   (fact "create-team should create new team and show new team details"
         (let [params {:name "new fake team" :organization name}]
-            (create-team account params) => :updated-teamlist
-              (provided
-                (api/create-team account params) => :new-team
-                (teams account name) => :updated-teamlist)))
+          (create-team account params) => :updated-teamlist
+          (provided
+           (api/create-team account params) => :new-team
+           (teams account name) => :updated-teamlist)))
 
   (fact "add-team member should add a user to a team"
         (let [user { :username "someuser" :organization name}
               params (merge {:org name :teamid 1} user)]
           (add-team-member account params) => :something
           (provided
-            (api/add-team-member account name 1 user) => :new-member
-            (team-info account name 1) => :something)))
+           (api/add-team-member account name 1 user) => :new-member
+           (team-info account name 1) => :something)))
 
   (fact "members shows organization members"
         (members account name) => (contains "Fake Member")
         (provided
-          (api/profile account name) => {:name "Fake Org"}
-          (api/members account name) => ["Fake Member"]
-          (api-dataset/public account "Fake Member") => [:fake-forms]
-          (api/all account) => [{:name "Fake Org"}]))
+         (api/profile account name) => {:name "Fake Org"}
+         (api/members account name) => ["Fake Member"]
+         (api-dataset/public account "Fake Member") => [:fake-forms]
+         (api/all account) => [{:name "Fake Org"}]))
 
   (fact "add-member should add members to organization"
         (let [member { :username "someuser"}
-               params (merge {:orgname name} member)]
+              params (merge {:orgname name} member)]
           (add-member account params) => :something
           (provided
-            (api/add-member account name member) => :new-member
-            (members account name) => :something)))
+           (api/add-member account name member) => :new-member
+           (members account name) => :something)))
 
   (facts "get project details for and organizations projects"
          (let [days-ago 2
                days-ago-2 (t/minus (l/local-now) (t/days days-ago))
                days-ago-2-str (f/unparse (f/formatters :date-time) days-ago-2)]
-           (project-details account) => (contains
-                                         {:last-modification (str days-ago
-                                                                  " days")
-                                          :no-of-datasets 1
-                                          :project {:date_modified days-ago-2-str
-                                                    :name "Some project"
-                                                    :url "http://someurl/12"}})
+           (project-details account username) =>
+           (contains
+            {:last-modification (str days-ago
+                                     " days")
+             :no-of-datasets 1
+             :project {:date_modified days-ago-2-str
+                       :name "Some project"
+                       :url "http://someurl/12"}})
            (provided
-            (api-projects/all account) => [{:name "Some project"
-                                            :url "http://someurl/12"
-                                            :date_modified days-ago-2-str}]))))
+            (api-projects/all account username) => [{:name "Some project"
+                                                  :url "http://someurl/12"
+                                                  :date_modified days-ago-2-str}]))))

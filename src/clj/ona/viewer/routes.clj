@@ -31,20 +31,22 @@
         {{account :account} :session
          {file :file} :params}
         (datasets/create account file))
-  (GET "/project/:id/new-dataset"
+  (GET "/project/:owner/:id/new-dataset"
        {{account :account} :session
-        {project-id :id} :params}
-       (datasets/new-dataset account project-id))
+        {owner :owner
+         project-id :id} :params}
+       (datasets/new-dataset account owner project-id))
   (GET "/dataset/:id/show/:context"
        {{account :account} :session
         {id :id
          context :context} :params}
        (datasets/show account id (keyword context)))
-  (POST "/project/:id/new-dataset"
+  (POST "/project/:owner/:id/new-dataset"
         {{account :account} :session
          {file :file
+          owner :owner
           project-id :id} :params}
-        (datasets/create account file project-id))
+        (datasets/create account file owner project-id))
   (GET "/dataset/:id"
        {{account :account} :session
         {id :id} :params}
@@ -86,21 +88,25 @@
        (home-page session query)))
 
 (defroutes project-routes
-  (GET "/project"
-       {{account :account} :session}
-       (projects/new-project account))
-  (GET "/project/:id/forms"
+  (GET "/project/:owner"
        {{account :account} :session
-        {id :id} :params}
-       (projects/forms account id))
-  (GET "/project/:id/settings"
+        {owner :owner} :params}
+       (projects/new-project account owner))
+  (GET "/project/:owner/:id/forms"
        {{account :account} :session
-        {id :id} :params}
-       (projects/settings account id))
-  (GET "/projects"
-       {{account :account} :session}
-       (projects/all account))
-  (POST "/projects"
+        {id :id
+         owner :owner} :params}
+       (projects/forms account owner id))
+  (GET "/project/:owner/:id/settings"
+       {{account :account} :session
+        {id :id
+         owner :owner} :params}
+       (projects/settings account owner id))
+  (GET "/projects/:owner"
+       {{account :account} :session
+        {owner :owner} :params}
+       (projects/all account owner))
+  (POST "/projects/:owner"
         {{account :account} :session
          params :params}
         (projects/create account params)))

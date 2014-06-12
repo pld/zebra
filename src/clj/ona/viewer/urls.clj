@@ -69,17 +69,20 @@
 ;; Projects
 (defn project-forms
   "Build the project forms url from a project"
-  [project-id]
-  (str "/project/" project-id "/forms"))
+  [project-id owner]
+  (str "/project/" owner "/" project-id "/forms"))
 
 (defn project-new-dataset
   "Build the project settings url from a project-id"
-  [project-id]
-  (str "project/" project-id "/new-dataset"))
+  [project-id owner]
+  (str "/project/" owner "/" project-id "/new-dataset"))
 
 (defn project-settings
   "Build the project settings url from a project"
-  [project]
-  (str "/project/" (:id project) "/settings"))
+  [project owner]
+  (str "/project/" owner "/" (:id project) "/settings"))
 
-(def project-new "/project")
+(defn project-new
+  "Build the project for a new url give owner."
+  [owner]
+  (str "/project/" owner))

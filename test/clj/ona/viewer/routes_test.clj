@@ -17,16 +17,19 @@
             (datasets/show :fake-account id) => result)))
 
   (fact "should parse account"
-        (project-routes {:request-method :get
-                      :uri "/projects"
-                      :session session}) => (contains result)
-        (provided
-          (projects/all :fake-account) => result))
+        (let [owner "ukanga"]
+          (project-routes {:request-method :get
+                        :uri (str "/projects/" owner)
+                        :session session}) => (contains result)
+          (provided
+            (projects/all :fake-account owner) => result)))
 
   (fact "should parse account and params in project post"
-        (let [params {:param-key :param-value}]
+        (let [username "username"
+              params {:param-key :param-value
+                      :owner username}]
           (project-routes {:request-method :post
-                        :uri "/projects"
+                           :uri (str "/projects/" username)
                         :params params
                         :session session}) => (contains result)
           (provided

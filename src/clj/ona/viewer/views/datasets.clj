@@ -82,13 +82,13 @@
 (defn new-dataset
   "Render a page for creating a new dataset."
   ([account]
-     (new-dataset account nil))
-  ([account project-id]
-     (let [project (if project-id
-                     (api-project/get-project account project-id)
+     (new-dataset account nil nil))
+  ([account owner project-id]
+     (let [project (if owner
+                     (api-project/get-project account owner project-id)
                      {})
-           upload-path (if project-id
-                         (u/project-new-dataset project)
+           upload-path (if owner
+                         (u/project-new-dataset project-id owner)
                          "dataset")]
        (base/base-template
         (str "/" upload-path)
@@ -96,7 +96,7 @@
         "New dataset"
         (datasets/new-dataset project)
         [(js-tag "goog.require(\"ona.upload\");")
-         (js-tag (str "ona.upload.init(\"upload-button\", \"form\", \"/"
+         (js-tag (str "ona.upload.init(\"upload-button\", \"form\", \""
                       upload-path
                       "\");"))]))))
 

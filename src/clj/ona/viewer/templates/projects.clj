@@ -18,7 +18,7 @@
 
 (defsnippet project-settings "templates/project/settings.html"
   [:body :div.content]
-  [project username shared-users]
+  [owner project username shared-users]
 
   [:#name] (content (:name project))
   [:#users [:li]] (clone-for [user shared-users]
@@ -26,17 +26,17 @@
 
   ;; Buttons
   [:#back] (set-attr :href "/project")
-  [:#done] (set-attr :href (str "/project/" (:id project) "/forms")))
+  [:#done] (set-attr :href (u/project-forms (:id project) owner)))
 
 (defsnippet project-forms "templates/project/forms.html"
   [:body :div.content]
-  [project forms profile latest-form all-submissions]
+  [owner project forms profile latest-form all-submissions]
 
   [:#name] (content (:name project))
 
   ;;Top Nav
   [:div#username] (content (datasets/user-link (:username profile)))
-  [:#addform] (set-attr :href (u/project-new-dataset (:id project)))
+  [:#addform] (set-attr :href (u/project-new-dataset (:id project) owner))
 
   ;; Side nav
   ;; TODO this will work once the API sends back this content
@@ -48,13 +48,18 @@
                                                           profile)))
 
 (defsnippet project-list "templates/organization/profile.html"
-  [:table#projects]
-  [org-email projects]
+  [:div#tab-inner]
+  [org projects]
+  ;; Set links
+  [:a#new-project] (set-attr :href (u/project-new (:org org)))
+
   [:tbody [:tr (but first-of-type)]] nil
   [:tbody [:tr first-of-type]]
   (clone-for [project projects]
-             [:img.avatar] (set-attr :src (gravatar org-email))
+             [:img.avatar] (set-attr :src (gravatar (:email org)))
              [:span#project-name] (content (:name (:project project)))
              [:p#last-project-modification] (content (str "Last record " (:last-modification project) " ago"))
              [:span#no-of-datasets] (content (str (:no-of-datasets project) " datasets"))
-             [:a#open] (set-attr :href (u/project-forms (s/last-url-param (:url (:project project)))))))
+             [:a#open] (set-attr :href (u/project-forms
+                                        (-> project :project :url s/last-url-param)
+                                        (:org org)))))

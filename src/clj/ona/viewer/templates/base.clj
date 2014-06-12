@@ -63,7 +63,9 @@
                      (set-attr :class "active")
                      identity)
              [:li :a] (do-> (content caption)
-                            (set-attr :href url)
+                            (if (= "/projects" url)
+                              (set-attr :href (str url "/" username))
+                              (set-attr :href url))
                             (set-attr :data-test url)))
 
   ;; Set Home, My Organization links

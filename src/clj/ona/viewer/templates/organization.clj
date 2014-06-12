@@ -54,7 +54,7 @@
   ;; Organization projects
   [:div#tab-content1] (content
                        (project-templates/project-list
-                        (-> org-details :org :email)
+                        (:org org-details)
                         (:project-details org-details))))
 
 (defsnippet members-table "templates/organization/members.html"
