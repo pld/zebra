@@ -1,8 +1,44 @@
 <html lang="en">
-  <head>
-    <title>Ona Viewer</title>
-  </head>
-  <body>
+<head>
+    <title>Ona</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="stylesheet" type="text/css" href="../../../../resources/public/css/pure-min.css">
+    <link rel="stylesheet" href="../../../../resources/public/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../../resources/public/css/style.css">
+</head>
+<body>
+    <div id="main-menu">
+        <div class="vw-menu container cfix">
+            <ul id="menu-items">
+                <li class="pure-menu-selected menu-item">
+                    <div class="dropdown">
+                        <a href="user-profile-garrett.html"><i class="fa fa-user"></i> &nbsp;Me</a>
+                        <ul class="submenu" id="prof-drop">
+                            <li><a href="#">My Profile</a></li>
+                            <li><a href="#">My account</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="home.html">Home</a></li>
+                <li>
+                    <div class="dropdown">
+                        <a href="#"><i class="fa t-large fa-plus-square"></i></a>
+                        <ul class="submenu" id="exp-drop">
+                            <li><br/>My Organizations<br/><br/></li>
+                            <li><a href="#">
+                                <img src="../../../../resources/public/img/who-logo.jpg" class="avatar thumb"/><br/> WHO
+                            </a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="#">Explore</a></li>
+                <li><a href="#">Help</a></li>
+            </ul>
+        </div>
+    </div>
     <div class="content">
       <div class="new-project-form">
         <h1 id="name">Project Name</h1>
@@ -16,10 +52,40 @@
             </select>
           </li>
         </ul>
-        <a href="#">Share</a>
-        <a id="back" href="#">Back</a>
-        <a id="done" href="#">Done</a>
+        <a href="#share_dialog" class="pure-button">Share</a>
+        <a id="back" href="#" class="pure-button">Back</a>
+        <a id="done" href="#" class="pure-button">Done</a>
       </div>
+    </div>
+    <div class="modal" id="share_dialog">
+        <div class="modal-wrap cfix">
+            <div class="modal-header">
+                <a href="#" class="btn-close">X</a>
+                <h3>Share with ...</h3>
+            </div>
+            <div class="modal-body">
+                <form class="pure-form pure-form-stacked">
+                    <ul class="form-list">
+                        <li>
+                            <input type="checkbox" name="dmmata_check"/>
+                            <strong>Specific People:</strong> only people explicitly granted access to the project
+                        </li>
+                        <li>
+                            <input type="checkbox" name="data_check"/>
+                            <strong>Anyone via link: </strong> anyone with a link can access the project
+                        </li>
+                        <li>
+                            <input type="checkbox" name="data_check"/>
+                            <strong>Public: </strong> project is accessible by everyone and visible on your user page
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="pure-button">Cancel</a>
+                <input class="pure-button" type="submit" value="Ok"/>
+            </div>
+        </div>
     </div>
   </body>
 </html>

@@ -1,7 +1,8 @@
 (ns ona.utils.time
   (:use [ona.utils.numeric :only [pluralize-number]])
   (:require [clj-time.core :as t]
-            [clj-time.local :as l]))
+            [clj-time.local :as l]
+            [clj-time.format :as f]))
 
 (def seconds-in-minute 60)
 (def minutes-in-hour 60)
@@ -59,3 +60,8 @@
   (count (for [data dataset
                :when (during-today? (:_submission_time data))]
            data)))
+
+(defn format-date
+  "Format date with specified format"
+  [date-time format]
+  (f/unparse (f/formatters format) (l/to-local-date-time date-time)))

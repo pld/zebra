@@ -128,7 +128,7 @@
   ;; Context
   [:div.dataset-context] (content (view-for-context context dataset)))
 
-(defsnippet datasets-table "templates/home.html"
+(defsnippet datasets-table "templates/dataset/list.html"
   [:#datasets-table]
   [datasets profile]
   [:tbody [:tr (but first-of-type)]] nil

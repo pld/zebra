@@ -9,9 +9,8 @@
             [ona.api.user :as api-user]
             [clj-time.format :as f]
             [clj-time.core :as t]
-            [clj-time.local :as l]))
-
-(testable-privates ona.viewer.views.projects latest-submitted-form)
+            [clj-time.local :as l]
+            [ona.viewer.helpers.projects :as h]))
 
 (fact "all returns the projects"
       (let [fake-project :project]
@@ -73,10 +72,10 @@
                 :last_submission_time days-ago-3-str}]
         forms-with-empty [form {:formid 2}]]
     (facts "Should show latest sumbission"
-           (latest-submitted-form forms) => form)
+           (h/latest-submitted-form forms) => form)
 
     (facts "Should show nothing if no forms"
-           (latest-submitted-form []) => nil)
+           (h/latest-submitted-form []) => nil)
 
     (facts "Should ignore forms with no latest submission time"
-           (latest-submitted-form forms-with-empty) => form)))
+           (h/latest-submitted-form forms-with-empty) => form)))

@@ -18,7 +18,7 @@
   [])
 
 (defsnippet new-project-form "templates/project/new.html"
-  [:body :div.content :> :.new-project-form]
+  [:div.new-project-form]
   [owner errors]
   [:#errors] (content errors)
   [:form] (set-attr :action (str "/projects/" owner)))
