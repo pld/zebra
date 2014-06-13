@@ -60,6 +60,20 @@
   [org]
   (str "/organizations/" (:org org)))
 
+(defn org-members
+  "Build the member url for an organization."
+  [org]
+  (str "/organizations/"
+       (:org org)
+       "/teams"))
+
+(defn org-teams
+  "Build the teams url for an organization"
+  [org]
+  (str "/organizations/"
+       (:org org)
+       "/teams"))
+
 ;; Profile
 (defn profile
   "Build profile url from username."

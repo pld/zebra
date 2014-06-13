@@ -46,7 +46,7 @@
       (u/org org)
       account
       (:name org)
-      (org-templates/profile org-details))))
+      (org-templates/profile org members teams project-details))))
 
 (defn teams
   "Retrieve the team for an organization."

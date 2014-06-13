@@ -10,3 +10,11 @@
   "Get last parameter form url"
   [url]
   (last (split (str url) #"/")))
+
+(defn postfix-paren-count
+  "Wrap the count of a collection in parens and postfix."
+  [prefix collection]
+  (str prefix
+       " ("
+       (count collection)
+       ")"))
