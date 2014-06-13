@@ -9,19 +9,19 @@
             [ona.viewer.views.accounts :as accounts]
             [ona.viewer.views.datasets :as datasets]
             [ona.viewer.views.organizations :as organizations]
-            [ona.viewer.views.profile :as profile]
+            [ona.viewer.views.profiles :as profiles]
             [ona.viewer.views.projects :as projects]
             [ring.adapter.jetty :as ring])
   (:gen-class))
 
 (defroutes user-routes
-  (GET "/join" [] (profile/sign-up))
-  (POST "/join" {params :params} (profile/submit-sign-up params))
+  (GET "/join" [] (profiles/sign-up))
+  (POST "/join" {params :params} (profiles/submit-sign-up params))
   (POST "/login" {params :params} (accounts/submit-login params))
   (GET "/logout" [] (accounts/logout))
   (GET "/profile/:username"
        {{account :account} :session
-        {username :username} :params} (profile/user-profile account username)))
+        {username :username} :params} (profiles/user-profile account username)))
 
 (defroutes dataset-routes
   (GET "/dataset"

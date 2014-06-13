@@ -1,4 +1,4 @@
-(ns ona.viewer.templates.profile
+(ns ona.viewer.templates.profiles
   (:use [net.cgrand.enlive-html :only [content
                                        defsnippet
                                        do->

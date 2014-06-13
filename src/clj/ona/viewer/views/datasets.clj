@@ -103,9 +103,9 @@
 (defn create
   "Create a new dataset."
   ([account file]
-     (create account file nil))
-  ([account file project-id]
-     (let [response (api/create account file project-id)]
+     (create account file nil nil))
+  ([account file owner project-id]
+     (let [response (api/create account file owner project-id)]
        (if (and (contains? response :type) (= (:type response) "alert-error"))
          (:text response)
          (let [dataset-id (:formid response)

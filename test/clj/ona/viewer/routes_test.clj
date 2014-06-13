@@ -8,53 +8,69 @@
 
 (let [result {:body :something}
       session {:account :fake-account}]
-  (fact "should parse account"
-        (let [id "1"]
-          (dataset-routes {:request-method :get
-                        :uri (str "/dataset/" id)
-                        :session session}) => (contains result)
-          (provided
-            (datasets/show :fake-account id) => result)))
+  (facts "Dataset routes"
+         "Should parse account"
+         (let [id "1"]
+           (dataset-routes {:request-method :get
+                            :uri (str "/dataset/" id)
+                            :session session}) => (contains result)
+           (provided
+            (datasets/show :fake-account id) => result))
 
-  (fact "should parse account"
-        (let [owner "ukanga"]
-          (project-routes {:request-method :get
-                        :uri (str "/projects/" owner)
-                        :session session}) => (contains result)
-          (provided
-            (projects/all :fake-account owner) => result)))
+         "Should parse args for new dataset"
+         (let [id "1"
+               owner "owner"]
+           (dataset-routes {:request-method :post
+                            :uri (str "/project/"
+                                      owner
+                                      "/"
+                                      id
+                                      "/new-dataset")
+                            :session session}) => (contains result)
+           (provided
+            (datasets/create :fake-account nil owner id) => result)))
 
-  (fact "should parse account and params in project post"
-        (let [username "username"
-              params {:param-key :param-value
-                      :owner username}]
-          (project-routes {:request-method :post
-                           :uri (str "/projects/" username)
-                        :params params
-                        :session session}) => (contains result)
-          (provided
+  (facts "Project routes"
+         "Should parse account"
+         (let [owner "owner"]
+           (project-routes {:request-method :get
+                            :uri (str "/projects/" owner)
+                            :session session}) => (contains result)
+           (provided
+            (projects/all :fake-account owner) => result))
+
+         "Should parse account and params in project post"
+         (let [username "username"
+               params {:param-key :param-value
+                       :owner username}]
+           (project-routes {:request-method :post
+                            :uri (str "/projects/" username)
+                            :params params
+                            :session session}) => (contains result)
+           (provided
             (projects/create :fake-account params) => result)))
 
-  (fact "should parse account"
-        (org-routes {:request-method :get
+  (facts "Organization routes"
+         "Should parse account"
+         (org-routes {:request-method :get
                       :uri "/organizations"
                       :session session}) => (contains result)
-        (provided
-          (organizations/all :fake-account) => result))
+         (provided
+          (organizations/all :fake-account) => result)
 
-  (fact "should parse account and params in organization post"
-        (let [params {:param-key :param-value}]
-          (org-routes {:request-method :post
+         "Should parse account and params in organization post"
+         (let [params {:param-key :param-value}]
+           (org-routes {:request-method :post
                         :uri "/organizations"
                         :params params
                         :session session}) => (contains result)
-          (provided
-            (organizations/create :fake-account params) => result)))
+           (provided
+            (organizations/create :fake-account params) => result))
 
-  (fact "should parse account in organization profile"
-        (let [name "orgname"]
-          (org-routes {:request-method :get
+         "Should parse account in organization profile"
+         (let [name "orgname"]
+           (org-routes {:request-method :get
                         :uri (str "/organizations/" name)
                         :session session}) => (contains result)
-          (provided
+           (provided
             (organizations/profile :fake-account name) => result))))

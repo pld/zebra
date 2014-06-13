@@ -23,8 +23,8 @@
   [:#sidenav [:a first-of-type]] (set-attr :href (u/project-new username))
 
   ;; Dataset details
-  [:span#public-projects] (content (-> project-details :no-of-public str))
-  [:span#private-projects] (content (-> project-details :no-of-private str))
+  [:span#public-projects] (content (-> project-details :num-public str))
+  [:span#private-projects] (content (-> project-details :num-private str))
 
   ;; Search Form
   [:form#search-form] (set-attr :action "/search")

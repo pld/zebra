@@ -78,8 +78,8 @@
       "Should return :text value on error"
       (create :fake-account :params) => :response
       (provided
-       (api/create :fake-account :params nil) => {:type "alert-error"
-                                                  :text :response})
+       (api/create :fake-account :params nil nil) => {:type "alert-error"
+                                                      :text :response})
 
       "Should return link to preview URL on success"
       (cheshire.core/parse-string (:body (create :fake-account :params)) true) =>
@@ -89,12 +89,13 @@
                         :dataset-id
                         "/delete")}
       (provided
-       (api/create :fake-account :params nil) => {:formid :dataset-id}
+       (api/create :fake-account :params nil nil) => {:formid :dataset-id}
        (api/online-data-entry-link :fake-account :dataset-id) => :preview-url)
 
       "Should upload to project if project-id passed"
       (cheshire.core/parse-string (:body (create :fake-account
                                                  :params
+                                                 :owner
                                                  :project-id)) true) =>
       {:preview-url "preview-url"
        :settings-url (str "/dataset/" :dataset-id "/sharing")
@@ -102,5 +103,5 @@
                         :dataset-id
                         "/delete")}
       (provided
-       (api/create :fake-account :params :project-id) => {:formid :dataset-id}
+       (api/create :fake-account :params :owner :project-id) => {:formid :dataset-id}
        (api/online-data-entry-link :fake-account :dataset-id) => :preview-url))
