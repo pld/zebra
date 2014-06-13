@@ -143,11 +143,13 @@
   (clone-for [dataset datasets]
              [:.avatar] (set-attr :src (gravatar (:email profile)))
              [:.username] (content (:username profile))
-             [:tr (nth-of-type 2) :strong] (content (:title dataset))
+             [:strong.dataset-name] (content (:title dataset))
              [:ul.submenu :li.open :a] (set-attr
                                         :href
                                         (u/dataset (:formid dataset)))
-             [:ul.submenu :li.share :a] (set-attr :href (u/dataset-sharing (:formid dataset)))
+             [:ul.submenu :li.share :a] (set-attr :href
+                                                  (u/dataset-sharing
+                                                   (:formid dataset)))
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
              [:ul.submenu :li.transfer] nil
@@ -155,12 +157,12 @@
              [:ul.submenu :li.replace] nil
              [:ul.submenu :li.copy] nil
              [:ul.submenu :li.rename] nil
-             [:ul.submenu :li.download :a] (set-attr
-                                            :href
-                                            (u/dataset-download (:formid dataset)))
-             [:ul.submenu :li.delete :a] (set-attr
-                                          :href
-                                          (u/dataset-delete (:formid dataset)))
+             [:ul.submenu :li.download :a] (set-attr :href
+                                                     (u/dataset-download
+                                                      (:formid dataset)))
+             [:ul.submenu :li.delete :a] (set-attr :href
+                                                   (u/dataset-delete
+                                                    (:formid dataset)))
              [:ul.submenu :li.cancel] nil
              [:span.rec] (content (num-submissions-str dataset))
              [:span.t-state] (content (if (:public_data dataset)
