@@ -106,7 +106,7 @@
 (defsnippet new-team "templates/team/new.html"
   [:body :div#content]
   [org]
-  [:form#new-team] (do-> (set-attr :action (str "/organizations/" (:org org) "/new-team"))
+  [:form#new-team] (do-> (set-attr :action (u/org-new-team (:org org)))
                          (set-attr :method "post"))
   [:form#new-team  :input#org](set-attr :value (:org org)))
 
@@ -118,6 +118,6 @@
               (content (s/postfix-paren-count "Teams" teams))
               (set-attr :href (u/org-teams org)))
   [:div.members] (content (members-table org members))
-  [:form#adduser] (set-attr :action (str "/organizations/" (:org org) "/members")
+  [:form#adduser] (set-attr :action (u/org-members (:org org))
                            :method "post")
   [:form#adduser :#orgname] (set-attr :value (:org org)))
