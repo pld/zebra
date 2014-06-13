@@ -5,10 +5,35 @@
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-datasets]
             [ona.api.project :as api-projects]
+            [ona.api.user :as api-user]
             [clojure.string :as string]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.organization :as org-templates]
-            [ona.viewer.urls :as u]))
+            [ona.viewer.urls :as u]
+            [ona.utils.string :as s]))
+
+(defn- teams-with-details
+  "Add IDs and members to teams list hashes."
+  [account org-name teams]
+  (for [team teams
+        :let [id (-> team :url s/last-url-param)]]
+    {:id id
+     :members (api/team-members account
+                                org-name
+                                id)
+     :team team}))
+
+(defn- all-members
+  ([account org-name teams]
+     (all-members (teams-with-details account org-name teams)))
+  ([team-details]
+     (flatten (map :members team-details))))
+
+(defn- info-for-users
+  [account members]
+  (for [username members]
+    {:profile (api-user/profile account username)
+     :num-forms (count (api-datasets/public account username))}))
 
 (defn all
   "Show all of the organizations for a user."
@@ -36,46 +61,39 @@
   [account org-name]
   (let [org (api/profile account org-name)
         teams (api/teams account org-name)
-        members (api/members account org-name)
-        project-details (project-details account org-name)
-        org-details {:org org
-                     :members members
-                     :teams teams
-                     :project-details project-details}]
+        members (all-members account org-name teams)
+        project-details (project-details account org-name)]
     (base/base-template
       (u/org org)
       account
       (:name org)
-      (org-templates/profile org-details))))
+      (org-templates/profile org members teams project-details))))
 
 (defn teams
   "Retrieve the team for an organization."
   [account org-name]
   (let [org (api/profile account org-name)
-        teams (api/teams account org-name)]
+        teams (api/teams account org-name)
+        team-details (teams-with-details account org-name teams)
+        members (all-members team-details)]
     (base/base-template
       "/organizations"
       account
       (:name org)
-      (org-templates/teams org teams))))
+      (org-templates/teams (:org org) team-details members))))
 
 (defn team-info
   "Retrieve team-info for a specific team."
   [account org-name team-id]
   (let [org (api/profile account org-name)
         team-info (api/team-info account org-name team-id)
-        team-members (api/team-members account org-name team-id)
-        members-info (for [user team-members]
-                       {:username user
-                        :num-forms (count (api-datasets/public account user))})
-        team-data {:team-id team-id
-                   :team-info team-info
-                   :members-info members-info}]
+        members (api/team-members account org-name team-id)
+        members-info (info-for-users account members)]
     (base/base-template
       "/organizations"
       account
       (:name org)
-      (org-templates/team-info org team-data))))
+      (org-templates/team-info org team-id team-info members-info))))
 
 (defn new-team
   "Show new-team form for organization."
@@ -107,15 +125,14 @@
   "Retrieve the members for an organization."
   [account org-name]
   (let [org (api/profile account org-name)
-        members (api/members account org-name)
-        members-info (for [user members]
-                       {:username user
-                        :num-forms (count (api-datasets/public account user))})]
+        teams (api/teams account org-name)
+        members (all-members account org-name teams)
+        members-info (info-for-users account members)]
     (base/base-template
       "/organizations"
       account
       (:name org)
-      (org-templates/members org members-info))))
+      (org-templates/members org members-info teams))))
 
 (defn add-member
   "Add member to an organization"

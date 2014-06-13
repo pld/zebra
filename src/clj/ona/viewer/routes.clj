@@ -127,12 +127,12 @@
        {{account :account} :session
         {name :name} :params}
        (organizations/teams account name))
-  (GET "/organizations/:name/teams/:team-id"
+  (GET "/organizations/:name/team/:team-id"
        {{account :account} :session
         {name :name
          team-id :team-id} :params}
        (organizations/team-info account name team-id))
-  (POST "/organizations/:name/teams/:team-id"
+  (POST "/organizations/:name/team/:team-id"
         {{account :account} :session
          params :params}
         (organizations/add-team-member account params))

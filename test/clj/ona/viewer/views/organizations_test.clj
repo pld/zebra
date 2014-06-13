@@ -6,6 +6,7 @@
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-dataset]
             [ona.api.project :as api-projects]
+            [ona.api.user :as api-user]
             [clj-time.format :as f]
             [clj-time.core :as t]
             [clj-time.local :as l]))
@@ -13,7 +14,10 @@
 (let [name "fake-org-name"
       fake-organization {:name name}
       username "username"
-      account {:username username}]
+      account {:username username}
+      fake-teams [{:id 1
+                   :team {:name "Fake Team"}
+                   :members []}]]
   (fact "all returns the organizations"
         (all :fake-account) => (contains name)
         (provided
@@ -32,24 +36,30 @@
         (profile account name) => (contains "Fake Org")
         (provided
          (api/profile account name) => {:name "Fake Org"}
-         (api/teams account name) => [{:name "Fake Team"}]
-         (api/members account name) => [{:name "Fake Member"}]
+         (api/teams account name) => fake-teams
+         (#'ona.viewer.views.organizations/all-members account
+                                                       name
+                                                       fake-teams) => [username]
          (api-projects/all account name) => [{:name "Fake Org"}]))
 
   (fact "teams shows organization teams"
         (teams account name) => (contains "Fake Team")
         (provided
-         (api/profile account name) => {:name "Fake Org"}
-         (api/teams account name) => [{:name "Fake Team"}]
-         (api/all account) => [{:name "Fake Org"}]))
+         (api/profile account name) => {:org "fake-org"}
+         (api/teams account name) => fake-teams
+         (#'ona.viewer.views.organizations/teams-with-details
+          account
+          name
+          fake-teams) => fake-teams))
 
   (fact "team-info shows info for a specific team"
-        (team-info account name :team-id) => (contains "Fake Team" "member" :gaps-ok)
+        (team-info account name :team-id) => (contains "Fake Team" username :gaps-ok)
         (provided
          (api/profile account name) => {:name "Fake Org"}
          (api/team-info account name :team-id) => {:name "Fake Team"}
-         (api/team-members account name :team-id) => ["member"]
-         (api-dataset/public account "member") => [:fake-forms]
+         (api/team-members account name :team-id) => [username]
+         (api-user/profile account username) => {:username username}
+         (api-dataset/public account username) => [:fake-forms]
          (api/all account) => [{:name "Fake Org"}]))
 
   (fact "new-team shows new team form"
@@ -74,11 +84,15 @@
            (team-info account name 1) => :something)))
 
   (fact "members shows organization members"
-        (members account name) => (contains "Fake Member")
+        (members account name) => (contains username)
         (provided
          (api/profile account name) => {:name "Fake Org"}
-         (api/members account name) => ["Fake Member"]
-         (api-dataset/public account "Fake Member") => [:fake-forms]
+         (api/teams account name) => fake-teams
+         (#'ona.viewer.views.organizations/all-members account
+                                                       name
+                                                       fake-teams) => [username]
+         (api-user/profile account username) => {:username username}
+         (api-dataset/public account username) => [:fake-forms]
          (api/all account) => [{:name "Fake Org"}]))
 
   (fact "add-member should add members to organization"
@@ -97,14 +111,14 @@
            (project-details account username) =>
            (contains
 
-             {:date-created date-created-str
-              :last-modification nil
-              :num-datasets 1
-              :submissions "1 submission"
-              :project {:date_created days-ago-2-str
-                        :date_modified days-ago-2-str
-                        :name "Some project"
-                        :url "http://someurl/12"}})
+            {:date-created date-created-str
+             :last-modification nil
+             :num-datasets 1
+             :submissions "1 submission"
+             :project {:date_created days-ago-2-str
+                       :date_modified days-ago-2-str
+                       :name "Some project"
+                       :url "http://someurl/12"}})
            (provided
             (api-projects/all account username) => [{:date_created days-ago-2-str
                                                      :name "Some project"
