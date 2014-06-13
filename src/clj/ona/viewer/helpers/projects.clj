@@ -2,7 +2,8 @@
   (:require [ona.api.project :as api]
             [ona.api.dataset :as api-dataset]
             [ona.utils.string :as s]
-            [ona.utils.time :as t]))
+            [ona.utils.time :as t]
+            [ona.utils.numeric :as n]))
 
 (defn latest-submitted-form
   "Parses forms from all projects and returns form with latest submission time"
@@ -33,12 +34,14 @@
   (let [projects (api/all account owner)]
     (for [project projects]
       (let [forms (api/get-forms account owner (s/last-url-param (:url project)))
-            latest-form (latest-submitted-form forms)]
+            latest-form (latest-submitted-form forms)
+            all-submissions (all-submissions forms account)]
         {:project project
-         :date-created (t/format-date (:date_created project))
+         :date-created (t/format-date (:date_created project) :rfc822)
          :last-modification (-> latest-form
                               :last_submission_time
                               t/date->days-ago-str)
+         :submissions (n/pluralize-number (count all-submissions) "submission")
          :no-of-datasets (count
                         (api/get-forms
                          account

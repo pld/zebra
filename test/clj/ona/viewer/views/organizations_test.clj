@@ -92,16 +92,21 @@
   (facts "get project details for and organizations projects"
          (let [days-ago 2
                days-ago-2 (t/minus (l/local-now) (t/days days-ago))
-               days-ago-2-str (f/unparse (f/formatters :date-time) days-ago-2)]
+               days-ago-2-str (f/unparse (f/formatters :date-time) days-ago-2)
+               date-created-str (f/unparse (f/formatters :rfc822) days-ago-2)]
            (project-details account username) =>
            (contains
-            {:last-modification (str days-ago
-                                     " days")
-             :no-of-datasets 1
-             :project {:date_modified days-ago-2-str
-                       :name "Some project"
-                       :url "http://someurl/12"}})
+
+             {:date-created date-created-str
+              :last-modification nil
+              :no-of-datasets 1
+              :submissions "1 submission"
+              :project {:date_created days-ago-2-str
+                        :date_modified days-ago-2-str
+                        :name "Some project"
+                        :url "http://someurl/12"}})
            (provided
-            (api-projects/all account username) => [{:name "Some project"
-                                                  :url "http://someurl/12"
-                                                  :date_modified days-ago-2-str}]))))
+            (api-projects/all account username) => [{:date_created days-ago-2-str
+                                                     :name "Some project"
+                                                     :url "http://someurl/12"
+                                                     :date_modified days-ago-2-str}]))))

@@ -62,5 +62,6 @@
            data)))
 
 (defn format-date
-  [date-time]
-  (f/unparse (f/formatters :rfc822) (l/to-local-date-time date-time)))
+  "Format date with specified format"
+  [date-time format]
+  (f/unparse (f/formatters format) (l/to-local-date-time date-time)))
