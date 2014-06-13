@@ -9,7 +9,8 @@
                                        set-attr]]
         :reload
         [ona.utils.numeric :only [pluralize-number]]
-        [clavatar.core :only [gravatar]])
+        [clavatar.core :only [gravatar]]
+        [clojure.string :only [join]])
   (:require [ona.viewer.urls :as u]
             [ona.utils.time :as t]))
 
@@ -24,6 +25,12 @@
                                 (-> k name first)
                                 \_)] k)) dataset))
 
+(defn- num-submissions-str
+  [dataset]
+  (let [num-submissions (:num_of_submissions dataset)]
+    (str (if (< num-submissions 0) 0 num-submissions)
+         " records")))
+
 (defn- clean-for-table
   "Take a dataset hash and return headers and rows lists."
   [dataset]
@@ -36,9 +43,9 @@
   "String for the latest submission made."
   [metadata]
   (if-let [interval (t/date->days-ago-str (:last_submission_time metadata))]
-    (str "Latest around "
-         interval
-         " ago.")
+    (join " " ["Latest around"
+               interval
+               "ago."])
     "No submissions made."))
 
 (defn- submission-made-str
@@ -155,10 +162,7 @@
                                           :href
                                           (u/dataset-delete (:formid dataset)))
              [:ul.submenu :li.cancel] nil
-             [:span.rec] (content (str (if (< (:num_of_submissions dataset) 0)
-                                        0
-                                        (:num_of_submissions dataset))
-                                      " records"))
+             [:span.rec] (content (num-submissions-str))
              [:span.t-state] (content (if (:public_data dataset)
                                         "Public"
                                         "Private"))))

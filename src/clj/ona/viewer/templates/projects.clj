@@ -6,10 +6,24 @@
                                        first-of-type
                                        set-attr]]
         [clavatar.core :only [gravatar]]
+        [clojure.string :only [join]]
+        [ona.utils.numeric :only [pluralize-number]]
         [ona.utils.seq :only [select-value]])
   (:require [ona.utils.string :as s]
             [ona.viewer.urls :as u]
             [ona.viewer.templates.datasets :as datasets]))
+
+(defn- last-record-str
+  [project]
+  (if-let [last (:last-modification project)]
+    (join " " ["Last record"
+               last
+               "ago"])))
+
+(defn- no-datasets-str
+  [project]
+  (pluralize-number (:no-of-datasets project)
+                    "dataset"))
 
 (defn- user-string
   [logged-in-username shared-username]
@@ -60,15 +74,10 @@
              [:img.avatar] (set-attr :src (gravatar (:email profile)))
              [:span#owner-name] (content owner)
              [:span#project-name] (content (-> project :project :name))
-             [:span#last-project-modification] (content (if-let [last (:last-modification project)]
-                                                          (str
-                                                      "Last record "
-                                                      (:last-modification project)
-                                                      " ago")))
              [:span#latest] (content (:submissions project))
              [:span#date-created] (content (:date-created project))
-             [:span#no-of-datasets] (content (str (:no-of-datasets project)
-                                                  " datasets"))
+             [:span#no-of-datasets] (content (no-datasets-str project))
+             [:p#last-project-modification] (content (last-record-str project))
              [:a#open] (set-attr :href (u/project-forms
                                         (-> project :project :url s/last-url-param)
                                         owner))))
