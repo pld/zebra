@@ -162,7 +162,7 @@
                                           :href
                                           (u/dataset-delete (:formid dataset)))
              [:ul.submenu :li.cancel] nil
-             [:span.rec] (content (num-submissions-str))
+             [:span.rec] (content (num-submissions-str dataset))
              [:span.t-state] (content (if (:public_data dataset)
                                         "Public"
                                         "Private"))))

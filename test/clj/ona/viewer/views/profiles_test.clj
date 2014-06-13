@@ -1,6 +1,6 @@
-(ns ona.viewer.views.profile-test
+(ns ona.viewer.views.profiles-test
   (:use midje.sweet
-        ona.viewer.views.profile
+        ona.viewer.views.profiles
         [ona.api.io :only [make-url]])
   (:require [ona.api.user :as api]
             [ona.api.dataset :as api-dataset]))

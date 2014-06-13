@@ -26,15 +26,14 @@
 (defn create
   "Create a new dataset from a file."
   ([account uploaded-file]
-     (create account uploaded-file nil))
-  ([account uploaded-file project-id]
+     (create account uploaded-file nil nil))
+  ([account uploaded-file owner project-id]
      (let [xlsfile (uploaded->file uploaded-file)
-           url (apply make-url (if project-id
-                                 ["projects/"
-                                  (:username account)
-                                  "/"
-                                  project-id
-                                  "/forms"]
+           url (apply make-url (if project-id ["projects/"
+                                               owner
+                                               "/"
+                                               project-id
+                                               "/forms"]
                                  ["forms"]))]
        (parse-http :post url account
                    {:multipart [{:name "xls_file"
