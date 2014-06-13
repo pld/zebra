@@ -43,7 +43,7 @@
                               t/date->days-ago-str)
          :submissions (n/pluralize-number (-> all-submissions flatten count)
                                           "submission")
-         :no-of-datasets (count
+         :num-datasets (count
                         (api/get-forms
                          account
                          owner

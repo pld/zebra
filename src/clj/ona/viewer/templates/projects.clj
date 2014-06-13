@@ -20,9 +20,9 @@
                last
                "ago"])))
 
-(defn- no-datasets-str
+(defn- num-datasets-str
   [project]
-  (pluralize-number (:no-of-datasets project)
+  (pluralize-number (:num-datasets project)
                     "dataset"))
 
 (defn- user-string
@@ -76,7 +76,7 @@
              [:span#project-name] (content (-> project :project :name))
              [:span#latest] (content (:submissions project))
              [:span#date-created] (content (:date-created project))
-             [:span#no-of-datasets] (content (no-datasets-str project))
+             [:span#num-datasets] (content (num-datasets-str project))
              [:p#last-project-modification] (content (last-record-str project))
              [:a#open] (set-attr :href (u/project-forms
                                         (-> project :project :url s/last-url-param)

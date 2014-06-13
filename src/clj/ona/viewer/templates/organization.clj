@@ -64,7 +64,7 @@
   [:tbody [:tr first-of-type]] (clone-for [member members]
                                           [:span.name](content (:username member))
                                           [:span.username](content (:username member))
-                                          [:td :a] (content (str (:no-of-forms member) " forms"))))
+                                          [:td :a] (content (str (:num-forms member) " forms"))))
 
 (defsnippet teams "templates/organization/teams.html"
   [:body :div#content]
@@ -83,7 +83,7 @@
                                                             (s/last-url-param (:url team))))))
   [:a.members] (set-attr :href (str "/organizations/" (:org org) "/members"))
   [:a.new-team] (set-attr :href (str "/organizations/" (:org org) "/new-team"))
-  [:span.no-of-teams] (content (str (count teams))))
+  [:span.num-teams] (content (str (count teams))))
 
 (defsnippet team-info "templates/team/show.html"
   [:body :div#content]
@@ -105,7 +105,7 @@
 (defsnippet members "templates/organization/members.html"
   [:body :div#content]
   [org members]
-  [:span.no-of-members] (content (str (count members)))
+  [:span.num-members] (content (str (count members)))
   [:a#teams] (set-attr :href (str "/organizations/" (:org org) "/teams"))
   [:div.members] (content (members-table org members))
   [:form#adduser] (set-attr :action (str "/organizations/" (:org org) "/members")

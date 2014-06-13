@@ -12,8 +12,8 @@
 (defn- counts-for-collection
   [collection k]
   (let [freq (frequencies (map #(k %) collection))]
-    {:no-of-public (get freq true 0)
-     :no-of-private (get freq false 0)}))
+    {:num-public (get freq true 0)
+     :num-private (get freq false 0)}))
 
 (defn- get-public-private-dataset-counts
   [datasets]

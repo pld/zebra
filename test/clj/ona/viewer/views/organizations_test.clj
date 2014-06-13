@@ -99,7 +99,7 @@
 
              {:date-created date-created-str
               :last-modification nil
-              :no-of-datasets 1
+              :num-datasets 1
               :submissions "1 submission"
               :project {:date_created days-ago-2-str
                         :date_modified days-ago-2-str

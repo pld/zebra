@@ -67,7 +67,7 @@
         team-members (api/team-members account org-name team-id)
         members-info (for [user team-members]
                        {:username user
-                        :no-of-forms (count (api-datasets/public account user))})
+                        :num-forms (count (api-datasets/public account user))})
         team-data {:team-id team-id
                    :team-info team-info
                    :members-info members-info}]
@@ -110,7 +110,7 @@
         members (api/members account org-name)
         members-info (for [user members]
                        {:username user
-                        :no-of-forms (count (api-datasets/public account user))})]
+                        :num-forms (count (api-datasets/public account user))})]
     (base/base-template
       "/organizations"
       account
