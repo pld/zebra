@@ -12,12 +12,22 @@
             [ona.viewer.urls :as u]
             [ona.utils.string :as s]))
 
-(defn- all-members
+(defn- teams-with-details
+  "Add IDs and members to teams list hashes."
   [account org-name teams]
-  (flatten (map #(api/team-members account
-                                  org-name
-                                  (-> % :url s/last-url-param))
-                teams)))
+  (for [team teams
+        :let [id (-> team :url s/last-url-param)]]
+    {:id id
+     :members (api/team-members account
+                                org-name
+                                id)
+     :team team}))
+
+(defn- all-members
+  ([account org-name teams]
+     (all-members (teams-with-details account org-name teams)))
+  ([team-details]
+     (flatten (map :members team-details))))
 
 (defn- info-for-users
   [account members]
@@ -64,12 +74,13 @@
   [account org-name]
   (let [org (api/profile account org-name)
         teams (api/teams account org-name)
-        members (all-members account org-name teams)]
+        team-details (teams-with-details account org-name teams)
+        members (all-members team-details)]
     (base/base-template
       "/organizations"
       account
       (:name org)
-      (org-templates/teams (:org org) teams members))))
+      (org-templates/teams (:org org) team-details members))))
 
 (defn team-info
   "Retrieve team-info for a specific team."

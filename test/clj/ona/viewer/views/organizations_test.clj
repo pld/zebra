@@ -15,7 +15,9 @@
       fake-organization {:name name}
       username "username"
       account {:username username}
-      fake-teams [{:name "Fake Team"}]]
+      fake-teams [{:id 1
+                   :team {:name "Fake Team"}
+                   :members []}]]
   (fact "all returns the organizations"
         (all :fake-account) => (contains name)
         (provided
@@ -37,15 +39,18 @@
          (api/teams account name) => fake-teams
          (#'ona.viewer.views.organizations/all-members account
                                                        name
-                                                       fake-teams) => ["Fake Member"]
+                                                       fake-teams) => [username]
          (api-projects/all account name) => [{:name "Fake Org"}]))
 
   (fact "teams shows organization teams"
         (teams account name) => (contains "Fake Team")
         (provided
-         (api/profile account name) => {:name "Fake Org"}
+         (api/profile account name) => {:org "fake-org"}
          (api/teams account name) => fake-teams
-         (api/all account) => [{:name "Fake Org"}]))
+         (#'ona.viewer.views.organizations/teams-with-details
+          account
+          name
+          fake-teams) => fake-teams))
 
   (fact "team-info shows info for a specific team"
         (team-info account name :team-id) => (contains "Fake Team" username :gaps-ok)

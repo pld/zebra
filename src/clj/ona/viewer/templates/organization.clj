@@ -73,23 +73,22 @@
 
 (defsnippet teams "templates/organization/teams.html"
   [:body :div#content]
-  [org teams members]
+  [org team-details members]
   [:div.myteams] nil
   [:div.orgteams [:.orgteam (but first-of-type)]] nil
   [:div.orgteams :.orgteam]
-  (clone-for [team teams]
+  (clone-for [team team-details]
              [:h3 :a.team-name] (do->
-                                 (content (:name team))
+                                 (content (-> team :team :name))
                                  (set-attr
                                   :href (u/org-team org
-                                                    (-> team
-                                                        :url
-                                                        s/last-url-param)))))
+                                                    (:id team))))
+             [:span.num-members] (content (-> team :members count str)))
   [:a.members] (do->
-                (content (s/postfix-paren-count "Members" teams))
+                (content (s/postfix-paren-count "Members" team-details))
                 (set-attr :href (u/org-members org)))
   [:a.new-team] (set-attr :href (u/org-new-team org))
-  [:span.num-teams] (content (-> teams count str)))
+  [:span.num-teams] (content (-> team-details count str)))
 
 (defsnippet team-info "templates/team/show.html"
   [:body :div#content]
