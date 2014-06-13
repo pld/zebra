@@ -72,13 +72,13 @@
   [:tbody [:tr first-of-type]]
   (clone-for [project projects]
              [:img.avatar] (set-attr :src (gravatar (:email profile)))
-             [:span#owner-name] (content owner)
-             [:span#project-name] (content (-> project :project :name))
-             [:span#latest] (content (:submissions project))
-             [:span#date-created] (content (:date-created project))
-             [:span#num-datasets] (content (num-datasets-str project))
-             [:span#last-project-modification] (content (last-record-str project))
-             [:a#open] (set-attr :href (u/project-forms
+             [:span.owner-name] (content owner)
+             [:span.project-name] (content (-> project :project :name))
+             [:span.latest] (content (:submissions project))
+             [:span.date-created] (content (:date-created project))
+             [:span.num-datasets] (content (num-datasets-str project))
+             [:span.last-project-modification] (content (last-record-str project))
+             [:a.open-link] (set-attr :href (u/project-forms
                                         (-> project :project :url s/last-url-param)
                                         owner))))
 
