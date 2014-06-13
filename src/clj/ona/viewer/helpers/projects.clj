@@ -41,7 +41,8 @@
          :last-modification (-> latest-form
                               :last_submission_time
                               t/date->days-ago-str)
-         :submissions (n/pluralize-number (count all-submissions) "submission")
+         :submissions (n/pluralize-number (-> all-submissions flatten count)
+                                          "submission")
          :no-of-datasets (count
                         (api/get-forms
                          account
