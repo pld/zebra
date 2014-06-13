@@ -27,7 +27,7 @@
   ;; Set Member details
   [:div.org-details :a.members] (do-> (content (s/postfix-paren-count "Members"
                                                                       members))
-                                      (set-attr :href (u/org-members org)))
+                                      (set-attr :href (u/org-members (:org org))))
   [:div.org-details :ul.members [:li (but first-of-type)]] nil
   [:div.org-details
    :ul.members
@@ -51,28 +51,42 @@
   [:table.members]
   [org members]
   [:tbody [:tr (but first-of-type)]] nil
-  [:tbody [:tr first-of-type]] (clone-for [member members]
-                                          [:span.name](content (:username member))
-                                          [:span.username](content (:username member))
-                                          [:td :a] (content (str (:num-forms member) " forms"))))
+  [:tbody [:tr first-of-type]]
+  (clone-for [member members]
+             [:span.name] (content (-> member
+                                       :profile
+                                       :name))
+             [:span.username] (content (-> member
+                                           :profile
+                                           :username))
+             [:a.dataset-list] (do->
+                                (content (str (:num-forms member) " forms"))
+                                (set-attr :href
+                                          (u/profile (-> member
+                                                         :profile
+                                                         :username))))
+             [:a.remove-link] (set-attr :href
+                                        (u/org-remove-member (:org org)
+                                                             (-> member
+                                                                 :profile
+                                                                 :username)))))
 
 (defsnippet teams "templates/organization/teams.html"
   [:body :div#content]
   [org teams]
   [:div.myteams] nil
   [:div.orgteams [:.orgteam (but first-of-type)]] nil
-  [:div.orgteams :.orgteam] (clone-for [team teams]
-                                       [:h3 :a.team-name](do->
-                                                          (content (:name team))
-                                                          (set-attr
-                                                           :href
-                                                           (str
-                                                            "/organizations/"
-                                                            (:org org)
-                                                            "/teams/"
-                                                            (s/last-url-param (:url team))))))
-  [:a.members] (set-attr :href (str "/organizations/" (:org org) "/members"))
-  [:a.new-team] (set-attr :href (str "/organizations/" (:org org) "/new-team"))
+  [:div.orgteams :.orgteam]
+  (clone-for [team teams]
+             [:h3 :a.team-name] (do->
+                                 (content (:name team))
+                                 (set-attr
+                                  :href (u/org-team org
+                                                    (-> team
+                                                        :url
+                                                        s/last-url-param)))))
+  [:a.members] (set-attr :href (u/org-members org))
+  [:a.new-team] (set-attr :href (u/org-new-team org))
   [:span.num-teams] (content (str (count teams))))
 
 (defsnippet team-info "templates/team/show.html"

@@ -5,6 +5,7 @@
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-datasets]
             [ona.api.project :as api-projects]
+            [ona.api.user :as api-user]
             [clojure.string :as string]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.organization :as org-templates]
@@ -61,7 +62,7 @@
       "/organizations"
       account
       (:name org)
-      (org-templates/teams org teams))))
+      (org-templates/teams (:org org) teams))))
 
 (defn team-info
   "Retrieve team-info for a specific team."
@@ -111,10 +112,11 @@
   "Retrieve the members for an organization."
   [account org-name]
   (let [org (api/profile account org-name)
-        members (api/members account org-name)
-        members-info (for [user members]
-                       {:username user
-                        :num-forms (count (api-datasets/public account user))})]
+        teams (api/teams account org-name)
+        members (all-members account org-name teams)
+        members-info (for [username members]
+                       {:profile (api-user/profile account username)
+                        :num-forms (count (api-datasets/public account username))})]
     (base/base-template
       "/organizations"
       account

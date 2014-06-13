@@ -6,6 +6,7 @@
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-dataset]
             [ona.api.project :as api-projects]
+            [ona.api.user :as api-user]
             [clj-time.format :as f]
             [clj-time.core :as t]
             [clj-time.local :as l]))
@@ -77,11 +78,15 @@
            (team-info account name 1) => :something)))
 
   (fact "members shows organization members"
-        (members account name) => (contains "Fake Member")
+        (members account name) => (contains username)
         (provided
          (api/profile account name) => {:name "Fake Org"}
-         (api/members account name) => ["Fake Member"]
-         (api-dataset/public account "Fake Member") => [:fake-forms]
+         (api/teams account name) => fake-teams
+         (#'ona.viewer.views.organizations/all-members account
+                                                       name
+                                                       fake-teams) => [username]
+         (api-user/profile account username) => {:username username}
+         (api-dataset/public account username) => [:fake-forms]
          (api/all account) => [{:name "Fake Org"}]))
 
   (fact "add-member should add members to organization"
@@ -100,14 +105,14 @@
            (project-details account username) =>
            (contains
 
-             {:date-created date-created-str
-              :last-modification nil
-              :num-datasets 1
-              :submissions "1 submission"
-              :project {:date_created days-ago-2-str
-                        :date_modified days-ago-2-str
-                        :name "Some project"
-                        :url "http://someurl/12"}})
+            {:date-created date-created-str
+             :last-modification nil
+             :num-datasets 1
+             :submissions "1 submission"
+             :project {:date_created days-ago-2-str
+                       :date_modified days-ago-2-str
+                       :name "Some project"
+                       :url "http://someurl/12"}})
            (provided
             (api-projects/all account username) => [{:date_created days-ago-2-str
                                                      :name "Some project"
