@@ -8,7 +8,15 @@
             [clojure.string :as string]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.organization :as org-templates]
-            [ona.viewer.urls :as u]))
+            [ona.viewer.urls :as u]
+            [ona.utils.string :as s]))
+
+(defn- all-members
+  [account org-name teams]
+  (flatten (map #(api/team-members account
+                                  org-name
+                                  (-> % :url s/last-url-param))
+                teams)))
 
 (defn all
   "Show all of the organizations for a user."
@@ -36,7 +44,7 @@
   [account org-name]
   (let [org (api/profile account org-name)
         teams (api/teams account org-name)
-        members (api/members account org-name)
+        members (all-members account org-name teams)
         project-details (project-details account org-name)]
     (base/base-template
       (u/org org)

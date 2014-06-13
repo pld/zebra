@@ -13,7 +13,8 @@
 (let [name "fake-org-name"
       fake-organization {:name name}
       username "username"
-      account {:username username}]
+      account {:username username}
+      fake-teams [{:name "Fake Team"}]]
   (fact "all returns the organizations"
         (all :fake-account) => (contains name)
         (provided
@@ -32,15 +33,17 @@
         (profile account name) => (contains "Fake Org")
         (provided
          (api/profile account name) => {:name "Fake Org"}
-         (api/teams account name) => [{:name "Fake Team"}]
-         (api/members account name) => [{:name "Fake Member"}]
+         (api/teams account name) => fake-teams
+         (#'ona.viewer.views.organizations/all-members account
+                                                       name
+                                                       fake-teams) => ["Fake Member"]
          (api-projects/all account name) => [{:name "Fake Org"}]))
 
   (fact "teams shows organization teams"
         (teams account name) => (contains "Fake Team")
         (provided
          (api/profile account name) => {:name "Fake Org"}
-         (api/teams account name) => [{:name "Fake Team"}]
+         (api/teams account name) => fake-teams
          (api/all account) => [{:name "Fake Org"}]))
 
   (fact "team-info shows info for a specific team"
