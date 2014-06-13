@@ -11,7 +11,7 @@
                                        set-attr
                                        nth-of-type]
          :rename {html enlive-html}] :reload
-         [ona.viewer.templates.helpers :only [include-js js-tag]]
+         [ona.viewer.helpers.tags :only [include-js js-tag]]
          [clavatar.core :only [gravatar]])
   (:require [ona.api.organization :as api-orgs]
             [ona.viewer.templates.list-items :as l]

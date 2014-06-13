@@ -9,22 +9,22 @@
                                        set-attr
                                        nth-of-type]]
         [ona.viewer.templates.modals :only [share-dialog]] :reload)
-  (:require [ona.viewer.templates.datasets :as datasets]
+  (:require [ona.viewer.templates.projects :as projects]
             [ona.viewer.urls :as u]))
 
-(defsnippet home-content "templates/home.html"
+(defsnippet render-home-content "templates/home.html"
   [:body :div#content]
-  [profile datasets dataset-details query orgs]
-  [:.username] (content (:username profile))
-  [:div.datasets-table] (content (datasets/datasets-table datasets
-                                                          profile))
+  [profile projects project-details query orgs username]
+  [:.username] (content username)
+  [:div#tab-content1] (content (projects/project-list profile
+                                                      projects))
 
   ;; Set sidenav links
-  [:#sidenav [:a first-of-type]] (set-attr :href (u/project-new (:username profile)))
+  [:#sidenav [:a first-of-type]] (set-attr :href (u/project-new username))
 
   ;; Dataset details
-  [:span#public-datasets] (content (str (:no-of-public dataset-details)))
-  [:span#private-datasets] (content (str (:no-of-private dataset-details)))
+  [:span#public-projects] (content (-> project-details :no-of-public str))
+  [:span#private-projects] (content (-> project-details :no-of-private str))
 
   ;; Search Form
   [:form#search-form] (set-attr :action "/search")
@@ -34,3 +34,13 @@
   [:span.organization-links [:a]] (clone-for [org orgs]
                                              [:a] (do-> (set-attr :href (u/org org))
                                                         (content (:name org)))))
+
+(defn home-content
+  "Wrapper to build args for home content."
+  [profile projects project-details query orgs]
+  (render-home-content profile
+                       projects
+                       project-details
+                       query
+                       orgs
+                       (:username profile)))
