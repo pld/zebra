@@ -15,9 +15,9 @@
 
 (defn- last-record-str
   [project]
-  (if-let [last (:last-modification project)]
+  (if-let [last-rec (:last-modification project)]
     (join " " ["Last record"
-               last
+               last-rec
                "ago"])))
 
 (defn- num-datasets-str
@@ -77,7 +77,7 @@
              [:span#latest] (content (:submissions project))
              [:span#date-created] (content (:date-created project))
              [:span#num-datasets] (content (num-datasets-str project))
-             [:p#last-project-modification] (content (last-record-str project))
+             [:span#last-project-modification] (content (last-record-str project))
              [:a#open] (set-attr :href (u/project-forms
                                         (-> project :project :url s/last-url-param)
                                         owner))))
