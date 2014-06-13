@@ -3,8 +3,8 @@
         ona.viewer.views.home
         [clavatar.core :only [gravatar]])
   (:require [ona.viewer.views.accounts :as accounts]
-            [ona.viewer.views.datasets :as datasets]
             [ona.api.organization :as api-orgs]
+            [ona.api.project :as api-projects]
             [ona.api.user :as api-user]))
 
 
@@ -27,7 +27,8 @@
                       :email email}]
          (dashboard account) => (contains [username email] :in-any-order :gaps-ok)
          (provided
-          (datasets/all account) => [{:title "Test dataset" :num_of_submissions 2}]
+          (api-projects/all account username) =>
+          [{:title "Test dataset" :num_of_submissions 2}]
           (api-orgs/all account) => [{:title "Test Org"}]
           (api-user/profile account) => account
           (gravatar email) => email

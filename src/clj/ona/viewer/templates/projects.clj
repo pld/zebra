@@ -5,7 +5,8 @@
                                        defsnippet
                                        first-of-type
                                        set-attr]]
-        [clavatar.core :only [gravatar]])
+        [clavatar.core :only [gravatar]]
+        [ona.utils.seq :only [select-value]])
   (:require [ona.utils.string :as s]
             [ona.viewer.urls :as u]
             [ona.viewer.templates.datasets :as datasets]))
@@ -47,19 +48,31 @@
   [:div.datasets-table] (content (datasets/datasets-table forms
                                                           profile)))
 
-(defsnippet project-list "templates/organization/profile.html"
+(defsnippet render-project-list "templates/organization/profile.html"
   [:div#tab-inner]
-  [org projects]
+  [profile projects owner]
   ;; Set links
-  [:a#new-project] (set-attr :href (u/project-new (:org org)))
+  [:a#new-project] (set-attr :href (u/project-new owner))
 
   [:tbody [:tr (but first-of-type)]] nil
   [:tbody [:tr first-of-type]]
   (clone-for [project projects]
-             [:img.avatar] (set-attr :src (gravatar (:email org)))
-             [:span#project-name] (content (:name (:project project)))
-             [:p#last-project-modification] (content (str "Last record " (:last-modification project) " ago"))
-             [:span#no-of-datasets] (content (str (:no-of-datasets project) " datasets"))
+             [:img.avatar] (set-attr :src (gravatar (:email profile)))
+             [:span#owner-name] (content owner)
+             [:span#project-name] (content (-> project :project :name))
+             [:p#last-project-modification] (content (str
+                                                      "Last record "
+                                                      (:last-modification project)
+                                                      " ago"))
+             [:span#no-of-datasets] (content (str (:no-of-datasets project)
+                                                  " datasets"))
              [:a#open] (set-attr :href (u/project-forms
                                         (-> project :project :url s/last-url-param)
-                                        (:org org)))))
+                                        owner))))
+
+(defn project-list
+  "Helper to build arguments for project list template."
+  [profile projects]
+  (render-project-list profile
+                       projects
+                       (select-value profile [:org :username])))

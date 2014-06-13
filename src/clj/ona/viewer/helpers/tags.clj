@@ -1,4 +1,4 @@
-(ns ona.viewer.templates.helpers)
+(ns ona.viewer.helpers.tags)
 
 (defn include-js
   "Incude a path to a JavaScript file."

@@ -1,7 +1,8 @@
 (ns ona.viewer.views.organizations-test
   (:use midje.sweet
         ona.viewer.views.organizations
-        [ona.api.io :only [make-url]])
+        [ona.api.io :only [make-url]]
+        [ona.viewer.helpers.projects :only [project-details]])
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-dataset]
             [ona.api.project :as api-projects]

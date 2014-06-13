@@ -1,6 +1,6 @@
 (ns ona.viewer.views.datasets
   (:use [ring.util.response :only [redirect-after-post]]
-        [ona.viewer.templates.helpers :only [include-js js-tag]])
+        [ona.viewer.helpers.tags :only [include-js js-tag]])
   (:require [ona.api.dataset :as api]
             [ona.api.project :as api-project]
             [ona.viewer.sharing :as sharing]
