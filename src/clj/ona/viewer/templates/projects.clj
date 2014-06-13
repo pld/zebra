@@ -60,10 +60,11 @@
              [:img.avatar] (set-attr :src (gravatar (:email profile)))
              [:span#owner-name] (content owner)
              [:span#project-name] (content (-> project :project :name))
-             [:p#last-project-modification] (content (str
+             [:span#last-project-modification] (content (str
                                                       "Last record "
                                                       (:last-modification project)
                                                       " ago"))
+             [:span#date-created] (content (:date-created project))
              [:span#no-of-datasets] (content (str (:no-of-datasets project)
                                                   " datasets"))
              [:a#open] (set-attr :href (u/project-forms

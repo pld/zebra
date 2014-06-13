@@ -9,30 +9,8 @@
             [ona.api.user :as api-user]
             [ona.api.dataset :as api-dataset]
             [ona.viewer.urls :as u]
-            [ona.utils.time :as t]))
-
-(defn- latest-submitted-form
-  "Parses forms from all projects and returns form with latest submission time"
-  [forms]
-  (let [forms-w-intervals
-        (for [form forms
-              :let [last-submit (:last_submission_time form)]
-              :when (not (nil? last-submit))]
-          {(:formid form)
-           {:form form
-            :time (t/time->interval-from-now last-submit)}})]
-    (if (> (count forms-w-intervals) 0)
-      (let [all-forms-w-intervals (apply merge forms-w-intervals)
-            latest-formid (key (apply min-key
-                                      #(-> % val :time)
-                                      all-forms-w-intervals))]
-        (:form (get all-forms-w-intervals latest-formid))))))
-
-(defn- all-submissions
-  "Get all submission for dataset"
-  ;; TODO  move functionality to api to reduce number of API calls
-  [forms account]
-  (map #(api-dataset/data account (:formid %)) forms))
+            [ona.utils.time :as t]
+            [ona.viewer.helpers.projects :as h]))
 
 (defn all
   "List all of the users projects."
@@ -62,8 +40,8 @@
   (let [project (api/get-project account owner id)
         forms (api/get-forms account owner id)
         profile (api-user/profile account)
-        latest-form (latest-submitted-form forms)
-        all-submissions (all-submissions forms account)]
+        latest-form (h/latest-submitted-form forms)
+        all-submissions (h/all-submissions forms account)]
     (base-template
      (u/project-forms id owner)
      account
