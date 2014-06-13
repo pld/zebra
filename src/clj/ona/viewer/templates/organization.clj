@@ -73,7 +73,7 @@
 
 (defsnippet teams "templates/organization/teams.html"
   [:body :div#content]
-  [org teams]
+  [org teams members]
   [:div.myteams] nil
   [:div.orgteams [:.orgteam (but first-of-type)]] nil
   [:div.orgteams :.orgteam]
@@ -85,19 +85,24 @@
                                                     (-> team
                                                         :url
                                                         s/last-url-param)))))
-  [:a.members] (set-attr :href (u/org-members org))
+  [:a.members] (do->
+                (content (s/postfix-paren-count "Members" teams))
+                (set-attr :href (u/org-members org)))
   [:a.new-team] (set-attr :href (u/org-new-team org))
-  [:span.num-teams] (content (str (count teams))))
+  [:span.num-teams] (content (-> teams count str)))
 
 (defsnippet team-info "templates/team/show.html"
   [:body :div#content]
-  [org team-data]
-  [:.team-name] (content (:name (:team-info team-data)))
-  [:div.members] (content (members-table org (:members-info team-data)))
-  [:form#add-user] (do-> (set-attr :action (str "/organizations/" (:org org) "/teams/" (:team-id team-data)))
-                         (set-attr :method "post"))
+  [org team-id team-info members-info]
+  [:.team-name] (content (:name team-info))
+  [:div.members] (content (members-table org members-info))
+  [:form#add-user] (do->
+                    (set-attr :action
+                              (u/org-team (:org org)
+                                          team-id))
+                    (set-attr :method "post"))
   [:form#add-user :input#org](set-attr :value (:org org))
-  [:form#add-user :input#teamid](set-attr :value (:team-id team-data)))
+  [:form#add-user :input#teamid](set-attr :value team-id))
 
 (defsnippet new-team "templates/team/new.html"
   [:body :div#content]
@@ -108,9 +113,11 @@
 
 (defsnippet members "templates/organization/members.html"
   [:body :div#content]
-  [org members]
-  [:span.num-members] (content (str (count members)))
-  [:a#teams] (set-attr :href (str "/organizations/" (:org org) "/teams"))
+  [org members teams]
+  [:span.num-members] (content (-> members count str))
+  [:a#teams] (do->
+              (content (s/postfix-paren-count "Teams" teams))
+              (set-attr :href (u/org-teams org)))
   [:div.members] (content (members-table org members))
   [:form#adduser] (set-attr :action (str "/organizations/" (:org org) "/members")
                            :method "post")

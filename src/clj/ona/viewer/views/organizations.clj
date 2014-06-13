@@ -19,6 +19,12 @@
                                   (-> % :url s/last-url-param))
                 teams)))
 
+(defn- info-for-users
+  [account members]
+  (for [username members]
+    {:profile (api-user/profile account username)
+     :num-forms (count (api-datasets/public account username))}))
+
 (defn all
   "Show all of the organizations for a user."
   [account]
@@ -57,30 +63,26 @@
   "Retrieve the team for an organization."
   [account org-name]
   (let [org (api/profile account org-name)
-        teams (api/teams account org-name)]
+        teams (api/teams account org-name)
+        members (all-members account org-name teams)]
     (base/base-template
       "/organizations"
       account
       (:name org)
-      (org-templates/teams (:org org) teams))))
+      (org-templates/teams (:org org) teams members))))
 
 (defn team-info
   "Retrieve team-info for a specific team."
   [account org-name team-id]
   (let [org (api/profile account org-name)
         team-info (api/team-info account org-name team-id)
-        team-members (api/team-members account org-name team-id)
-        members-info (for [user team-members]
-                       {:username user
-                        :num-forms (count (api-datasets/public account user))})
-        team-data {:team-id team-id
-                   :team-info team-info
-                   :members-info members-info}]
+        members (api/team-members account org-name team-id)
+        members-info (info-for-users account members)]
     (base/base-template
       "/organizations"
       account
       (:name org)
-      (org-templates/team-info org team-data))))
+      (org-templates/team-info org team-id team-info members-info))))
 
 (defn new-team
   "Show new-team form for organization."
@@ -114,14 +116,12 @@
   (let [org (api/profile account org-name)
         teams (api/teams account org-name)
         members (all-members account org-name teams)
-        members-info (for [username members]
-                       {:profile (api-user/profile account username)
-                        :num-forms (count (api-datasets/public account username))})]
+        members-info (info-for-users account members)]
     (base/base-template
       "/organizations"
       account
       (:name org)
-      (org-templates/members org members-info))))
+      (org-templates/members org members-info teams))))
 
 (defn add-member
   "Add member to an organization"
