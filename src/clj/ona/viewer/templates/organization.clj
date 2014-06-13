@@ -31,7 +31,7 @@
   [:div.org-details :ul.members [:li (but first-of-type)]] nil
   [:div.org-details
    :ul.members
-   [:li first-of-type]] (clone-for [team members] [:li] (content team))
+   [:li first-of-type]] (clone-for [member members] [:li] (content member))
 
    ;; Set Team details
   [:div.org-details :a.teams] (do-> (content (s/postfix-paren-count "Teams"

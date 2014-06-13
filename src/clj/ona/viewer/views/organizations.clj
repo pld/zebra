@@ -37,11 +37,7 @@
   (let [org (api/profile account org-name)
         teams (api/teams account org-name)
         members (api/members account org-name)
-        project-details (project-details account org-name)
-        org-details {:org org
-                     :members members
-                     :teams teams
-                     :project-details project-details}]
+        project-details (project-details account org-name)]
     (base/base-template
       (u/org org)
       account
