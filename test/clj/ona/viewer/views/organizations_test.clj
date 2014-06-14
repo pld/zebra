@@ -60,7 +60,11 @@
          (api/team-members account name :team-id) => [username]
          (api-user/profile account username) => {:username username}
          (api-dataset/public account username) => [:fake-forms]
-         (api/all account) => [{:name "Fake Org"}]))
+         (api/all account) => [{:name "Fake Org"}]
+         (api/teams account name) => fake-teams
+         (#'ona.viewer.views.organizations/all-members account
+                                                       name
+                                                       fake-teams) => []))
 
   (fact "new-team shows new team form"
         (new-team account name) => (contains "Create team")

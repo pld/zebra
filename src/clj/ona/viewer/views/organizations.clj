@@ -88,12 +88,19 @@
   (let [org (api/profile account org-name)
         team-info (api/team-info account org-name team-id)
         members (api/team-members account org-name team-id)
-        members-info (info-for-users account members)]
+        members-info (info-for-users account members)
+        all-teams (api/teams account org-name)
+        all-members (all-members account org-name all-teams)]
     (base/base-template
       "/organizations"
       account
       (:name org)
-      (org-templates/team-info org team-id team-info members-info))))
+      (org-templates/team-info (:org org)
+                               team-id
+                               team-info
+                               members-info
+                               all-teams
+                               all-members))))
 
 (defn new-team
   "Show new-team form for organization."

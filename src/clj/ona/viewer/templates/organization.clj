@@ -36,7 +36,7 @@
    :ul.members
    [:li first-of-type]] (clone-for [member members] [:li] (content member))
 
-   ;; Set Team details
+  ;; Set Team details
   [:div.org-details :a.teams] (do-> (content (s/postfix-paren-count "Teams"
                                                                     teams))
                                     (set-attr :href (u/org-teams org)))
@@ -45,14 +45,14 @@
    :ul.teams
    [:li first-of-type]] (clone-for [team teams] [:li] (content (:name team)))
 
-   ;; Organization projects
+  ;; Organization projects
   [:div#tab-content1] (content
                        (project-templates/project-list org
                                                        project-details)))
 
 (defsnippet members-table "templates/organization/members.html"
   [:table.members]
-  [org members]
+  [org-name members]
   [:tbody [:tr (but first-of-type)]] nil
   [:tbody [:tr first-of-type]]
   (clone-for [member members]
@@ -67,8 +67,24 @@
                                 (set-attr :href
                                           (-> member profile-username u/profile)))
              [:a.remove-link] (set-attr :href
-                                        (u/org-remove-member (:org org)
+                                        (u/org-remove-member org-name
                                                              (profile-username member)))))
+
+(defsnippet team-header "templates/organization/teams.html"
+  [:div#header]
+  [org teams members on-page]
+  [:a#members] (do->
+                (content (s/postfix-paren-count "Members" members))
+                (set-attr :href (u/org-members org))
+                (if (= :members on-page)
+                  (set-attr :class "active")
+                  identity))
+  [:a#teams] (do->
+              (content (s/postfix-paren-count "Teams" teams))
+              (set-attr :href (u/org-teams org))
+              (if (= :teams on-page)
+                (set-attr :class "active")
+                identity)))
 
 (defsnippet teams "templates/organization/teams.html"
   [:body :div#content]
@@ -83,24 +99,22 @@
                                   :href (u/org-team org
                                                     (:id team))))
              [:span.num-members] (content (-> team :members count str)))
-  [:a.members] (do->
-                (content (s/postfix-paren-count "Members" team-details))
-                (set-attr :href (u/org-members org)))
   [:a.new-team] (set-attr :href (u/org-new-team org))
-  [:span.num-teams] (content (-> team-details count str)))
+  [:div#header] (content (team-header org team-details members :teams)))
 
 (defsnippet team-info "templates/team/show.html"
   [:body :div#content]
-  [org team-id team-info members-info]
+  [org-name team-id team-info members-info all-teams all-members]
   [:.team-name] (content (:name team-info))
-  [:div.members] (content (members-table org members-info))
+  [:div.members] (content (members-table org-name members-info))
   [:form#add-user] (do->
                     (set-attr :action
-                              (u/org-team (:org org)
+                              (u/org-team org-name
                                           team-id))
                     (set-attr :method "post"))
-  [:form#add-user :input#org](set-attr :value (:org org))
-  [:form#add-user :input#teamid](set-attr :value team-id))
+  [:form#add-user :input#org](set-attr :value org-name)
+  [:form#add-user :input#teamid](set-attr :value team-id)
+  [:div#header] (content (team-header org-name all-teams all-members nil)))
 
 (defsnippet new-team "templates/team/new.html"
   [:body :div#content]
@@ -112,11 +126,9 @@
 (defsnippet members "templates/organization/members.html"
   [:body :div#content]
   [org members teams]
-  [:span.num-members] (content (-> members count str))
-  [:a#teams] (do->
-              (content (s/postfix-paren-count "Teams" teams))
-              (set-attr :href (u/org-teams org)))
+  [:div#header] (content (team-header (:org org) teams members :members))
+
   [:div.members] (content (members-table org members))
   [:form#adduser] (set-attr :action (u/org-members (:org org))
-                           :method "post")
+                            :method "post")
   [:form#adduser :#orgname] (set-attr :value (:org org)))
