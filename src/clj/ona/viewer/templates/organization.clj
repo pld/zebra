@@ -12,6 +12,9 @@
             [ona.utils.string :as s]
             [ona.viewer.urls :as u]))
 
+(def profile-username
+  (comp :username :profile))
+
 (defsnippet profile "templates/organization/profile.html"
   [:body :div#content]
   [org members teams project-details]
@@ -56,20 +59,16 @@
              [:span.name] (content (-> member
                                        :profile
                                        :name))
-             [:span.username] (content (-> member
-                                           :profile
-                                           :username))
+             [:a.username] (do-> (content (profile-username member))
+                                 (set-attr :href
+                                           (-> member profile-username u/profile)))
              [:a.dataset-list] (do->
                                 (content (str (:num-forms member) " forms"))
                                 (set-attr :href
-                                          (u/profile (-> member
-                                                         :profile
-                                                         :username))))
+                                          (-> member profile-username u/profile)))
              [:a.remove-link] (set-attr :href
                                         (u/org-remove-member (:org org)
-                                                             (-> member
-                                                                 :profile
-                                                                 :username)))))
+                                                             (profile-username member)))))
 
 (defsnippet teams "templates/organization/teams.html"
   [:body :div#content]
