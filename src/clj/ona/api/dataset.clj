@@ -13,9 +13,11 @@
 
 (defn all
   "Return all the datasets for an account."
-  [account]
-  (let [url (make-url "forms")]
-    (parse-http :get url account)))
+  ([account]
+     (all account (:username account)))
+  ([account owner]
+      (let [url (make-url "forms/" owner)]
+        (parse-http :get url account))))
 
 (defn public
   "Return all public datasets for a specific user."
