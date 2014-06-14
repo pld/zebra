@@ -1,118 +1,124 @@
-(ns ona.viewer.urls)
+(ns ona.viewer.urls
+  (:use [clojure.string :only [join]]))
+
+(defn- url
+  "Append string args with slashes and prefix with a slash."
+  [& args]
+  (str "/" (join "/" args)))
 
 ;; Datasets
 (defn dataset
   "Build dataset show link from dataset id."
   [dataset-id]
-  (str "/dataset/" dataset-id))
+  (url "dataset" dataset-id))
 
 (defn dataset-delete
   "Build dataset delete link from dataset id."
   [dataset-id]
-  (str "/dataset/" dataset-id "/delete"))
+  (url "dataset" dataset-id "delete"))
 
 (defn dataset-download
   "Build dataset download link from dataset id."
   [dataset-id]
-  (str "/dataset/" dataset-id "/download"))
+  (url "dataset" dataset-id "download"))
 
 (defn dataset-metadata
   "Build dataset metadata link from dataset id."
   [dataset-id]
-  (str "/dataset/" dataset-id "/metadata"))
+  (url "dataset" dataset-id "metadata"))
 
 (defn dataset-sharing
   "Build dataset sharing link from dataset id."
   [dataset-id]
-  (str "/dataset/" dataset-id "/sharing"))
+  (url "dataset" dataset-id "sharing"))
 
-(def dataset-sharing-post "/dataset/sharing")
+(def dataset-sharing-post (url "dataset" "sharing"))
 
 (defn dataset-chart
   "Build dataset chart link from dataset id."
   [dataset-id]
-  (str "/dataset/" dataset-id "/show/chart"))
+  (url "dataset" dataset-id "show/chart"))
 
 (defn dataset-photo
   "Build dataset photo link from dataset id."
   [dataset-id]
-  (str "/dataset/" dataset-id "/show/photo"))
+  (url "dataset" dataset-id "show/photo"))
 
 (defn dataset-activity
   "Build dataset activity link from dataset id."
   [dataset-id]
-  (str "/dataset/" dataset-id "/show/activity"))
+  (url "dataset" dataset-id "show/activity"))
 
 
 (defn dataset-table
   "Build dataset table link from dataset id."
   [dataset-id]
-  (str "/dataset/" dataset-id "/show/table"))
+  (url "dataset" dataset-id "show/table"))
 
 (defn dataset-tags
   "Build dataset tags link from dataset id."
   [dataset-id]
-  (str "/dataset/" dataset-id "/tags"))
+  (url "dataset" dataset-id "tags"))
 
 ;; Organizatinos
 (defn org
   "Build url for an organization."
   [org]
-  (str "/organizations/" (:org org)))
+  (url "organizations" (:org org)))
 
 (defn org-teams
   "Build the teams url for an organization."
   [org]
-  (str "/organizations/"
+  (url "organizations"
        (:org org)
-       "/teams"))
+       "teams"))
 
 (defn org-team
   "Build the team url for an organization team."
   [org team-id]
-  (str "/organizations/"
+  (url "organizations"
        org
-       "/team/"
+       "team"
        team-id))
 
 (defn org-members
   "Build the org members url."
   [org]
-  (str "/organizations/" org "/members"))
+  (url "organizations" org "members"))
 
 (defn org-new-team
   "Build the org new team url."
   [org]
-  (str "/organizations/" org "/new-team"))
+  (url "organizations" org "new-team"))
 
 (defn org-remove-member
   "Build the org remove member url."
   [org username]
-  (str "/organizations/" org "/members/" username "/remove"))
+  (url "organizations" org "members" username "remove"))
 
 ;; Profile
 (defn profile
   "Build profile url from username."
   [username]
-  (str "/profile/" username))
+  (url "profile" username))
 
 ;; Projects
 (defn project-forms
   "Build the project forms url from a project"
   [project-id owner]
-  (str "/project/" owner "/" project-id "/forms"))
+  (url "project" owner project-id "forms"))
 
 (defn project-new-dataset
   "Build the project settings url from a project-id"
   [project-id owner]
-  (str "/project/" owner "/" project-id "/new-dataset"))
+  (url "project" owner project-id "new-dataset"))
 
 (defn project-settings
   "Build the project settings url from a project"
   [project owner]
-  (str "/project/" owner "/" (:id project) "/settings"))
+  (url "project" owner (:id project) "settings"))
 
 (defn project-new
   "Build the project for a new url give owner."
   [owner]
-  (str "/project/" owner))
+  (url "project" owner))
