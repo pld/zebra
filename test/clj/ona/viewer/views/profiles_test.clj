@@ -1,17 +1,26 @@
 (ns ona.viewer.views.profiles-test
   (:use midje.sweet
         ona.viewer.views.profiles
-        [ona.api.io :only [make-url]])
+        [ona.api.io :only [make-url]]
+        [ona.helpers :only [slingshot-exception]])
   (:require [ona.api.user :as api]
             [ona.api.dataset :as api-dataset]))
 
-(let [username "fake-username"
+(let [name "Some User"
+      not-found "Not found."
+      username "fake-username"
       password "fake-password"
-       account {:username username :password password}]
+      account {:username username :password password}]
 
-    (fact "user-profile shows user-profile"
-          (user-profile account username) => (contains "Some User")
-          (provided
-            (api/profile account username) => {:name "Some User"}
-            (api-dataset/all account) => [{:title "Test dataset"
-                                           :num_of_submissions 2}])))
+  (facts "About user-profile"
+         "Should show user-profile"
+         (user-profile account username) => (contains name)
+         (provided
+          (api/profile account username) => {:name name}
+          (api-dataset/all account username) => [{:title "Test dataset"
+                                                  :num_of_submissions 2}])
+
+         "Should return error if not found"
+         (user-profile account username) => (contains not-found)
+         (provided
+          (api/profile account username) =throws=> (slingshot-exception not-found))))

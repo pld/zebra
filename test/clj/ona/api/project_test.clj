@@ -14,14 +14,14 @@
          "Should get correct url"
          (all account username) => :something
          (provided
-          (make-url "projects/" username) => url
+          (make-url "projects" username) => url
           (parse-http :get url account) => :something))
 
   (facts "about project-create"
          "Should associate data"
          (create account :data username) => parsed-data
          (provided
-          (make-url "projects/" username) => url
+          (make-url "projects" username) => url
           (parse-http :post
                       url
                       account
@@ -31,7 +31,7 @@
          (let [error :error]
            (create account :data username) => (throws clojure.lang.ExceptionInfo)
            (provided
-            (make-url "projects/" username) => url
+            (make-url "projects" username) => url
             (parse-http :post
                         url
                         account
@@ -41,7 +41,7 @@
          "Should find project for id"
          (get-project account username :id) => parsed-data
          (provided
-          (make-url "projects/" username "/" :id) => url
+          (make-url "projects" username :id) => url
           (parse-http :get
                       url
                       account) => data))
@@ -50,7 +50,7 @@
          "Should find forms for id"
          (get-forms account username :id) => data
          (provided
-          (make-url "projects/" username "/" :id "/forms") => url
+          (make-url "projects" username :id "forms") => url
           (parse-http :get
                       url
                       account) => data)))

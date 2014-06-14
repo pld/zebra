@@ -1,13 +1,17 @@
 (ns ona.api.user
-  (:use [ona.api.io :only [make-url parse-http]]))
+  (:use [ona.api.io :only [make-url parse-http]]
+        [slingshot.slingshot :only [throw+]]))
 
 (defn profile
   "Return the profile for the account username or the passed username."
   ([account]
      (profile account (:username account)))
   ([account username]
-     (let [url (make-url "profiles/" username)]
-       (parse-http :get url account))))
+     (let [url (make-url "profiles" username)
+           response (parse-http :get url account)]
+       (if-let [error (:detail response)]
+         (throw+ error)
+         response))))
 
 (defn create
   "Create a new user."

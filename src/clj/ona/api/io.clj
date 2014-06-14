@@ -3,7 +3,8 @@
   (:require [clj-http.client :as client]
             [cheshire.core :as json]
             [clojure.java.io :as io])
-  (:use [slingshot.slingshot :only [try+]]))
+  (:use [slingshot.slingshot :only [try+]]
+        [ona.utils.string :only [url]]))
 
 (def ^:private meths
   {:delete client/delete
@@ -27,7 +28,8 @@
 (defn make-url
   "Build an API url."
   [& postfix]
-  (apply str (concat [protocol "://" host "/api/v1/"] postfix)))
+  (apply str (conj [protocol "://" host "/api/v1"]
+                   (apply url postfix))))
 
 (defn parse-json-response
   "Parse a body as JSON catching formatting exceptions."

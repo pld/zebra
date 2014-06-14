@@ -1,6 +1,7 @@
 (ns ona.viewer.views.profiles
   (:use [ona.viewer.templates.base :only [base-template]]
-        [ona.viewer.templates.forms :only [sign-up-form]])
+        [ona.viewer.templates.forms :only [sign-up-form]]
+        [slingshot.slingshot :only [try+]])
   (:require [ona.api.user :as api]
             [ona.api.dataset :as api-dataset]
             [ring.util.response :as response]
@@ -24,10 +25,14 @@
 (defn user-profile
   "Show profile for a username."
   [account username]
-  (let [profile (api/profile account username)
-        datasets (api-dataset/all account)]
-    (base-template
-     (u/profile username)
-     account
-     (:name profile)
-     (profiles/user-profile profile datasets))))
+  (try+
+   (let [profile (api/profile account username)
+         datasets (api-dataset/all account username)]
+     (base-template
+      (u/profile username)
+      account
+      (:name profile)
+      (profiles/user-profile profile datasets)))
+   (catch string? error
+     ;; TODO return a proper not found page.
+     error)))
