@@ -1,10 +1,5 @@
 (ns ona.viewer.urls
-  (:use [clojure.string :only [join]]))
-
-(defn- url
-  "Append string args with slashes and prefix with a slash."
-  [& args]
-  (str "/" (join "/" args)))
+  (:use [ona.utils.string :only [url]]))
 
 ;; Datasets
 (defn dataset

@@ -11,19 +11,19 @@
                 {:form-params data})))
 
 (defn profile [account org-name]
-  (let [url (make-url "orgs/" org-name)]
+  (let [url (make-url "orgs" org-name)]
     (parse-http :get url account)))
 
 (defn teams [account org-name]
-  (let [url (make-url "teams/" org-name)]
+  (let [url (make-url "teams" org-name)]
     (parse-http :get url account)))
 
 (defn team-info [account org-name team-id]
-  (let [url (make-url "teams/" org-name "/" team-id)]
+  (let [url (make-url "teams" org-name team-id)]
     (parse-http :get url account)))
 
 (defn team-members [account org-name team-id]
-  (let [url (make-url "teams/" org-name "/" team-id "/members")]
+  (let [url (make-url "teams" org-name team-id "members")]
     (parse-http :get url account)))
 
 (defn create-team
@@ -35,15 +35,15 @@
 (defn add-team-member
   "Add a user to a team"
   [account org-name team-id user]
-  (let [url (make-url "teams/" org-name "/" team-id "/members")]
+  (let [url (make-url "teams" org-name team-id "members")]
     (parse-http :post url account {:form-params user})))
 
 (defn members [account org-name]
-  (let [url (make-url "orgs/" org-name "/members")]
+  (let [url (make-url "orgs" org-name "members")]
     (parse-http :get url account)))
 
 (defn add-member
   "Add a user to an organization"
   [account org-name member]
-  (let [url (make-url "orgs/" org-name "/members")]
+  (let [url (make-url "orgs" org-name "members")]
     (parse-http :post url account {:form-params member})))

@@ -7,7 +7,7 @@
   ([account]
      (profile account (:username account)))
   ([account username]
-     (let [url (make-url "profiles/" username)
+     (let [url (make-url "profiles" username)
            response (parse-http :get url account)]
        (if-let [error (:detail response)]
          (throw+ error)

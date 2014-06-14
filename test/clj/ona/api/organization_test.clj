@@ -29,21 +29,21 @@
          "should get correct url"
          (teams account :fake-orgname) => :something
          (provided
-           (make-url "teams/" :fake-orgname) => url
+           (make-url "teams" :fake-orgname) => url
            (parse-http :get url account) => :something))
 
   (facts "about team-info"
          "should get correct url"
          (team-info account :fake-orgname :fake-team-id) => :something
          (provided
-           (make-url "teams/" :fake-orgname "/":fake-team-id) => url
+           (make-url "teams" :fake-orgname :fake-team-id) => url
            (parse-http :get url account) => :something))
 
   (facts "about team-members"
          "should get correct url"
          (team-members account :fake-orgname :fake-team-id) => :something
          (provided
-           (make-url "teams/" :fake-orgname "/" :fake-team-id "/members") => url
+           (make-url "teams" :fake-orgname :fake-team-id "members") => url
            (parse-http :get url account) => :something))
 
   (facts "about create-team"
@@ -55,18 +55,18 @@
   (facts "about add-team-member"
          (add-team-member  account :fake-orgname :fake-team-id :user) => :something
          (provided
-           (make-url "teams/" :fake-orgname "/" :fake-team-id "/members") => url
+           (make-url "teams" :fake-orgname :fake-team-id "members") => url
            (parse-http :post url account {:form-params :user}) => :something))
 
   (facts "about members"
          "should get correct url"
          (members account :fake-orgname) => :something
          (provided
-           (make-url "orgs/" :fake-orgname "/members") => url
+           (make-url "orgs" :fake-orgname "members") => url
            (parse-http :get url account) => :something))
 
   (facts "about add-member"
          (add-member  account :orgname :member) => :something
          (provided
-           (make-url "orgs/" :orgname "/members") => url
+           (make-url "orgs" :orgname "members") => url
            (parse-http :post url account {:form-params :member}) => :something)))
