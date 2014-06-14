@@ -12,7 +12,7 @@
          "Should get correct url"
          (all account) => :something
          (provided
-           (make-url "forms") => url
+           (make-url "forms/" username) => url
            (parse-http :get url account) => :something))
 
   (fact "about datasets-update"
