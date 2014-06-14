@@ -10,7 +10,8 @@
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.organization :as org-templates]
             [ona.viewer.urls :as u]
-            [ona.utils.string :as s]))
+            [ona.utils.string :as s]
+            [ring.util.response :as response]))
 
 (defn- teams-with-details
   "Add IDs and members to teams list hashes."
@@ -116,8 +117,9 @@
   "Create a new team"
   [account params]
   (let [org-name (:organization params)
-        added-team (api/create-team account params)]
-    (teams account org-name)))
+        added-team (api/create-team account params)
+        id (-> added-team :url s/last-url-param)]
+    (response/redirect-after-post (u/org-team org-name id))))
 
 (defn add-team-member
   "Add member to a team"

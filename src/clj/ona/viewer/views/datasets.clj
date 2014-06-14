@@ -1,6 +1,5 @@
 (ns ona.viewer.views.datasets
-  (:use [ring.util.response :only [redirect-after-post]]
-        [ona.viewer.helpers.tags :only [include-js js-tag]])
+  (:use [ona.viewer.helpers.tags :only [include-js js-tag]])
   (:require [ona.api.dataset :as api]
             [ona.api.project :as api-project]
             [ona.viewer.sharing :as sharing]
@@ -161,13 +160,13 @@
         tags {:tags (:tags params)}]
     (api/update account dataset-id metadata-updates)
     (api/add-tags account dataset-id tags)
-    (redirect-after-post (u/dataset dataset-id))))
+    (response/redirect-after-post (u/dataset dataset-id))))
 
 (defn delete
   "Delete a dataset by ID."
   [account id]
   (api/delete account id)
-  (response/redirect "/dataset"))
+  (response/redirect "/"))
 
 (defn sharing
   "Sharing settings for a new dataset."
@@ -188,4 +187,4 @@
                                "True"
                                "False")}]
     (api/update account dataset-id update-data)
-    (redirect-after-post (u/dataset-metadata dataset-id))))
+    (response/redirect-after-post (u/dataset-metadata dataset-id))))

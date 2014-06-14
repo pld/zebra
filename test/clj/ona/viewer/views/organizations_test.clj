@@ -7,9 +7,11 @@
             [ona.api.dataset :as api-dataset]
             [ona.api.project :as api-projects]
             [ona.api.user :as api-user]
+            [ona.viewer.urls :as u]
             [clj-time.format :as f]
             [clj-time.core :as t]
-            [clj-time.local :as l]))
+            [clj-time.local :as l]
+            [ring.util.response :as response]))
 
 (let [name "fake-org-name"
       fake-organization {:name name}
@@ -73,11 +75,15 @@
          (api/all account) => [{:name "Fake Org"}]))
 
   (fact "create-team should create new team and show new team details"
-        (let [params {:name "new fake team" :organization name}]
+        (let [params {:name "new fake team"
+                      :organization name}
+              new-team-id "42"
+              new-team {:url (str "/new/team/url/" new-team-id)}]
           (create-team account params) => :updated-teamlist
           (provided
-           (api/create-team account params) => :new-team
-           (teams account name) => :updated-teamlist)))
+           (api/create-team account params) => new-team
+           (u/org-team name new-team-id) => :url
+           (response/redirect-after-post :url) => :updated-teamlist)))
 
   (fact "add-team member should add a user to a team"
         (let [user { :username "someuser" :organization name}
