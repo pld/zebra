@@ -47,3 +47,9 @@
   [account org-name member]
   (let [url (make-url "orgs" org-name "members")]
     (parse-http :post url account {:form-params member})))
+
+(defn remove-member
+  "Remove a user to an organization"
+  [account org-name member]
+  (let [url (make-url "orgs" org-name "members")]
+    (parse-http :delete url account {:form-params member})))

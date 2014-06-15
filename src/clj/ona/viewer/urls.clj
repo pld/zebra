@@ -89,7 +89,7 @@
 (defn org-remove-member
   "Build the org remove member url."
   [org username]
-  (url "organizations" org "members" username "remove"))
+  (url "organizations" org "members" username))
 
 ;; Profile
 (defn profile

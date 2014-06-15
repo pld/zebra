@@ -33,7 +33,9 @@
 (defn- info-for-users
   [account members]
   (for [username members]
-    {:profile (api-user/profile account username)
+    {:profile {:username username}
+     ;; TODO pull full profile here after onadata#331
+     ;; with (api-user/profile account username)
      :num-forms (count (api-datasets/public account username))}))
 
 (defn all
@@ -140,13 +142,18 @@
     (base/base-template
       "/organizations"
       account
-      (:name org)
-      (org-templates/members org members-info teams))))
+      org-name
+      (org-templates/members org-name members-info teams))))
 
 (defn add-member
-  "Add member to an organization"
-  [account params]
-  (let [org-name (:orgname params)
-        member {:username (:username params)}
+  "Add member to an organization."
+  [account org-name member-username]
+  (let [member {:username member-username}
         added-user (api/add-member account org-name member)]
     (members account org-name)))
+
+(defn remove-member
+  "Remove a member from an organization."
+  [account org-name member-username]
+  (api/remove-member org-name member-username)
+  (response/redirect-after-post (u/org-members org-name)))

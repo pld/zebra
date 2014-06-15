@@ -150,8 +150,14 @@
        (organizations/members account name))
   (POST "/organizations/:name/members"
         {{account :account} :session
-         params :params}
-        (organizations/add-member account params)))
+         {org-name :orgname
+          member-username :username} :params}
+        (organizations/add-member account org-name member-username))
+  (POST "/organizations/:name/members/:member-username"
+          {{account :account} :session
+           {name :name
+            member-username :member-username} :params}
+          (organizations/remove-member account name member-username)))
 
 (defroutes main-routes
   (GET "/" {session :session} (home-page session))

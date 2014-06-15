@@ -60,7 +60,8 @@
          (api/profile account name) => {:name "Fake Org"}
          (api/team-info account name :team-id) => {:name "Fake Team"}
          (api/team-members account name :team-id) => [username]
-         (api-user/profile account username) => {:username username}
+         ;; TODO uncomment when pulling profiles
+         ;; (api-user/profile account username) => {:username username}
          (api-dataset/public account username) => [:fake-forms]
          (api/all account) => [{:name "Fake Org"}]
          (api/teams account name) => fake-teams
@@ -101,14 +102,14 @@
          (#'ona.viewer.views.organizations/all-members account
                                                        name
                                                        fake-teams) => [username]
-         (api-user/profile account username) => {:username username}
+         ;; TODO uncomment when pulling profiles
+         ;; (api-user/profile account username) => {:username username}
          (api-dataset/public account username) => [:fake-forms]
          (api/all account) => [{:name "Fake Org"}]))
 
   (fact "add-member should add members to organization"
-        (let [member { :username "someuser"}
-              params (merge {:orgname name} member)]
-          (add-member account params) => :something
+        (let [member { :username username}]
+          (add-member account name username) => :something
           (provided
            (api/add-member account name member) => :new-member
            (members account name) => :something)))

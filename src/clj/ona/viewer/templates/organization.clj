@@ -66,9 +66,11 @@
                                 (content (str (:num-forms member) " forms"))
                                 (set-attr :href
                                           (-> member profile-username u/profile)))
-             [:a.remove-link] (set-attr :href
-                                        (u/org-remove-member org-name
-                                                             (profile-username member)))))
+             [:form.remove-form] (do-> (set-attr :action
+                                                 (u/org-remove-member
+                                                  org-name
+                                                  (profile-username member)))
+                                       (set-attr :method "post"))))
 
 (defsnippet team-header "templates/organization/teams.html"
   [:div#header]
@@ -125,10 +127,10 @@
 
 (defsnippet members "templates/organization/members.html"
   [:body :div#content]
-  [org members teams]
-  [:div#header] (content (team-header (:org org) teams members :members))
+  [org-name members teams]
+  [:div#header] (content (team-header org-name teams members :members))
 
-  [:div.members] (content (members-table org members))
-  [:form#adduser] (set-attr :action (u/org-members (:org org))
+  [:div.members] (content (members-table org-name members))
+  [:form#adduser] (set-attr :action (u/org-members org-name)
                             :method "post")
-  [:form#adduser :#orgname] (set-attr :value (:org org)))
+  [:form#adduser :#orgname] (set-attr :value org-name))
