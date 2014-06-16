@@ -1,7 +1,7 @@
 (ns ona.api.project
   (:use [clojure.string :only [split]]
         [ona.api.io :only [make-url parse-http]]
-        [ona.utils.string :only [last-url-param]]
+        [ona.utils.string :only [last-url-param url]]
         [slingshot.slingshot :only [throw+]]))
 
 (defn- add-id
@@ -12,22 +12,35 @@
     (merge project-data
            {:id (-> project-data :url last-url-param)})))
 
-(defn get-forms [account owner id]
-  (let [url (make-url "projects" owner id "forms")]
-    (parse-http :get url account)))
+(defn get-forms
+  "Get the forms for this account and owner of the user."
+  ([account id]
+     (get-forms account (:username account) id))
+  ([account owner id]
+      (let [url (make-url "projects" owner id "forms")]
+        (parse-http :get url account))))
 
 (defn get-project [account owner id]
   (let [url (make-url "projects" owner id)]
     (add-id (parse-http :get url account))))
 
-(defn all [account owner]
-  (let [url (make-url "projects" owner)]
-    (parse-http :get url account)))
+(defn all
+  "Return all project for this account and owner or the user."
+  ([account]
+     (all account (:username account)))
+  ([account owner]
+      (let [url (make-url "projects" owner)]
+        (parse-http :get url account))))
 
-(defn create [account data owner]
-  (let [url (make-url "projects" owner)
-        project-data (parse-http :post url account
-                                 {:form-params data})]
-    (if-let [error (:__all__ project-data)]
-      (throw+ error)
-      (add-id project-data))))
+(defn create
+  "Create a project for this account and owner or the user."
+  ([account data]
+     (create account data (:username account)))
+  ([account data owner]
+      (let [owner-url {:owner (make-url "users" owner)}
+            url (make-url "projects" owner)
+            project-data (parse-http :post url account
+                                     {:form-params (merge owner-url data)})]
+        (if-let [error (:__all__ project-data)]
+          (throw+ error)
+          (add-id project-data)))))

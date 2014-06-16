@@ -100,7 +100,7 @@
                 (set-attr :class "active")
                 identity)))
 
-(defsnippet teams "templates/organization/teams.html"
+(defsnippet show-teams "templates/organization/teams.html"
   [:body :div#content]
   [org team-details members username]
   [:div.myteams] nil

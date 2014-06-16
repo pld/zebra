@@ -150,8 +150,8 @@
          (#'ona.viewer.views.organizations/all-members account
                                                        name
                                                        fake-teams) => [username]
-         ;; TODO uncomment when pulling profiles
-         ;; (api-user/profile account username) => {:username username}
+                                                       ;; TODO uncomment when pulling profiles
+                                                       ;; (api-user/profile account username) => {:username username}
          (api-dataset/public account username) => [:fake-forms]
          (api/all account) => [{:name "Fake Org"}]))
 
@@ -162,22 +162,22 @@
          (response/redirect-after-post (u/org-members name)) => :something))
 
   (facts "remove-member"
-        "Should remove a member from an organization"
-        (remove-member account name username) => :something
-        (provided
-         (api/remove-member account name username nil) => :new-member
-         (response/redirect-after-post (u/org-members name)) => :something)
+         "Should remove a member from an organization"
+         (remove-member account name username) => :something
+         (provided
+          (api/remove-member account name username nil) => :new-member
+          (response/redirect-after-post (u/org-members name)) => :something)
 
-        "Should remove a member from a team"
-        (remove-member account name username team-id) => :something
-        (provided
-         (api/remove-member account name username team-id) => :new-member
-         (response/redirect-after-post (u/org-team name team-id)) => :something)
+         "Should remove a member from a team"
+         (remove-member account name username team-id) => :something
+         (provided
+          (api/remove-member account name username team-id) => :new-member
+          (response/redirect-after-post (u/org-team name team-id)) => :something)
 
-        "Should not remove last owner from a team"
-        (remove-member account name username team-id) =>  "Cannot remove last owner."
-        (provided
-         (api/single-owner? account name team-id) => true))
+         "Should not remove last owner from a team"
+         (remove-member account name username team-id) =>  "Cannot remove last owner."
+         (provided
+          (api/single-owner? account name team-id) => true))
 
   (facts "get project details for and organizations projects"
          (let [days-ago 2

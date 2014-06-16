@@ -1,35 +1,55 @@
 (ns ona.viewer.views.home-test
   (:use midje.sweet
         ona.viewer.views.home
-        [clavatar.core :only [gravatar]])
+        [clavatar.core :only [gravatar]]
+        [midje.util :only [testable-privates]])
   (:require [ona.viewer.views.accounts :as accounts]
-            [ona.api.organization :as api-orgs]
-            [ona.api.project :as api-projects]
+            [ona.api.dataset :as api-dataset]
+            [ona.api.organization :as api-org]
+            [ona.api.project :as api-project]
             [ona.api.user :as api-user]))
 
+(testable-privates ona.viewer.views.home move-datasets-to-user-project)
 
-(facts "about home-page"
-       "Home page goes to sign in if no session"
-       (home-page {}) => :login
-       (provided
-        (accounts/login) => :login)
+(let [username "fake-username"
+      email "fake@email.com"
+      account {:username username
+               :email email}
+      project-id "7"
+      form-id "42"]
+  (facts "about home-page"
+         "Home page goes to sign in if no session"
+         (home-page {}) => :login
+         (provided
+          (accounts/login) => :login)
 
-       "Home page goes to dashboard if account in session"
-       (let [fake-account :fake-account]
-         (home-page {:account fake-account} :fake-search-term) => :dashboard
-         (provided (dashboard fake-account :fake-search-term) => :dashboard)))
+         "Home page goes to dashboard if account in session"
+         (home-page {:account account} :fake-search-term) => :dashboard
+         (provided (dashboard account :fake-search-term) => :dashboard))
 
-(facts "about dashboard"
-       "Should contain username"
-       (let [username "fake-username"
-             email "fake@email.com"
-             account {:username username
-                      :email email}]
+  (facts "about dashboard"
+         "Should contain username"
          (dashboard account) => (contains [username email] :in-any-order :gaps-ok)
          (provided
-          (api-projects/all account username) =>
+          (#'ona.viewer.views.home/move-datasets-to-user-project account) => nil
+          (api-project/all account username) =>
           [{:title "Test dataset" :num_of_submissions 2}]
-          (api-orgs/all account) => [{:title "Test Org"}]
+          (api-org/all account) => [{:title "Test Org"}]
           (api-user/profile account) => account
           (gravatar email) => email
-          (gravatar nil) => nil)))
+          (gravatar nil) => nil))
+
+  (facts "about move-datasets-to-user-project"
+         "Should work"
+         (move-datasets-to-user-project account) => '(:result)
+         (provided
+          ;; functions in get-or-create-default-project
+          (#'ona.viewer.views.home/default-project-info account) => :info
+          (api-project/create account :info) => {:url project-id}
+          ;; functions in orphan-datasets
+          (api-dataset/all account) => [{:formid form-id}]
+          (api-project/get-forms account project-id) => [{:name :name}]
+          ;; functions in move-datasets-to-user-project
+          (api-project/all account) => [{:name :name
+                                         :url project-id}]
+          (api-dataset/move-to-project account form-id project-id) => :result)))

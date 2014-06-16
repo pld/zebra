@@ -66,9 +66,7 @@
   "Create a new project for the current user."
   [account params]
   (let [owner (:owner params)
-        owner-url (make-url (str "users/" owner))
-        data {:name (:name params)
-              :owner owner-url}]
+        data {:name (:name params)}]
     (try+
      (let [project (api/create account data owner)]
        (redirect-after-post (u/project-settings project owner)))
