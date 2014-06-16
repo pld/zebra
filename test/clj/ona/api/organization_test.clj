@@ -6,7 +6,8 @@
 (let [url :fake-url
       username :fake-username
       password :fake-password
-      account {:username username :password password}]
+      account {:username username :password password}
+      fake-teams [{:name "name"}]]
 
   (facts "about organizations"
          "should get correct url"
@@ -27,10 +28,17 @@
 
   (facts "about teams"
          "should get correct url"
-         (teams account :fake-orgname) => :something
+         (teams account :fake-orgname) => fake-teams
          (provided
           (make-url "teams" :fake-orgname) => url
-          (parse-http :get url account) => :something))
+          (parse-http :get url account) => fake-teams)
+
+         "should filter out internal team"
+         (teams account :fake-orgname) => fake-teams
+         (provided
+          (make-url "teams" :fake-orgname) => url
+          (parse-http :get url account) => (conj fake-teams
+                                                 {:name internal-members-team-name})))
 
   (facts "about team-info"
          "should get correct url"

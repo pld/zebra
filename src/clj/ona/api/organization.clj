@@ -1,6 +1,8 @@
 (ns ona.api.organization
   (:use [ona.api.io :only [make-url parse-http]]))
 
+(def internal-members-team-name "members")
+
 (defn all [account]
   (let [url (make-url "orgs")]
     (parse-http :get url account)))
@@ -14,9 +16,18 @@
   (let [url (make-url "orgs" org-name)]
     (parse-http :get url account)))
 
-(defn teams [account org-name]
+(defn teams-all
+  "Return all the teams for an organization."
+  [account org-name]
   (let [url (make-url "teams" org-name)]
     (parse-http :get url account)))
+
+(defn teams
+  "Return the teams for an organization, removing 'members' team that is used
+   internall by the API to store non-team based org members."
+  [account org-name]
+  (let [teams (teams-all account org-name)]
+    (remove #(= internal-members-team-name (:name %)) teams)))
 
 (defn team-info [account org-name team-id]
   (let [url (make-url "teams" org-name team-id)]
