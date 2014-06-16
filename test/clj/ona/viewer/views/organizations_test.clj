@@ -125,7 +125,7 @@
           (remove-member account name username team-id) => :something
           (provided
            (api/remove-member account name username team-id) => :new-member
-           (response/redirect-after-post (u/org-members name)) => :something)))
+           (response/redirect-after-post (u/org-team name team-id)) => :something)))
 
   (facts "get project details for and organizations projects"
          (let [days-ago 2

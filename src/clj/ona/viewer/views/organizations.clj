@@ -156,5 +156,7 @@
   ([account org-name member-username]
      (remove-member account org-name member-username nil))
   ([account org-name member-username team-id]
-      (api/remove-member account org-name member-username team-id)
-      (response/redirect-after-post (u/org-members org-name))))
+     (api/remove-member account org-name member-username team-id)
+     (if team-id
+       (response/redirect-after-post (u/org-team org-name team-id))
+       (response/redirect-after-post (u/org-members org-name)))))
