@@ -85,7 +85,10 @@
         (datasets/update account params))
   (GET "/search"  {session :session
                    {query :query} :params}
-       (home-page session query)))
+       (home-page session query))
+  (GET "/datasets"
+       {{account :account} :session}
+       (datasets/show-all account)))
 
 (defroutes project-routes
   (GET "/project/:owner"

@@ -2,6 +2,7 @@
   (:use [ona.viewer.helpers.tags :only [include-js js-tag]])
   (:require [ona.api.dataset :as api]
             [ona.api.project :as api-project]
+            [ona.api.user :as api-user]
             [ona.viewer.sharing :as sharing]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.forms :as forms]
@@ -47,6 +48,19 @@
   [account]
   (let [datasets (api/all account)]
     datasets))
+
+(defn show-all
+  "Show all datasets for user that are not in a project"
+  [account]
+  (let [profile (api-user/profile account)
+        projects {:projects (api-project/all account (:username account))}
+        profile-w-projects (merge profile projects)
+        datasets (all account)]
+  (base/base-template
+    "/"
+    account
+    "All datasests"
+    (datasets/datasets-table datasets profile-w-projects))))
 
 (defn show
   "Show the data for a specific dataset."

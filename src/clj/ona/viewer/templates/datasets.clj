@@ -153,7 +153,8 @@
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
              [:ul.submenu :li.transfer] nil
-             [:ul.submenu :li.folder] nil
+             [:ul.submenu :li.folder :li#project] (clone-for [project (:projects profile)]
+                                                             [:a] (content (:name project)))
              [:ul.submenu :li.replace] nil
              [:ul.submenu :li.copy] nil
              [:ul.submenu :li.rename] nil
