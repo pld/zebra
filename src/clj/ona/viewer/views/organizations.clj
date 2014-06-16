@@ -148,8 +148,8 @@
 (defn add-member
   "Add member to an organization."
   [account org-name member-username]
-  (let [ added-user (api/add-member account org-name member-username)]
-    (members account org-name)))
+  (let [added-user (api/add-member account org-name member-username)]
+    (response/redirect-after-post (u/org-members org-name))))
 
 (defn remove-member
   "Remove a member from an organization."

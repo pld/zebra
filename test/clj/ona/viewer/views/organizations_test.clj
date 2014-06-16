@@ -111,7 +111,13 @@
         (add-member account name username) => :something
         (provided
          (api/add-member account name username) => :new-member
-         (members account name) => :something))
+         (response/redirect-after-post (u/org-members name)) => :something))
+
+  (fact "remove-member should remove a member from an organization"
+        (remove-member account name username) => :something
+        (provided
+         (api/remove-member account name username) => :new-member
+         (response/redirect-after-post (u/org-members name)) => :something))
 
   (facts "get project details for and organizations projects"
          (let [days-ago 2

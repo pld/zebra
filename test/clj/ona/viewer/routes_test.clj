@@ -1,10 +1,12 @@
 (ns ona.viewer.routes_test
   (:use midje.sweet
-        ona.viewer.routes)
+        ona.viewer.routes
+        [ona.utils.string :only [url]])
   (:require [ona.viewer.views.datasets :as datasets]
             [ona.viewer.views.projects :as projects]
             [ona.viewer.views.organizations :as organizations]
-            [ona.viewer.views.home :as home]))
+            [ona.viewer.views.home :as home]
+            [ona.viewer.urls :as u]))
 
 (let [result {:body :something}
       session {:account :fake-account}]
@@ -73,4 +75,28 @@
                         :uri (str "/organizations/" name)
                         :session session}) => (contains result)
            (provided
-            (organizations/profile :fake-account name) => result))))
+            (organizations/profile :fake-account name) => result))
+
+         "Should parse remove member"
+         (let [name "orgname"
+               member-username "membername"]
+           (org-routes {:request-method :post
+                        :uri (u/org-remove-member name member-username)
+                        :session session}) => (contains result)
+           (provided
+            (organizations/remove-member :fake-account
+                                         name
+                                         member-username) => result))
+
+         "Should parse remove member with team"
+         (let [name "orgname"
+               member-username "membername"
+               team-id "5"]
+           (org-routes {:request-method :post
+                        :uri (u/org-remove-member name member-username team-id)
+                        :session session}) => (contains result)
+           (provided
+            (organizations/remove-member :fake-account
+                                         name
+                                         member-username
+                                         team-id) => result))))

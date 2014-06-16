@@ -154,10 +154,16 @@
           member-username :username} :params}
         (organizations/add-member account org-name member-username))
   (POST "/organizations/:name/remove/:member-username"
-          {{account :account} :session
-           {name :name
-            member-username :member-username} :params}
-          (organizations/remove-member account name member-username)))
+        {{account :account} :session
+         {name :name
+          member-username :member-username} :params}
+        (organizations/remove-member account name member-username))
+  (POST "/organizations/:name/remove/:member-username/:team-id"
+        {{account :account} :session
+         {name :name
+          member-username :member-username
+          team-id :team-id} :params}
+        (organizations/remove-member account name member-username team-id)))
 
 (defroutes main-routes
   (GET "/" {session :session} (home-page session))
