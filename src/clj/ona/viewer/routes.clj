@@ -88,7 +88,11 @@
        (home-page session query))
   (GET "/datasets"
        {{account :account} :session}
-       (datasets/show-all account)))
+       (datasets/show-all account))
+  (GET "/dataset/move/:id/:project-id"
+       {{account :account} :session
+        params :params}
+       (datasets/move-to-project account params)))
 
 (defroutes project-routes
   (GET "/project/:owner"

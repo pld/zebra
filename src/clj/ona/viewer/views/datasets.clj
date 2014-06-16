@@ -202,3 +202,12 @@
                                "False")}]
     (api/update account dataset-id update-data)
     (response/redirect-after-post (u/dataset-metadata dataset-id))))
+
+(defn move-to-project
+  "Move a dataset to a project"
+  [account params]
+  (let [dataset-id (:id params)
+        project-id (:project-id params)
+        owner (:username account)]
+    (api/move-to-project account dataset-id project-id owner)
+    (response/redirect-after-post (u/project-forms project-id owner))))
