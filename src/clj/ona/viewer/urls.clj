@@ -55,6 +55,12 @@
   [dataset-id]
   (url "dataset" dataset-id "tags"))
 
+(defn dataset-move
+  "Build dataset move link from dataset-id and project-id"
+  [dataset-id project-id]
+  (url "dataset" "move" dataset-id project-id))
+
+
 ;; Organizatinos
 (defn org
   "Build url for an organization."

@@ -81,4 +81,14 @@
                       url
                       account
                       {:multipart [{:name "xls_file"
-                                    :content :xlsfile}]}) => :response)))
+                                    :content :xlsfile}]}) => :response))
+
+  (facts "about move dataset to folder"
+         (move-to-project account 1 :project-id :owner) => :form
+         (provided
+           (make-url "projects" :owner :project-id "forms") => url
+           (parse-http :post
+                       url
+                       account
+                       {:form-params {:formid 1}}
+                       ) => :form )))
