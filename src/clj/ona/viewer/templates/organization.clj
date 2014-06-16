@@ -16,14 +16,19 @@
 (def profile-username
   (comp :username :profile))
 
+(defn- single-owner?
+  "Is the user the only member of the Owners team."
+  [team members]
+  (and (= owners-team-name (-> team :name))
+       (= 1 (count members))))
+
 (defn- can-user-leave-team?
   "Show the leave button if user is a member of team and not only member of the
    Owners team."
   [username team]
-;  (-> team str Exception. throw)
   (and (some #{username} (:members team))
-       (not (and (= owners-team-name (-> team :team :name))
-                 (= 1 (count (:members team)))))))
+       (not (single-owner? (:team team)
+                           (:members team)))))
 
 (defsnippet profile "templates/organization/profile.html"
   [:body :div#content]
@@ -76,14 +81,14 @@
                                 (content (str (:num-forms member) " forms"))
                                 (set-attr :href
                                           (-> member profile-username u/profile)))
-             [:form.remove-form] (if (can-user-leave-team? member team)
+             [:form.remove-form] (if (single-owner? team members)
+                                   nil
                                    (do-> (set-attr :action
                                                     (u/org-remove-member
                                                      org-name
                                                      (profile-username member)
-                                                     team))
-                                         (set-attr :method "post"))
-                                   nil)))
+                                                     (:id team)))
+                                         (set-attr :method "post")))))
 
 (defsnippet team-header "templates/organization/teams.html"
   [:div#header]
@@ -125,7 +130,7 @@
   [:body :div#content]
   [org-name team-id team-info members-info all-teams all-members]
   [:.team-name] (content (:name team-info))
-  [:div.members] (content (members-table org-name members-info team-id))
+  [:div.members] (content (members-table org-name members-info team-info))
   [:form#add-user] (do->
                     (set-attr :action
                               (u/org-team org-name

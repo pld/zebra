@@ -20,7 +20,10 @@
       team-name "Fake Team"
       fake-teams [{:id 1
                    :team {:name team-name}
-                   :members [username]}]]
+                   :members [username]}]
+      fake-owners-team [{:id 1
+                         :team {:name api/owners-team-name}
+                         :members [username]}]]
   (fact "all returns the organizations"
         (all :fake-account) => (contains name)
         (provided
@@ -74,24 +77,42 @@
           (#'ona.viewer.views.organizations/teams-with-details
            account
            name
-           fake-teams) => [{:id 1
-                            :team {:name api/owners-team-name}
-                            :members [username]}]))
+           fake-teams) => fake-owners-team))
 
-  (fact "team-info shows info for a specific team"
-        (team-info account name :team-id) => (contains "Fake Team" username :gaps-ok)
-        (provided
-         (api/profile account name) => {:name "Fake Org"}
-         (api/team-info account name :team-id) => {:name "Fake Team"}
-         (api/team-members account name :team-id) => [username]
-         ;; TODO uncomment when pulling profiles
-         ;; (api-user/profile account username) => {:username username}
-         (api-dataset/public account username) => [:fake-forms]
-         (api/all account) => [{:name "Fake Org"}]
-         (api/teams account name) => fake-teams
-         (#'ona.viewer.views.organizations/all-members account
-                                                       name
-                                                       fake-teams) => []))
+  (facts "team-info"
+         "should show info for a specific team and remove button"
+         (team-info account name :team-id) => (contains "Fake Team"
+                                                        "Remove"
+                                                        username
+                                                        :in-any-order
+                                                        :gaps-ok)
+         (provided
+          (api/profile account name) => {:name "Fake Org"}
+          (api/team-info account name :team-id) => {:name "Fake Team"}
+          (api/team-members account name :team-id) => [username]
+          ;; TODO uncomment when pulling profiles
+          ;; (api-user/profile account username) => {:username username}
+          (api-dataset/public account username) => [:fake-forms]
+          (api/all account) => [{:name "Fake Org"}]
+          (api/teams account name) => fake-teams
+          (#'ona.viewer.views.organizations/all-members account
+                                                        name
+                                                        fake-teams) => [])
+
+         "should hide remove button if single owner"
+         (team-info account name :team-id) =not=> (contains "Remove" :gaps-ok)
+         (provided
+          (api/profile account name) => {:name "Fake Org"}
+          (api/team-info account name :team-id) => {:name api/owners-team-name}
+          (api/team-members account name :team-id) => [username]
+          ;; TODO uncomment when pulling profiles
+          ;; (api-user/profile account username) => {:username username}
+          (api-dataset/public account username) => [:fake-forms]
+          (api/all account) => [{:name "Fake Org"}]
+          (api/teams account name) => fake-owners-team
+          (#'ona.viewer.views.organizations/all-members account
+                                                        name
+                                                        fake-owners-team) => []))
 
   (fact "new-team shows new team form"
         (new-team account name) => (contains "Create team")
@@ -111,7 +132,7 @@
            (response/redirect-after-post :url) => :updated-teamlist)))
 
   (fact "add-team member should add a user to a team"
-        (let [user { :username "someuser" :organization name}
+        (let [user {:username "someuser" :organization name}
               team-id 1
               params (merge {:org name :teamid team-id} user)]
           (add-team-member account params) => :something
