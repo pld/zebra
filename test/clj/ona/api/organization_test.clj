@@ -88,7 +88,7 @@
          "should remove a member from a team"
          (remove-member account :orgname :member :team-id) => :something
          (provided
-          (make-url "orgs" :orgname :team-id "members") => url
+          (make-url "teams" :orgname :team-id "members") => url
           (parse-http :delete
                       url
                       account
