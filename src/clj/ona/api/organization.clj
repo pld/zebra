@@ -5,16 +5,6 @@
 
 (def owners-team-name "Owners")
 
-(defn single-owner?
-  "Is the user the only member of the Owners team."
-  ([team members]
-     (and (= owners-team-name (-> team :name))
-          (= 1 (count members))))
-  ([account org-name team-id]
-     (single-owner?
-      (team-info account org-name team-id)
-      (team-members account org-name team-id))))
-
 (defn all [account]
   (let [url (make-url "orgs")]
     (parse-http :get url account)))
@@ -78,3 +68,13 @@
               (make-url "teams" org-name team-id "members")
               (make-url "orgs" org-name "members"))]
     (parse-http :delete url account {:query-params {:username member}})))
+
+(defn single-owner?
+  "Is the user the only member of the Owners team."
+  ([team members]
+     (and (= owners-team-name (-> team :name))
+          (= 1 (count members))))
+  ([account org-name team-id]
+     (single-owner?
+      (team-info account org-name team-id)
+      (team-members account org-name team-id))))
