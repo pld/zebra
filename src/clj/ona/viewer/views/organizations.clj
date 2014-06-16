@@ -83,7 +83,10 @@
       "/organizations"
       account
       (:name org)
-      (org-templates/teams (:org org) team-details members))))
+      (org-templates/teams (:org org)
+                           team-details
+                           members
+                           (:username account)))))
 
 (defn team-info
   "Retrieve team-info for a specific team."
@@ -128,9 +131,9 @@
   [account params]
   (let [org-name (:org params)
         team-id (:teamid params)
-        user {:username (:username params) :organization org-name}
-        added-user (api/add-team-member account org-name team-id user)]
-    (team-info account org-name team-id)))
+        user {:username (:username params) :organization org-name}]
+    (api/add-team-member account org-name team-id user)
+    (response/redirect-after-post (u/org-team org-name team-id))))
 
 (defn members
   "Retrieve the members for an organization."
@@ -156,7 +159,11 @@
   ([account org-name member-username]
      (remove-member account org-name member-username nil))
   ([account org-name member-username team-id]
-     (api/remove-member account org-name member-username team-id)
-     (if team-id
-       (response/redirect-after-post (u/org-team org-name team-id))
-       (response/redirect-after-post (u/org-members org-name)))))
+     (if (api/single-owner? account org-name team-id)
+       ;; TODO render a real error page.
+       "Cannot remove last owner."
+       (do
+         (api/remove-member account org-name member-username team-id)
+         (if team-id
+           (response/redirect-after-post (u/org-team org-name team-id))
+           (response/redirect-after-post (u/org-members org-name)))))))

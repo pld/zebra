@@ -6,7 +6,8 @@
 (let [url :fake-url
       username :fake-username
       password :fake-password
-      account {:username username :password password}]
+      account {:username username :password password}
+      fake-teams [{:name "name"}]]
 
   (facts "about organizations"
          "should get correct url"
@@ -27,10 +28,17 @@
 
   (facts "about teams"
          "should get correct url"
-         (teams account :fake-orgname) => :something
+         (teams account :fake-orgname) => fake-teams
          (provided
           (make-url "teams" :fake-orgname) => url
-          (parse-http :get url account) => :something))
+          (parse-http :get url account) => fake-teams)
+
+         "should filter out internal team"
+         (teams account :fake-orgname) => fake-teams
+         (provided
+          (make-url "teams" :fake-orgname) => url
+          (parse-http :get url account) => (conj fake-teams
+                                                 {:name internal-members-team-name})))
 
   (facts "about team-info"
          "should get correct url"
@@ -92,4 +100,17 @@
           (parse-http :delete
                       url
                       account
-                      {:query-params {:username :member}}) => :something)))
+                      {:query-params {:username :member}}) => :something))
+
+  (facts "about single owner"
+         "should be false if multiple members in owners team"
+         (single-owner? account :orgname :team-id) => false
+         (provided
+          (team-info account :orgname :team-id) => {:name owners-team-name}
+          (team-members account :orgname :team-id) => [username username])
+
+         "should be true if one member in owners team"
+         (single-owner? account :orgname :team-id) => true
+         (provided
+          (team-info account :orgname :team-id) => {:name owners-team-name}
+          (team-members account :orgname :team-id) => [username])))
