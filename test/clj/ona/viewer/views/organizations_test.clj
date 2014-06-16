@@ -17,9 +17,10 @@
       fake-organization {:name name}
       username "username"
       account {:username username}
+      team-name "Fake Team"
       fake-teams [{:id 1
-                   :team {:name "Fake Team"}
-                   :members []}]]
+                   :team {:name team-name}
+                   :members [username]}]]
   (fact "all returns the organizations"
         (all :fake-account) => (contains name)
         (provided
@@ -44,15 +45,38 @@
                                                        fake-teams) => [username]
          (api-projects/all account name) => [{:name "Fake Org"}]))
 
-  (fact "teams shows organization teams"
-        (teams account name) => (contains "Fake Team")
-        (provided
-         (api/profile account name) => {:org "fake-org"}
-         (api/teams account name) => fake-teams
-         (#'ona.viewer.views.organizations/teams-with-details
-          account
-          name
-          fake-teams) => fake-teams))
+  (facts "teams"
+         "should show organization teams"
+         (teams account name) => (contains team-name)
+         (provided
+          (api/profile account name) => {:org "fake-org"}
+          (api/teams account name) => fake-teams
+          (#'ona.viewer.views.organizations/teams-with-details
+           account
+           name
+           fake-teams) => fake-teams)
+
+         "should show leave button if user in team"
+         (teams account name) => (contains "Leave")
+         (provided
+          (api/profile account name) => {:org "fake-org"}
+          (api/teams account name) => fake-teams
+          (#'ona.viewer.views.organizations/teams-with-details
+           account
+           name
+           fake-teams) => fake-teams)
+
+         "should hide leave button if user in team but only owner"
+         (teams account name) =not=> (contains "Leave")
+         (provided
+          (api/profile account name) => {:org "fake-org"}
+          (api/teams account name) => fake-teams
+          (#'ona.viewer.views.organizations/teams-with-details
+           account
+           name
+           fake-teams) => [{:id 1
+                            :team {:name api/owners-team-name}
+                            :members [username]}]))
 
   (fact "team-info shows info for a specific team"
         (team-info account name :team-id) => (contains "Fake Team" username :gaps-ok)

@@ -3,6 +3,8 @@
 
 (def internal-members-team-name "members")
 
+(def owners-team-name "Owners")
+
 (defn all [account]
   (let [url (make-url "orgs")]
     (parse-http :get url account)))

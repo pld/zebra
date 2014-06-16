@@ -7,13 +7,23 @@
                                        defsnippet
                                        set-attr]]
         :reload
-        [clavatar.core :only [gravatar]])
+        [clavatar.core :only [gravatar]]
+        [ona.api.organization :only [owners-team-name]])
   (:require [ona.viewer.templates.projects :as project-templates]
             [ona.utils.string :as s]
             [ona.viewer.urls :as u]))
 
 (def profile-username
   (comp :username :profile))
+
+(defn- show-leave-button
+  "Show the leave button if user is a member of team and not only member of the
+   Owners team."
+  [username team]
+;  (-> team str Exception. throw)
+  (and (some #{username} (:members team))
+       (not (and (= owners-team-name (-> team :team :name))
+                 (= 1 (count (:members team)))))))
 
 (defsnippet profile "templates/organization/profile.html"
   [:body :div#content]
@@ -102,7 +112,7 @@
                                   :href (u/org-team org
                                                     (:id team))))
              [:span.num-members] (content (-> team :members count str))
-             [:form] (if (some #{username} (:members team))
+             [:form] (if (show-leave-button username team)
                        (set-attr :action
                                  (u/org-remove-member org username (:id team)))
                        nil))
