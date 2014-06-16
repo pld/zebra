@@ -7,9 +7,11 @@
             [ona.api.dataset :as api-dataset]
             [ona.api.project :as api-projects]
             [ona.api.user :as api-user]
+            [ona.viewer.urls :as u]
             [clj-time.format :as f]
             [clj-time.core :as t]
-            [clj-time.local :as l]))
+            [clj-time.local :as l]
+            [ring.util.response :as response]))
 
 (let [name "fake-org-name"
       fake-organization {:name name}
@@ -58,9 +60,14 @@
          (api/profile account name) => {:name "Fake Org"}
          (api/team-info account name :team-id) => {:name "Fake Team"}
          (api/team-members account name :team-id) => [username]
-         (api-user/profile account username) => {:username username}
+         ;; TODO uncomment when pulling profiles
+         ;; (api-user/profile account username) => {:username username}
          (api-dataset/public account username) => [:fake-forms]
-         (api/all account) => [{:name "Fake Org"}]))
+         (api/all account) => [{:name "Fake Org"}]
+         (api/teams account name) => fake-teams
+         (#'ona.viewer.views.organizations/all-members account
+                                                       name
+                                                       fake-teams) => []))
 
   (fact "new-team shows new team form"
         (new-team account name) => (contains "Create team")
@@ -69,11 +76,15 @@
          (api/all account) => [{:name "Fake Org"}]))
 
   (fact "create-team should create new team and show new team details"
-        (let [params {:name "new fake team" :organization name}]
+        (let [params {:name "new fake team"
+                      :organization name}
+              new-team-id "42"
+              new-team {:url (str "/new/team/url/" new-team-id)}]
           (create-team account params) => :updated-teamlist
           (provided
-           (api/create-team account params) => :new-team
-           (teams account name) => :updated-teamlist)))
+           (api/create-team account params) => new-team
+           (u/org-team name new-team-id) => :url
+           (response/redirect-after-post :url) => :updated-teamlist)))
 
   (fact "add-team member should add a user to a team"
         (let [user { :username "someuser" :organization name}
@@ -91,17 +102,16 @@
          (#'ona.viewer.views.organizations/all-members account
                                                        name
                                                        fake-teams) => [username]
-         (api-user/profile account username) => {:username username}
+         ;; TODO uncomment when pulling profiles
+         ;; (api-user/profile account username) => {:username username}
          (api-dataset/public account username) => [:fake-forms]
          (api/all account) => [{:name "Fake Org"}]))
 
   (fact "add-member should add members to organization"
-        (let [member { :username "someuser"}
-              params (merge {:orgname name} member)]
-          (add-member account params) => :something
-          (provided
-           (api/add-member account name member) => :new-member
-           (members account name) => :something)))
+        (add-member account name username) => :something
+        (provided
+         (api/add-member account name username) => :new-member
+         (members account name) => :something))
 
   (facts "get project details for and organizations projects"
          (let [days-ago 2

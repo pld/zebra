@@ -65,7 +65,7 @@
   "Build the teams url for an organization."
   [org]
   (url "organizations"
-       (:org org)
+       org
        "teams"))
 
 (defn org-team
@@ -89,7 +89,7 @@
 (defn org-remove-member
   "Build the org remove member url."
   [org username]
-  (url "organizations" org "members" username "remove"))
+  (url "organizations" org "remove" username))
 
 ;; Profile
 (defn profile

@@ -10,7 +10,8 @@
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.organization :as org-templates]
             [ona.viewer.urls :as u]
-            [ona.utils.string :as s]))
+            [ona.utils.string :as s]
+            [ring.util.response :as response]))
 
 (defn- teams-with-details
   "Add IDs and members to teams list hashes."
@@ -32,7 +33,9 @@
 (defn- info-for-users
   [account members]
   (for [username members]
-    {:profile (api-user/profile account username)
+    {:profile {:username username}
+     ;; TODO pull full profile here after onadata#331
+     ;; with (api-user/profile account username)
      :num-forms (count (api-datasets/public account username))}))
 
 (defn all
@@ -88,12 +91,19 @@
   (let [org (api/profile account org-name)
         team-info (api/team-info account org-name team-id)
         members (api/team-members account org-name team-id)
-        members-info (info-for-users account members)]
+        members-info (info-for-users account members)
+        all-teams (api/teams account org-name)
+        all-members (all-members account org-name all-teams)]
     (base/base-template
       "/organizations"
       account
       (:name org)
-      (org-templates/team-info org team-id team-info members-info))))
+      (org-templates/team-info (:org org)
+                               team-id
+                               team-info
+                               members-info
+                               all-teams
+                               all-members))))
 
 (defn new-team
   "Show new-team form for organization."
@@ -109,8 +119,9 @@
   "Create a new team"
   [account params]
   (let [org-name (:organization params)
-        added-team (api/create-team account params)]
-    (teams account org-name)))
+        added-team (api/create-team account params)
+        id (-> added-team :url s/last-url-param)]
+    (response/redirect-after-post (u/org-team org-name id))))
 
 (defn add-team-member
   "Add member to a team"
@@ -131,13 +142,17 @@
     (base/base-template
       "/organizations"
       account
-      (:name org)
-      (org-templates/members org members-info teams))))
+      org-name
+      (org-templates/members org-name members-info teams))))
 
 (defn add-member
-  "Add member to an organization"
-  [account params]
-  (let [org-name (:orgname params)
-        member {:username (:username params)}
-        added-user (api/add-member account org-name member)]
+  "Add member to an organization."
+  [account org-name member-username]
+  (let [ added-user (api/add-member account org-name member-username)]
     (members account org-name)))
+
+(defn remove-member
+  "Remove a member from an organization."
+  [account org-name member-username]
+  (api/remove-member account org-name member-username)
+  (response/redirect-after-post (u/org-members org-name)))
