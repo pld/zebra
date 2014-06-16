@@ -8,19 +8,13 @@
                                        set-attr]]
         :reload
         [clavatar.core :only [gravatar]]
-        [ona.api.organization :only [owners-team-name]])
+        [ona.api.organization :only [owners-team-name single-owner?]])
   (:require [ona.viewer.templates.projects :as project-templates]
             [ona.utils.string :as s]
             [ona.viewer.urls :as u]))
 
 (def profile-username
   (comp :username :profile))
-
-(defn- single-owner?
-  "Is the user the only member of the Owners team."
-  [team members]
-  (and (= owners-team-name (-> team :name))
-       (= 1 (count members))))
 
 (defn- can-user-leave-team?
   "Show the leave button if user is a member of team and not only member of the

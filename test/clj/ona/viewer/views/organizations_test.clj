@@ -2,6 +2,7 @@
   (:use midje.sweet
         ona.viewer.views.organizations
         [ona.api.io :only [make-url]]
+        [ona.helpers :only [slingshot-exception]]
         [ona.viewer.helpers.projects :only [project-details]])
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-dataset]
@@ -17,11 +18,12 @@
       fake-organization {:name name}
       username "username"
       account {:username username}
+      team-id "1"
       team-name "Fake Team"
-      fake-teams [{:id 1
+      fake-teams [{:id team-id
                    :team {:name team-name}
                    :members [username]}]
-      fake-owners-team [{:id 1
+      fake-owners-team [{:id team-id
                          :team {:name api/owners-team-name}
                          :members [username]}]]
   (fact "all returns the organizations"
@@ -167,11 +169,15 @@
          (response/redirect-after-post (u/org-members name)) => :something)
 
         "Should remove a member from a team"
-        (let [team-id "1"]
-          (remove-member account name username team-id) => :something
-          (provided
-           (api/remove-member account name username team-id) => :new-member
-           (response/redirect-after-post (u/org-team name team-id)) => :something)))
+        (remove-member account name username team-id) => :something
+        (provided
+         (api/remove-member account name username team-id) => :new-member
+         (response/redirect-after-post (u/org-team name team-id)) => :something)
+
+        "Should not remove last owner from a team"
+        (remove-member account name username team-id) =>  "Cannot remove last owner."
+        (provided
+         (api/single-owner? account name team-id) => true))
 
   (facts "get project details for and organizations projects"
          (let [days-ago 2

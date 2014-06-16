@@ -159,7 +159,11 @@
   ([account org-name member-username]
      (remove-member account org-name member-username nil))
   ([account org-name member-username team-id]
-     (api/remove-member account org-name member-username team-id)
-     (if team-id
-       (response/redirect-after-post (u/org-team org-name team-id))
-       (response/redirect-after-post (u/org-members org-name)))))
+     (if (api/single-owner? account org-name team-id)
+       ;; TODO render a real error page.
+       "Cannot remove last owner."
+       (do
+         (api/remove-member account org-name member-username team-id)
+         (if team-id
+           (response/redirect-after-post (u/org-team org-name team-id))
+           (response/redirect-after-post (u/org-members org-name)))))))

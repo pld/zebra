@@ -100,4 +100,17 @@
           (parse-http :delete
                       url
                       account
-                      {:query-params {:username :member}}) => :something)))
+                      {:query-params {:username :member}}) => :something))
+
+  (facts "about single owner"
+         "should be false if multiple members in owners team"
+         (single-owner? account :orgname :team-id) => false
+         (provided
+          (team-info account :orgname :team-id) => {:name owners-team-name}
+          (team-members account :orgname :team-id) => [username username])
+
+         "should be true if one member in owners team"
+         (single-owner? account :orgname :team-id) => true
+         (provided
+          (team-info account :orgname :team-id) => {:name owners-team-name}
+          (team-members account :orgname :team-id) => [username])))
