@@ -153,6 +153,8 @@
 
 (defn remove-member
   "Remove a member from an organization."
-  [account org-name member-username]
-  (api/remove-member account org-name member-username)
-  (response/redirect-after-post (u/org-members org-name)))
+  ([account org-name member-username]
+     (remove-member account org-name member-username nil))
+  ([account org-name member-username team-id]
+      (api/remove-member account org-name member-username team-id)
+      (response/redirect-after-post (u/org-members org-name))))

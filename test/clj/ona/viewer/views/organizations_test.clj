@@ -113,11 +113,19 @@
          (api/add-member account name username) => :new-member
          (response/redirect-after-post (u/org-members name)) => :something))
 
-  (fact "remove-member should remove a member from an organization"
+  (facts "remove-member"
+        "Should remove a member from an organization"
         (remove-member account name username) => :something
         (provided
-         (api/remove-member account name username) => :new-member
-         (response/redirect-after-post (u/org-members name)) => :something))
+         (api/remove-member account name username nil) => :new-member
+         (response/redirect-after-post (u/org-members name)) => :something)
+
+        "Should remove a member from a team"
+        (let [team-id "1"]
+          (remove-member account name username team-id) => :something
+          (provided
+           (api/remove-member account name username team-id) => :new-member
+           (response/redirect-after-post (u/org-members name)) => :something)))
 
   (facts "get project details for and organizations projects"
          (let [days-ago 2

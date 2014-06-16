@@ -50,6 +50,8 @@
 
 (defn remove-member
   "Remove a user to an organization"
-  [account org-name member]
-  (let [url (make-url "orgs" org-name "members")]
+  [account org-name member team-id]
+  (let [url (if team-id
+              (make-url "orgs" org-name team-id "members")
+              (make-url "orgs" org-name "members"))]
     (parse-http :delete url account {:query-params {:username member}})))

@@ -77,9 +77,18 @@
 
   (facts "about remove-member"
          "should remove a member"
-         (remove-member account :orgname :member) => :something
+         (remove-member account :orgname :member nil) => :something
          (provided
           (make-url "orgs" :orgname "members") => url
+          (parse-http :delete
+                      url
+                      account
+                      {:query-params {:username :member}}) => :something)
+
+         "should remove a member from a team"
+         (remove-member account :orgname :member :team-id) => :something
+         (provided
+          (make-url "orgs" :orgname :team-id "members") => url
           (parse-http :delete
                       url
                       account
