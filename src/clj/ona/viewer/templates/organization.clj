@@ -91,7 +91,7 @@
 
 (defsnippet teams "templates/organization/teams.html"
   [:body :div#content]
-  [org team-details members]
+  [org team-details members username]
   [:div.myteams] nil
   [:div.orgteams [:.orgteam (but first-of-type)]] nil
   [:div.orgteams :.orgteam]
@@ -101,7 +101,11 @@
                                  (set-attr
                                   :href (u/org-team org
                                                     (:id team))))
-             [:span.num-members] (content (-> team :members count str)))
+             [:span.num-members] (content (-> team :members count str))
+             [:form] (if (some #{username} (:members team))
+                       (set-attr :action
+                                 (u/org-remove-member org username (:id team)))
+                       nil))
   [:a.new-team] (set-attr :href (u/org-new-team org))
   [:div#header] (content (team-header org team-details members :teams)))
 

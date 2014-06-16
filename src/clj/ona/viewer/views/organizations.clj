@@ -83,7 +83,10 @@
       "/organizations"
       account
       (:name org)
-      (org-templates/teams (:org org) team-details members))))
+      (org-templates/teams (:org org)
+                           team-details
+                           members
+                           (:username account)))))
 
 (defn team-info
   "Retrieve team-info for a specific team."
