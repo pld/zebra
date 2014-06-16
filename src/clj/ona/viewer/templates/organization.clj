@@ -39,7 +39,7 @@
   ;; Set Team details
   [:div.org-details :a.teams] (do-> (content (s/postfix-paren-count "Teams"
                                                                     teams))
-                                    (set-attr :href (u/org-teams org)))
+                                    (set-attr :href (u/org-teams (:org org))))
   [:div.org-details :ul.teams [:li (but first-of-type)]] nil
   [:div.org-details
    :ul.teams
