@@ -66,10 +66,21 @@
            (parse-http :get url account) => :something))
 
   (facts "about add-member"
+         "should add a member"
          (add-member account :orgname :member) => :something
          (provided
            (make-url "orgs" :orgname "members") => url
            (parse-http :post
                        url
                        account
-                       {:form-params {:username :member}}) => :something)))
+                       {:form-params {:username :member}}) => :something))
+
+    (facts "about remove-member"
+         "should remove a member"
+         (remove-member account :orgname :member) => :something
+         (provided
+           (make-url "orgs" :orgname "members") => url
+           (parse-http :delete
+                       url
+                       account
+                       {:query-params {:username :member}}) => :something)))

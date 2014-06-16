@@ -52,7 +52,7 @@
 
 (defsnippet members-table "templates/organization/members.html"
   [:table.members]
-  [org-name members]
+  [org-name members team]
   [:tbody [:tr (but first-of-type)]] nil
   [:tbody [:tr first-of-type]]
   (clone-for [member members]
@@ -69,7 +69,8 @@
              [:form.remove-form] (do-> (set-attr :action
                                                  (u/org-remove-member
                                                   org-name
-                                                  (profile-username member)))
+                                                  (profile-username member)
+                                                  team))
                                        (set-attr :method "post"))))
 
 (defsnippet team-header "templates/organization/teams.html"
@@ -108,7 +109,7 @@
   [:body :div#content]
   [org-name team-id team-info members-info all-teams all-members]
   [:.team-name] (content (:name team-info))
-  [:div.members] (content (members-table org-name members-info))
+  [:div.members] (content (members-table org-name members-info team-id))
   [:form#add-user] (do->
                     (set-attr :action
                               (u/org-team org-name
@@ -130,7 +131,7 @@
   [org-name members teams]
   [:div#header] (content (team-header org-name teams members :members))
 
-  [:div.members] (content (members-table org-name members))
+  [:div.members] (content (members-table org-name members nil))
   [:form#adduser] (set-attr :action (u/org-members org-name)
                             :method "post")
   [:form#adduser :#orgname] (set-attr :value org-name))

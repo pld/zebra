@@ -51,6 +51,5 @@
 (defn remove-member
   "Remove a user to an organization"
   [account org-name member]
-;  (-> member Exception. throw)
   (let [url (make-url "orgs" org-name "members")]
     (parse-http :delete url account {:query-params {:username member}})))

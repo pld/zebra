@@ -1,5 +1,6 @@
 (ns ona.viewer.urls
-  (:use [ona.utils.string :only [url]]))
+  (:use [ona.utils.seq :only [remove-nil]]
+        [ona.utils.string :only [url]]))
 
 ;; Datasets
 (defn dataset
@@ -88,8 +89,10 @@
 
 (defn org-remove-member
   "Build the org remove member url."
-  [org username]
-  (url "organizations" org "remove" username))
+  ([org username]
+     (org-remove-member org username nil))
+  ([org username team]
+     (apply url (remove-nil ["organizations" org "remove" username team]))))
 
 ;; Profile
 (defn profile
