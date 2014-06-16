@@ -16,7 +16,7 @@
 (def profile-username
   (comp :username :profile))
 
-(defn- show-leave-button
+(defn- can-user-leave-team?
   "Show the leave button if user is a member of team and not only member of the
    Owners team."
   [username team]
@@ -76,12 +76,14 @@
                                 (content (str (:num-forms member) " forms"))
                                 (set-attr :href
                                           (-> member profile-username u/profile)))
-             [:form.remove-form] (do-> (set-attr :action
-                                                 (u/org-remove-member
-                                                  org-name
-                                                  (profile-username member)
-                                                  team))
-                                       (set-attr :method "post"))))
+             [:form.remove-form] (if (can-user-leave-team? member team)
+                                   (do-> (set-attr :action
+                                                    (u/org-remove-member
+                                                     org-name
+                                                     (profile-username member)
+                                                     team))
+                                         (set-attr :method "post"))
+                                   nil)))
 
 (defsnippet team-header "templates/organization/teams.html"
   [:div#header]
@@ -112,7 +114,7 @@
                                   :href (u/org-team org
                                                     (:id team))))
              [:span.num-members] (content (-> team :members count str))
-             [:form] (if (show-leave-button username team)
+             [:form] (if (can-user-leave-team? username team)
                        (set-attr :action
                                  (u/org-remove-member org username (:id team)))
                        nil))

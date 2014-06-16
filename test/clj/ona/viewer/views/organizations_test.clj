@@ -112,11 +112,12 @@
 
   (fact "add-team member should add a user to a team"
         (let [user { :username "someuser" :organization name}
-              params (merge {:org name :teamid 1} user)]
+              team-id 1
+              params (merge {:org name :teamid team-id} user)]
           (add-team-member account params) => :something
           (provided
-           (api/add-team-member account name 1 user) => :new-member
-           (team-info account name 1) => :something)))
+           (api/add-team-member account name team-id user) => :new-member
+           (response/redirect-after-post (u/org-team name team-id)) => :something)))
 
   (fact "members shows organization members"
         (members account name) => (contains username)

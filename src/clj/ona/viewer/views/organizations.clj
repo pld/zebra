@@ -131,9 +131,9 @@
   [account params]
   (let [org-name (:org params)
         team-id (:teamid params)
-        user {:username (:username params) :organization org-name}
-        added-user (api/add-team-member account org-name team-id user)]
-    (team-info account org-name team-id)))
+        user {:username (:username params) :organization org-name}]
+    (api/add-team-member account org-name team-id user)
+    (response/redirect-after-post (u/org-team org-name team-id))))
 
 (defn members
   "Retrieve the members for an organization."
