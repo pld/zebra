@@ -210,4 +210,4 @@
         project-id (:project-id params)
         owner (:username account)]
     (api/move-to-project account dataset-id project-id owner)
-    (response/redirect-after-post (u/project-forms project-id owner))))
+    (response/redirect-after-post (u/project-show project-id owner))))

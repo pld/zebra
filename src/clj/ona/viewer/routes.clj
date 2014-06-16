@@ -85,25 +85,18 @@
         (datasets/update account params))
   (GET "/search"  {session :session
                    {query :query} :params}
-       (home-page session query))
-  (GET "/datasets"
-       {{account :account} :session}
-       (datasets/show-all account))
-  (GET "/dataset/move/:id/:project-id"
-       {{account :account} :session
-        params :params}
-       (datasets/move-to-project account params)))
+       (home-page session query)))
 
 (defroutes project-routes
   (GET "/project/:owner"
        {{account :account} :session
         {owner :owner} :params}
        (projects/new-project account owner))
-  (GET "/project/:owner/:id/forms"
+  (GET "/project/:owner/:id/show"
        {{account :account} :session
         {id :id
          owner :owner} :params}
-       (projects/forms account owner id))
+       (projects/show account owner id))
   (GET "/project/:owner/:id/settings"
        {{account :account} :session
         {id :id

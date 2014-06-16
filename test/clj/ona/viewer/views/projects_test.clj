@@ -50,7 +50,7 @@
 
   (facts "forms for project"
          "Should show project name"
-         (forms fake-account username id) => (contains project-name)
+         (show fake-account username id) => (contains project-name)
          (provided
           (api/get-project fake-account username id) => project
           (api/get-forms fake-account username id) => [{:title "Test Form" :num_of_submissions 2}]

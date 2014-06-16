@@ -107,10 +107,10 @@
   (url "profile" username))
 
 ;; Projects
-(defn project-forms
-  "Build the project forms url from a project"
+(defn project-show
+  "Build the show project url from a project"
   [project-id owner]
-  (url "project" owner project-id "forms"))
+  (url "project" owner project-id "show"))
 
 (defn project-new-dataset
   "Build the project settings url from a project-id"

@@ -41,9 +41,9 @@
 
   ;; Buttons
   [:#back] (set-attr :href "/project")
-  [:#done] (set-attr :href (u/project-forms (:id project) owner)))
+  [:#done] (set-attr :href (u/project-show (:id project) owner)))
 
-(defsnippet project-forms "templates/project/forms.html"
+(defsnippet project-show "templates/project/show.html"
   [:body :div.content]
   [owner project forms profile latest-form all-submissions]
 
@@ -78,7 +78,7 @@
              [:span.date-created] (content (:date-created project))
              [:span.num-datasets] (content (num-datasets-str project))
              [:span.last-project-modification] (content (last-record-str project))
-             [:a.open-link] (set-attr :href (u/project-forms
+             [:a.open-link] (set-attr :href (u/project-show
                                         (-> project :project :url s/last-url-param)
                                         owner))))
 
