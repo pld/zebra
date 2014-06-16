@@ -66,7 +66,7 @@
   "Build the teams url for an organization."
   [org]
   (url "organizations"
-       org
+       (:org org)
        "teams"))
 
 (defn org-team
