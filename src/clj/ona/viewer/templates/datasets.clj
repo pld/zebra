@@ -12,7 +12,8 @@
         [clavatar.core :only [gravatar]]
         [clojure.string :only [join]])
   (:require [ona.viewer.urls :as u]
-            [ona.utils.time :as t]))
+            [ona.utils.time :as t]
+            [ona.utils.string :as s]))
 
 (def hidden-column-prefix \_)
 
@@ -154,7 +155,13 @@
              [:ul.submenu :li.star] nil
              [:ul.submenu :li.transfer] nil
              [:ul.submenu :li.folder :li#project] (clone-for [project (:projects profile)]
-                                                             [:a] (content (:name project)))
+                                                             [:a] (do->
+                                                                    (content (:name project))
+                                                                    (set-attr
+                                                                      :href
+                                                                      (u/dataset-move
+                                                                        (:formid dataset)
+                                                                        (s/last-url-param (:url project))))))
              [:ul.submenu :li.replace] nil
              [:ul.submenu :li.copy] nil
              [:ul.submenu :li.rename] nil
