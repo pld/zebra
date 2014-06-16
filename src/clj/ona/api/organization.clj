@@ -46,10 +46,11 @@
   "Add a user to an organization"
   [account org-name member]
   (let [url (make-url "orgs" org-name "members")]
-    (parse-http :post url account {:form-params member})))
+    (parse-http :post url account {:form-params {:username member}})))
 
 (defn remove-member
   "Remove a user to an organization"
   [account org-name member]
+;  (-> member Exception. throw)
   (let [url (make-url "orgs" org-name "members")]
-    (parse-http :delete url account {:form-params member})))
+    (parse-http :delete url account {:query-params {:username member}})))

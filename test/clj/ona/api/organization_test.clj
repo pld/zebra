@@ -66,7 +66,10 @@
            (parse-http :get url account) => :something))
 
   (facts "about add-member"
-         (add-member  account :orgname :member) => :something
+         (add-member account :orgname :member) => :something
          (provided
            (make-url "orgs" :orgname "members") => url
-           (parse-http :post url account {:form-params :member}) => :something)))
+           (parse-http :post
+                       url
+                       account
+                       {:form-params {:username :member}}) => :something)))

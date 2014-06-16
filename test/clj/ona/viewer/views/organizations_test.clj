@@ -108,11 +108,10 @@
          (api/all account) => [{:name "Fake Org"}]))
 
   (fact "add-member should add members to organization"
-        (let [member { :username username}]
-          (add-member account name username) => :something
-          (provided
-           (api/add-member account name member) => :new-member
-           (members account name) => :something)))
+        (add-member account name username) => :something
+        (provided
+         (api/add-member account name username) => :new-member
+         (members account name) => :something))
 
   (facts "get project details for and organizations projects"
          (let [days-ago 2

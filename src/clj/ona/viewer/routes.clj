@@ -153,7 +153,7 @@
          {org-name :orgname
           member-username :username} :params}
         (organizations/add-member account org-name member-username))
-  (POST "/organizations/:name/members/:member-username"
+  (POST "/organizations/:name/remove/:member-username"
           {{account :account} :session
            {name :name
             member-username :member-username} :params}
