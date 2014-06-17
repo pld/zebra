@@ -122,6 +122,6 @@
   (url "project" owner (:id project) "settings"))
 
 (defn project-new
-  "Build the project for a new url give owner."
+  "Build the url for a new project given owner."
   [owner]
   (url "project" owner))

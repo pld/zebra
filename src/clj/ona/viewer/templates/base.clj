@@ -24,7 +24,6 @@
   [logged-in?]
   (if logged-in?
     (array-map "Organizations" "/organizations"
-               "Projects" "/projects"
                "Sign-out" "/logout")
     (array-map "Sign-up" "join")))
 

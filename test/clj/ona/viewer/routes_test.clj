@@ -151,20 +151,12 @@
          )
 
   (facts "Project routes"
-         "Should parse account"
-         (let [owner "owner"]
-           (project-routes {:request-method :get
-                            :uri (str "/projects/" owner)
-                            :session session}) => (contains result)
-           (provided
-            (projects/all :fake-account owner) => result))
-
-         "Should parse account and params in project post"
+         "POST projects should call create"
          (let [username "username"
                params {:param-key :param-value
                        :owner username}]
            (project-routes {:request-method :post
-                            :uri (str "/projects/" username)
+                            :uri (u/project-new username)
                             :params params
                             :session session}) => (contains result)
            (provided
