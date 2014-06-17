@@ -7,13 +7,22 @@
                                        defsnippet
                                        set-attr]]
         :reload
-        [clavatar.core :only [gravatar]])
+        [clavatar.core :only [gravatar]]
+        [ona.api.organization :only [owners-team-name single-owner?]])
   (:require [ona.viewer.templates.projects :as project-templates]
             [ona.utils.string :as s]
             [ona.viewer.urls :as u]))
 
 (def profile-username
   (comp :username :profile))
+
+(defn- can-user-leave-team?
+  "Show the leave button if user is a member of team and not only member of the
+   Owners team."
+  [username team]
+  (and (some #{username} (:members team))
+       (not (single-owner? (:team team)
+                           (:members team)))))
 
 (defsnippet profile "templates/organization/profile.html"
   [:body :div#content]
@@ -39,7 +48,7 @@
   ;; Set Team details
   [:div.org-details :a.teams] (do-> (content (s/postfix-paren-count "Teams"
                                                                     teams))
-                                    (set-attr :href (u/org-teams org)))
+                                    (set-attr :href (u/org-teams (:org org))))
   [:div.org-details :ul.teams [:li (but first-of-type)]] nil
   [:div.org-details
    :ul.teams
@@ -52,7 +61,7 @@
 
 (defsnippet members-table "templates/organization/members.html"
   [:table.members]
-  [org-name members]
+  [org-name members team]
   [:tbody [:tr (but first-of-type)]] nil
   [:tbody [:tr first-of-type]]
   (clone-for [member members]
@@ -66,11 +75,14 @@
                                 (content (str (:num-forms member) " forms"))
                                 (set-attr :href
                                           (-> member profile-username u/profile)))
-             [:form.remove-form] (do-> (set-attr :action
-                                                 (u/org-remove-member
-                                                  org-name
-                                                  (profile-username member)))
-                                       (set-attr :method "post"))))
+             [:form.remove-form] (if (single-owner? team members)
+                                   nil
+                                   (do-> (set-attr :action
+                                                    (u/org-remove-member
+                                                     org-name
+                                                     (profile-username member)
+                                                     (:id team)))
+                                         (set-attr :method "post")))))
 
 (defsnippet team-header "templates/organization/teams.html"
   [:div#header]
@@ -88,9 +100,9 @@
                 (set-attr :class "active")
                 identity)))
 
-(defsnippet teams "templates/organization/teams.html"
+(defsnippet show-teams "templates/organization/teams.html"
   [:body :div#content]
-  [org team-details members]
+  [org team-details members username]
   [:div.myteams] nil
   [:div.orgteams [:.orgteam (but first-of-type)]] nil
   [:div.orgteams :.orgteam]
@@ -100,7 +112,11 @@
                                  (set-attr
                                   :href (u/org-team org
                                                     (:id team))))
-             [:span.num-members] (content (-> team :members count str)))
+             [:span.num-members] (content (-> team :members count str))
+             [:form] (if (can-user-leave-team? username team)
+                       (set-attr :action
+                                 (u/org-remove-member org username (:id team)))
+                       nil))
   [:a.new-team] (set-attr :href (u/org-new-team org))
   [:div#header] (content (team-header org team-details members :teams)))
 
@@ -108,7 +124,7 @@
   [:body :div#content]
   [org-name team-id team-info members-info all-teams all-members]
   [:.team-name] (content (:name team-info))
-  [:div.members] (content (members-table org-name members-info))
+  [:div.members] (content (members-table org-name members-info team-info))
   [:form#add-user] (do->
                     (set-attr :action
                               (u/org-team org-name
@@ -130,7 +146,7 @@
   [org-name members teams]
   [:div#header] (content (team-header org-name teams members :members))
 
-  [:div.members] (content (members-table org-name members))
+  [:div.members] (content (members-table org-name members nil))
   [:form#adduser] (set-attr :action (u/org-members org-name)
                             :method "post")
   [:form#adduser :#orgname] (set-attr :value org-name))

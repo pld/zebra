@@ -157,14 +157,15 @@
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
              [:ul.submenu :li.transfer] nil
-             [:ul.submenu :li.folder :li#project] (clone-for [project (:projects profile)]
-                                                             [:a] (do->
-                                                                    (content (:name project))
-                                                                    (set-attr
-                                                                      :href
-                                                                      (u/dataset-move
-                                                                        (:formid dataset)
-                                                                        (s/last-url-param (:url project))))))
+             [:ul.submenu :li.folder :li.project-list]
+             (clone-for [project (:projects profile)]
+                        [:a] (do->
+                              (content (:name project))
+                              (set-attr
+                               :href
+                               (u/dataset-move
+                                (:formid dataset)
+                                (s/last-url-param (:url project))))))
              [:ul.submenu :li.replace] nil
              [:ul.submenu :li.copy] nil
              [:ul.submenu :li.rename] nil

@@ -94,7 +94,7 @@
   (GET "/search"  {session :session
                    {query :query} :params}
        (home-page session query))
-  (GET "/datasets"
+   (GET "/datasets"
        {{account :account} :session}
        (datasets/show-all account))
   (GET "/dataset/move/:id/:project-id"
@@ -107,11 +107,11 @@
        {{account :account} :session
         {owner :owner} :params}
        (projects/new-project account owner))
-  (GET "/project/:owner/:id/forms"
+  (GET "/project/:owner/:id/show"
        {{account :account} :session
         {id :id
          owner :owner} :params}
-       (projects/forms account owner id))
+       (projects/show account owner id))
   (GET "/project/:owner/:id/settings"
        {{account :account} :session
         {id :id
@@ -169,10 +169,16 @@
           member-username :username} :params}
         (organizations/add-member account org-name member-username))
   (POST "/organizations/:name/remove/:member-username"
-          {{account :account} :session
-           {name :name
-            member-username :member-username} :params}
-          (organizations/remove-member account name member-username)))
+        {{account :account} :session
+         {name :name
+          member-username :member-username} :params}
+        (organizations/remove-member account name member-username))
+  (POST "/organizations/:name/remove/:member-username/:team-id"
+        {{account :account} :session
+         {name :name
+          member-username :member-username
+          team-id :team-id} :params}
+        (organizations/remove-member account name member-username team-id)))
 
 (defroutes main-routes
   (GET "/" {session :session} (home-page session))

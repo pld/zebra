@@ -9,7 +9,7 @@
                                        remove-attr
                                        set-attr]]
         [clojure.string :only [join]]:reload)
-  (:require [ona.viewer.sharing :as sharing]
+  (:require [ona.viewer.helpers.sharing :as sharing]
             [ona.viewer.urls :as u]))
 
 (defsnippet login-form "templates/login.html"

@@ -1,8 +1,9 @@
 (ns ona.viewer.views.projects
   (:use [ona.api.io :only [make-url]]
+        [ona.viewer.helpers.projects :only [profile-with-projects]]
         [ona.viewer.templates.base :only [base-template dashboard-items]]
         [ona.viewer.templates.forms :only [new-project-form]]
-        [ona.viewer.templates.projects :only [project-forms project-settings]]
+        [ona.viewer.templates.projects :only [project-show project-settings]]
         [ring.util.response :only [redirect-after-post]]
         [slingshot.slingshot :only [try+]])
   (:require [ona.api.project :as api]
@@ -34,19 +35,19 @@
        "New Project"
        (new-project-form owner errors))))
 
-(defn forms
-  "Show the forms for a project."
+(defn show
+  "Show the project."
   [account owner id]
   (let [project (api/get-project account owner id)
         forms (api/get-forms account owner id)
-        profile (api-user/profile account)
+        profile (profile-with-projects account)
         latest-form (h/latest-submitted-form forms)
         all-submissions (h/all-submissions forms account)]
     (base-template
-     (u/project-forms id owner)
+     (u/project-show id owner)
      account
      "Project Forms"
-     (project-forms owner project forms profile latest-form all-submissions))))
+     (project-show owner project forms profile latest-form all-submissions))))
 
 (defn settings
   "Show the settings for a project."
@@ -66,9 +67,7 @@
   "Create a new project for the current user."
   [account params]
   (let [owner (:owner params)
-        owner-url (make-url (str "users/" owner))
-        data {:name (:name params)
-              :owner owner-url}]
+        data {:name (:name params)}]
     (try+
      (let [project (api/create account data owner)]
        (redirect-after-post (u/project-settings project owner)))

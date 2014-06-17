@@ -2,6 +2,7 @@
   (:use midje.sweet
         ona.viewer.views.organizations
         [ona.api.io :only [make-url]]
+        [ona.helpers :only [slingshot-exception]]
         [ona.viewer.helpers.projects :only [project-details]])
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-dataset]
@@ -17,9 +18,14 @@
       fake-organization {:name name}
       username "username"
       account {:username username}
-      fake-teams [{:id 1
-                   :team {:name "Fake Team"}
-                   :members []}]]
+      team-id "1"
+      team-name "Fake Team"
+      fake-teams [{:id team-id
+                   :team {:name team-name}
+                   :members [username]}]
+      fake-owners-team [{:id team-id
+                         :team {:name api/owners-team-name}
+                         :members [username]}]]
   (fact "all returns the organizations"
         (all :fake-account) => (contains name)
         (provided
@@ -44,30 +50,71 @@
                                                        fake-teams) => [username]
          (api-projects/all account name) => [{:name "Fake Org"}]))
 
-  (fact "teams shows organization teams"
-        (teams account name) => (contains "Fake Team")
-        (provided
-         (api/profile account name) => {:org "fake-org"}
-         (api/teams account name) => fake-teams
-         (#'ona.viewer.views.organizations/teams-with-details
-          account
-          name
-          fake-teams) => fake-teams))
+  (facts "teams"
+         "should show organization teams"
+         (teams account name) => (contains team-name)
+         (provided
+          (api/profile account name) => {:org "fake-org"}
+          (api/teams account name) => fake-teams
+          (#'ona.viewer.views.organizations/teams-with-details
+           account
+           name
+           fake-teams) => fake-teams)
 
-  (fact "team-info shows info for a specific team"
-        (team-info account name :team-id) => (contains "Fake Team" username :gaps-ok)
-        (provided
-         (api/profile account name) => {:name "Fake Org"}
-         (api/team-info account name :team-id) => {:name "Fake Team"}
-         (api/team-members account name :team-id) => [username]
-         ;; TODO uncomment when pulling profiles
-         ;; (api-user/profile account username) => {:username username}
-         (api-dataset/public account username) => [:fake-forms]
-         (api/all account) => [{:name "Fake Org"}]
-         (api/teams account name) => fake-teams
-         (#'ona.viewer.views.organizations/all-members account
-                                                       name
-                                                       fake-teams) => []))
+         "should show leave button if user in team"
+         (teams account name) => (contains "Leave")
+         (provided
+          (api/profile account name) => {:org "fake-org"}
+          (api/teams account name) => fake-teams
+          (#'ona.viewer.views.organizations/teams-with-details
+           account
+           name
+           fake-teams) => fake-teams)
+
+         "should hide leave button if user in team but only owner"
+         (teams account name) =not=> (contains "Leave")
+         (provided
+          (api/profile account name) => {:org "fake-org"}
+          (api/teams account name) => fake-teams
+          (#'ona.viewer.views.organizations/teams-with-details
+           account
+           name
+           fake-teams) => fake-owners-team))
+
+  (facts "team-info"
+         "should show info for a specific team and remove button"
+         (team-info account name :team-id) => (contains "Fake Team"
+                                                        "Remove"
+                                                        username
+                                                        :in-any-order
+                                                        :gaps-ok)
+         (provided
+          (api/profile account name) => {:name "Fake Org"}
+          (api/team-info account name :team-id) => {:name "Fake Team"}
+          (api/team-members account name :team-id) => [username]
+          ;; TODO uncomment when pulling profiles
+          ;; (api-user/profile account username) => {:username username}
+          (api-dataset/public account username) => [:fake-forms]
+          (api/all account) => [{:name "Fake Org"}]
+          (api/teams account name) => fake-teams
+          (#'ona.viewer.views.organizations/all-members account
+                                                        name
+                                                        fake-teams) => [])
+
+         "should hide remove button if single owner"
+         (team-info account name :team-id) =not=> (contains "Remove" :gaps-ok)
+         (provided
+          (api/profile account name) => {:name "Fake Org"}
+          (api/team-info account name :team-id) => {:name api/owners-team-name}
+          (api/team-members account name :team-id) => [username]
+          ;; TODO uncomment when pulling profiles
+          ;; (api-user/profile account username) => {:username username}
+          (api-dataset/public account username) => [:fake-forms]
+          (api/all account) => [{:name "Fake Org"}]
+          (api/teams account name) => fake-owners-team
+          (#'ona.viewer.views.organizations/all-members account
+                                                        name
+                                                        fake-owners-team) => []))
 
   (fact "new-team shows new team form"
         (new-team account name) => (contains "Create team")
@@ -87,12 +134,13 @@
            (response/redirect-after-post :url) => :updated-teamlist)))
 
   (fact "add-team member should add a user to a team"
-        (let [user { :username "someuser" :organization name}
-              params (merge {:org name :teamid 1} user)]
+        (let [user {:username "someuser" :organization name}
+              team-id 1
+              params (merge {:org name :teamid team-id} user)]
           (add-team-member account params) => :something
           (provided
-           (api/add-team-member account name 1 user) => :new-member
-           (team-info account name 1) => :something)))
+           (api/add-team-member account name team-id user) => :new-member
+           (response/redirect-after-post (u/org-team name team-id)) => :something)))
 
   (fact "members shows organization members"
         (members account name) => (contains username)
@@ -102,8 +150,8 @@
          (#'ona.viewer.views.organizations/all-members account
                                                        name
                                                        fake-teams) => [username]
-         ;; TODO uncomment when pulling profiles
-         ;; (api-user/profile account username) => {:username username}
+                                                       ;; TODO uncomment when pulling profiles
+                                                       ;; (api-user/profile account username) => {:username username}
          (api-dataset/public account username) => [:fake-forms]
          (api/all account) => [{:name "Fake Org"}]))
 
@@ -111,7 +159,25 @@
         (add-member account name username) => :something
         (provided
          (api/add-member account name username) => :new-member
-         (members account name) => :something))
+         (response/redirect-after-post (u/org-members name)) => :something))
+
+  (facts "remove-member"
+         "Should remove a member from an organization"
+         (remove-member account name username) => :something
+         (provided
+          (api/remove-member account name username nil) => :new-member
+          (response/redirect-after-post (u/org-members name)) => :something)
+
+         "Should remove a member from a team"
+         (remove-member account name username team-id) => :something
+         (provided
+          (api/remove-member account name username team-id) => :new-member
+          (response/redirect-after-post (u/org-team name team-id)) => :something)
+
+         "Should not remove last owner from a team"
+         (remove-member account name username team-id) =>  "Cannot remove last owner."
+         (provided
+          (api/single-owner? account name team-id) => true))
 
   (facts "get project details for and organizations projects"
          (let [days-ago 2
