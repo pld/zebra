@@ -66,6 +66,7 @@
   [:body :div#content]
   [metadata dataset-id users]
   [:span#title] (content (:title metadata))
+  [:input#dataset-id] (set-attr :value dataset-id)
   [:select#username [:option (but first-of-type)]] nil
   [:select#username [:option first-of-type]] (clone-for [user users]
                                                 [:option] (do->
