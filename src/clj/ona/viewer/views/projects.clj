@@ -1,5 +1,6 @@
 (ns ona.viewer.views.projects
   (:use [ona.api.io :only [make-url]]
+        [ona.viewer.helpers.projects :only [profile-with-projects]]
         [ona.viewer.templates.base :only [base-template dashboard-items]]
         [ona.viewer.templates.forms :only [new-project-form]]
         [ona.viewer.templates.projects :only [project-show project-settings]]
@@ -39,7 +40,7 @@
   [account owner id]
   (let [project (api/get-project account owner id)
         forms (api/get-forms account owner id)
-        profile (api-user/profile account)
+        profile (profile-with-projects account)
         latest-form (h/latest-submitted-form forms)
         all-submissions (h/all-submissions forms account)]
     (base-template
