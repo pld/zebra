@@ -79,6 +79,10 @@
   []
   [:div#map [:img]] nil)
 
+(defsnippet show-chart "templates/dataset/show.html"
+  [:div#chart]
+  [])
+
 (defn- view-for-context
   "Return the view appropriate for the passed context."
   [context dataset]
@@ -86,7 +90,7 @@
     :map (show-map)
     :table (apply show-table (clean-for-table dataset))
     ;; TODO make these views real
-    :chart (show-map)
+    :chart (show-chart)
     :photo (show-map)
     :activity (show-map)))
 
