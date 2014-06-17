@@ -18,13 +18,13 @@
       project-id "7"
       form-id "42"]
   (facts "about home-page"
-         "Home page goes to sign in if no session"
-         (home-page {}) => :login
+         "Home page goes to sign in if no account"
+         (home-page nil) => :login
          (provided
           (accounts/login) => :login)
 
          "Home page goes to dashboard if account in session"
-         (home-page {:account account} :fake-search-term) => :dashboard
+         (home-page account :fake-search-term) => :dashboard
          (provided (dashboard account :fake-search-term) => :dashboard))
 
   (facts "about dashboard"
