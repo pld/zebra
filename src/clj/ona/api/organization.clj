@@ -63,11 +63,13 @@
 
 (defn remove-member
   "Remove a user from an organization or organization team"
-  [account org-name member team-id]
-  (let [url (if team-id
-              (make-url "teams" org-name team-id "members")
-              (make-url "orgs" org-name "members"))]
-    (parse-http :delete url account {:query-params {:username member}})))
+  ([account org-name member]
+     (remove-member account org-name member nil))
+  ([account org-name member team-id]
+     (let [url (if team-id
+                 (make-url "teams" org-name team-id "members")
+                 (make-url "orgs" org-name "members"))]
+       (parse-http :delete url account {:query-params {:username member}}))))
 
 (defn single-owner?
   "Is the user the only member of the Owners team."
