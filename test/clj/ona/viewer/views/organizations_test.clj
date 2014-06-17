@@ -184,11 +184,10 @@
                date-created-str (f/unparse (f/formatters :rfc822) days-ago-2)]
            (project-details account username) =>
            (contains
-
             {:date-created date-created-str
              :last-modification nil
              :num-datasets 1
-             :submissions "1 submission"
+             :submissions "0 submissions"
              :project {:date_created days-ago-2-str
                        :date_modified days-ago-2-str
                        :name "Some project"

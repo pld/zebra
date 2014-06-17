@@ -4,7 +4,7 @@
         [ona.api.io :only [make-url]]
         [ona.helpers :only [slingshot-exception]])
   (:require [ona.api.user :as api]
-            [ona.api.dataset :as api-dataset]))
+            [ona.api.project :as api-project]))
 
 (let [name "Some User"
       not-found "Not found."
@@ -17,7 +17,7 @@
          (user-profile account username) => (contains name)
          (provided
           (api/profile account username) => {:name name}
-          (api-dataset/all account username) => [{:title "Test dataset"
+          (api-project/all account username) => [{:title "Test dataset"
                                                   :num_of_submissions 2}])
 
          "Should return error if not found"

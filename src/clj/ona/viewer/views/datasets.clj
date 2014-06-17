@@ -80,7 +80,7 @@
   "View tags for a specific dataset"
   [account dataset-id project-id]
   (let [tags (api/tags account dataset-id)
-        tag-form (forms/new-tag-form dataset-id)]
+        tag-form (forms/new-tag-form dataset-id project-id)]
     (base/dashboard-items
       "Dataset tag"
       account
@@ -127,11 +127,11 @@
 
 (defn create-tags
   "Create tags for a specific dataset"
-  [account params]
-  (let [dataset-id (:dataset-id params)
-        tags-to-add {:tags (:tags params)}
+  [account dataset-id project-id tags]
+  (let [tags-to-add {:tags tags}
         added-tags (api/add-tags account dataset-id tags-to-add)]
-    (tags account dataset-id)))
+    (response/redirect-after-post (u/dataset-tags dataset-id
+                                                  project-id))))
 
 (defn get-file
   [file-path download-name format]
@@ -188,20 +188,18 @@
 (defn sharing-update
   "Update sharing settings."
   [account params]
-  (let [dataset-id (:dataset-id params)
+  (let [{:keys [dataset-id project-id]} params
         project-id (:project-id params)
         sharing-settings ((keyword sharing/settings) params)
         update-data {:shared (if (= sharing-settings sharing/open-all)
                                "True"
                                "False")}]
-    (api/update account dataset-id update-data)
+    (api/update account dataset-id project-id update-data)
     (response/redirect-after-post (u/dataset-metadata dataset-id project-id))))
 
 (defn move-to-project
   "Move a dataset to a project"
-  [account params]
-  (let [dataset-id (:id params)
-        project-id (:project-id params)
-        owner (:username account)]
+  [account dataset-id project-id]
+  (let [owner (:username account)]
     (api/move-to-project account dataset-id project-id owner)
     (response/redirect-after-post (u/project-show project-id owner))))

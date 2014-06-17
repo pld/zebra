@@ -3,11 +3,11 @@
                                        defsnippet
                                        do->
                                        set-attr]] :reload)
-  (:require [ona.viewer.templates.datasets :as dst-templates]))
+  (:require [ona.viewer.templates.projects :as projects]))
 
 (defsnippet user-profile "templates/profile/show.html"
   [:body :div#content]
-  [profile datasets]
+  [profile projects]
 
   ;; Set user detial on right side bar
   [:h2.username] (content (:name profile))
@@ -26,6 +26,6 @@
   [:span.member-since] (content "")
 
   ;; Show users datasets
-  [:label.tab1] (content (str (count datasets) " datasets"))
-  [:div.datasets-table] (content (dst-templates/datasets-table datasets
-                                                               (:name profile))))
+  [:label.tab1] (content (str (count projects) " projects"))
+  [:div.datasets-table] (content (projects/project-list profile
+                                                        projects)))

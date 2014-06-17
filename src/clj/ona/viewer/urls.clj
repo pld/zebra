@@ -31,30 +31,29 @@
 (def dataset-sharing-post (url "dataset" "sharing"))
 
 (defn dataset-chart
-  "Build dataset chart link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "show/chart"))
+  "Build dataset chart link from dataset and project id."
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "show/chart"))
 
 (defn dataset-photo
-  "Build dataset photo link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "show/photo"))
+  "Build dataset photo link from dataset and project id."
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "show/photo"))
 
 (defn dataset-activity
-  "Build dataset activity link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "show/activity"))
-
+  "Build dataset activity link from dataset and project id."
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "show/activity"))
 
 (defn dataset-table
-  "Build dataset table link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "show/table"))
+  "Build dataset table link from dataset and project id."
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "show/table"))
 
 (defn dataset-tags
-  "Build dataset tags link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "tags"))
+  "Build dataset tags link from dataset and project id."
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "tags"))
 
 (defn dataset-move
   "Build dataset move link from dataset-id and project-id"

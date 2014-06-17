@@ -1,9 +1,9 @@
 (ns ona.viewer.views.profiles
-  (:use [ona.viewer.templates.base :only [base-template]]
+  (:use [ona.viewer.helpers.projects :only [project-details]]
+        [ona.viewer.templates.base :only [base-template]]
         [ona.viewer.templates.forms :only [sign-up-form]]
         [slingshot.slingshot :only [try+]])
   (:require [ona.api.user :as api]
-            [ona.api.dataset :as api-dataset]
             [ring.util.response :as response]
             [ona.viewer.templates.profiles :as profiles]
             [ona.viewer.urls :as u]))
@@ -27,12 +27,12 @@
   [account username]
   (try+
    (let [profile (api/profile account username)
-         datasets (api-dataset/all account username)]
+         projects (project-details account username)]
      (base-template
       (u/profile username)
       account
       (:name profile)
-      (profiles/user-profile profile datasets)))
+      (profiles/user-profile profile projects)))
    (catch string? error
      ;; TODO return a proper not found page.
      error)))

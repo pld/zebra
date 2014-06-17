@@ -117,10 +117,10 @@
 
   ;; View nav
   [:a#map-link](set-attr :href (u/dataset dataset-id project-id))
-  [:a#table-link](set-attr :href (u/dataset-table dataset-id))
-  [:a#chart-link](set-attr :href (u/dataset-chart dataset-id))
-  [:a#photo-link](set-attr :href (u/dataset-photo dataset-id))
-  [:a#activity-link](set-attr :href (u/dataset-activity dataset-id))
+  [:a#table-link](set-attr :href (u/dataset-table dataset-id project-id))
+  [:a#chart-link](set-attr :href (u/dataset-chart dataset-id project-id))
+  [:a#photo-link](set-attr :href (u/dataset-photo dataset-id project-id))
+  [:a#activity-link](set-attr :href (u/dataset-activity dataset-id project-id))
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (:description metadata))

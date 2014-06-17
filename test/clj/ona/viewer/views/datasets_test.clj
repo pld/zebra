@@ -32,12 +32,12 @@
         (api/tags :fake-account :dataset-id) => [:fake-tags])
 
       "Create tags creates tags for a specific dataset"
-      (let [tags {:tags "tag1, tag2"}
-            params (merge {:dataset-id :dataset-id} tags)]
-        (create-tags :fake-account params) => :something
+      (let [tags {:tags "tag1, tag2"}]
+        (create-tags :fake-account :dataset-id :project-id tags) => :something
         (provided
-          (api/add-tags :fake-account :dataset-id tags) => :new-tags
-          (tags :fake-account :dataset-id) => :something)))
+         (api/add-tags :fake-account :dataset-id {:tags tags}) => :new-tags
+          (response/redirect-after-post
+           (u/dataset-tags :dataset-id :project-id)) => :something)))
 
 (fact "about dataset download"
       "Downloads dataset with specified format"

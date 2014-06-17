@@ -25,8 +25,8 @@
 
 (defsnippet new-tag-form "templates/dataset/tag.html"
   [:body :div.content :> :.new-tag-form]
-  [dataset-id]
-  [:form](set-attr :action (u/dataset-tags dataset-id))
+  [dataset-id project-id]
+  [:form](set-attr :action (u/dataset-tags dataset-id project-id))
   [:form :#dataset-id](set-attr :value dataset-id))
 
 (defsnippet metadata-form "templates/dataset/metadata.html"
