@@ -203,6 +203,17 @@
     (api/update account dataset-id update-data)
     (response/redirect-after-post (u/dataset-metadata dataset-id))))
 
+(defn sharing-settings
+  "User share settings"
+  [account dataset-id]
+  (let [metadata (api/metadata account dataset-id)
+        users (api-user/all account)]
+    (base/base-template
+      "/dataset"
+      account
+      (str "Sharing settings - " (:title metadata))
+      (forms/share-settings metadata dataset-id users))))
+
 (defn move-to-project
   "Move a dataset to a project"
   [account params]

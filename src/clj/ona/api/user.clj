@@ -25,3 +25,9 @@
         url (make-url "profiles")
         data {:form-params profile}]
     (parse-http :post url nil data)))
+
+(defn all
+  "return all users"
+  [account]
+  (let [url (make-url "users")]
+    (parse-http :get url account)))

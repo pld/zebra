@@ -71,6 +71,10 @@
        {{account :account} :session
         {id :id} :params}
        (datasets/sharing account id))
+  (GET "/dataset/:id/sharing/settings"
+       {{account :account} :session
+        {id :id} :params}
+       (datasets/sharing-settings account id))
   (POST "/dataset/sharing"
         {{account :account} :session
          params :params}
