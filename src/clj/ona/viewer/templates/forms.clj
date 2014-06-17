@@ -1,8 +1,11 @@
 (ns ona.viewer.templates.forms
   (:use [net.cgrand.enlive-html :only [attr=
+                                       but
+                                       clone-for
                                        content
                                        defsnippet
                                        do->
+                                       first-of-type
                                        remove-attr
                                        set-attr]]
         [clojure.string :only [join]]:reload)
@@ -60,6 +63,18 @@
                            (set-attr :checked "checked")
                            (remove-attr :checked)))
   [:input#closed] (set-attr :value sharing/closed))
+
+(defsnippet share-settings "templates/dataset/share-settings.html"
+  [:body :div#content]
+  [metadata dataset-id users]
+  [:span#title] (content (:title metadata))
+  [:select#username [:option (but first-of-type)]] nil
+  [:select#username [:option first-of-type]] (clone-for [user users]
+                                                [:option] (do->
+                                                            (set-attr :value (:username user))
+                                                            (content
+                                                              (str (:first_name user) " " (:last_name user)))))
+  )
 
 (defsnippet sign-up-form "templates/sign-up.html"
   [:body :div#content]
