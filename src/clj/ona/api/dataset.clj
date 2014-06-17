@@ -31,11 +31,10 @@
      (create account uploaded-file nil nil))
   ([account uploaded-file owner project-id]
      (let [xlsfile (uploaded->file uploaded-file)
-           url (apply make-url (if project-id ["projects/"
+           url (apply make-url (if project-id ["projects"
                                                owner
-                                               "/"
                                                project-id
-                                               "/forms"]
+                                               "forms"]
                                  ["forms"]))]
        (parse-http :post url account
                    {:multipart [{:name "xls_file"
