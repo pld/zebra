@@ -159,14 +159,11 @@
 
 (defn update
   "Update metadata for a specific dataset"
-  [account params]
-  (let [dataset-id (:dataset-id params)
-        metadata-updates {:description (:description params)
-                          :title (:title params)}
-        tags {:tags (:tags params)}]
-    (api/update account dataset-id metadata-updates)
-    (api/add-tags account dataset-id tags)
-    (response/redirect-after-post (u/dataset dataset-id))))
+  [account dataset-id title description tags]
+  (api/update account dataset-id {:title title
+                                  :description description})
+  (api/add-tags account dataset-id tags)
+  (response/redirect-after-post (u/dataset dataset-id)))
 
 (defn delete
   "Delete a dataset by ID."
