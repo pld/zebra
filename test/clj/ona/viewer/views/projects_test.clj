@@ -3,8 +3,7 @@
         ona.viewer.views.projects
         [ona.api.io :only [make-url]]
         [ona.helpers :only [slingshot-exception]]
-        [ring.util.response :only [redirect-after-post]]
-        [midje.util :only [testable-privates]])
+        [ring.util.response :only [redirect-after-post]])
   (:require [ona.api.project :as api]
             [ona.api.user :as api-user]
             [clj-time.format :as f]
@@ -22,23 +21,21 @@
        (let [username "username"
              account {:username username}
              project-name "new-project"
-             params {:name project-name
-                     :owner username}
-             data (assoc params :owner :url)]
+             name-hash {:name project-name}
+             params (merge name-hash
+                           {:owner username})]
 
          "Should go to settings on success"
          (let [redirect-url (str "/project/" username "/" :id "/settings")]
            (create account params) => :something
            (provided
-            (api/create account data username) => {:id :id}
-            (make-url "users/username") => :url
+            (api/create account name-hash  username) => {:id :id}
             (redirect-after-post redirect-url) => :something))
 
          "Should go to new on thrown error"
          (create account params) => :something
          (provided
-          (api/create account data username) =throws=> (slingshot-exception [])
-          (make-url "users/username") => :url
+          (api/create account name-hash username) =throws=> (slingshot-exception [])
           (new-project account []) => :something)))
 
 (let [id :id
@@ -53,7 +50,7 @@
 
   (facts "forms for project"
          "Should show project name"
-         (forms fake-account username id) => (contains project-name)
+         (show fake-account username id) => (contains project-name)
          (provided
           (api/get-project fake-account username id) => project
           (api/get-forms fake-account username id) => [{:title "Test Form" :num_of_submissions 2}]

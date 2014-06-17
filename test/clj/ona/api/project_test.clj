@@ -8,6 +8,8 @@
       password :fake-password
       account {:username username :password password}
       data {:url "a/b/c/id"}
+      data-with-owner (merge data
+                             {:owner url})
       parsed-data (merge data {:id "id"})]
 
   (facts "about projects"
@@ -19,23 +21,25 @@
 
   (facts "about project-create"
          "Should associate data"
-         (create account :data username) => parsed-data
+         (create account data username) => parsed-data
          (provided
+          (make-url "users" username) => url
           (make-url "projects" username) => url
           (parse-http :post
                       url
                       account
-                      {:form-params :data}) => data)
+                      {:form-params data-with-owner}) => data)
 
          "Should throw an exception if special __all__ error key returned"
          (let [error :error]
-           (create account :data username) => (throws clojure.lang.ExceptionInfo)
+           (create account data username) => (throws clojure.lang.ExceptionInfo)
            (provided
+            (make-url "users" username) => url
             (make-url "projects" username) => url
             (parse-http :post
                         url
                         account
-                        {:form-params :data}) => {:__all__ error})))
+                        {:form-params data-with-owner}) => {:__all__ error})))
 
   (facts "about get-project"
          "Should find project for id"

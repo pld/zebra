@@ -83,7 +83,7 @@
       "/organizations"
       account
       (:name org)
-      (org-templates/teams (:org org)
+      (org-templates/show-teams (:org org)
                            team-details
                            members
                            (:username account)))))

@@ -97,7 +97,9 @@
     (parse-http :delete url account)))
 
 (defn move-to-project
-  "Move a dataset to a project"
-  [account dataset-id project-id owner]
-  (let [url (make-url "projects" owner project-id "forms")]
-    (parse-http :post url account {:form-params {:formid dataset-id}})))
+  "Move a dataset to a project use account if no owner passed."
+  ([account dataset-id project-id]
+     (move-to-project account dataset-id project-id (:username account)))
+  ([account dataset-id project-id owner]
+      (let [url (make-url "projects" owner project-id "forms")]
+        (parse-http :post url account {:form-params {:formid dataset-id}}))))
