@@ -189,14 +189,16 @@
   [account params]
   (let [dataset-id (:dataset-id params)
         sharing-settings ((keyword sharing/settings) params)
+        open-account? (= sharing-settings sharing/open-account)
         open-all? (= sharing-settings sharing/open-all)
         update-data {:shared (if open-all?
                                "True"
                                "False")}]
     (api/update account dataset-id update-data)
-    (if open-all?
-      (response/redirect-after-post (u/dataset-sharing-settings dataset-id))
-      (response/redirect-after-post (u/dataset-metadata dataset-id)))))
+    (cond
+      open-all? (response/redirect-after-post (u/dataset-sharing-settings dataset-id))
+      open-account? (response/redirect-after-post (u/dataset-sharing-settings dataset-id))
+      :else (response/redirect-after-post (u/dataset-metadata dataset-id)))))
 
 (defn sharing-settings
   "User share settings"
