@@ -16,12 +16,17 @@
 
 (defroutes user-routes
   (GET "/join" [] (profiles/sign-up))
-  (POST "/join" {params :params} (profiles/submit-sign-up params))
-  (POST "/login" {params :params} (accounts/submit-login params))
+  (POST "/join"
+        {params :params}
+        (profiles/submit-sign-up params))
+  (POST "/login"
+        {params :params}
+        (accounts/submit-login params))
   (GET "/logout" [] (accounts/logout))
   (GET "/profile/:username"
        {{account :account} :session
-        {username :username} :params} (profiles/user-profile account username)))
+        {username :username} :params}
+       (profiles/user-profile account username)))
 
 (defroutes dataset-routes
   (GET "/dataset"

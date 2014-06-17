@@ -2,8 +2,10 @@
   (:use midje.sweet
         ona.viewer.routes
         [ona.utils.string :only [url]])
-  (:require [ona.viewer.views.datasets :as datasets]
+  (:require [ona.viewer.views.accounts :as accounts]
+            [ona.viewer.views.datasets :as datasets]
             [ona.viewer.views.projects :as projects]
+            [ona.viewer.views.profiles :as profiles]
             [ona.viewer.views.organizations :as organizations]
             [ona.viewer.views.home :as home]
             [ona.viewer.urls :as u]))
@@ -16,6 +18,38 @@
       username "username"
       result {:body :something}
       session {:account :fake-account}]
+  (facts "user routes"
+         "GET join should call sign-up"
+         (user-routes {:request-method :get
+                          :uri "/join"}) => (contains result)
+         (provided
+          (profiles/sign-up) => result)
+
+         "POST join should call submit-sign-up"
+         (user-routes {:request-method :post
+                          :uri "/join"}) => (contains result)
+         (provided
+          (profiles/submit-sign-up {}) => result)
+
+         "POST login should call submit-login"
+         (user-routes {:request-method :post
+                          :uri "/login"}) => (contains result)
+         (provided
+          (accounts/submit-login {}) => result)
+
+         "GET logout should call logout"
+         (user-routes {:request-method :get
+                          :uri "/logout"}) => (contains result)
+         (provided
+          (accounts/logout) => result)
+
+         "GET profile with username should call user-profile"
+         (user-routes {:request-method :get
+                       :uri (u/profile username)
+                       :session session}) => (contains result)
+         (provided
+          (profiles/user-profile :fake-account username) => result))
+
   (facts "dataset routes"
          "GET dataset should parse account"
          (dataset-routes {:request-method :get
@@ -147,11 +181,7 @@
                           :uri (u/dataset-move dataset-id project-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/move-to-project :fake-account dataset-id project-id) => result)
-
-
-
-         )
+          (datasets/move-to-project :fake-account dataset-id project-id) => result))
 
   (facts "Project routes"
          "GET projects should call new-project"
@@ -268,7 +298,6 @@
           (organizations/add-member :fake-account
                                     org-name
                                     :member-username) => result)
-
 
          "POST remove with member should call remove-member"
          (let [name "orgname"
