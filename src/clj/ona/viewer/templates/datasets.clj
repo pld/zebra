@@ -150,9 +150,11 @@
                                         (u/dataset (:formid dataset)
                                                    project-id))
              [:ul.submenu :li.share :a] (set-attr :href
+                                                  (u/dataset-sharing-settings
+                                                   (:formid dataset)))
+             [:ul.submenu :li.settings :a] (set-attr :href
                                                   (u/dataset-sharing
-                                                   (:formid dataset)
-                                                   project-id))
+                                                    (:formid dataset)))
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
              [:ul.submenu :li.transfer] nil

@@ -91,4 +91,10 @@
                        url
                        account
                        {:form-params {:formid 1}}
-                       ) => :form )))
+                       ) => :form ))
+  (facts "about update-sharing for dataset"
+
+             (update-sharing account :dataset-id :owner :params) => :sharing-updated
+             (provided
+               (make-url "forms" :owner :dataset-id "share") => url
+               (parse-http :post url account {:form-params :params}) => :sharing-updated )))

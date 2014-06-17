@@ -88,6 +88,10 @@
        {{account :account} :session
         {id :id} :params}
        (datasets/sharing-settings account id))
+  (POST "/dataset/:id/sharing/settings"
+       {{account :account} :session
+        params :params}
+       (datasets/sharing-settings-update account params))
   (POST "/dataset/:dataset-id/:project-id/tags"
         {{account :account} :session
          {dataset-id :dataset-id

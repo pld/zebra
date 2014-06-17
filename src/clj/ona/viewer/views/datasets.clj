@@ -208,6 +208,14 @@
       (str "Sharing settings - " (:title metadata))
       (forms/share-settings metadata dataset-id users))))
 
+(defn sharing-settings-update
+  "User share settings update"
+  [account params]
+  (let [dataset-id (:dataset-id params)
+        owner (:username account)]
+    (api/update-sharing account dataset-id owner params)
+    (response/redirect-after-post (u/dataset dataset-id))))
+
 (defn move-to-project
   "Move a dataset to a project"
   [account dataset-id project-id]

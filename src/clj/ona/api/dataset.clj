@@ -106,3 +106,9 @@
   ([account dataset-id project-id owner]
       (let [url (make-url "projects" owner project-id "forms")]
         (parse-http :post url account {:form-params {:formid dataset-id}}))))
+
+(defn update-sharing
+  "Share dataset with specific user"
+  [account dataset-id owner params]
+  (let [url (make-url "forms" owner dataset-id "share")]
+    (parse-http :post url account {:form-params params})))
