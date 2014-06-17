@@ -11,6 +11,8 @@
 (let [dataset-id "7"
       project-id "42"
       owner "owner"
+      org-name "orgname"
+      team-id "67"
       username "username"
       result {:body :something}
       session {:account :fake-account}]
@@ -185,14 +187,14 @@
             (projects/create :fake-account params) => result)))
 
   (facts "Organization routes"
-         "Should parse account"
+         "GET organizations should call all"
          (org-routes {:request-method :get
                       :uri "/organizations"
                       :session session}) => (contains result)
          (provided
           (organizations/all :fake-account) => result)
 
-         "Should parse account and params in organization post"
+         "POST organizations should call create"
          (let [params {:param-key :param-value}]
            (org-routes {:request-method :post
                         :uri "/organizations"
@@ -201,15 +203,74 @@
            (provided
             (organizations/create :fake-account params) => result))
 
-         "Should parse account in organization profile"
-         (let [name "orgname"]
-           (org-routes {:request-method :get
-                        :uri (str "/organizations/" name)
-                        :session session}) => (contains result)
-           (provided
-            (organizations/profile :fake-account name) => result))
+         "GET organization by name should call profile"
+         (org-routes {:request-method :get
+                      :uri (u/org {:org org-name})
+                      :session session}) => (contains result)
+         (provided
+          (organizations/profile :fake-account org-name) => result)
 
-         "Should parse remove member"
+         "GET teams should call teams"
+         (org-routes {:request-method :get
+                      :uri (u/org-teams org-name)
+                      :session session}) => (contains result)
+         (provided
+          (organizations/teams :fake-account org-name) => result)
+
+         "GET team by id should call team-info"
+         (org-routes {:request-method :get
+                      :uri (u/org-team org-name team-id)
+                      :session session}) => (contains result)
+         (provided
+          (organizations/team-info :fake-account org-name team-id) => result)
+
+         "POST team by id should call add-team-member"
+         (org-routes {:request-method :post
+                      :uri (u/org-team org-name team-id)
+                      :session session
+                      :params {:org org-name
+                               :teamid team-id
+                               :username username}}) => (contains result)
+         (provided
+          (organizations/add-team-member :fake-account
+                                         org-name
+                                         team-id
+                                         username) => result)
+
+         "GET new-team should call new-team"
+         (org-routes {:request-method :get
+                      :uri (u/org-new-team org-name)
+                      :session session}) => (contains result)
+         (provided
+          (organizations/new-team :fake-account org-name) => result)
+
+         "POST new-team should call create-team"
+         (org-routes {:request-method :post
+                      :uri (u/org-new-team org-name)
+                      :session session}) => (contains result)
+         (provided
+          (organizations/create-team :fake-account {:name org-name}) => result)
+
+         "GET members should call members"
+         (org-routes {:request-method :get
+                      :uri (u/org-members org-name)
+                      :session session}) => (contains result)
+         (provided
+          (organizations/members :fake-account org-name) => result)
+
+         "POST members should call add-members"
+         (org-routes {:request-method :post
+                      :uri (u/org-members org-name)
+                      :session session
+                      :params {:orgname org-name
+                               :username :member-username}}) => (contains result)
+         (provided
+          (organizations/add-member :fake-account
+                                    org-name
+                                    :member-username) => result)
+
+
+         "POST remove with member should call remove-member"
          (let [name "orgname"
                member-username "membername"]
            (org-routes {:request-method :post
@@ -220,7 +281,7 @@
                                          name
                                          member-username) => result))
 
-         "Should parse remove member with team"
+         "POST remove with member and team should call remove-member"
          (let [name "orgname"
                member-username "membername"
                team-id "5"]

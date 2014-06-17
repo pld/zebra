@@ -128,10 +128,9 @@
            (response/redirect-after-post :url) => :updated-teamlist)))
 
   (fact "add-team member should add a user to a team"
-        (let [user {:username "someuser" :organization name}
-              team-id 1
-              params (merge {:org name :teamid team-id} user)]
-          (add-team-member account params) => :something
+        (let [user {:username username :organization name}
+              team-id 1]
+          (add-team-member account name team-id username) => :something
           (provided
            (api/add-team-member account name team-id user) => :new-member
            (response/redirect-after-post (u/org-team name team-id)) => :something)))

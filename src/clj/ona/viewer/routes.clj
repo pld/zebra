@@ -149,13 +149,15 @@
        (organizations/team-info account name team-id))
   (POST "/organizations/:name/team/:team-id"
         {{account :account} :session
-         params :params}
-        (organizations/add-team-member account params))
+         {org-name :org
+          team-id :teamid
+          username :username} :params}
+        (organizations/add-team-member account org-name team-id username))
   (GET "/organizations/:name/new-team"
        {{account :account} :session
         {name :name} :params}
        (organizations/new-team account name))
-  (POST "/organizations/:orgname/new-team"
+  (POST "/organizations/:name/new-team"
         {{account :account} :session
          params :params}
         (organizations/create-team account params))
