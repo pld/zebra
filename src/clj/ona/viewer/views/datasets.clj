@@ -210,8 +210,10 @@
   "User share settings update"
   [account params]
   (let [dataset-id (:dataset-id params)
-        owner (:username account)]
-    (api/update-sharing account dataset-id owner params)
+        owner (:username account)
+        username (:username params)
+        role (:role params)]
+    (api/update-sharing account dataset-id owner username role)
     (response/redirect-after-post (u/dataset dataset-id))))
 
 (defn move-to-project
