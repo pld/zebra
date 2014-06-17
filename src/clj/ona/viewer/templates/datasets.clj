@@ -151,7 +151,8 @@
                                                    project-id))
              [:ul.submenu :li.share :a] (set-attr :href
                                                   (u/dataset-sharing
-                                                    (:formid dataset)))
+                                                   (:formid dataset)
+                                                   project-id))
              [:ul.submenu :li.settings :a] (set-attr :href
                                                      (u/dataset-sharing-settings
                                                        (:formid dataset)))
