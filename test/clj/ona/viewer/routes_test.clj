@@ -2,65 +2,237 @@
   (:use midje.sweet
         ona.viewer.routes
         [ona.utils.string :only [url]])
-  (:require [ona.viewer.views.datasets :as datasets]
+  (:require [ona.viewer.views.accounts :as accounts]
+            [ona.viewer.views.datasets :as datasets]
             [ona.viewer.views.projects :as projects]
+            [ona.viewer.views.profiles :as profiles]
             [ona.viewer.views.organizations :as organizations]
             [ona.viewer.views.home :as home]
             [ona.viewer.urls :as u]))
 
-(let [result {:body :something}
+(let [dataset-id "7"
+      project-id "42"
+      owner "owner"
+      org-name "orgname"
+      team-id "67"
+      username "username"
+      result {:body :something}
       session {:account :fake-account}]
-  (facts "Dataset routes"
-         "Should parse account"
-         (let [id "1"]
-           (dataset-routes {:request-method :get
-                            :uri (str "/dataset/" id)
-                            :session session}) => (contains result)
-           (provided
-            (datasets/show :fake-account id) => result))
+  (facts "main routes"
+         "GET / should call home-page"
+         (main-routes {:request-method :get
+                       :uri "/"
+                       :session session}) => (contains result)
+         (provided
+          (home/home-page :fake-account) => result))
 
-         "Should parse args for new dataset"
-         (let [id "1"
-               owner "owner"]
-           (dataset-routes {:request-method :post
-                            :uri (str "/project/"
-                                      owner
-                                      "/"
-                                      id
-                                      "/new-dataset")
-                            :session session}) => (contains result)
-           (provided
-            (datasets/create :fake-account nil owner id) => result)))
+  (facts "user routes"
+         "GET join should call sign-up"
+         (user-routes {:request-method :get
+                       :uri "/join"}) => (contains result)
+         (provided
+          (profiles/sign-up) => result)
+
+         "POST join should call submit-sign-up"
+         (user-routes {:request-method :post
+                       :uri "/join"}) => (contains result)
+         (provided
+          (profiles/submit-sign-up {}) => result)
+
+         "POST login should call submit-login"
+         (user-routes {:request-method :post
+                       :uri "/login"}) => (contains result)
+         (provided
+          (accounts/submit-login {}) => result)
+
+         "GET logout should call logout"
+         (user-routes {:request-method :get
+                       :uri "/logout"}) => (contains result)
+         (provided
+          (accounts/logout) => result)
+
+         "GET profile with username should call user-profile"
+         (user-routes {:request-method :get
+                       :uri (u/profile username)
+                       :session session}) => (contains result)
+         (provided
+          (profiles/user-profile :fake-account username) => result))
+
+  (facts "dataset routes"
+         "GET dataset should parse account"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/show :fake-account dataset-id project-id) => result)
+
+         "GET table should pass context"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-table dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/show :fake-account dataset-id project-id :table) => result)
+
+         "GET photo should pass context"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-photo dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/show :fake-account dataset-id project-id :photo) => result)
+
+         "GET activity should pass context"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-activity dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/show :fake-account dataset-id project-id :activity) => result)
+
+         "GET chart should pass context"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-chart dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/show :fake-account dataset-id project-id :chart) => result)
+
+
+         "POST new dataset should call create"
+         (dataset-routes {:request-method :post
+                          :uri (u/project-new-dataset project-id owner)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/create :fake-account
+                           nil
+                           owner
+                           project-id) => result)
+
+         "GET delete should call delete"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-delete dataset-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/delete :fake-account dataset-id) => result)
+
+         "GET tags should call tags"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-tags dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/tags :fake-account dataset-id project-id) => result)
+
+         "POST tags should call create-tags"
+         (dataset-routes {:request-method :post
+                          :uri (u/dataset-tags dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/create-tags :fake-account dataset-id project-id nil) => result)
+
+         "GET download should call download"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-download dataset-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/download :fake-account dataset-id :csv) => result)
+
+         "GET sharing should call sharing"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-sharing dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/sharing :fake-account dataset-id project-id) => result)
+
+         "POST sharing should call sharing-update"
+         (dataset-routes {:request-method :post
+                          :uri u/dataset-sharing-post
+                          :session session}) => (contains result)
+         (provided
+          (datasets/sharing-update :fake-account {}) => result)
+
+         "GET metadata should call metadata"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-metadata dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/metadata :fake-account dataset-id project-id) => result)
+
+         "POST metadata should call update"
+         (dataset-routes {:request-method :post
+                          :uri (u/dataset-metadata dataset-id project-id)
+                          :session session
+                          :params {:description :description
+                                   :title :title
+                                   :tags :tags}}) => (contains result)
+         (provided
+          (datasets/update :fake-account
+                           dataset-id
+                           project-id
+                           :title
+                           :description
+                           :tags) => result)
+
+         "GET search should call home-page"
+         (dataset-routes {:request-method :get
+                          :uri "/search"
+                          :session session
+                          :params {:query :query}}) => (contains result)
+         (provided
+          (home/home-page :fake-account :query) => result)
+
+         "GET dataset should call show-all"
+         (dataset-routes {:request-method :get
+                          :uri "/datasets"
+                          :session session}) => (contains result)
+         (provided
+          (datasets/show-all :fake-account) => result)
+
+         "GET move should call move-to-project"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-move dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/move-to-project :fake-account dataset-id project-id) => result))
 
   (facts "Project routes"
-         "Should parse account"
-         (let [owner "owner"]
-           (project-routes {:request-method :get
-                            :uri (str "/projects/" owner)
-                            :session session}) => (contains result)
-           (provided
-            (projects/all :fake-account owner) => result))
+         "GET projects should call new-project"
+         (project-routes {:request-method :get
+                          :uri (u/project-new username)
+                          :session session}) => (contains result)
+         (provided
+          (projects/new-project :fake-account username) => result)
 
-         "Should parse account and params in project post"
+         "GET show should call show"
+         (project-routes {:request-method :get
+                          :uri (u/project-show project-id username)
+                          :session session}) => (contains result)
+         (provided
+          (projects/show :fake-account username project-id) => result)
+
+         "GET settings should call settings"
+         (project-routes {:request-method :get
+                          :uri (u/project-settings {:id project-id} username)
+                          :session session}) => (contains result)
+         (provided
+          (projects/settings :fake-account username project-id) => result)
+
+         "POST projects should call create"
          (let [username "username"
                params {:param-key :param-value
                        :owner username}]
            (project-routes {:request-method :post
-                            :uri (str "/projects/" username)
+                            :uri (u/project-new username)
                             :params params
                             :session session}) => (contains result)
            (provided
             (projects/create :fake-account params) => result)))
 
   (facts "Organization routes"
-         "Should parse account"
+         "GET organizations should call all"
          (org-routes {:request-method :get
                       :uri "/organizations"
                       :session session}) => (contains result)
          (provided
           (organizations/all :fake-account) => result)
 
-         "Should parse account and params in organization post"
+         "POST organizations should call create"
          (let [params {:param-key :param-value}]
            (org-routes {:request-method :post
                         :uri "/organizations"
@@ -69,15 +241,73 @@
            (provided
             (organizations/create :fake-account params) => result))
 
-         "Should parse account in organization profile"
-         (let [name "orgname"]
-           (org-routes {:request-method :get
-                        :uri (str "/organizations/" name)
-                        :session session}) => (contains result)
-           (provided
-            (organizations/profile :fake-account name) => result))
+         "GET organization by name should call profile"
+         (org-routes {:request-method :get
+                      :uri (u/org {:org org-name})
+                      :session session}) => (contains result)
+         (provided
+          (organizations/profile :fake-account org-name) => result)
 
-         "Should parse remove member"
+         "GET teams should call teams"
+         (org-routes {:request-method :get
+                      :uri (u/org-teams org-name)
+                      :session session}) => (contains result)
+         (provided
+          (organizations/teams :fake-account org-name) => result)
+
+         "GET team by id should call team-info"
+         (org-routes {:request-method :get
+                      :uri (u/org-team org-name team-id)
+                      :session session}) => (contains result)
+         (provided
+          (organizations/team-info :fake-account org-name team-id) => result)
+
+         "POST team by id should call add-team-member"
+         (org-routes {:request-method :post
+                      :uri (u/org-team org-name team-id)
+                      :session session
+                      :params {:org org-name
+                               :teamid team-id
+                               :username username}}) => (contains result)
+         (provided
+          (organizations/add-team-member :fake-account
+                                         org-name
+                                         team-id
+                                         username) => result)
+
+         "GET new-team should call new-team"
+         (org-routes {:request-method :get
+                      :uri (u/org-new-team org-name)
+                      :session session}) => (contains result)
+         (provided
+          (organizations/new-team :fake-account org-name) => result)
+
+         "POST new-team should call create-team"
+         (org-routes {:request-method :post
+                      :uri (u/org-new-team org-name)
+                      :session session}) => (contains result)
+         (provided
+          (organizations/create-team :fake-account {:name org-name}) => result)
+
+         "GET members should call members"
+         (org-routes {:request-method :get
+                      :uri (u/org-members org-name)
+                      :session session}) => (contains result)
+         (provided
+          (organizations/members :fake-account org-name) => result)
+
+         "POST members should call add-members"
+         (org-routes {:request-method :post
+                      :uri (u/org-members org-name)
+                      :session session
+                      :params {:orgname org-name
+                               :username :member-username}}) => (contains result)
+         (provided
+          (organizations/add-member :fake-account
+                                    org-name
+                                    :member-username) => result)
+
+         "POST remove with member should call remove-member"
          (let [name "orgname"
                member-username "membername"]
            (org-routes {:request-method :post
@@ -88,7 +318,7 @@
                                          name
                                          member-username) => result))
 
-         "Should parse remove member with team"
+         "POST remove with member and team should call remove-member"
          (let [name "orgname"
                member-username "membername"
                team-id "5"]

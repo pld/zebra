@@ -56,30 +56,35 @@
 
 (defn show
   "Show the data for a specific dataset."
-  ([account dataset-id]
-   (show account dataset-id :map))
-  ([account dataset-id context]
+  ([account dataset-id project-id]
+   (show account dataset-id project-id :map))
+  ([account dataset-id project-id context]
    (let [dataset (api/data account dataset-id)
         metadata (api/metadata account dataset-id)
         data-entry-link (api/online-data-entry-link account dataset-id)
         username (:username account)]
-
      (base/base-template
        "/"
        account
        (:title metadata)
-       (datasets/show dataset-id metadata dataset data-entry-link username context)
+       (datasets/show dataset-id
+                      project-id
+                      metadata
+                      dataset
+                      data-entry-link
+                      username
+                      context)
        (js-for-context context dataset)))))
 
 (defn tags
   "View tags for a specific dataset"
-  [account dataset-id]
+  [account dataset-id project-id]
   (let [tags (api/tags account dataset-id)
-        tag-form (forms/new-tag-form dataset-id)]
+        tag-form (forms/new-tag-form dataset-id project-id)]
     (base/dashboard-items
       "Dataset tag"
       account
-      (u/dataset dataset-id)
+      (u/dataset dataset-id project-id)
       (for [tagitem tags]
         {:id nil :name (str tagitem)})
       tag-form)))
@@ -116,17 +121,17 @@
          (let [dataset-id (:formid response)
                preview-url (api/online-data-entry-link account dataset-id)]
            (json-response
-            {:settings-url (u/dataset-sharing dataset-id)
+            {:settings-url (u/dataset-sharing dataset-id project-id)
              :preview-url preview-url
              :delete-url (u/dataset-delete dataset-id)}))))))
 
 (defn create-tags
   "Create tags for a specific dataset"
-  [account params]
-  (let [dataset-id (:dataset-id params)
-        tags-to-add {:tags (:tags params)}
+  [account dataset-id project-id tags]
+  (let [tags-to-add {:tags tags}
         added-tags (api/add-tags account dataset-id tags-to-add)]
-    (tags account dataset-id)))
+    (response/redirect-after-post (u/dataset-tags dataset-id
+                                                  project-id))))
 
 (defn get-file
   [file-path download-name format]
@@ -147,26 +152,22 @@
 
 (defn metadata
   "View metadata for specific form"
-  [account dataset-id]
-  (let [metadata (api/metadata account dataset-id)
-        metadata-form (forms/metadata-form dataset-id metadata)]
+  [account dataset-id project-id]
+  (let [metadata (api/metadata account dataset-id)]
     (base/dashboard-items
       "Dataset metadata"
       (:username account)
-      (u/dataset dataset-id)
+      (u/dataset dataset-id project-id)
       [{:name metadata}]
-      metadata-form)))
+      (forms/metadata-form dataset-id project-id metadata))))
 
 (defn update
   "Update metadata for a specific dataset"
-  [account params]
-  (let [dataset-id (:dataset-id params)
-        metadata-updates {:description (:description params)
-                          :title (:title params)}
-        tags {:tags (:tags params)}]
-    (api/update account dataset-id metadata-updates)
-    (api/add-tags account dataset-id tags)
-    (response/redirect-after-post (u/dataset dataset-id))))
+  [account dataset-id project-id title description tags]
+  (api/update account dataset-id project-id {:title title
+                                             :description description})
+  (api/add-tags account dataset-id tags)
+  (response/redirect-after-post (u/dataset dataset-id project-id)))
 
 (defn delete
   "Delete a dataset by ID."
@@ -176,30 +177,29 @@
 
 (defn sharing
   "Sharing settings for a new dataset."
-  [account dataset-id]
+  [account dataset-id project-id]
   (let [metadata (api/metadata account dataset-id)]
     (base/base-template
      "/dataset"
      account
      "New dataset - Form settings"
-     (forms/sharing metadata dataset-id))))
+     (forms/sharing metadata dataset-id project-id))))
 
 (defn sharing-update
   "Update sharing settings."
   [account params]
-  (let [dataset-id (:dataset-id params)
+  (let [{:keys [dataset-id project-id]} params
+        project-id (:project-id params)
         sharing-settings ((keyword sharing/settings) params)
         update-data {:shared (if (= sharing-settings sharing/open-all)
                                "True"
                                "False")}]
-    (api/update account dataset-id update-data)
-    (response/redirect-after-post (u/dataset-metadata dataset-id))))
+    (api/update account dataset-id project-id update-data)
+    (response/redirect-after-post (u/dataset-metadata dataset-id project-id))))
 
 (defn move-to-project
   "Move a dataset to a project"
-  [account params]
-  (let [dataset-id (:id params)
-        project-id (:project-id params)
-        owner (:username account)]
+  [account dataset-id project-id]
+  (let [owner (:username account)]
     (api/move-to-project account dataset-id project-id owner)
     (response/redirect-after-post (u/project-show project-id owner))))

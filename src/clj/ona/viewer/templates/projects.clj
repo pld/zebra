@@ -60,6 +60,7 @@
 
   ;;Project Forms
   [:div.datasets-table] (content (datasets/datasets-table forms
+                                                          (:id project)
                                                           profile)))
 
 (defsnippet render-project-list "templates/organization/profile.html"
