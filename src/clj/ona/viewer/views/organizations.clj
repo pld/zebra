@@ -15,14 +15,24 @@
 
 (defn- teams-with-details
   "Add IDs and members to teams list hashes."
-  [account org-name teams]
-  (for [team teams
-        :let [id (-> team :url s/last-url-param)]]
-    {:id id
-     :members (api/team-members account
-                                org-name
-                                id)
-     :team team}))
+  ([account org-name]
+     (teams-with-details account org-name (api/teams account org-name)))
+  ([account org-name teams]
+      (for [team teams
+            :let [id (-> team :url s/last-url-param)]]
+        {:id id
+         :members (api/team-members account
+                                    org-name
+                                    id)
+         :team team})))
+
+(defn- remove-member-from-all-teams
+  [account org-name member-username]
+  (api/remove-member account org-name member-username)
+  (doall
+   (for [team (teams-with-details account org-name)
+         :when (some #{member-username} (:members team))]
+     (api/remove-member account org-name member-username (:id team)))))
 
 (defn- all-members
   ([account org-name teams]
@@ -76,17 +86,16 @@
   "Retrieve the team for an organization."
   [account org-name]
   (let [org (api/profile account org-name)
-        teams (api/teams account org-name)
-        team-details (teams-with-details account org-name teams)
+        team-details (teams-with-details account org-name)
         members (all-members team-details)]
     (base/base-template
       "/organizations"
       account
       (:name org)
       (org-templates/show-teams (:org org)
-                           team-details
-                           members
-                           (:username account)))))
+                                team-details
+                                members
+                                (:username account)))))
 
 (defn team-info
   "Retrieve team-info for a specific team."
@@ -162,8 +171,10 @@
      (if (api/single-owner? account org-name team-id)
        ;; TODO render a real error page.
        "Cannot remove last owner."
-       (do
-         (api/remove-member account org-name member-username team-id)
-         (if team-id
-           (response/redirect-after-post (u/org-team org-name team-id))
+       (if team-id
+         (do
+           (api/remove-member account org-name member-username team-id)
+           (response/redirect-after-post (u/org-team org-name team-id)))
+         (do
+           (remove-member-from-all-teams account org-name member-username)
            (response/redirect-after-post (u/org-members org-name)))))))
