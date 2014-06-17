@@ -47,18 +47,20 @@
           owner :owner
           project-id :id} :params}
         (datasets/create account file owner project-id))
-  (GET "/dataset/:id"
+  (GET "/dataset/:dataset-id/:project-id"
        {{account :account} :session
-        {id :id} :params}
-       (datasets/show account id))
+        {dataset-id :dataset-id
+         project-id :project-id} :params}
+       (datasets/show account dataset-id project-id))
   (GET "/dataset/:id/delete"
        {{account :account} :session
         {id :id} :params}
        (datasets/delete account id))
-  (GET "/dataset/:id/tags"
+  (GET "/dataset/:dataset-id/:project-id/tags"
        {{account :account} :session
-        {id :id} :params}
-       (datasets/tags account id))
+        {dataset-id :dataset-id
+         project-id :project-id} :params}
+       (datasets/tags account dataset-id project-id))
   (POST "/dataset/:id/tags"
         {{account :account} :session
          params :params}
@@ -67,25 +69,28 @@
        {{account :account} :session
         {id :id} :params}
        (datasets/download account id :csv))
-  (GET "/dataset/:id/sharing"
+  (GET "/dataset/:dataset-id/:project-id/sharing"
        {{account :account} :session
-        {id :id} :params}
-       (datasets/sharing account id))
+        {dataset-id :dataset-id
+         project-id :project-id} :params}
+       (datasets/sharing account dataset-id project-id))
   (POST "/dataset/sharing"
         {{account :account} :session
          params :params}
         (datasets/sharing-update account params))
-  (GET "/dataset/:id/metadata"
+  (GET "/dataset/:dataset-id/:project-id/metadata"
        {{account :account} :session
-        {id :id} :params}
-       (datasets/metadata account id))
-  (POST "/dataset/:id/metadata"
+        {dataset-id :dataset-id
+         project-id :project-id} :params}
+       (datasets/metadata account dataset-id project-id))
+  (POST "/dataset/:dataset-id/:project-id/metadata"
         {{account :account} :session
          {dataset-id :dataset-id
+          project-id :project-id
           description :description
           title :title
           tags :tags} :params}
-        (datasets/update account dataset-id title description tags))
+        (datasets/update account dataset-id project-id title description tags))
   (GET "/search"  {session :session
                    {query :query} :params}
        (home-page session query))

@@ -5,8 +5,8 @@
 ;; Datasets
 (defn dataset
   "Build dataset show link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id))
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id))
 
 (defn dataset-delete
   "Build dataset delete link from dataset id."
@@ -20,13 +20,13 @@
 
 (defn dataset-metadata
   "Build dataset metadata link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "metadata"))
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "metadata"))
 
 (defn dataset-sharing
   "Build dataset sharing link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "sharing"))
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "sharing"))
 
 (def dataset-sharing-post (url "dataset" "sharing"))
 

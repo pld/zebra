@@ -104,7 +104,7 @@
 
 (defsnippet show "templates/dataset/show.html"
   [:body :div#content]
-  [dataset-id metadata dataset data-entry-link username context]
+  [dataset-id project-id metadata dataset data-entry-link username context]
 
   ;; Page-title
   [:div.page-header [:div first-of-type] :h1] (content (:title metadata))
@@ -112,11 +112,11 @@
   ;; Top nav
   [:a.enter-data] (set-attr :href data-entry-link)
   [:div#username] (content (user-link username))
-  [:a#sharing] (set-attr :href (u/dataset-sharing dataset-id))
+  [:a#sharing] (set-attr :href (u/dataset-sharing dataset-id project-id))
   [:a#download-all] (set-attr :href (u/dataset-download dataset-id))
 
   ;; View nav
-  [:a#map-link](set-attr :href (u/dataset dataset-id))
+  [:a#map-link](set-attr :href (u/dataset dataset-id project-id))
   [:a#table-link](set-attr :href (u/dataset-table dataset-id))
   [:a#chart-link](set-attr :href (u/dataset-chart dataset-id))
   [:a#photo-link](set-attr :href (u/dataset-photo dataset-id))
@@ -138,7 +138,7 @@
 
 (defsnippet datasets-table "templates/dataset/list.html"
   [:#datasets-table]
-  [datasets profile]
+  [datasets project-id profile]
   [:tbody [:tr (but first-of-type)]] nil
   [:tbody [:tr first-of-type]]
   (clone-for [dataset datasets]
@@ -147,10 +147,12 @@
              [:strong.dataset-name] (content (:title dataset))
              [:ul.submenu :li.open :a] (set-attr
                                         :href
-                                        (u/dataset (:formid dataset)))
+                                        (u/dataset (:formid dataset)
+                                                   project-id))
              [:ul.submenu :li.share :a] (set-attr :href
                                                   (u/dataset-sharing
-                                                   (:formid dataset)))
+                                                   (:formid dataset)
+                                                   project-id))
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
              [:ul.submenu :li.transfer] nil

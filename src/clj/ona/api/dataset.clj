@@ -42,8 +42,12 @@
 
 (defn update
   "Set the metadata for a dataset."
-  [account dataset-id params]
-  (let [url (make-url "forms" (:username account) dataset-id)]
+  [account dataset-id project-id params]
+  (let [url (make-url "projects"
+                      (:username account)
+                      project-id
+                      "forms"
+                      dataset-id)]
     (parse-http :put url account {:form-params params})))
 
 (defn data
