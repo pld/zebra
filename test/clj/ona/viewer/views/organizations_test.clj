@@ -55,31 +55,25 @@
          (teams account name) => (contains team-name)
          (provided
           (api/profile account name) => {:org "fake-org"}
-          (api/teams account name) => fake-teams
           (#'ona.viewer.views.organizations/teams-with-details
            account
-           name
-           fake-teams) => fake-teams)
+           name) => fake-teams)
 
          "should show leave button if user in team"
          (teams account name) => (contains "Leave")
          (provided
           (api/profile account name) => {:org "fake-org"}
-          (api/teams account name) => fake-teams
           (#'ona.viewer.views.organizations/teams-with-details
            account
-           name
-           fake-teams) => fake-teams)
+           name) => fake-teams)
 
          "should hide leave button if user in team but only owner"
          (teams account name) =not=> (contains "Leave")
          (provided
           (api/profile account name) => {:org "fake-org"}
-          (api/teams account name) => fake-teams
           (#'ona.viewer.views.organizations/teams-with-details
            account
-           name
-           fake-teams) => fake-owners-team))
+           name) => fake-owners-team))
 
   (facts "team-info"
          "should show info for a specific team and remove button"
@@ -165,13 +159,17 @@
          "Should remove a member from an organization"
          (remove-member account name username) => :something
          (provided
-          (api/remove-member account name username nil) => :new-member
+          (#'ona.viewer.views.organizations/teams-with-details account name)
+          => [{:members [username]
+               :id team-id}]
+          (api/remove-member account name username) => nil
+          (api/remove-member account name username team-id) => nil
           (response/redirect-after-post (u/org-members name)) => :something)
 
          "Should remove a member from a team"
          (remove-member account name username team-id) => :something
          (provided
-          (api/remove-member account name username team-id) => :new-member
+          (api/remove-member account name username team-id) => nil
           (response/redirect-after-post (u/org-team name team-id)) => :something)
 
          "Should not remove last owner from a team"
