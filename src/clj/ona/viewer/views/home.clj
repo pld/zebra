@@ -17,7 +17,7 @@
   [account]
   (let [username (:username account)
         name-prefix (select-value account [:name :username])]
-    {;; TODO check that short-name get's when API supports
+    {;; TODO check that short-name is when API supports this
      :short-name (str username "-project")
      :name (str name-prefix "'s Project")}))
 
