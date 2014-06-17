@@ -18,28 +18,36 @@
       username "username"
       result {:body :something}
       session {:account :fake-account}]
+  (facts "main routes"
+         "GET / should call home-page"
+         (main-routes {:request-method :get
+                       :uri "/"
+                       :session session}) => (contains result)
+         (provided
+          (home/home-page :fake-account) => result))
+
   (facts "user routes"
          "GET join should call sign-up"
          (user-routes {:request-method :get
-                          :uri "/join"}) => (contains result)
+                       :uri "/join"}) => (contains result)
          (provided
           (profiles/sign-up) => result)
 
          "POST join should call submit-sign-up"
          (user-routes {:request-method :post
-                          :uri "/join"}) => (contains result)
+                       :uri "/join"}) => (contains result)
          (provided
           (profiles/submit-sign-up {}) => result)
 
          "POST login should call submit-login"
          (user-routes {:request-method :post
-                          :uri "/login"}) => (contains result)
+                       :uri "/login"}) => (contains result)
          (provided
           (accounts/submit-login {}) => result)
 
          "GET logout should call logout"
          (user-routes {:request-method :get
-                          :uri "/logout"}) => (contains result)
+                       :uri "/logout"}) => (contains result)
          (provided
           (accounts/logout) => result)
 

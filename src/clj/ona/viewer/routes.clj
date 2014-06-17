@@ -188,7 +188,9 @@
         (organizations/remove-member account name member-username team-id)))
 
 (defroutes main-routes
-  (GET "/" {session :session} (home-page session))
+  (GET "/"
+       {{account :account} :session}
+       (home-page account))
   (route/resources "/")
   (route/not-found "Page not found"))
 
