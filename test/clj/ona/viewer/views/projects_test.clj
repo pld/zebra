@@ -54,7 +54,7 @@
          (provided
           (api/get-project fake-account username id) => project
           (api/get-forms fake-account username id) => [{:title "Test Form" :num_of_submissions 2}]
-          (api-user/profile fake-account) => :fake-profile))
+          (h/profile-with-projects fake-account) => []))
 
   (let [two-days-ago 2
         days-ago-2 (t/minus (l/local-now) (t/days two-days-ago))

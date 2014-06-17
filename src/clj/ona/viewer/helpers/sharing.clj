@@ -1,4 +1,4 @@
-(ns ona.viewer.sharing)
+(ns ona.viewer.helpers.sharing)
 
 (def settings "settings")
 

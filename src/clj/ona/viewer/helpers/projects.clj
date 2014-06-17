@@ -1,6 +1,7 @@
 (ns ona.viewer.helpers.projects
   (:require [ona.api.project :as api]
             [ona.api.dataset :as api-dataset]
+            [ona.api.user :as api-user]
             [ona.utils.string :as s]
             [ona.utils.time :as t]
             [ona.utils.numeric :as n]))
@@ -48,3 +49,9 @@
                          account
                          owner
                          (s/last-url-param (:url project))))}))))
+
+(defn profile-with-projects
+  "Get the user profile and a list of their projects."
+  [account]
+  (merge (api-user/profile account)
+         {:projects (api/all account)}))

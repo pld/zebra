@@ -5,23 +5,19 @@
             [ona.api.project :as api-project]
             [ring.util.response :as response]))
 
-(fact "about datasets"
-      "Datasets all returns a list of datasets"
-      (-> (all :fake-account) first first last) => :fake-title
-      (provided
-        (api/all :fake-account) => [{:title :fake-title}])
-
-      "Dataset show returns data for dataset"
+(facts "about datasets show"
+       "Should returns data for dataset"
       (show :fake-account :dataset-id) => (contains "Some title")
       (provided
         (api/data :fake-account :dataset-id) => [:row]
         (api/metadata :fake-account :dataset-id) => {:title "Some title"
-                                                     :last_submission_time "2014-6-3T20:18:23Z"})
+                                                     :last_submission_time "2014-6-3T20:18:23Z"}))
 
-      "Dataset new returns content for creating a dataset"
+(facts "about datasets new"
+      "Should return content for creating a dataset"
       (new-dataset :fake-account) =not=> nil
 
-      "New dataset takes project id for project specific dataset"
+      "Should take project id for project specific dataset"
       (let [project-name "the project name"]
         (new-dataset :fake-account :owner :project-id) => (contains project-name)
         (provided
