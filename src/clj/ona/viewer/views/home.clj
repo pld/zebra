@@ -1,5 +1,5 @@
 (ns ona.viewer.views.home
-  (:use [ona.utils.seq :only [select-value]]
+  (:use [ona.utils.seq :only [diff select-value]]
         [ona.utils.string :only [substring?]]
         [ona.viewer.helpers.projects :only [project-details]]
         [slingshot.slingshot :only [try+]])
@@ -52,7 +52,7 @@
         project-ids (map #(-> % :url s/last-url-param) projects)
         project-datasets (flatten
                           (map #(api-project/get-forms account %) project-ids))]
-    (clojure.set/difference (set datasets) (set project-datasets))))
+    (diff datasets project-datasets)))
 
 (defn- move-datasets-to-user-project
   "Create and move datasets to a default project if needed."
