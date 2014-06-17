@@ -81,8 +81,11 @@
        (datasets/metadata account id))
   (POST "/dataset/:id/metadata"
         {{account :account} :session
-         params :params}
-        (datasets/update account params))
+         {dataset-id :dataset-id
+          description :description
+          title :title
+          tags :tags} :params}
+        (datasets/update account dataset-id title description tags))
   (GET "/search"  {session :session
                    {query :query} :params}
        (home-page session query))
