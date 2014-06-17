@@ -11,6 +11,7 @@
 (let [dataset-id "7"
       project-id "42"
       owner "owner"
+      username "username"
       result {:body :something}
       session {:account :fake-account}]
   (facts "dataset routes"
@@ -151,6 +152,27 @@
          )
 
   (facts "Project routes"
+         "GET projects should call new-project"
+         (project-routes {:request-method :get
+                          :uri (u/project-new username)
+                          :session session}) => (contains result)
+         (provided
+          (projects/new-project :fake-account username) => result)
+
+         "GET show should call show"
+         (project-routes {:request-method :get
+                          :uri (u/project-show project-id username)
+                          :session session}) => (contains result)
+         (provided
+          (projects/show :fake-account username project-id) => result)
+
+         "GET settings should call settings"
+         (project-routes {:request-method :get
+                          :uri (u/project-settings {:id project-id} username)
+                          :session session}) => (contains result)
+         (provided
+          (projects/settings :fake-account username project-id) => result)
+
          "POST projects should call create"
          (let [username "username"
                params {:param-key :param-value
