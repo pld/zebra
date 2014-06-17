@@ -198,20 +198,22 @@
                                "False")}]
     (api/update account dataset-id project-id update-data)
     (cond
-      open-all? (response/redirect-after-post (u/dataset-sharing-settings dataset-id))
-      open-account? (response/redirect-after-post (u/dataset-sharing-settings dataset-id))
+     open-all? (response/redirect-after-post (u/dataset-settings dataset-id
+                                                                 project-id))
+     open-account? (response/redirect-after-post (u/dataset-settings dataset-id
+                                                                     project-id))
       :else (response/redirect-after-post (u/dataset-metadata dataset-id)))))
 
-(defn sharing-settings
-  "User share settings"
-  [account dataset-id]
+(defn settings
+  "Project settings page."
+  [account dataset-id project-id]
   (let [metadata (api/metadata account dataset-id)
         users (api-user/all account)]
     (base/base-template
       "/dataset"
       account
       (str "Sharing settings - " (:title metadata))
-      (forms/share-settings metadata dataset-id users))))
+      (forms/settings metadata dataset-id users))))
 
 (defn sharing-settings-update
   "User share settings update"

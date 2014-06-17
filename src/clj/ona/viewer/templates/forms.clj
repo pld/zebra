@@ -64,7 +64,7 @@
                            (remove-attr :checked)))
   [:input#closed] (set-attr :value sharing/closed))
 
-(defsnippet share-settings "templates/dataset/share-settings.html"
+(defsnippet settings "templates/dataset/settings.html"
   [:body :div#content]
   [metadata dataset-id users]
   [:span#title] (content (:title metadata))

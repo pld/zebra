@@ -133,6 +133,13 @@
          (provided
           (datasets/download :fake-account dataset-id :csv) => result)
 
+         "GET settings should call settings"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-settings dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/settings :fake-account dataset-id project-id) => result)
+
          "GET sharing should call sharing"
          (dataset-routes {:request-method :get
                           :uri (u/dataset-sharing dataset-id project-id)

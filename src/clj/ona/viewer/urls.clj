@@ -19,19 +19,19 @@
   (url "dataset" dataset-id "download"))
 
 (defn dataset-metadata
-  "Build dataset metadata link from dataset id."
+  "Build dataset metadata link from dataset and project id."
   [dataset-id project-id]
   (url "dataset" dataset-id project-id "metadata"))
 
 (defn dataset-sharing
-  "Build dataset sharing link from dataset id."
+  "Build dataset sharing link from dataset and project id."
   [dataset-id project-id]
   (url "dataset" dataset-id project-id "sharing"))
 
-(defn dataset-sharing-settings
-  "Build dataset sharing settings link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "sharing" "settings"))
+(defn dataset-settings
+  "Build dataset settings link from dataset and project id."
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "settings"))
 
 (def dataset-sharing-post (url "dataset" "sharing"))
 
