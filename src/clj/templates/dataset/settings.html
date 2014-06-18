@@ -42,38 +42,69 @@
 
 <div id="content" class="container">
     <div>
-        <h1>Share settings</h1>
+        <h1>Data settings</h1>
     </div>
 
     <div class="pure-g-r" id="share-settings">
         <div class="pure-u-3-5 bar-left">
-            <h2>Settings for your form <span id="title">Filename 1.xls</span></h2>
+            <h2><span id="title">Filename 1.xls</span></h2>
             <div class="uploading">
-                Determine who can access the dataset
+                Determine visibility and access to the dataset.
                 <br/><br/>
-                <ul>
-                    <li>User 1- Read only</li>
-                    <li>User 2- Read & Write</li>
-                    <li>User 3- Read & Write</li>
-                </ul>
-
                 <form id="form" class="pure-form pure-form-stacked" method="post">
-                    <input id="dataset-id" name="dataset-id" type="hidden">
-                    <input id="project-id" name="project-id" type="hidden">
-                    <select id="username" name="username">
-                        <option value="pld">Peter</option>
-                        <option value="mberg">Matt</option>
-                        <option value="rowo">Roger</option>
-                        <option value="wm">William</option>
-                    </select>
+                <input id="dataset-id" name="dataset-id" type="hidden">
+                <input id="project-id" name="project-id" type="hidden">
+                <table id="dataset-settings" class="pure-table pure-table-horizontal info-table">
+                    <tbody>
+                        <tr>
+                            <td><img id="avatar" class="avatar thumb" src="../../../resources/public/img/avatar.jpg" alt="User"/>
+                                <span id="owner" class="owner">garrm</span>
+                            </td>
+                            <td>
+                                <select name="role">
+                                    <option value="">Can View</option>
+                                    <option value="">Can Add records</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="public-settings">
+                            <td>
+                                <p> Anyone with the link </p>
+                                <span>Link: http://ona.io/garam/sdflkjs92i5rwkl/</span>
+                            </td>
+                            <td>
 
-                    <select id="role" name="role">
-                        <option value="readonly">Read Only</option>
-                        <option value="">Read & Write</option>
-                    </select>
-                    <br>
-                    <a id="back" href="#" class="pure-button">Back</a>
-                    <input type="submit" value="Next" class="pure-button">
+                                    <select name="role">
+                                        <option value="">Is Owner</option>
+                                        <option value="">Can View</option>
+                                        <option value="">Can Add records</option>
+                                    </select>
+                             </td>
+                        </tr>
+                        <tr id="private-settings">
+                            <td>
+                                <select id="username" name="username">
+                                    <option value="pld">Peter</option>
+                                    <option value="mberg">Matt</option>
+                                    <option value="rowo">Roger</option>
+                                    <option value="wm">William</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="role" name="role">
+                                    <option value="readonly">Read Only</option>
+                                    <option value="">Read & Write</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br>
+                <a id="share" href="#" class="pure-button">Share</a>
+                <br> <br>
+                <a id="back" href="#" class="pure-button">Back</a>
+                <input type="submit" value="Next" class="pure-button">
                 </form>
             </div>
         </div>

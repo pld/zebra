@@ -1,6 +1,6 @@
 (ns ona.viewer.helpers.sharing)
 
-(def settings "settings")
+(def settings "form_setting")
 
 (def private "private")
 

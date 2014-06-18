@@ -4,6 +4,7 @@
         [cheshire.core :only [parse-string]])
   (:require [ona.api.dataset :as api]
             [ona.api.project :as api-project]
+            [ona.api.user :as api-user]
             [ona.viewer.urls :as u]
             [ring.util.response :as response]
             [ona.viewer.helpers.sharing :as sharing]))
@@ -148,7 +149,8 @@
       "Should show settings for a dataset"
       (settings :fake-account :dataset-id :project-id) => (contains "some form")
       (provided
-        (api/metadata :fake-account :dataset-id) => {:title "some form"})
+        (api/metadata :fake-account :dataset-id) => {:title "some form" :owner "http://ona/ukanga"}
+        (api-user/profile :fake-account "ukanga") => :profile)
 
       "Should update share settings for a dataset"
       (let [username  :username

@@ -10,7 +10,8 @@
             [ona.viewer.templates.datasets :as datasets]
             [ona.viewer.urls :as u]
             [cheshire.core :as cheshire]
-            [ring.util.response :as response]))
+            [ring.util.response :as response]
+            [ona.utils.string :as s]))
 
 (defn- as-geojson
   [dataset]
@@ -209,12 +210,14 @@
   "Project settings page."
   [account dataset-id project-id]
   (let [metadata (api/metadata account dataset-id)
-        users (api-user/all account)]
+        users (api-user/all account)
+        owner (-> metadata :owner s/last-url-param)
+        profile (api-user/profile account owner)]
     (base/base-template
       "/dataset"
       account
       (str "Sharing settings - " (:title metadata))
-      (forms/settings metadata dataset-id project-id users))))
+      (forms/settings metadata dataset-id project-id users profile))))
 
 (defn settings-update
   "User share settings update"
