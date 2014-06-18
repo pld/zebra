@@ -16,12 +16,17 @@
 
 (defroutes user-routes
   (GET "/join" [] (profiles/sign-up))
-  (POST "/join" {params :params} (profiles/submit-sign-up params))
-  (POST "/login" {params :params} (accounts/submit-login params))
+  (POST "/join"
+        {params :params}
+        (profiles/submit-sign-up params))
+  (POST "/login"
+        {params :params}
+        (accounts/submit-login params))
   (GET "/logout" [] (accounts/logout))
   (GET "/profile/:username"
        {{account :account} :session
-        {username :username} :params} (profiles/user-profile account username)))
+        {username :username} :params}
+       (profiles/user-profile account username)))
 
 (defroutes dataset-routes
   (GET "/dataset"
@@ -31,76 +36,93 @@
         {{account :account} :session
          {file :file} :params}
         (datasets/create account file))
+  (GET "/search"  {{account :account} :session
+                   {query :query} :params}
+       (home-page account query))
+  (GET "/datasets"
+       {{account :account} :session}
+       (datasets/show-all account))
+  (POST "/dataset/sharing"
+        {{account :account} :session
+         params :params}
+        (datasets/sharing-update account params))
+  (GET "/dataset/:id/delete"
+       {{account :account} :session
+        {id :id} :params}
+       (datasets/delete account id))
+  (GET "/dataset/:id/download"
+       {{account :account} :session
+        {id :id} :params}
+       (datasets/download account id :csv))
   (GET "/project/:owner/:id/new-dataset"
        {{account :account} :session
         {owner :owner
          project-id :id} :params}
        (datasets/new-dataset account owner project-id))
-  (GET "/dataset/:id/show/:context"
+  (GET "/dataset/:dataset-id/:project-id/show/:context"
        {{account :account} :session
-        {id :id
+        {dataset-id :dataset-id
+         project-id :project-id
          context :context} :params}
-       (datasets/show account id (keyword context)))
+       (datasets/show account dataset-id project-id (keyword context)))
   (POST "/project/:owner/:id/new-dataset"
         {{account :account} :session
          {file :file
           owner :owner
           project-id :id} :params}
         (datasets/create account file owner project-id))
-  (GET "/dataset/:id"
+  (GET "/dataset/:dataset-id/:project-id"
        {{account :account} :session
-        {id :id} :params}
-       (datasets/show account id))
-  (GET "/dataset/:id/delete"
+        {dataset-id :dataset-id
+         project-id :project-id} :params}
+       (datasets/show account dataset-id project-id))
+  (GET "/dataset/:dataset-id/:project-id/tags"
        {{account :account} :session
-        {id :id} :params}
-       (datasets/delete account id))
-  (GET "/dataset/:id/tags"
-       {{account :account} :session
-        {id :id} :params}
-       (datasets/tags account id))
-  (POST "/dataset/:id/tags"
-        {{account :account} :session
-         params :params}
-        (datasets/create-tags account params))
-  (GET "/dataset/:id/download"
-       {{account :account} :session
-        {id :id} :params}
-       (datasets/download account id :csv))
-  (GET "/dataset/:id/sharing"
-       {{account :account} :session
-        {id :id} :params}
-       (datasets/sharing account id))
-  (GET "/dataset/:id/sharing/settings"
-       {{account :account} :session
-        {id :id} :params}
-       (datasets/sharing-settings account id))
-  (POST "/dataset/:id/sharing/settings"
-       {{account :account} :session
-        params :params}
-       (datasets/sharing-settings-update account params))
+        {dataset-id :dataset-id
+         project-id :project-id} :params}
+       (datasets/tags account dataset-id project-id))
   (POST "/dataset/sharing"
         {{account :account} :session
-         params :params}
-        (datasets/sharing-update account params))
-  (GET "/dataset/:id/metadata"
+         {id :id} :params}
+        (datasets/sharing account id))
+  (GET "/dataset/:dataset-id/:project-id/settings"
        {{account :account} :session
-        {id :id} :params}
-       (datasets/metadata account id))
-  (POST "/dataset/:id/metadata"
+        {dataset-id :dataset-id
+         project-id :project-id} :params}
+       (datasets/settings account dataset-id project-id))
+  (POST "/dataset/:id/sharing/settings"
         {{account :account} :session
          params :params}
-        (datasets/update account params))
-  (GET "/search"  {session :session
-                   {query :query} :params}
-       (home-page session query))
-   (GET "/datasets"
-       {{account :account} :session}
-       (datasets/show-all account))
-  (GET "/dataset/move/:id/:project-id"
+        (datasets/sharing-settings-update account params))
+  (POST "/dataset/:dataset-id/:project-id/tags"
+        {{account :account} :session
+         {dataset-id :dataset-id
+          project-id :project-id
+          tags :tags} :params}
+        (datasets/create-tags account dataset-id project-id tags))
+  (GET "/dataset/:dataset-id/:project-id/sharing"
        {{account :account} :session
-        params :params}
-       (datasets/move-to-project account params)))
+        {dataset-id :dataset-id
+         project-id :project-id} :params}
+       (datasets/sharing account dataset-id project-id))
+  (GET "/dataset/:dataset-id/:project-id/metadata"
+       {{account :account} :session
+        {dataset-id :dataset-id
+         project-id :project-id} :params}
+       (datasets/metadata account dataset-id project-id))
+  (POST "/dataset/:dataset-id/:project-id/metadata"
+        {{account :account} :session
+         {dataset-id :dataset-id
+          project-id :project-id
+          description :description
+          title :title
+          tags :tags} :params}
+        (datasets/update account dataset-id project-id title description tags))
+  (GET "/dataset/move/:dataset-id/:project-id"
+       {{account :account} :session
+        {dataset-id :dataset-id
+         project-id :project-id} :params}
+       (datasets/move-to-project account dataset-id project-id)))
 
 (defroutes project-routes
   (GET "/project/:owner"
@@ -117,11 +139,7 @@
         {id :id
          owner :owner} :params}
        (projects/settings account owner id))
-  (GET "/projects/:owner"
-       {{account :account} :session
-        {owner :owner} :params}
-       (projects/all account owner))
-  (POST "/projects/:owner"
+  (POST "/project/:owner"
         {{account :account} :session
          params :params}
         (projects/create account params)))
@@ -149,13 +167,15 @@
        (organizations/team-info account name team-id))
   (POST "/organizations/:name/team/:team-id"
         {{account :account} :session
-         params :params}
-        (organizations/add-team-member account params))
+         {org-name :org
+          team-id :teamid
+          username :username} :params}
+        (organizations/add-team-member account org-name team-id username))
   (GET "/organizations/:name/new-team"
        {{account :account} :session
         {name :name} :params}
        (organizations/new-team account name))
-  (POST "/organizations/:orgname/new-team"
+  (POST "/organizations/:name/new-team"
         {{account :account} :session
          params :params}
         (organizations/create-team account params))
@@ -181,7 +201,9 @@
         (organizations/remove-member account name member-username team-id)))
 
 (defroutes main-routes
-  (GET "/" {session :session} (home-page session))
+  (GET "/"
+       {{account :account} :session}
+       (home-page account))
   (route/resources "/")
   (route/not-found "Page not found"))
 

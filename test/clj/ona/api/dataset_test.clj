@@ -17,9 +17,9 @@
 
   (fact "about datasets-update"
         "Should get correct url"
-        (update account :dataset-id :params) => :something
+        (update account :dataset-id :project-id :params) => :something
         (provided
-          (make-url "forms" username :dataset-id) => url
+          (make-url "projects" username :project-id "forms" :dataset-id) => url
           (parse-http :put url account {:form-params :params}) => :something))
 
   (fact "about dataset metadata"

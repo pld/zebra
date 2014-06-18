@@ -28,16 +28,17 @@
 
 (defsnippet new-tag-form "templates/dataset/tag.html"
   [:body :div.content :> :.new-tag-form]
-  [dataset-id]
-  [:form](set-attr :action (u/dataset-tags dataset-id))
+  [dataset-id project-id]
+  [:form](set-attr :action (u/dataset-tags dataset-id project-id))
   [:form :#dataset-id](set-attr :value dataset-id))
 
 (defsnippet metadata-form "templates/dataset/metadata.html"
   [:body :div.content :> :.dataset-metadata-form]
-  [dataset-id metadata]
-  [:form] (set-attr :action (u/dataset-metadata dataset-id))
+  [dataset-id project-id metadata]
+  [:form] (set-attr :action (u/dataset-metadata dataset-id project-id))
   [:form :#dataset-id] (set-attr :value dataset-id)
-  [:a#back] (set-attr :href (u/dataset-sharing dataset-id))
+  [:form :#project-id] (set-attr :value project-id)
+  [:a#back] (set-attr :href (u/dataset-sharing dataset-id project-id))
   [:span#title] (content (:title metadata))
   [:input#form-title] (set-attr :value (:title metadata))
   [:input#description] (set-attr :value (:description metadata))
@@ -46,11 +47,12 @@
 
 (defsnippet sharing "templates/dataset/new-sharing.html"
   [:body :div#content]
-  [metadata dataset-id]
+  [metadata dataset-id project-id]
   [:span#title] (content (:title metadata))
   [:form#form] (set-attr :action u/dataset-sharing-post)
   [[:input (attr= :type "radio")]] (set-attr :name sharing/settings)
   [:input#dataset-id] (set-attr :value dataset-id)
+  [:input#project-id] (set-attr :value project-id)
   [:input#private] (do-> (set-attr :value sharing/private)
                          (if-not (:public metadata)
                            (set-attr :checked "checked")
@@ -62,7 +64,7 @@
                            (remove-attr :checked)))
   [:input#closed] (set-attr :value sharing/closed))
 
-(defsnippet share-settings "templates/dataset/share-settings.html"
+(defsnippet settings "templates/dataset/settings.html"
   [:body :div#content]
   [metadata dataset-id users]
   [:span#title] (content (:title metadata))

@@ -104,9 +104,9 @@
 
 (defn home-page
   "Render the signed out home page."
-  ([session]
-   (home-page session nil))
-  ([session search-term]
-    (if-let [account (:account session)]
+  ([account]
+   (home-page account nil))
+  ([account search-term]
+    (if account
       (dashboard account search-term)
       (accounts/login))))

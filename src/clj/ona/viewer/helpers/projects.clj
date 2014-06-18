@@ -34,9 +34,14 @@
   [account owner]
   (let [projects (api/all account owner)]
     (for [project projects]
-      (let [forms (api/get-forms account owner (s/last-url-param (:url project)))
+      (let [forms []
+            ;; TODO after performance fixes uncomment
+            ;; (api/get-forms account owner (s/last-url-param (:url project)))
             latest-form (latest-submitted-form forms)
-            all-submissions (all-submissions forms account)]
+            all-submissions []
+            ;; TODO after performance fixes uncomment
+            ;; (all-submissions forms account)
+            ]
         {:project project
          :date-created (t/format-date (:date_created project) :rfc822)
          :last-modification (-> latest-form
