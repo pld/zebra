@@ -143,3 +143,31 @@
                       dataset-id
                       project-id
                       {:shared "True"}) => nil)))
+
+(fact "about dataset settings"
+      "Should show settings for a dataset"
+      (settings :fake-account :dataset-id :project-id) => (contains "some form")
+      (provided
+        (api/metadata :fake-account :dataset-id) => {:title "some form"})
+
+      "Should update share settings for a dataset"
+      (let [username  :username
+            account {:username username}
+            dataset-id :dataset-id
+            project-id :project-id
+            owner username
+            role :role
+            params {:dataset-id dataset-id
+                    :project-id project-id
+                    :username username
+                    :role role}]
+
+        "Should update with private setting selected"
+        (settings-update account params)
+        => (contains {:status 303})
+        (provided
+          (api/update-sharing account
+                      dataset-id
+                      username
+                      owner
+                      role) => nil)))
