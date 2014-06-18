@@ -5,7 +5,8 @@
   (:require [ona.api.dataset :as api]
             [ona.api.project :as api-project]
             [ona.viewer.urls :as u]
-            [ring.util.response :as response]))
+            [ring.util.response :as response]
+            [ona.viewer.helpers.sharing :as sharing]))
 
 (facts "about datasets show"
        "Should returns data for dataset"
@@ -107,3 +108,38 @@
       (provided
        (api/create :fake-account :params :owner :project-id) => {:formid :dataset-id}
        (api/online-data-entry-link :fake-account :dataset-id) => :preview-url))
+
+(fact "about dataset sharing"
+      "Should show share settings for a dataset"
+      (sharing :fake-account :dataset-id :project-id) => (contains "some form")
+      (provided
+        (api/metadata :fake-account :dataset-id) => {:title "some form"})
+
+      "Should update share settings for a dataset"
+      (let [dataset-id :dataset-id
+            project-id :project-id
+            settings-kw  (keyword sharing/settings)
+            params-private {:dataset-id dataset-id
+                            :project-id project-id
+                            settings-kw sharing/private}
+            params-open {:dataset-id dataset-id
+                         :project-id project-id
+                         settings-kw sharing/open-all}]
+
+        "Should update with private setting selected"
+        (sharing-update :fake-account params-private)
+        => (contains {:status 303})
+        (provided
+          (api/update :fake-account
+                      dataset-id
+                      project-id
+                      {:shared "False"}) => nil)
+
+        "Should update with open-all setting selected"
+        (sharing-update :fake-account params-open)
+        => (contains {:status 303})
+        (provided
+          (api/update :fake-account
+                      dataset-id
+                      project-id
+                      {:shared "True"}) => nil)))

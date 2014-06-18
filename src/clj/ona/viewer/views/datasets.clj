@@ -202,7 +202,8 @@
                                                                  project-id))
      open-account? (response/redirect-after-post (u/dataset-settings dataset-id
                                                                      project-id))
-      :else (response/redirect-after-post (u/dataset-metadata dataset-id)))))
+      :else (response/redirect-after-post (u/dataset-metadata dataset-id
+                                                              project-id)))))
 
 (defn settings
   "Project settings page."
