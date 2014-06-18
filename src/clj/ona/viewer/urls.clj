@@ -33,11 +33,6 @@
   [dataset-id project-id]
   (url "dataset" dataset-id project-id "settings"))
 
-(defn dataset-sharing-settings
-  "Build dataset sharing settings link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "sharing" "settings"))
-
 (def dataset-sharing-post (url "dataset" "sharing"))
 
 (defn dataset-chart

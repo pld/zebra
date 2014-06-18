@@ -215,7 +215,7 @@
       (str "Sharing settings - " (:title metadata))
       (forms/settings metadata dataset-id users))))
 
-(defn sharing-settings-update
+(defn settings-update
   "User share settings update"
   [account params]
   (let [dataset-id (:dataset-id params)
