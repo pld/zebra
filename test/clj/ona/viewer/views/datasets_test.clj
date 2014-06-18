@@ -171,3 +171,12 @@
                       username
                       owner
                       role) => nil)))
+
+(fact "about move dataset to project"
+      (let [username :username
+            account {:username username }]
+          (move-to-project account :dataset-id :project-id)
+        => (contains {:status 303})
+        (provided
+          (api/move-to-project account :dataset-id :project-id username)
+          => nil)))
