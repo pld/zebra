@@ -72,7 +72,7 @@
                      {:title title
                       :description description})
          => nil
-         (api/add-tags :fake-account dataset-id tags) => nil)))
+         (api/add-tags :fake-account dataset-id {:tags tags}) => nil)))
 
 (fact "about dataset delete"
       "Should delete a dataset"

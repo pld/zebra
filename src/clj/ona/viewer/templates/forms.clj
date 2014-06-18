@@ -66,16 +66,17 @@
 
 (defsnippet settings "templates/dataset/settings.html"
   [:body :div#content]
-  [metadata dataset-id users]
+  [metadata dataset-id project-id users]
   [:span#title] (content (:title metadata))
   [:input#dataset-id] (set-attr :value dataset-id)
+  [:input#project-id] (set-attr :value project-id)
   [:select#username [:option (but first-of-type)]] nil
   [:select#username [:option first-of-type]] (clone-for [user users]
                                                 [:option] (do->
                                                             (set-attr :value (:username user))
                                                             (content
                                                               (str (:first_name user) " " (:last_name user)))))
-  )
+  [:a#back](set-attr :href (u/dataset dataset-id project-id)))
 
 (defsnippet sign-up-form "templates/sign-up.html"
   [:body :div#content]

@@ -165,8 +165,8 @@
   "Update metadata for a specific dataset"
   [account dataset-id project-id title description tags]
   (api/update account dataset-id project-id {:title title
-                                             :description description})
-  (api/add-tags account dataset-id tags)
+                                               :description description})
+  (api/add-tags account dataset-id {:tags tags})
   (response/redirect-after-post (u/dataset dataset-id project-id)))
 
 (defn delete
@@ -213,17 +213,18 @@
       "/dataset"
       account
       (str "Sharing settings - " (:title metadata))
-      (forms/settings metadata dataset-id users))))
+      (forms/settings metadata dataset-id project-id users))))
 
 (defn settings-update
   "User share settings update"
   [account params]
   (let [dataset-id (:dataset-id params)
+        project-id (:project-id params)
         owner (:username account)
         username (:username params)
         role (:role params)]
     (api/update-sharing account dataset-id owner username role)
-    (response/redirect-after-post (u/dataset dataset-id))))
+    (response/redirect-after-post (u/dataset-metadata dataset-id project-id))))
 
 (defn move-to-project
   "Move a dataset to a project"
