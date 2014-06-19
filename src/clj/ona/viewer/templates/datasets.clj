@@ -149,7 +149,7 @@
   (clone-for [dataset datasets]
              [:.avatar] (set-attr :src (gravatar (:email profile)))
              [:.username] (content (:username profile))
-             [:strong.dataset-name] (do->
+             [:a.dataset-name] (do->
                                      (content (:title dataset))
                                      (set-attr :href (dataset-url dataset project-id)))
              [:ul.submenu :li.open :a] (set-attr
