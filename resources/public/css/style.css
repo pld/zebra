@@ -1,6 +1,7 @@
 /* custom styles */
 *{
     margin:0;padding:0;
+    box-sizing:border-box!important;
 }
 body{
     font-family: Arial!important;
@@ -20,6 +21,10 @@ a:hover{
 .pure-menu li a:hover, .pure-button, .vw-menu li a:hover{
     text-decoration:none!important;
 }
+input, textarea{
+	box-shadow:none!important;
+}
+box-shadow
 
 /* cleafix */
 .cfix:before,
@@ -201,6 +206,10 @@ hr{
     margin-bottom:2em;
     padding:1em;
 }
+#datasets-table{
+	border:0;
+}
+
 
 /* teambox */
 .teambar{
@@ -235,7 +244,10 @@ hr{
     padding: 0;
 }
 .tabs li{
-    float: left;
+    float:left;
+}
+.tabs li:first-child{
+    margin-left:2em;
 }
 .tabs label{
     display: block;
@@ -253,15 +265,17 @@ hr{
     display: block;
 }
 .tab-content{
-    border-top:1px solid #CFCFCF;
+    border:1px solid #CFCFCF;
     display: none;
-    padding-top:2em;
-    padding-bottom:5em;
+    padding:2em 2em 5em;
     position: absolute;
     left: 0;
     text-align: left;
     width: 100%;
     z-index: 2;
+}
+.searchbar{
+	margin-bottom:2em;
 }
 
 .page-header{
