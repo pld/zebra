@@ -10,7 +10,8 @@
             [ona.viewer.templates.datasets :as datasets]
             [ona.viewer.urls :as u]
             [cheshire.core :as cheshire]
-            [ring.util.response :as response]))
+            [ring.util.response :as response]
+            [ona.utils.string :as s]))
 
 (defn- as-geojson
   [dataset]
@@ -165,8 +166,8 @@
   "Update metadata for a specific dataset"
   [account dataset-id project-id title description tags]
   (api/update account dataset-id project-id {:title title
-                                             :description description})
-  (api/add-tags account dataset-id tags)
+                                               :description description})
+  (api/add-tags account dataset-id {:tags tags})
   (response/redirect-after-post (u/dataset dataset-id project-id)))
 
 (defn delete
@@ -191,10 +192,42 @@
   (let [{:keys [dataset-id project-id]} params
         project-id (:project-id params)
         sharing-settings ((keyword sharing/settings) params)
-        update-data {:shared (if (= sharing-settings sharing/open-all)
+        open-account? (= sharing-settings sharing/open-account)
+        open-all? (= sharing-settings sharing/open-all)
+        update-data {:shared (if open-all?
                                "True"
                                "False")}]
     (api/update account dataset-id project-id update-data)
+    (cond
+     open-all? (response/redirect-after-post (u/dataset-settings dataset-id
+                                                                 project-id))
+     open-account? (response/redirect-after-post (u/dataset-settings dataset-id
+                                                                     project-id))
+      :else (response/redirect-after-post (u/dataset-metadata dataset-id
+                                                              project-id)))))
+
+(defn settings
+  "Project settings page."
+  [account dataset-id project-id]
+  (let [metadata (api/metadata account dataset-id)
+        users (api-user/all account)
+        owner (-> metadata :owner s/last-url-param)
+        profile (api-user/profile account owner)]
+    (base/base-template
+      "/dataset"
+      account
+      (str "Sharing settings - " (:title metadata))
+      (forms/settings metadata dataset-id project-id users profile))))
+
+(defn settings-update
+  "User share settings update"
+  [account params]
+  (let [dataset-id (:dataset-id params)
+        project-id (:project-id params)
+        owner (:username account)
+        username (:username params)
+        role (:role params)]
+    (api/update-sharing account dataset-id owner username role)
     (response/redirect-after-post (u/dataset-metadata dataset-id project-id))))
 
 (defn move-to-project

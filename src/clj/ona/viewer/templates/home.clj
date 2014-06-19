@@ -7,8 +7,7 @@
                                        do->
                                        first-of-type
                                        set-attr
-                                       nth-of-type]]
-        [ona.viewer.templates.modals :only [share-dialog]] :reload)
+                                       nth-of-type]] :reload)
   (:require [ona.viewer.templates.projects :as projects]
             [ona.viewer.urls :as u]))
 

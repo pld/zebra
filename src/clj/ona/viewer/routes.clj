@@ -81,6 +81,19 @@
         {dataset-id :dataset-id
          project-id :project-id} :params}
        (datasets/tags account dataset-id project-id))
+  (POST "/dataset/sharing"
+        {{account :account} :session
+         {id :id} :params}
+        (datasets/sharing account id))
+  (GET "/dataset/:dataset-id/:project-id/settings"
+       {{account :account} :session
+        {dataset-id :dataset-id
+         project-id :project-id} :params}
+       (datasets/settings account dataset-id project-id))
+  (POST "/dataset/:dataset-id/:project-id/settings"
+        {{account :account} :session
+         params :params}
+        (datasets/settings-update account params))
   (POST "/dataset/:dataset-id/:project-id/tags"
         {{account :account} :session
          {dataset-id :dataset-id
