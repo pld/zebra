@@ -56,6 +56,11 @@
     (str (pluralize-number no-submission "submission")
          " made today.")))
 
+(defn- dataset-url
+  [dataset project-id]
+  (u/dataset (:formid dataset)
+             project-id))
+
 (defsnippet new-dataset "templates/dataset/new.html"
   [:body :div#content]
   [project]
@@ -144,11 +149,11 @@
   (clone-for [dataset datasets]
              [:.avatar] (set-attr :src (gravatar (:email profile)))
              [:.username] (content (:username profile))
-             [:strong.dataset-name] (content (:title dataset))
+             [:strong.dataset-name] (do->
+                                     (content (:title dataset))
+                                     (set-attr :href (dataset-url dataset project-id)))
              [:ul.submenu :li.open :a] (set-attr
-                                        :href
-                                        (u/dataset (:formid dataset)
-                                                   project-id))
+                                        :href (dataset-url dataset project-id))
              [:ul.submenu :li.settings :a] (set-attr :href
                                                      (u/dataset-settings
                                                       (:formid dataset)
