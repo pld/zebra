@@ -1,13 +1,15 @@
 (ns ona.viewer.views.datasets-test
   (:use midje.sweet
-        ona.viewer.views.datasets)
+        ona.viewer.views.datasets
+        [cheshire.core :only [parse-string]])
   (:require [ona.api.dataset :as api]
             [ona.api.project :as api-project]
+            [ona.viewer.urls :as u]
             [ring.util.response :as response]))
 
 (facts "about datasets show"
        "Should returns data for dataset"
-      (show :fake-account :dataset-id) => (contains "Some title")
+      (show :fake-account :dataset-id :project-id) => (contains "Some title")
       (provided
         (api/data :fake-account :dataset-id) => [:row]
         (api/metadata :fake-account :dataset-id) => {:title "Some title"
@@ -25,17 +27,17 @@
 
 (fact "about dataset tags"
       "Tags returns all tags for a specific dataset"
-      (tags :fake-account :dataset-id) => (contains (str :fake-tags))
+      (tags :fake-account :dataset-id :project-id) => (contains (str :fake-tags))
       (provided
         (api/tags :fake-account :dataset-id) => [:fake-tags])
 
       "Create tags creates tags for a specific dataset"
-      (let [tags {:tags "tag1, tag2"}
-            params (merge {:dataset-id :dataset-id} tags)]
-        (create-tags :fake-account params) => :something
+      (let [tags {:tags "tag1, tag2"}]
+        (create-tags :fake-account :dataset-id :project-id tags) => :something
         (provided
-          (api/add-tags :fake-account :dataset-id tags) => :new-tags
-          (tags :fake-account :dataset-id) => :something)))
+         (api/add-tags :fake-account :dataset-id {:tags tags}) => :new-tags
+          (response/redirect-after-post
+           (u/dataset-tags :dataset-id :project-id)) => :something)))
 
 (fact "about dataset download"
       "Downloads dataset with specified format"
@@ -51,18 +53,26 @@
 
 (fact "about dataset metadata"
       "Should show metadata for a specific dataset"
-     (metadata :fake-account :dataset-id) => (contains "some data")
+     (metadata :fake-account :dataset-id :project-id) => (contains "some data")
 
      (provided
        (api/metadata :fake-account :dataset-id) => "some data")
 
       "Should update metadata for a specific dataset"
-      (let [metadata-updates {:description "test description" :title "test title"}
-            dataset-id 1
-            params (merge {:dataset-id dataset-id} metadata-updates)]
-        (update :fake-account params) => (contains {:status 303})
+      (let [description :description
+            title :title
+            tags :tags
+            dataset-id 1]
+        (update :fake-account dataset-id :project-id title description tags)
+        => (contains {:status 303})
         (provided
-          (api/update :fake-account dataset-id metadata-updates) => :updated-metadata)))
+         (api/update :fake-account
+                     dataset-id
+                     :project-id
+                     {:title title
+                      :description description})
+         => nil
+         (api/add-tags :fake-account dataset-id tags) => nil)))
 
 (fact "about dataset delete"
       "Should delete a dataset"
@@ -78,26 +88,22 @@
                                                       :text :response})
 
       "Should return link to preview URL on success"
-      (cheshire.core/parse-string (:body (create :fake-account :params)) true) =>
+      (parse-string (:body (create :fake-account :params)) true) =>
       {:preview-url "preview-url"
-       :settings-url (str "/dataset/" :dataset-id "/sharing")
-       :delete-url (str "/dataset/"
-                        :dataset-id
-                        "/delete")}
+       :settings-url (u/dataset-sharing :dataset-id nil)
+       :delete-url (u/dataset-delete :dataset-id)}
       (provided
        (api/create :fake-account :params nil nil) => {:formid :dataset-id}
        (api/online-data-entry-link :fake-account :dataset-id) => :preview-url)
 
       "Should upload to project if project-id passed"
-      (cheshire.core/parse-string (:body (create :fake-account
-                                                 :params
-                                                 :owner
-                                                 :project-id)) true) =>
+      (parse-string (:body (create :fake-account
+                                   :params
+                                   :owner
+                                   :project-id)) true) =>
       {:preview-url "preview-url"
-       :settings-url (str "/dataset/" :dataset-id "/sharing")
-       :delete-url (str "/dataset/"
-                        :dataset-id
-                        "/delete")}
+       :settings-url (u/dataset-sharing :dataset-id :project-id)
+       :delete-url (u/dataset-delete :dataset-id)}
       (provided
        (api/create :fake-account :params :owner :project-id) => {:formid :dataset-id}
        (api/online-data-entry-link :fake-account :dataset-id) => :preview-url))

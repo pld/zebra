@@ -5,8 +5,8 @@
 ;; Datasets
 (defn dataset
   "Build dataset show link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id))
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id))
 
 (defn dataset-delete
   "Build dataset delete link from dataset id."
@@ -20,41 +20,40 @@
 
 (defn dataset-metadata
   "Build dataset metadata link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "metadata"))
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "metadata"))
 
 (defn dataset-sharing
   "Build dataset sharing link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "sharing"))
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "sharing"))
 
 (def dataset-sharing-post (url "dataset" "sharing"))
 
 (defn dataset-chart
-  "Build dataset chart link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "show/chart"))
+  "Build dataset chart link from dataset and project id."
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "show/chart"))
 
 (defn dataset-photo
-  "Build dataset photo link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "show/photo"))
+  "Build dataset photo link from dataset and project id."
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "show/photo"))
 
 (defn dataset-activity
-  "Build dataset activity link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "show/activity"))
-
+  "Build dataset activity link from dataset and project id."
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "show/activity"))
 
 (defn dataset-table
-  "Build dataset table link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "show/table"))
+  "Build dataset table link from dataset and project id."
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "show/table"))
 
 (defn dataset-tags
-  "Build dataset tags link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "tags"))
+  "Build dataset tags link from dataset and project id."
+  [dataset-id project-id]
+  (url "dataset" dataset-id project-id "tags"))
 
 (defn dataset-move
   "Build dataset move link from dataset-id and project-id"
@@ -123,6 +122,6 @@
   (url "project" owner (:id project) "settings"))
 
 (defn project-new
-  "Build the project for a new url give owner."
+  "Build the url for a new project given owner."
   [owner]
   (url "project" owner))

@@ -13,17 +13,6 @@
             [ona.utils.time :as t]
             [ona.viewer.helpers.projects :as h]))
 
-(defn all
-  "List all of the users projects."
-  [account owner]
-  (let [projects (api/all account owner)]
-    (dashboard-items
-      "Projects"
-      account
-      "/projects"
-      (for [project projects]
-        {:name (str project)}))))
-
 (defn new-project
   "Form for creating a new project."
   ([account owner]

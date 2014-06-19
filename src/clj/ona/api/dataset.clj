@@ -31,11 +31,10 @@
      (create account uploaded-file nil nil))
   ([account uploaded-file owner project-id]
      (let [xlsfile (uploaded->file uploaded-file)
-           url (apply make-url (if project-id ["projects/"
+           url (apply make-url (if project-id ["projects"
                                                owner
-                                               "/"
                                                project-id
-                                               "/forms"]
+                                               "forms"]
                                  ["forms"]))]
        (parse-http :post url account
                    {:multipart [{:name "xls_file"
@@ -43,8 +42,12 @@
 
 (defn update
   "Set the metadata for a dataset."
-  [account dataset-id params]
-  (let [url (make-url "forms" (:username account) dataset-id)]
+  [account dataset-id project-id params]
+  (let [url (make-url "projects"
+                      (:username account)
+                      project-id
+                      "forms"
+                      dataset-id)]
     (parse-http :put url account {:form-params params})))
 
 (defn data

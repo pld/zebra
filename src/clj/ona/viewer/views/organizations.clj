@@ -137,10 +137,8 @@
 
 (defn add-team-member
   "Add member to a team"
-  [account params]
-  (let [org-name (:org params)
-        team-id (:teamid params)
-        user {:username (:username params) :organization org-name}]
+  [account org-name team-id username]
+  (let [user {:username username :organization org-name}]
     (api/add-team-member account org-name team-id user)
     (response/redirect-after-post (u/org-team org-name team-id))))
 
