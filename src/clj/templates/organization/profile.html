@@ -75,11 +75,21 @@
             <ul class="tabs">
                 <li>
                     <input type="radio" checked name="tabs" id="tab1">
-                    <label for="tab1">Projects</label>
+                    <label for="tab1">Datasets</label>
                     <div id="tab-content1" class="tab-content">
                       <div id="tab-inner">
-                      <a id="new-project" href="dataset-new.html" class="btn-large pure-button">
-                        <i class="fa fa-plus"></i> &nbsp;New Project</a>
+                      	<div class="pure-g-r searchbar">
+                      		<div class="pure-u-1-2">
+		                      <a id="new-project" href="../dataset/new.html" class="btn-large pure-button">
+		                        <i class="fa fa-plus"></i> &nbsp;New Project</a>
+                      		</div>
+                      		<div class="pure-u-1-2">
+		                        <form class="pure-form">
+							        <input type="search" placeholder="Search..."/>
+							        <button type="submit" class="pure-button pure-button-primary">Search</button>
+								</form>
+                      		</div>
+                      	</div>
 
                           <table id="datasets-table" class="pure-table pure-table-horizontal info-table">
                               <tbody>
