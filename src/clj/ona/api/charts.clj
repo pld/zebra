@@ -6,3 +6,9 @@
   [account dataset-id]
   (let [url (make-url "charts" dataset-id)]
         (parse-http :get url account)))
+
+(defn chart
+  "Get chart for a specifc field in a dataset"
+  [account dataset-id format field-name]
+  (let [url (make-url "charts" dataset-id "." format "?field_name=" field-name)]
+    (parse-http :get url account)))
