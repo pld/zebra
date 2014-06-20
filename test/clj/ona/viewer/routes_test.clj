@@ -133,6 +133,13 @@
          (provided
           (datasets/download :fake-account dataset-id :csv) => result)
 
+         "GET settings should call settings"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-settings dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+          (datasets/settings :fake-account dataset-id project-id) => result)
+
          "GET sharing should call sharing"
          (dataset-routes {:request-method :get
                           :uri (u/dataset-sharing dataset-id project-id)
@@ -146,6 +153,20 @@
                           :session session}) => (contains result)
          (provided
           (datasets/sharing-update :fake-account {}) => result)
+
+         "GET settings should call settings"
+         (dataset-routes {:request-method :get
+                          :uri (u/dataset-settings dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+           (datasets/settings :fake-account dataset-id project-id) => result)
+
+         "POST setttings should call settings-update"
+         (dataset-routes {:request-method :post
+                          :uri (u/dataset-settings dataset-id project-id)
+                          :session session}) => (contains result)
+         (provided
+           (datasets/settings-update :fake-account {:project-id project-id :dataset-id dataset-id}) => result)
 
          "GET metadata should call metadata"
          (dataset-routes {:request-method :get

@@ -3,6 +3,7 @@
                                        clone-for
                                        content
                                        defsnippet
+                                       do->
                                        first-of-type
                                        set-attr]]
         [clavatar.core :only [gravatar]]
@@ -24,6 +25,11 @@
   [project]
   (pluralize-number (:num-datasets project)
                     "dataset"))
+
+(defn- project-url
+  [project owner]
+  (u/project-show (-> project :project :url s/last-url-param)
+                  owner))
 
 (defn- user-string
   [logged-in-username shared-username]
@@ -74,14 +80,14 @@
   (clone-for [project projects]
              [:img.avatar] (set-attr :src (gravatar (:email profile)))
              [:span.owner-name] (content owner)
-             [:span.project-name] (content (-> project :project :name))
+             [:a.project-name] (do->
+                                (content (-> project :project :name))
+                                (set-attr :href (project-url project owner)))
              [:span.latest] (content (:submissions project))
              [:span.date-created] (content (:date-created project))
              [:span.num-datasets] (content (num-datasets-str project))
              [:span.last-project-modification] (content (last-record-str project))
-             [:a.open-link] (set-attr :href (u/project-show
-                                        (-> project :project :url s/last-url-param)
-                                        owner))))
+             [:a.open-link] (set-attr :href (project-url project owner))))
 
 (defn project-list
   "Helper to build arguments for project list template."

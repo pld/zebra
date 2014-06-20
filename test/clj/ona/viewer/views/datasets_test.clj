@@ -4,8 +4,10 @@
         [cheshire.core :only [parse-string]])
   (:require [ona.api.dataset :as api]
             [ona.api.project :as api-project]
+            [ona.api.user :as api-user]
             [ona.viewer.urls :as u]
-            [ring.util.response :as response]))
+            [ring.util.response :as response]
+            [ona.viewer.helpers.sharing :as sharing]))
 
 (facts "about datasets show"
        "Should returns data for dataset"
@@ -72,7 +74,7 @@
                      {:title title
                       :description description})
          => nil
-         (api/add-tags :fake-account dataset-id tags) => nil)))
+         (api/add-tags :fake-account dataset-id {:tags tags}) => nil)))
 
 (fact "about dataset delete"
       "Should delete a dataset"
@@ -107,3 +109,76 @@
       (provided
        (api/create :fake-account :params :owner :project-id) => {:formid :dataset-id}
        (api/online-data-entry-link :fake-account :dataset-id) => :preview-url))
+
+(fact "about dataset sharing"
+      "Should show share settings for a dataset"
+      (sharing :fake-account :dataset-id :project-id) => (contains "some form")
+      (provided
+        (api/metadata :fake-account :dataset-id) => {:title "some form"})
+
+      "Should update share settings for a dataset"
+      (let [dataset-id :dataset-id
+            project-id :project-id
+            settings-kw  (keyword sharing/settings)
+            params-private {:dataset-id dataset-id
+                            :project-id project-id
+                            settings-kw sharing/private}
+            params-open {:dataset-id dataset-id
+                         :project-id project-id
+                         settings-kw sharing/open-all}]
+
+        "Should update with private setting selected"
+        (sharing-update :fake-account params-private)
+        => (contains {:status 303})
+        (provided
+          (api/update :fake-account
+                      dataset-id
+                      project-id
+                      {:shared "False"}) => nil)
+
+        "Should update with open-all setting selected"
+        (sharing-update :fake-account params-open)
+        => (contains {:status 303})
+        (provided
+          (api/update :fake-account
+                      dataset-id
+                      project-id
+                      {:shared "True"}) => nil)))
+
+(fact "about dataset settings"
+      "Should show settings for a dataset"
+      (settings :fake-account :dataset-id :project-id) => (contains "some form")
+      (provided
+        (api/metadata :fake-account :dataset-id) => {:title "some form" :owner "http://ona/ukanga"}
+        (api-user/profile :fake-account "ukanga") => :profile)
+
+      "Should update share settings for a dataset"
+      (let [username  :username
+            account {:username username}
+            dataset-id :dataset-id
+            project-id :project-id
+            owner username
+            role :role
+            params {:dataset-id dataset-id
+                    :project-id project-id
+                    :username username
+                    :role role}]
+
+        "Should update with private setting selected"
+        (settings-update account params)
+        => (contains {:status 303})
+        (provided
+          (api/update-sharing account
+                      dataset-id
+                      username
+                      owner
+                      role) => nil)))
+
+(fact "about move dataset to project"
+      (let [username :username
+            account {:username username }]
+          (move-to-project account :dataset-id :project-id)
+        => (contains {:status 303})
+        (provided
+          (api/move-to-project account :dataset-id :project-id username)
+          => nil)))
