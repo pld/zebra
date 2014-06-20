@@ -161,10 +161,17 @@ hr{
 }
 .fa.fa-star{
     color:#F1C232;
-    font-size:0.6em;
+    font-size:15px;
 }
 .fa.fa-star:hover{
     color:#4BB848;
+}
+.team-table{
+    border:0;
+    max-width:30em!important;
+}
+.team-table tr td{
+    border:0;
 }
 
 /* navbars */
