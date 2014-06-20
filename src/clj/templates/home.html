@@ -59,17 +59,22 @@
             <ul class="tabs">
             <li>
                 <input type="radio" checked name="tabs" id="tab1">
-                <label for="tab1">Projects</label>
+                <label for="tab1">My Projects</label>
                 <div id="tab-content1" class="tab-content">
                     <p>
-                        Sort: Last record time | Last edit me
-
-                        <span class="right">
-                            <form id="search-form" class="pure-form">
-                            <input type="text" name="query" id="search-query"/>
-                            <input class="pure-button" type="submit" value="Search"/>
-                            </form>
-                        </span>
+                        <div class="pure-g-r searchbar">
+                      		<div class="pure-u-1-2">
+		                      Sort and filter options...recent, name, etc
+                      		</div>
+                      		<div class="pure-u-1-2">
+                                <span class="right">
+                                    <form id="search-form" class="pure-form">
+                                    <input type="text" name="query" id="search-query"/>
+                                    <input class="pure-button" type="submit" value="Search"/>
+                                    </form>
+                                </span>
+                      		</div>
+                      	</div>
                     </p>
                     <p></p>
                     <div class="datasets-table">
@@ -166,10 +171,115 @@
                     </div>
                 </div>
             </li>
+            
             <li>
                 <input type="radio" name="tabs" id="tab2">
-                <label for="tab2">Activity</label>
+                <label for="tab2">Collaborating Projects</label>
                 <div id="tab-content2" class="tab-content">
+                    <p>
+                        <div class="pure-g-r searchbar">
+                            <div class="pure-u-1-2">
+                              Sort: Last record time | Last edit by me
+                            </div>
+                            <div class="pure-u-1-2">
+                                <span class="right">
+                                    <form id="search-form" class="pure-form">
+                                    <input type="text" name="query" id="search-query"/>
+                                    <input class="pure-button" type="submit" value="Search"/>
+                                    </form>
+                                </span>
+                            </div>
+                        </div>
+                    </p>
+                    <table id="datasets-table" class="pure-table pure-table-horizontal info-table">
+                    <tbody>
+                    <tr>
+                        <td><img class="avatar thumb" src="../../../resources/public/img/avatar.jpg" alt="User"/> <span class="username">alisa</span></td>
+                        <td>
+                            <strong>Vaccines</strong> &nbsp;
+                            <div class="dropdown">
+                                <a href="#" class="drop-toggle t-large"><i class="fa fa-sort-down"></i></a>
+                                <ul class="submenu">
+                                    <li class="open"><a href="#">Open</a></li>
+                                    <li class="share"><a href="#">Share</a></li>
+                                    <li class="move"><a href="#">Move to an org</a></li>
+                                    <li class="star"><a href="#">Add star</a></li>
+                                    <li class="transfer"><a href="#">Transfer ownership</a></li>
+                                    <li class="folder"><a href="#">Put in a folder</a></li>
+                                    <li class="replace"><a href="#">Replace xls form</a></li>
+                                    <li class="copy">
+                                        <div class="dropdown menu-context">
+                                            <a href="#">Make a copy
+                                                <i class="fa fa-caret-square-o-right right"></i>
+                                            </a>
+                                            <ul class="submenu">
+                                                <li><a href="#">Copy to Garrm</a></li>
+                                                <li><a href="#">Copy to WHO (organization)</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="rename"><a href="#">Rename</a></li>
+                                    <li class="download"><a href="#">Download</a></li>
+                                    <li class="delete"><a href="#">Delete</a></li>
+                                    <li class="cancel"><a href="#">Cancel</a></li>
+                                </ul>
+                            </div>
+
+                            <span class="t-state">
+                                &nbsp;Shared &nbsp;&nbsp; Public
+                            </span>
+                            <p>
+                                <span id="num-forms">3</span> records added
+                                <span id="when">today</span>
+                            </p>
+                        </td>
+                        <td><span id="added" class="rec">Added April 17</span></td>
+                    </tr>
+                    <tr>
+                        <td><img class="avatar thumb" src="../../../resources/public/img/avatar.jpg" alt="User"/> <span class="username">mberg</span></td>
+                        <td>
+                            <strong>Polio</strong> &nbsp;
+                             <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a>                             <span class="t-state"> &nbsp;Shared</span>
+                            <p>
+                                <span id="num-forms">14</span> records added
+                                <span id="when">today</span>
+                            </p>
+                        </td>
+                        <td><span class="rec">Added June 5</span></td>
+                    </tr>
+                    <tr>
+                        <td><img class="avatar thumb" src="../../../resources/public/img/avatar.jpg" alt="User"/> <span class="username">alisa</span></td>
+                        <td>
+                            <strong>Heart and Hands</strong> &nbsp;
+                             <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a>
+                            <p>
+                                <span id="num-forms">30</span> records added
+                                <span id="when">yesterday</span>
+                            </p>
+                        </td>
+                        <td><span class="rec">Added Dec 10 2013</span></td>
+                    </tr>
+                    <tr>
+                        <td><img class="avatar thumb" src="../../../resources/public/img/avatar.jpg" alt="User"/> <span class="username">WB</span></td>
+                        <td>
+                            <strong>Vaccinations</strong> &nbsp;
+                             <a href="#" class="t-large"><i class="fa fa-sort-down"></i></a>
+                            <p>
+                                <span id="num-forms">140</span> records added
+                                <span id="when">2 months ago</span>
+                            </p>
+                        </td>
+                        <td><span class="rec">Added May 23 2013</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </li>
+                
+            <li>
+                <input type="radio" name="tabs" id="tab3">
+                <label for="tab3">Activity</label>
+                <div id="tab-content3" class="tab-content">
                     <table class="table-list table-blue pure-table pure-table-horizontal info-table">
                     <tr>
                         <td>Invite</td>
@@ -230,9 +340,9 @@
                 </div>
             </li>
             <li>
-                <input type="radio" name="tabs" id="tab3">
-                <label for="tab3">Starred</label>
-                <div id="tab-content3" class="tab-content">
+                <input type="radio" name="tabs" id="tab4">
+                <label for="tab4">Starred</label>
+                <div id="tab-content4" class="tab-content">
                     <table class="pure-table pure-table-horizontal info-table">
                     <tr>
                         <th></th>
@@ -292,7 +402,7 @@
     	</div>
 
         <div class="pure-u-1-5 right" id="sidenav">
-            <a href="dataset-new.html" class="btn-large pure-button">
+            <a href="project/new.html" class="btn-large pure-button">
                 <i class="fa fa-plus"></i> &nbsp;New Project</a>
             <p>
                 <h4>Learn</h4>
