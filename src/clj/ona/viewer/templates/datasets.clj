@@ -5,6 +5,7 @@
                                        defsnippet
                                        do->
                                        first-of-type
+                                       html-content
                                        nth-of-type
                                        set-attr]]
         :reload
@@ -13,7 +14,8 @@
         [clojure.string :only [join]])
   (:require [ona.viewer.urls :as u]
             [ona.utils.time :as t]
-            [ona.utils.string :as s]))
+            [ona.utils.string :as s]
+            [ona.utils.charts :as c]))
 
 (def hidden-column-prefix \_)
 
@@ -87,7 +89,7 @@
 (defsnippet show-chart "templates/dataset/show.html"
   [:div#chart]
   [charts]
-  [:div#chart] (content charts))
+  [:div#chart] (html-content (c/generate-bar[""])))
 
 (defn- view-for-context
   "Return the view appropriate for the passed context."
