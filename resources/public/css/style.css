@@ -161,7 +161,7 @@ hr{
 }
 .fa.fa-star{
     color:#F1C232;
-    font-size:1.2em;
+    font-size:0.6em;
 }
 .fa.fa-star:hover{
     color:#4BB848;
@@ -206,10 +206,6 @@ hr{
     margin-bottom:2em;
     padding:1em;
 }
-#datasets-table{
-	border:0;
-}
-
 
 /* teambox */
 .teambar{
@@ -274,8 +270,11 @@ hr{
     width: 100%;
     z-index: 2;
 }
+.tab-content table, #datasets-table{
+    border:0;
+}
 .searchbar{
-	margin-bottom:2em;
+    margin-bottom:2em;
 }
 
 .page-header{
