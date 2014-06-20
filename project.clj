@@ -19,7 +19,8 @@
                  [slingshot "0.10.3"]
                  [clj-time "0.7.0"]
                  [inflections "0.9.7"]
-                 [clavatar "0.2.1"]]
+                 [clavatar "0.2.1"]
+                 [com.keminglabs/c2 "0.2.3"]]
   :jvm-opts ^:replace ["-Xmx1g"]
   :profiles {:dev {:dependencies [[midje "1.6.3"]]}
              :pallet {:dependencies

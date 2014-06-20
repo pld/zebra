@@ -86,16 +86,17 @@
 
 (defsnippet show-chart "templates/dataset/show.html"
   [:div#chart]
-  [])
+  [charts]
+  [:div#chart] (content charts))
 
 (defn- view-for-context
   "Return the view appropriate for the passed context."
-  [context dataset]
+  [context dataset-details]
   (condp = context
     :map (show-map)
-    :table (apply show-table (clean-for-table dataset))
+    :table (apply show-table (clean-for-table (:dataset dataset-details)))
     ;; TODO make these views real
-    :chart (show-chart)
+    :chart (show-chart (:charts dataset-details))
     :photo (show-map)
     :activity (show-map)))
 
@@ -113,13 +114,13 @@
 
 (defsnippet show "templates/dataset/show.html"
   [:body :div#content]
-  [dataset-id project-id metadata dataset data-entry-link username context]
+  [dataset-id project-id dataset-details username context]
 
   ;; Page-title
-  [:div.page-header [:div first-of-type] :h1] (content (:title metadata))
+  [:div.page-header [:div first-of-type] :h1] (content (-> dataset-details :metadata :title))
 
   ;; Top nav
-  [:a.enter-data] (set-attr :href data-entry-link)
+  [:a.enter-data] (set-attr :href (:data-entry-link dataset-details))
   [:div#username] (content (user-link username))
   [:a#sharing] (set-attr :href (u/dataset-sharing dataset-id project-id))
   [:a#download-all] (set-attr :href (u/dataset-download dataset-id))
@@ -132,18 +133,18 @@
   [:a#activity-link](set-attr :href (u/dataset-activity dataset-id project-id))
 
   ;; Sidenav
-  [:div#sidenav [:p#description]] (content (:description metadata))
+  [:div#sidenav [:p#description]] (content (-> dataset-details :metadata :description))
   [:div#sidenav [:a#form-source]] (do->
-                                   (content (str (:id_string metadata)) ".xls")
+                                   (content (str (-> dataset-details :metadata :id_string)) ".xls")
                                    (set-attr :href (str "/")))
-  [:div#dataset-activity] (content (activity dataset metadata))
+  [:div#dataset-activity] (content (activity (:dataset dataset-details) (:metadata dataset-details)))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
-  [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (:tags metadata)]
+  [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (-> dataset-details :metadata :tags)]
                                                    [:span.tag] (content tag))
-  [:span.rec] (content (str (count dataset) " records"))
+  [:span.rec] (content (str (count (:dataset dataset-details)) " records"))
 
   ;; Context
-  [:div.dataset-context] (content (view-for-context context dataset)))
+  [:div.dataset-context] (content (view-for-context context dataset-details)))
 
 (defsnippet datasets-table "templates/dataset/list.html"
   [:#datasets-table]

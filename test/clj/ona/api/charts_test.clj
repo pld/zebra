@@ -11,12 +11,12 @@
        "Should get correct url for chart fields"
        (fields account dataset-id) => :some-fields
        (provided
-         (make-url "charts" dataset-id) => url
+         (make-url "charts" (str dataset-id ".json")) => url
          (parse-http :get url account) => :some-fields))
 
     (facts "about chart"
            "Should get correct url for chart"
-           (chart account dataset-id :format :field-name) => :some-chart
+           (chart account dataset-id :field-name) => :some-chart
            (provided
-             (make-url "charts" dataset-id "." :format "?field_name=" :field-name) => url
+             (make-url "charts" (str dataset-id ".json?field_name=" :field-name)) => url
              (parse-http :get url account) => :some-chart)))

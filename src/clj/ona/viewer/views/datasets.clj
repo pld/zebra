@@ -4,6 +4,7 @@
   (:require [ona.api.dataset :as api]
             [ona.api.project :as api-project]
             [ona.api.user :as api-user]
+            [ona.api.charts :as api-charts]
             [ona.viewer.helpers.sharing :as sharing]
             [ona.viewer.templates.base :as base]
             [ona.viewer.templates.forms :as forms]
@@ -45,6 +46,15 @@
             (js-tag (str "ona.mapview.leaflet(\"map\",\"" data-var-name "\");"))])
     nil))
 
+(defn- charts
+  "Returns charts for charts context"
+  [account dataset-id]
+  (let [fields (api-charts/fields account dataset-id)
+        field-names (keys (:fields fields))
+        charts (for [field-name field-names]
+                 (api-charts/chart account dataset-id (name field-name)))]
+    charts))
+
 (defn show-all
   "Show all datasets for user that are not in a project"
   [account]
@@ -61,18 +71,22 @@
    (show account dataset-id project-id :map))
   ([account dataset-id project-id context]
    (let [dataset (api/data account dataset-id)
-        metadata (api/metadata account dataset-id)
-        data-entry-link (api/online-data-entry-link account dataset-id)
-        username (:username account)]
+         metadata (api/metadata account dataset-id)
+         data-entry-link (api/online-data-entry-link account dataset-id)
+         username (:username account)
+         charts (if (= context :chart)
+                  (charts account dataset-id))
+         dataset-details {:dataset dataset
+                          :metadata metadata
+                          :dataset-entry-link data-entry-link
+                          :charts charts}]
      (base/base-template
        "/"
        account
        (:title metadata)
        (datasets/show dataset-id
                       project-id
-                      metadata
-                      dataset
-                      data-entry-link
+                      dataset-details
                       username
                       context)
        (js-for-context context dataset)))))
