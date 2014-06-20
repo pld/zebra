@@ -1,7 +1,13 @@
 (ns ona.utils.charts
-  (:use [c2.core :only [unify]])
+  (:use [c2.core :only [unify]]
+        [hiccup.core :only [html]])
   (:require [c2.scale :as scale]))
 
+
+(defn- style [& info]
+  {:style (.trim (apply str (map #(let [[kwd val] %]
+                                   (str (name kwd) ":" val "; "))
+                                 (apply hash-map info))))})
 
 (defn generate-bar
   "Generates bar chart from data points and returns in htl formart "
@@ -13,9 +19,9 @@
         s (scale/linear :domain [0 (apply max (vals data))]
                         :range [0 width])]
 
-    [:div.bars
+    (html [:div.bars
             (unify data (fn [[label val]]
-                          [:div {:style {:height bar-height
-                                         :width (s val)
-                                         :background-color "gray"}}
-                           [:span {:style {:color "white"}} label]]))]))
+                          [:div (style :heigth (str bar-height "px")
+                                       :width (str (s val) "px")
+                                       :background-color "red")
+                           [:span (style :color "yellow") label]]))])))
