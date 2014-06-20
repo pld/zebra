@@ -117,7 +117,7 @@
   ;; Top nav
   [:a.enter-data] (set-attr :href data-entry-link)
   [:div#username] (content (user-link username))
-  [:a#sharing] (set-attr :href (u/dataset-sharing dataset-id project-id))
+  [:a#sharing] (set-attr :href (u/dataset-settings dataset-id project-id))
   [:a#download-all] (set-attr :href (u/dataset-download dataset-id))
 
   ;; View nav
