@@ -165,8 +165,12 @@
 (defn update
   "Update metadata for a specific dataset"
   [account dataset-id project-id title description tags]
-  (api/update account dataset-id project-id {:title title
-                                               :description description})
+  (let [defaults (select-keys (api/metadata account dataset-id)
+                              [:owner :uuid :public :public_data])]
+    ;; TODO check that title gets update after onadata#359
+    (api/update account dataset-id (merge defaults
+                                          {:description description
+                                           :title title})))
   (api/add-tags account dataset-id {:tags tags})
   (response/redirect-after-post (u/dataset dataset-id project-id)))
 

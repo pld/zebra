@@ -68,9 +68,9 @@
         (update :fake-account dataset-id :project-id title description tags)
         => (contains {:status 303})
         (provided
+         (api/metadata :fake-account dataset-id) => {}
          (api/update :fake-account
                      dataset-id
-                     :project-id
                      {:title title
                       :description description})
          => nil
