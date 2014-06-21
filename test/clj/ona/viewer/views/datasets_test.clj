@@ -55,10 +55,10 @@
 
 (fact "about dataset metadata"
       "Should show metadata for a specific dataset"
-     (metadata :fake-account :dataset-id :project-id) => (contains "some data")
-
-     (provided
-       (api/metadata :fake-account :dataset-id) => "some data")
+      (let [title "the title"]
+        (metadata :fake-account :dataset-id :project-id) => (contains title)
+        (provided
+         (api/metadata :fake-account :dataset-id) => {:title title}))
 
       "Should update metadata for a specific dataset"
       (let [description :description

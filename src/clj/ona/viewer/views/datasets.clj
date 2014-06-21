@@ -155,12 +155,11 @@
   "View metadata for specific form"
   [account dataset-id project-id]
   (let [metadata (api/metadata account dataset-id)]
-    (base/dashboard-items
-      "Dataset metadata"
-      (:username account)
-      (u/dataset dataset-id project-id)
-      [{:name metadata}]
-      (forms/metadata-form dataset-id project-id metadata))))
+    (base/base-template
+     (u/dataset-metadata dataset-id project-id)
+     account
+     "Dataset metadata"
+     (forms/metadata-form dataset-id project-id metadata))))
 
 (defn update
   "Update metadata for a specific dataset"
