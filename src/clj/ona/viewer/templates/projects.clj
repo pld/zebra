@@ -80,7 +80,9 @@
   [:tbody [:tr first-of-type]]
   (clone-for [project projects]
              [:img.avatar] (set-attr :src (gravatar (:email profile)))
-             [:span.owner-name] (content owner)
+             [:a.owner-name] (do->
+                              (content owner)
+                              (set-attr :href (u/profile owner)))
              [:a.project-name] (do->
                                 (content (-> project :project :name))
                                 (set-attr :href (project-url project owner)))

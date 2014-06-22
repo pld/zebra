@@ -149,7 +149,6 @@
   [:tbody [:tr first-of-type]]
   (clone-for [dataset datasets]
              [:.avatar] (set-attr :src (gravatar (:email profile)))
-             [:.username] (content (:username profile))
              [:a.dataset-name] (do->
                                      (content (:title dataset))
                                      (set-attr :href (dataset-url owner
