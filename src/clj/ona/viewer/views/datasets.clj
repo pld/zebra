@@ -155,18 +155,21 @@
   "View metadata for specific form"
   [account dataset-id project-id]
   (let [metadata (api/metadata account dataset-id)]
-    (base/dashboard-items
-      "Dataset metadata"
-      (:username account)
-      (u/dataset dataset-id project-id)
-      [{:name metadata}]
-      (forms/metadata-form dataset-id project-id metadata))))
+    (base/base-template
+     (u/dataset-metadata dataset-id project-id)
+     account
+     "Dataset metadata"
+     (forms/metadata-form dataset-id project-id metadata))))
 
 (defn update
   "Update metadata for a specific dataset"
   [account dataset-id project-id title description tags]
-  (api/update account dataset-id project-id {:title title
-                                               :description description})
+  (let [defaults (select-keys (api/metadata account dataset-id)
+                              [:owner :uuid :public :public_data])]
+    ;; TODO check that title gets update after onadata#359
+    (api/update account dataset-id (merge defaults
+                                          {:description description
+                                           :title title})))
   (api/add-tags account dataset-id {:tags tags})
   (response/redirect-after-post (u/dataset dataset-id project-id)))
 

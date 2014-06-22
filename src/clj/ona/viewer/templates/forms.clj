@@ -73,11 +73,12 @@
   [:tr#private-settings]
   [users]
   [:select#username [:option (but first-of-type)]] nil
-  [:select#username [:option first-of-type]] (clone-for [user users]
-                                                        [:option] (do->
-                                                                    (set-attr :value (:username user))
-                                                                    (content
-                                                                      (:username user)))))
+  [:select#username [:option first-of-type]]
+  (clone-for [user users]
+             [:option] (do->
+                        (set-attr :value (:username user))
+                        (content
+                         (:username user)))))
 
 (defsnippet settings "templates/dataset/settings.html"
   [:body :div#content]
@@ -91,7 +92,7 @@
   [:tr#private-settings] nil
 
   [:#dataset-settings :tbody] (append
-                                (if(:public metadata)
+                                (if (:public metadata)
                                   (public-settings)
                                   (private-settings users)))
   [:a#back](set-attr :href (u/dataset dataset-id project-id)))
