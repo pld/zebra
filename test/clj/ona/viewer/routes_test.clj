@@ -264,7 +264,7 @@
 
          "GET organization by name should call profile"
          (org-routes {:request-method :get
-                      :uri (u/org {:org org-name})
+                      :uri (str "/organizations/" org-name)
                       :session session}) => (contains result)
          (provided
           (organizations/profile :fake-account org-name) => result)
