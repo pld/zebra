@@ -144,53 +144,49 @@
         {{account :account} :session
          params :params}
         (organizations/create account params))
-  (GET "/organizations/:name"
-       {{account :account} :session
-        {name :name} :params}
-       (organizations/profile account name))
-  (GET "/organizations/:name/teams"
-       {{account :account} :session
-        {name :name} :params}
-       (organizations/teams account name))
-  (GET "/organizations/:name/team/:team-id"
-       {{account :account} :session
-        {name :name
-         team-id :team-id} :params}
-       (organizations/team-info account name team-id))
-  (POST "/organizations/:name/team/:team-id"
-        {{account :account} :session
-         {org-name :org
-          team-id :teamid
-          username :username} :params}
-        (organizations/add-team-member account org-name team-id username))
-  (GET "/organizations/:name/new-team"
-       {{account :account} :session
-        {name :name} :params}
-       (organizations/new-team account name))
-  (POST "/organizations/:name/new-team"
-        {{account :account} :session
-         params :params}
-        (organizations/create-team account params))
-  (GET "/organizations/:name/members"
-       {{account :account} :session
-        {name :name} :params}
-       (organizations/members account name))
-  (POST "/organizations/:name/members"
-        {{account :account} :session
-         {org-name :orgname
-          member-username :username} :params}
-        (organizations/add-member account org-name member-username))
-  (POST "/organizations/:name/remove/:member-username"
-        {{account :account} :session
-         {name :name
-          member-username :member-username} :params}
-        (organizations/remove-member account name member-username))
-  (POST "/organizations/:name/remove/:member-username/:team-id"
-        {{account :account} :session
-         {name :name
-          member-username :member-username
-          team-id :team-id} :params}
-        (organizations/remove-member account name member-username team-id)))
+  (context "/organizations/:name" [name]
+           (GET "/teams"
+                {{account :account} :session}
+                (organizations/teams account name))
+           (GET "/team/:team-id"
+                {{account :account} :session
+                 {team-id :team-id} :params}
+                (organizations/team-info account name team-id))
+           (POST "/team/:team-id"
+                 {{account :account} :session
+                  {org-name :org
+                   team-id :teamid
+                   username :username} :params}
+                 (organizations/add-team-member account org-name team-id username))
+           (GET "/new-team"
+                {{account :account} :session}
+                (organizations/new-team account name))
+           (POST "/new-team"
+                 {{account :account} :session
+                  params :params}
+                 (organizations/create-team account params))
+           (GET "/members"
+                {{account :account} :session}
+                (organizations/members account name))
+           (POST "/members"
+                 {{account :account} :session
+                  {org-name :orgname
+                   member-username :username} :params}
+                 (organizations/add-member account org-name member-username))
+           (context "/remove/:member-username" [member-username]
+                    (POST "/:team-id"
+                          {{account :account} :session
+                           {team-id :team-id} :params}
+                          (organizations/remove-member account
+                                                       name
+                                                       member-username
+                                                       team-id))
+                    (POST "/"
+                          {{account :account} :session}
+                          (organizations/remove-member account name member-username)))
+           (GET "/"
+                {{account :account} :session}
+                (organizations/profile account name))))
 
 (defroutes main-routes
   (GET "/"
