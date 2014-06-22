@@ -28,8 +28,8 @@
 
 (defn- project-url
   [project owner]
-  (u/project-show (-> project :project :url s/last-url-param)
-                  owner))
+  (u/project-show owner
+                  (-> project :project :url s/last-url-param)))
 
 (defn- user-string
   [logged-in-username shared-username]
@@ -47,7 +47,7 @@
 
   ;; Buttons
   [:#back] (set-attr :href "/project")
-  [:#done] (set-attr :href (u/project-show (:id project) owner)))
+  [:#done] (set-attr :href (u/project-show owner (:id project))))
 
 (defsnippet project-show "templates/project/show.html"
   [:body :div.content]
@@ -57,7 +57,7 @@
 
   ;;Top Nav
   [:div#username] (content (datasets/user-link (:username profile)))
-  [:#addform] (set-attr :href (u/project-new-dataset (:id project) owner))
+  [:#addform] (set-attr :href (u/dataset-new owner (:id project)))
 
   ;; Side nav
   ;; TODO this will work once the API sends back this content
@@ -66,6 +66,7 @@
 
   ;;Project Forms
   [:div.datasets-table] (content (datasets/datasets-table forms
+                                                          owner
                                                           (:id project)
                                                           profile)))
 

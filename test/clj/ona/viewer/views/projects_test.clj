@@ -9,7 +9,8 @@
             [clj-time.format :as f]
             [clj-time.core :as t]
             [clj-time.local :as l]
-            [ona.viewer.helpers.projects :as h]))
+            [ona.viewer.helpers.projects :as h]
+            [ona.viewer.urls :as u]))
 
 (facts "create new project"
        (let [username "username"
@@ -17,13 +18,14 @@
              project-name "new-project"
              name-hash {:name project-name}
              params (merge name-hash
-                           {:owner username})]
+                           {:owner username})
+             project-id-hash {:id :id}]
 
          "Should go to settings on success"
-         (let [redirect-url (str "/project/" username "/" :id "/settings")]
+         (let [redirect-url (u/project-settings username project-id-hash)]
            (create account params) => :something
            (provided
-            (api/create account name-hash  username) => {:id :id}
+            (api/create account name-hash username) => project-id-hash
             (redirect-after-post redirect-url) => :something))
 
          "Should go to new on thrown error"

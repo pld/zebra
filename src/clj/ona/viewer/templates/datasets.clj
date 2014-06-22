@@ -57,9 +57,10 @@
          " made today.")))
 
 (defn- dataset-url
-  [dataset project-id]
-  (u/dataset (:formid dataset)
-             project-id))
+  [owner dataset project-id]
+  (u/dataset owner
+             project-id
+             (:formid dataset)))
 
 (defsnippet new-dataset "templates/dataset/new.html"
   [:body :div#content]
@@ -109,7 +110,7 @@
 
 (defsnippet show "templates/dataset/show.html"
   [:body :div#content]
-  [dataset-id project-id metadata dataset data-entry-link username context]
+  [owner project-id dataset-id metadata dataset data-entry-link username context]
 
   ;; Page-title
   [:div.page-header [:div first-of-type] :h1] (content (:title metadata))
@@ -117,15 +118,15 @@
   ;; Top nav
   [:a.enter-data] (set-attr :href data-entry-link)
   [:div#username] (content (user-link username))
-  [:a#sharing] (set-attr :href (u/dataset-settings dataset-id project-id))
-  [:a#download-all] (set-attr :href (u/dataset-download dataset-id))
+  [:a#sharing] (set-attr :href (u/dataset-settings owner project-id dataset-id))
+  [:a#download-all] (set-attr :href (u/dataset-download owner project-id dataset-id))
 
   ;; View nav
-  [:a#map-link](set-attr :href (u/dataset dataset-id project-id))
-  [:a#table-link](set-attr :href (u/dataset-table dataset-id project-id))
-  [:a#chart-link](set-attr :href (u/dataset-chart dataset-id project-id))
-  [:a#photo-link](set-attr :href (u/dataset-photo dataset-id project-id))
-  [:a#activity-link](set-attr :href (u/dataset-activity dataset-id project-id))
+  [:a#map-link](set-attr :href (u/dataset owner project-id dataset-id))
+  [:a#table-link](set-attr :href (u/dataset-table owner project-id dataset-id))
+  [:a#chart-link](set-attr :href (u/dataset-chart owner project-id dataset-id))
+  [:a#photo-link](set-attr :href (u/dataset-photo owner project-id dataset-id))
+  [:a#activity-link](set-attr :href (u/dataset-activity owner project-id dataset-id))
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (:description metadata))
@@ -143,7 +144,7 @@
 
 (defsnippet datasets-table "templates/dataset/list.html"
   [:#datasets-table]
-  [datasets project-id profile]
+  [datasets owner project-id profile]
   [:tbody [:tr (but first-of-type)]] nil
   [:tbody [:tr first-of-type]]
   (clone-for [dataset datasets]
@@ -151,13 +152,16 @@
              [:.username] (content (:username profile))
              [:a.dataset-name] (do->
                                      (content (:title dataset))
-                                     (set-attr :href (dataset-url dataset project-id)))
+                                     (set-attr :href (dataset-url owner
+                                                                  dataset
+                                                                  project-id)))
              [:ul.submenu :li.open :a] (set-attr
-                                        :href (dataset-url dataset project-id))
+                                        :href (dataset-url owner dataset project-id))
              [:ul.submenu :li.settings :a] (set-attr :href
                                                      (u/dataset-settings
-                                                      (:formid dataset)
-                                                      project-id))
+                                                      owner
+                                                      project-id
+                                                      (:formid dataset)))
 
              [:ul.submenu :li.move] nil
              [:ul.submenu :li.star] nil
@@ -169,16 +173,21 @@
                               (set-attr
                                :href
                                (u/dataset-move
-                                (:formid dataset)
-                                (s/last-url-param (:url project))))))
+                                owner
+                                (-> project :url s/last-url-param)
+                                (:formid dataset)))))
              [:ul.submenu :li.replace] nil
              [:ul.submenu :li.copy] nil
              [:ul.submenu :li.rename] nil
              [:ul.submenu :li.download :a] (set-attr :href
                                                      (u/dataset-download
+                                                      owner
+                                                      project-id
                                                       (:formid dataset)))
              [:ul.submenu :li.delete :a] (set-attr :href
                                                    (u/dataset-delete
+                                                    owner
+                                                    project-id
                                                     (:formid dataset)))
              [:ul.submenu :li.cancel] nil
              [:span.rec] (content (num-submissions-str dataset))
