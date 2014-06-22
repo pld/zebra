@@ -150,7 +150,8 @@
   (let [defaults (select-keys (api/metadata account dataset-id)
                               [:owner :uuid :public :public_data])]
     ;; TODO check that title gets update after onadata#359
-    (api/update account dataset-id {:description description}))
+    (api/update account dataset-id (merge defaults
+                                          {:description description})))
   (api/add-tags account dataset-id {:tags tags})
   (response/redirect-after-post (u/dataset owner project-id dataset-id)))
 
