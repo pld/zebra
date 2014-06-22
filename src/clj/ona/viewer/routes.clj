@@ -23,10 +23,10 @@
         {params :params}
         (accounts/submit-login params))
   (GET "/logout" [] (accounts/logout))
-  (GET "/profile/:username"
+  (GET "/:name"
        {{account :account} :session
-        {username :username} :params}
-       (profiles/user-profile account username)))
+        {name :name} :params}
+       (profiles/profile account name)))
 
 (defroutes dataset-routes
   (GET "/dataset"

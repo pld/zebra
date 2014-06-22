@@ -56,7 +56,7 @@
                        :uri (u/profile username)
                        :session session}) => (contains result)
          (provided
-          (profiles/user-profile :fake-account username) => result))
+          (profiles/profile :fake-account username) => result))
 
   (facts "dataset routes"
          "GET dataset should parse account"

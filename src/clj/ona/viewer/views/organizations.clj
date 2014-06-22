@@ -71,16 +71,17 @@
 
 (defn profile
   "Retrieve the profile for an organization."
-  [account org-name]
-  (let [org (api/profile account org-name)
-        teams (api/teams account org-name)
-        members (all-members account org-name teams)
-        project-details (project-details account org-name)]
-    (base/base-template
-      (u/org org)
-      account
-      (:name org)
-      (org-templates/profile org members teams project-details))))
+  ([account org-name]
+     (profile account org-name (api/profile account org-name)))
+  ([account org-name org]
+     (let [teams (api/teams account org-name)
+           members (all-members account org-name teams)
+           project-details (project-details account org-name)]
+       (base/base-template
+        (u/org org)
+        account
+        (:name org)
+        (org-templates/profile org members teams project-details)))))
 
 (defn teams
   "Retrieve the team for an organization."

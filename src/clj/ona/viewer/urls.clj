@@ -106,9 +106,9 @@
 
 ;; Profile
 (defn profile
-  "Build profile url from username."
-  [username]
-  (url "profile" username))
+  "Build profile url from name."
+  [name]
+  (url name))
 
 ;; Projects
 (defn project-show
