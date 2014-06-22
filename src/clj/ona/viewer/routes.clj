@@ -23,10 +23,10 @@
         {params :params}
         (accounts/submit-login params))
   (GET "/logout" [] (accounts/logout))
-  (GET "/:name"
+  (GET "/:owner"
        {{account :account} :session
-        {name :name} :params}
-       (profiles/profile account name)))
+        {owner :owner} :params}
+       (profiles/profile account owner)))
 
 (defroutes dataset-routes
   (GET "/dataset"
@@ -116,25 +116,25 @@
                          (datasets/show account owner project-id dataset-id)))))
 
 (defroutes project-routes
-  (GET "/project/:owner"
-       {{account :account} :session
-        {owner :owner} :params}
-       (projects/new-project account owner))
-  (POST "/project/:owner"
-        {{account :account} :session
-         params :params}
-        (projects/create account params))
-  (context "/:owner/:id" [owner id]
-           (GET "/"
-                {{account :account} :session
-                 {id :id
-                  owner :owner} :params}
-                (projects/show account owner id))
-           (GET "/settings"
-                {{account :account} :session
-                 {id :id
-                  owner :owner} :params}
-                (projects/settings account owner id))))
+  (context "/:owner" [owner]
+           (GET "/new"
+                {{account :account} :session}
+                (projects/new-project account owner))
+           (POST "/new"
+                 {{account :account} :session
+                  params :params}
+                 (projects/create account params))
+           (context "/:id" [id]
+                    (GET "/"
+                         {{account :account} :session
+                          {id :id
+                           owner :owner} :params}
+                         (projects/show account owner id))
+                    (GET "/settings"
+                         {{account :account} :session
+                          {id :id
+                           owner :owner} :params}
+                         (projects/settings account owner id)))))
 
 (defroutes org-routes
   (GET "/organizations"
@@ -202,9 +202,8 @@
 (defroutes app-routes
     org-routes
     user-routes
-    dataset-routes
     project-routes
-    org-routes
+    dataset-routes
     main-routes)
 
 (defn ona-viewer [verbose?]

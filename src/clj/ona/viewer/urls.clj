@@ -127,4 +127,4 @@
 (defn project-new
   "Build the url for a new project given owner."
   [owner]
-  (url "project" owner))
+  (url owner "new"))
