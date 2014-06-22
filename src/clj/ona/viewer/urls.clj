@@ -70,7 +70,7 @@
 (defn org
   "Build url for an organization."
   [org]
-  (url "organizations" (:org org)))
+  (url (:org org)))
 
 (defn org-teams
   "Build the teams url for an organization."
