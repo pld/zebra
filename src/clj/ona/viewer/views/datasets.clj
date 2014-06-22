@@ -45,21 +45,11 @@
             (js-tag (str "ona.mapview.leaflet(\"map\",\"" data-var-name "\");"))])
     nil))
 
-(defn show-all
-  "Show all datasets for user that are not in a project"
-  [account]
-  (base/base-template
-   "/"
-   account
-   "All datasests"
-   (datasets/datasets-table (api/all account)
-                            (profile-with-projects account))))
-
 (defn show
   "Show the data for a specific dataset."
-  ([account dataset-id project-id]
-   (show account dataset-id project-id :map))
-  ([account dataset-id project-id context]
+  ([account owner project-id dataset-id]
+   (show account owner project-id dataset-id :map))
+  ([account owner project-id dataset-id context]
    (let [dataset (api/data account dataset-id)
         metadata (api/metadata account dataset-id)
         data-entry-link (api/online-data-entry-link account dataset-id)
@@ -68,8 +58,9 @@
        "/"
        account
        (:title metadata)
-       (datasets/show dataset-id
+       (datasets/show owner
                       project-id
+                      dataset-id
                       metadata
                       dataset
                       data-entry-link
@@ -79,52 +70,44 @@
 
 (defn tags
   "View tags for a specific dataset"
-  [account dataset-id project-id]
+  [account owner project-id dataset-id]
   (let [tags (api/tags account dataset-id)
-        tag-form (forms/new-tag-form dataset-id project-id)]
+        tag-form (forms/new-tag-form owner project-id dataset-id)]
     (base/dashboard-items
       "Dataset tag"
       account
-      (u/dataset dataset-id project-id)
+      (u/dataset owner project-id dataset-id)
       (for [tagitem tags]
         {:id nil :name (str tagitem)})
       tag-form)))
 
 (defn new-dataset
   "Render a page for creating a new dataset."
-  ([account]
-     (new-dataset account nil nil))
-  ([account owner project-id]
-     (let [project (if owner
-                     (api-project/get-project account owner project-id)
-                     {})
-           upload-path (if owner
-                         (u/project-new-dataset project-id owner)
-                         "dataset")]
-       (base/base-template
-        (str "/" upload-path)
-        account
-        "New dataset"
-        (datasets/new-dataset project)
-        [(js-tag "goog.require(\"ona.upload\");")
-         (js-tag (str "ona.upload.init(\"upload-button\", \"form\", \""
-                      upload-path
-                      "\");"))]))))
+  [account owner project-id]
+  (let [project (api-project/get-project account owner project-id)
+        upload-path (u/dataset-new owner project-id)]
+    (base/base-template
+     (str "/" upload-path)
+     account
+     "New dataset"
+     (datasets/new-dataset project)
+     [(js-tag "goog.require(\"ona.upload\");")
+      (js-tag (str "ona.upload.init(\"upload-button\", \"form\", \""
+                   upload-path
+                   "\");"))])))
 
 (defn create
   "Create a new dataset."
-  ([account file]
-     (create account file nil nil))
-  ([account file owner project-id]
-     (let [response (api/create account file owner project-id)]
-       (if (and (contains? response :type) (= (:type response) "alert-error"))
-         (:text response)
-         (let [dataset-id (:formid response)
-               preview-url (api/online-data-entry-link account dataset-id)]
-           (json-response
-            {:settings-url (u/dataset-sharing dataset-id project-id)
-             :preview-url preview-url
-             :delete-url (u/dataset-delete dataset-id)}))))))
+  [account owner project-id file]
+  (let [response (api/create account file owner project-id)]
+    (if (and (contains? response :type) (= (:type response) "alert-error"))
+      (:text response)
+      (let [dataset-id (:formid response)
+            preview-url (api/online-data-entry-link account dataset-id)]
+        (json-response
+         {:settings-url (u/dataset-sharing owner project-id dataset-id)
+          :preview-url preview-url
+          :delete-url (u/dataset-delete owner project-id dataset-id)})))))
 
 (defn create-tags
   "Create tags for a specific dataset"
@@ -153,68 +136,65 @@
 
 (defn metadata
   "View metadata for specific form"
-  [account dataset-id project-id]
+  [account owner project-id dataset-id]
   (let [metadata (api/metadata account dataset-id)]
     (base/base-template
-     (u/dataset-metadata dataset-id project-id)
+     (u/dataset-metadata owner project-id dataset-id)
      account
      "Dataset metadata"
-     (forms/metadata-form dataset-id project-id metadata))))
+     (forms/metadata-form owner project-id dataset-id metadata))))
 
 (defn update
   "Update metadata for a specific dataset"
-  [account dataset-id project-id title description tags]
+  [account owner project-id dataset-id title description tags]
   (let [defaults (select-keys (api/metadata account dataset-id)
                               [:owner :uuid :public :public_data])]
     ;; TODO check that title gets update after onadata#359
     (api/update account dataset-id (merge defaults
-                                          {:description description
-                                           :title title})))
+                                          {:description description})))
   (api/add-tags account dataset-id {:tags tags})
-  (response/redirect-after-post (u/dataset dataset-id project-id)))
+  (response/redirect-after-post (u/dataset owner project-id dataset-id)))
 
 (defn delete
   "Delete a dataset by ID."
-  [account id]
-  (api/delete account id)
+  [account owner project-id dataset-id]
+  (api/delete account dataset-id)
   (response/redirect "/"))
 
 (defn sharing
   "Sharing settings for a new dataset."
-  [account dataset-id project-id]
+  [account owner project-id dataset-id]
   (let [metadata (api/metadata account dataset-id)]
     (base/base-template
      "/dataset"
      account
      "New dataset - Form settings"
-     (forms/sharing metadata dataset-id project-id))))
+     (forms/sharing metadata owner project-id dataset-id))))
 
 (defn sharing-update
   "Update sharing settings."
-  [account params]
+  [account owner params]
   (let [{:keys [dataset-id project-id]} params
-        project-id (:project-id params)
         sharing-settings ((keyword sharing/settings) params)
         open-account? (= sharing-settings sharing/open-account)
         open-all? (= sharing-settings sharing/open-all)
         update-data {:shared (if open-all?
                                "True"
-                               "False")}]
+                               "False")}
+        settings-url (u/dataset-settings owner project-id dataset-id)]
     (api/update account dataset-id project-id update-data)
     (cond
-     open-all? (response/redirect-after-post (u/dataset-settings dataset-id
-                                                                 project-id))
-     open-account? (response/redirect-after-post (u/dataset-settings dataset-id
-                                                                     project-id))
-      :else (response/redirect-after-post (u/dataset-metadata dataset-id
-                                                              project-id)))))
+     open-all? (response/redirect-after-post settings-url)
+     open-account? (response/redirect-after-post settings-url)
+      :else (response/redirect-after-post (u/dataset-metadata owner
+                                                              project-id
+                                                              dataset-id)))))
 
 (defn settings
   "Project settings page."
-  [account dataset-id project-id]
+  [account owner project-id dataset-id]
   (let [metadata (api/metadata account dataset-id)
         users (api-user/all account)
-        owner (-> metadata :owner s/last-url-param)
         profile (api-user/profile account owner)]
     (base/base-template
       "/dataset"
@@ -231,11 +211,11 @@
         username (:username params)
         role (:role params)]
     (api/update-sharing account dataset-id owner username role)
-    (response/redirect-after-post (u/dataset-metadata dataset-id project-id))))
+    (response/redirect-after-post (u/dataset-metadata owner project-id dataset-id))))
 
 (defn move-to-project
   "Move a dataset to a project"
-  [account dataset-id project-id]
+  [account owner project-id dataset-id]
   (let [owner (:username account)]
     (api/move-to-project account dataset-id project-id owner)
-    (response/redirect-after-post (u/project-show project-id owner))))
+    (response/redirect-after-post (u/project-show owner project-id))))

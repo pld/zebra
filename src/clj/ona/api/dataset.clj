@@ -44,11 +44,11 @@
 (defn update
   "Set the metadata for a dataset using a PUT. All parameters must be passed."
   [account dataset-id params]
-  {:pre (has-keys? params [:description
-                          :owner
-                          :public
-                          :public_data
-                          :uuid])}
+  {:pre [(has-keys? params [:description
+                            :owner
+                            :public
+                            :public_data
+                            :uuid])]}
   (let [url (make-url "forms"
                       (:username account)
                       dataset-id)]
