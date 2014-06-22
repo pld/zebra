@@ -87,7 +87,7 @@
   [org team-id]
   (url "organizations"
        org
-       "team"
+       "teams"
        team-id))
 
 (defn org-members
@@ -98,7 +98,7 @@
 (defn org-new-team
   "Build the org new team url."
   [org]
-  (url "organizations" org "new-team"))
+  (url "organizations" org "teams/new"))
 
 (defn org-remove-member
   "Build the org remove member url."
