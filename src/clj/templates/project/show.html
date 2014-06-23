@@ -1,18 +1,25 @@
 <html lang="en">
   <head>
     <title>Ona Viewer</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="stylesheet" type="text/css" href="../../../../resources/public/css/pure-min.css">
+    <link rel="stylesheet" href="../../../../resources/public/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../../resources/public/css/style.css">
   </head>
   <body>
     <div class="content container">
         <div class="pure-g-r page-header">
             <div class="pure-u-2-5">
-                <h1 id="name">Vitamin A</h1>
+                <h1 id="name">My New Project &nbsp;<i class="fa fa-gear"></i></h1>
             </div>
 
-            <div class="pure-u-2-5">
+            <div class="pure-u-1-2">
         	<span class="right">
-                <a id="addform" href="#" class="pure-button">Add Form</a>
-                <a href="#" class="pure-button">Share Project</a>
+                <a id="addform" href="#" class="pure-button">Add Record</a>
+                <a href="#" class="pure-button">Share</a>
             </span>
             </div>
         </div>
@@ -46,14 +53,47 @@
                     <span class="tag">Person 5</span> <span class="tag">Person 6</span>
                 </p>
             </div>
+            <!-- Spacer -->
+            <div class="pure-u-1-12"></div>
 
-            <div class="pure-u-4-5">
-                <h2>Forms</h2>
-                <div class="new-project-form">
+            <div class="pure-u-2-3">
+                <div class="cfix">
+                	<a href="#add_form_dialog" class="pure-button btn-warning right">+ Add Form</a>
+                	<h2>Forms</h2>
+                </div>
+                <hr/>
+                <div class="new-project-form pure-1-1">
                     <div class="datasets-table">
-
+                        <p class="t-no-info t-center">
+                        	No forms here, add a form now
+                        </p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+      <div class="modal" id="add_form_dialog">
+        <div class="modal-wrap cfix">
+            <div class="modal-header">
+                <a href="#" class="btn-close">X</a>
+                <h2>Add Form to My New Project</h2>
+            </div>
+            <div class="modal-body">
+                <br/><br/>
+                <p>
+                    XLSForm - Directions, guideline links and quotes on using 
+                    <br/>xls forms, help or support link
+                </p>
+                <p>
+                    <form class="pure-form pure-form-stacked">
+                        <input type="file"/>
+                    </form>
+                </p>
+                <p>
+                	
+                </p>
+            </div>
+            <div class="modal-footer">
             </div>
         </div>
     </div>

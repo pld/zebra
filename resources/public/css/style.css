@@ -120,6 +120,11 @@ hr{
     margin-left:18px;
     padding-top:3px;
 }
+.t-no-info{
+    color:#888;
+    font-size:1.5em;
+    margin-top:2em;
+}
 
 /* lists */
 .infolist{
