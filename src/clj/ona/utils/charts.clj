@@ -11,9 +11,9 @@
 (defn generate-bar
   "Generates bar chart from data points and returns in html formart "
   [chart-data]
-  ;; TODO chart generation too slow
-  (let [width 500,
+  (let [width 500
         bar-height 20
+        label (:field_label chart-data)
         field_xpath (:field_xpath chart-data)
         data (:data chart-data)
         extracted-data (into {} (for [data-item data]
@@ -22,11 +22,12 @@
         s (if (> (count extracted-data) 0)
             (scale/linear :domain [0 (apply max (vals extracted-data))]
                           :range [0 width]))]
-    [:rect.bars
-     (unify extracted-data (fn [[label val]]
-                             [:div (style :heigth (str bar-height "px")
-                                          :width (str (s val) "px")
-                                          :background-color "blue"
-                                          :opacity 0.6
-                                          :margin "2px")
-                              [:span (style :color "yellow") label]]))]))
+    {:label label
+     :chart [:rect.bars
+             (unify extracted-data (fn [[label val]]
+                                     [:div (style :heigth (str bar-height "px")
+                                                  :width (str (s val) "px")
+                                                  :background-color "blue"
+                                                  :opacity 0.6
+                                                  :margin "2px")
+                                      [:span (style :color "yellow") label]]))]}))
