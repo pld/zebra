@@ -77,7 +77,7 @@
                   (map c/generate-bar (charts account dataset-id)))
          dataset-details {:dataset dataset
                           :metadata metadata
-                          :dataset-entry-link data-entry-link
+                          :data-entry-link data-entry-link
                           :charts charts}]
      (base/base-template
        "/"
@@ -181,8 +181,8 @@
 (defn delete
   "Delete a dataset by ID."
   [account owner project-id dataset-id]
-  (api/delete account dataset-id)
-  (response/redirect "/"))
+  (api/delete account owner dataset-id)
+  (response/redirect (u/project-show owner project-id)))
 
 (defn sharing
   "Sharing settings for a new dataset."
