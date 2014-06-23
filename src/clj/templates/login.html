@@ -1,27 +1,26 @@
 <html lang="en">
   <head>
     <title>Ona Viewer</title>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link rel="stylesheet" type="text/css" href="../../../resources/public/css/pure-min.css">
+<link rel="stylesheet" href="../../../resources/public/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="../../../resources/public/css/style.css">
   </head>
   <body>
-    <div class="content">
-      <div class="container">
+    <div class="content container">
+       <div class="signin-form">
         <h2>Sign in</h2>
-        <form action="/login" method="post">
+        <form action="/login" method="post" class="pure-form pure-form-stacked">
           <label>Username</label>
-          <!-- TODO use CSS and remove br tags -->
-          <br/>
           <input type="text" name="username">
-          <br/>
-          <br/>
           <label>Password</label>
-          <br/>
           <input type="password" name="password">
-          <br/>
-          <br/>
-          <input type="submit" value="Sign in">
+          <input type="submit" value="Submit" class="pure-button btn-secondary"/>
         </form>
         <h2><img src="/img/zebra.png"/></h2>
-      </div>
       </div>
     </div>
   </body>
