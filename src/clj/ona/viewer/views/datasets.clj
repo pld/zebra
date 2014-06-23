@@ -209,12 +209,13 @@
   [account owner project-id dataset-id]
   (let [metadata (api/metadata account dataset-id)
         users (api-user/all account)
-        profile (api-user/profile account owner)]
+        owner-profile (api-user/profile account owner)
+        is-owner? (= (:username account) (:username owner-profile))]
     (base/base-template
       "/dataset"
       account
       (str "Sharing settings - " (:title metadata))
-      (forms/settings metadata dataset-id project-id users profile))))
+      (forms/settings metadata dataset-id project-id users owner-profile is-owner?))))
 
 (defn settings-update
   "User share settings update"

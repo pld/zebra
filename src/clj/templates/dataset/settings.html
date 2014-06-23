@@ -56,14 +56,16 @@
                 <input id="project-id" name="project-id" type="hidden">
                 <table id="dataset-settings" class="pure-table pure-table-horizontal info-table">
                     <tbody>
-                        <tr>
-                            <td><img id="avatar" class="avatar thumb" src="../../../resources/public/img/avatar.jpg" alt="User"/>
+                        <tr id="owner-details">
+                            <td>
+                                <img id="avatar" class="avatar thumb" src="../../../resources/public/img/avatar.jpg" alt="User"/>
                                 <span id="owner" class="owner">garrm</span>
                             </td>
                             <td>
-                                <select name="role">
-                                    <option value="">Can View</option>
-                                    <option value="">Can Add records</option>
+                                <select id="owner?" name="role">
+                                    <option id="can-view" value="">Can View</option>
+                                    <option id="can-add" value="">Can Add records</option>
+                                    <option id="is-owner" value="is-owner">Is owner</option>
                                 </select>
                             </td>
                         </tr>

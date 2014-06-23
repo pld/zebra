@@ -82,12 +82,14 @@
 
 (defsnippet settings "templates/dataset/settings.html"
   [:body :div#content]
-  [metadata dataset-id project-id users owner]
+  [metadata dataset-id project-id users owner is-owner?]
   [:span#title] (content (:title metadata))
   [:img#avatar] (set-attr :src (:gravatar owner))
-  [:span#owner] (content (:username owner))
+  [:span#owner] (content (str (:username owner) (if is-owner? " (you)")))
   [:input#dataset-id] (set-attr :value dataset-id)
   [:input#project-id] (set-attr :value project-id)
+  [:tr#owner-details :td :select#owner? :option#is-owner] (if is-owner?
+                                                            (set-attr :selected ""))
   [:tr#public-settings] nil
   [:tr#private-settings] nil
 
