@@ -5,6 +5,11 @@
   [a b]
   (clojure.set/difference (set a) (set b)))
 
+(defn has-keys?
+  "True is map has all these keys."
+  [m keys]
+  (every? (partial contains? m) keys))
+
 (defn remove-nil
   "Remove nil values from a sequence."
   [l]

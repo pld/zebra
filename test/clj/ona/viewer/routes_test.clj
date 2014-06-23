@@ -17,7 +17,10 @@
       team-id "67"
       username "username"
       result {:body :something}
-      session {:account :fake-account}]
+      session {:account :fake-account}
+      parsed-params {:project-id project-id
+                     :dataset-id dataset-id
+                     :owner owner}]
   (facts "main routes"
          "GET / should call home-page"
          (main-routes {:request-method :get
@@ -56,134 +59,138 @@
                        :uri (u/profile username)
                        :session session}) => (contains result)
          (provided
-          (profiles/user-profile :fake-account username) => result))
+          (profiles/profile :fake-account username) => result))
 
   (facts "dataset routes"
          "GET dataset should parse account"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset dataset-id project-id)
+                          :uri (u/dataset owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account dataset-id project-id) => result)
+          (datasets/show :fake-account owner project-id dataset-id) => result)
 
          "GET table should pass context"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset-table dataset-id project-id)
+                          :uri (u/dataset-table owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account dataset-id project-id :table) => result)
+          (datasets/show :fake-account owner project-id dataset-id :table) => result)
 
          "GET photo should pass context"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset-photo dataset-id project-id)
+                          :uri (u/dataset-photo owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account dataset-id project-id :photo) => result)
+          (datasets/show :fake-account owner project-id dataset-id :photo) => result)
 
          "GET activity should pass context"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset-activity dataset-id project-id)
+                          :uri (u/dataset-activity owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account dataset-id project-id :activity) => result)
+          (datasets/show :fake-account owner project-id dataset-id :activity) => result)
 
          "GET chart should pass context"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset-chart dataset-id project-id)
+                          :uri (u/dataset-chart owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account dataset-id project-id :chart) => result)
-
+          (datasets/show :fake-account owner project-id dataset-id :chart) => result)
 
          "POST new dataset should call create"
          (dataset-routes {:request-method :post
-                          :uri (u/project-new-dataset project-id owner)
+                          :uri (u/dataset-new owner project-id)
                           :session session}) => (contains result)
          (provided
           (datasets/create :fake-account
-                           nil
                            owner
-                           project-id) => result)
+                           project-id
+                           nil) => result)
 
          "GET delete should call delete"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset-delete dataset-id)
+                          :uri (u/dataset-delete owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/delete :fake-account dataset-id) => result)
+          (datasets/delete :fake-account owner project-id dataset-id) => result)
 
          "GET tags should call tags"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset-tags dataset-id project-id)
+                          :uri (u/dataset-tags owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/tags :fake-account dataset-id project-id) => result)
+          (datasets/tags :fake-account owner project-id dataset-id) => result)
 
          "POST tags should call create-tags"
          (dataset-routes {:request-method :post
-                          :uri (u/dataset-tags dataset-id project-id)
+                          :uri (u/dataset-tags owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/create-tags :fake-account dataset-id project-id nil) => result)
+          (datasets/create-tags :fake-account
+                                owner
+                                project-id
+                                dataset-id
+                                nil) => result)
 
          "GET download should call download"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset-download dataset-id)
+                          :uri (u/dataset-download owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/download :fake-account dataset-id :csv) => result)
+          (datasets/download :fake-account owner project-id dataset-id :csv) => result)
 
          "GET settings should call settings"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset-settings dataset-id project-id)
+                          :uri (u/dataset-settings owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/settings :fake-account dataset-id project-id) => result)
+          (datasets/settings :fake-account owner project-id dataset-id) => result)
 
          "GET sharing should call sharing"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset-sharing dataset-id project-id)
+                          :uri (u/dataset-sharing owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/sharing :fake-account dataset-id project-id) => result)
+          (datasets/sharing :fake-account owner project-id dataset-id) => result)
 
          "POST sharing should call sharing-update"
          (dataset-routes {:request-method :post
-                          :uri u/dataset-sharing-post
+                          :uri (u/dataset-sharing owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/sharing-update :fake-account {}) => result)
+          (datasets/sharing-update :fake-account owner parsed-params) => result)
 
          "GET settings should call settings"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset-settings dataset-id project-id)
+                          :uri (u/dataset-settings owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-           (datasets/settings :fake-account dataset-id project-id) => result)
+           (datasets/settings :fake-account owner project-id dataset-id) => result)
 
          "POST setttings should call settings-update"
          (dataset-routes {:request-method :post
-                          :uri (u/dataset-settings dataset-id project-id)
+                          :uri (u/dataset-settings owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-           (datasets/settings-update :fake-account {:project-id project-id :dataset-id dataset-id}) => result)
+          (datasets/settings-update :fake-account parsed-params) => result)
 
          "GET metadata should call metadata"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset-metadata dataset-id project-id)
+                          :uri (u/dataset-metadata owner dataset-id project-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/metadata :fake-account dataset-id project-id) => result)
+          (datasets/metadata :fake-account owner dataset-id project-id) => result)
 
          "POST metadata should call update"
          (dataset-routes {:request-method :post
-                          :uri (u/dataset-metadata dataset-id project-id)
+                          :uri (u/dataset-metadata owner dataset-id project-id)
                           :session session
                           :params {:description :description
                                    :title :title
                                    :tags :tags}}) => (contains result)
          (provided
           (datasets/update :fake-account
+                           owner
                            dataset-id
                            project-id
                            :title
@@ -198,19 +205,15 @@
          (provided
           (home/home-page :fake-account :query) => result)
 
-         "GET dataset should call show-all"
-         (dataset-routes {:request-method :get
-                          :uri "/datasets"
-                          :session session}) => (contains result)
-         (provided
-          (datasets/show-all :fake-account) => result)
-
          "GET move should call move-to-project"
          (dataset-routes {:request-method :get
-                          :uri (u/dataset-move dataset-id project-id)
+                          :uri (u/dataset-move owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/move-to-project :fake-account dataset-id project-id) => result))
+          (datasets/move-to-project :fake-account
+                                    owner
+                                    project-id
+                                    dataset-id) => result))
 
   (facts "Project routes"
          "GET projects should call new-project"
@@ -222,14 +225,14 @@
 
          "GET show should call show"
          (project-routes {:request-method :get
-                          :uri (u/project-show project-id username)
+                          :uri (u/project-show username project-id)
                           :session session}) => (contains result)
          (provided
           (projects/show :fake-account username project-id) => result)
 
          "GET settings should call settings"
          (project-routes {:request-method :get
-                          :uri (u/project-settings {:id project-id} username)
+                          :uri (u/project-settings username {:id project-id})
                           :session session}) => (contains result)
          (provided
           (projects/settings :fake-account username project-id) => result)
@@ -264,7 +267,7 @@
 
          "GET organization by name should call profile"
          (org-routes {:request-method :get
-                      :uri (u/org {:org org-name})
+                      :uri (str "/organizations/" org-name)
                       :session session}) => (contains result)
          (provided
           (organizations/profile :fake-account org-name) => result)

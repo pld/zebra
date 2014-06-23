@@ -14,13 +14,13 @@
 
   (facts "About user-profile"
          "Should show user-profile"
-         (user-profile account username) => (contains name)
+         (profile account username) => (contains name)
          (provided
           (api/profile account username) => {:name name}
           (api-project/all account username) => [{:title "Test dataset"
                                                   :num_of_submissions 2}])
 
          "Should return error if not found"
-         (user-profile account username) => (contains not-found)
+         (profile account username) => (contains not-found)
          (provided
           (api/profile account username) =throws=> (slingshot-exception not-found))))

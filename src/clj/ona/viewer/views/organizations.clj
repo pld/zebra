@@ -42,10 +42,9 @@
 
 (defn- info-for-users
   [account members]
-  (for [username members]
-    {:profile {:username username}
-     ;; TODO pull full profile here after onadata#331
-     ;; with (api-user/profile account username)
+  (for [username members
+        :let [profile (api-user/profile account username)]]
+    {:profile profile
      :num-forms (count (api-datasets/public account username))}))
 
 (defn all
@@ -71,16 +70,17 @@
 
 (defn profile
   "Retrieve the profile for an organization."
-  [account org-name]
-  (let [org (api/profile account org-name)
-        teams (api/teams account org-name)
-        members (all-members account org-name teams)
-        project-details (project-details account org-name)]
-    (base/base-template
-      (u/org org)
-      account
-      (:name org)
-      (org-templates/profile org members teams project-details))))
+  ([account org-name]
+     (profile account org-name (api/profile account org-name)))
+  ([account org-name org]
+     (let [teams (api/teams account org-name)
+           members (all-members account org-name teams)
+           project-details (project-details account org-name)]
+       (base/base-template
+        (u/org org)
+        account
+        (:name org)
+        (org-templates/profile org members teams project-details)))))
 
 (defn teams
   "Retrieve the team for an organization."

@@ -11,7 +11,7 @@
 
 (facts "about datasets show"
        "Should returns data for dataset"
-      (show :fake-account :dataset-id :project-id) => (contains "Some title")
+      (show :fake-account :owner :project-id :dataset-id) => (contains "Some title")
       (provided
         (api/data :fake-account :dataset-id) => [:row]
         (api/metadata :fake-account :dataset-id) => {:title "Some title"
@@ -29,7 +29,7 @@
 
 (fact "about dataset tags"
       "Tags returns all tags for a specific dataset"
-      (tags :fake-account :dataset-id :project-id) => (contains (str :fake-tags))
+      (tags :fake-account :owner :project-id :dataset-id) => (contains (str :fake-tags))
       (provided
         (api/tags :fake-account :dataset-id) => [:fake-tags])
 
@@ -55,64 +55,54 @@
 
 (fact "about dataset metadata"
       "Should show metadata for a specific dataset"
-     (metadata :fake-account :dataset-id :project-id) => (contains "some data")
-
-     (provided
-       (api/metadata :fake-account :dataset-id) => "some data")
+      (let [title "the title"]
+        (metadata :fake-account :owner :project-id :dataset-id) => (contains title)
+        (provided
+         (api/metadata :fake-account :dataset-id) => {:title title}))
 
       "Should update metadata for a specific dataset"
       (let [description :description
             title :title
             tags :tags
             dataset-id 1]
-        (update :fake-account dataset-id :project-id title description tags)
+        (update :fake-account :owner :project-id dataset-id title description tags)
         => (contains {:status 303})
         (provided
+         (api/metadata :fake-account dataset-id) => {}
          (api/update :fake-account
                      dataset-id
-                     :project-id
-                     {:title title
-                      :description description})
+                     {:description description})
          => nil
          (api/add-tags :fake-account dataset-id {:tags tags}) => nil)))
 
 (fact "about dataset delete"
       "Should delete a dataset"
-      (:status (delete :fake-account :dataset-id)) => 302
+      (:status (delete :fake-account :owner :project-id :dataset-id)) => 302
       (provided
        (api/delete :fake-account :dataset-id) => nil))
 
 (fact "about dataset/create"
       "Should return :text value on error"
-      (create :fake-account :params) => :response
+      (create :fake-account :owner :project-id :file) => :response
       (provided
-       (api/create :fake-account :params nil nil) => {:type "alert-error"
+       (api/create :fake-account :file :owner :project-id) => {:type "alert-error"
                                                       :text :response})
 
-      "Should return link to preview URL on success"
-      (parse-string (:body (create :fake-account :params)) true) =>
-      {:preview-url "preview-url"
-       :settings-url (u/dataset-sharing :dataset-id nil)
-       :delete-url (u/dataset-delete :dataset-id)}
-      (provided
-       (api/create :fake-account :params nil nil) => {:formid :dataset-id}
-       (api/online-data-entry-link :fake-account :dataset-id) => :preview-url)
-
-      "Should upload to project if project-id passed"
+      "Should upload to project and return link to preview URL"
       (parse-string (:body (create :fake-account
-                                   :params
                                    :owner
-                                   :project-id)) true) =>
+                                   :project-id
+                                   :file)) true) =>
       {:preview-url "preview-url"
-       :settings-url (u/dataset-sharing :dataset-id :project-id)
-       :delete-url (u/dataset-delete :dataset-id)}
+       :settings-url (u/dataset-sharing :owner :project-id :dataset-id)
+       :delete-url (u/dataset-delete :owner :project-id :dataset-id)}
       (provided
-       (api/create :fake-account :params :owner :project-id) => {:formid :dataset-id}
+       (api/create :fake-account :file :owner :project-id) => {:formid :dataset-id}
        (api/online-data-entry-link :fake-account :dataset-id) => :preview-url))
 
 (fact "about dataset sharing"
       "Should show share settings for a dataset"
-      (sharing :fake-account :dataset-id :project-id) => (contains "some form")
+      (sharing :fake-account :owner :project-id :dataset-id) => (contains "some form")
       (provided
         (api/metadata :fake-account :dataset-id) => {:title "some form"})
 
@@ -128,7 +118,7 @@
                          settings-kw sharing/open-all}]
 
         "Should update with private setting selected"
-        (sharing-update :fake-account params-private)
+        (sharing-update :fake-account :owner params-private)
         => (contains {:status 303})
         (provided
           (api/update :fake-account
@@ -137,7 +127,7 @@
                       {:shared "False"}) => nil)
 
         "Should update with open-all setting selected"
-        (sharing-update :fake-account params-open)
+        (sharing-update :fake-account :owner params-open)
         => (contains {:status 303})
         (provided
           (api/update :fake-account
@@ -147,10 +137,12 @@
 
 (fact "about dataset settings"
       "Should show settings for a dataset"
-      (settings :fake-account :dataset-id :project-id) => (contains "some form")
+      (settings :fake-account :owner :project-id :dataset-id) => (contains "some form")
       (provided
-        (api/metadata :fake-account :dataset-id) => {:title "some form" :owner "http://ona/ukanga"}
-        (api-user/profile :fake-account "ukanga") => :profile)
+       (api/metadata :fake-account :dataset-id) => {:title "some form"
+                                                    :owner "http://ona/ukanga"}
+       (api-user/all :fake-account) => []
+       (api-user/profile :fake-account :owner) => :profile)
 
       "Should update share settings for a dataset"
       (let [username  :username
@@ -162,22 +154,23 @@
             params {:dataset-id dataset-id
                     :project-id project-id
                     :username username
+                    :owner owner
                     :role role}]
 
         "Should update with private setting selected"
         (settings-update account params)
         => (contains {:status 303})
         (provided
-          (api/update-sharing account
-                      dataset-id
-                      username
-                      owner
-                      role) => nil)))
+         (api/update-sharing account
+                             dataset-id
+                             username
+                             owner
+                             role) => nil)))
 
 (fact "about move dataset to project"
       (let [username :username
             account {:username username }]
-          (move-to-project account :dataset-id :project-id)
+          (move-to-project account :owner :project-id :dataset-id)
         => (contains {:status 303})
         (provided
           (api/move-to-project account :dataset-id :project-id username)

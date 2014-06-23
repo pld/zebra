@@ -1,5 +1,6 @@
 (ns ona.api.dataset
-  (:use [ona.api.io :only [make-url parse-http]]))
+  (:use [ona.api.io :only [make-url parse-http]]
+        [ona.utils.seq :only [has-keys?]]))
 
 (defn- uploaded->file [uploaded-file]
   (let [{:keys [tempfile filename]} uploaded-file
@@ -41,12 +42,15 @@
                                  :content xlsfile}]}))))
 
 (defn update
-  "Set the metadata for a dataset."
-  [account dataset-id project-id params]
-  (let [url (make-url "projects"
+  "Set the metadata for a dataset using a PUT. All parameters must be passed."
+  [account dataset-id params]
+  {:pre [(has-keys? params [:description
+                            :owner
+                            :public
+                            :public_data
+                            :uuid])]}
+  (let [url (make-url "forms"
                       (:username account)
-                      project-id
-                      "forms"
                       dataset-id)]
     (parse-http :put url account {:form-params params})))
 

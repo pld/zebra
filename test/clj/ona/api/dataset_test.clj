@@ -6,8 +6,12 @@
 (let [url :fake-url
       username :fake-username
       password :fake-password
-      account {:username username :password password}]
-
+      account {:username username :password password}
+      params {:description :description
+              :owner :owner
+              :public :public
+              :public_data :public_data
+              :uuid :uuid}]
   (facts "about datasets"
          "Should get correct url"
          (all account) => :something
@@ -17,10 +21,10 @@
 
   (fact "about datasets-update"
         "Should get correct url"
-        (update account :dataset-id :project-id :params) => :something
+        (update account :dataset-id params) => :something
         (provided
-          (make-url "projects" username :project-id "forms" :dataset-id) => url
-          (parse-http :put url account {:form-params :params}) => :something))
+          (make-url "forms" username :dataset-id) => url
+          (parse-http :put url account {:form-params params}) => :something))
 
   (fact "about dataset metadata"
         "should get dataset metadata"

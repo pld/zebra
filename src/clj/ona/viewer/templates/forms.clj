@@ -29,17 +29,17 @@
 
 (defsnippet new-tag-form "templates/dataset/tag.html"
   [:body :div.content :> :.new-tag-form]
-  [dataset-id project-id]
-  [:form](set-attr :action (u/dataset-tags dataset-id project-id))
+  [owner project-id dataset-id]
+  [:form](set-attr :action (u/dataset-tags owner project-id dataset-id))
   [:form :#dataset-id](set-attr :value dataset-id))
 
 (defsnippet metadata-form "templates/dataset/metadata.html"
   [:body :div.content :> :.dataset-metadata-form]
-  [dataset-id project-id metadata]
-  [:form] (set-attr :action (u/dataset-metadata dataset-id project-id))
+  [owner project-id dataset-id metadata]
+  [:form] (set-attr :action (u/dataset-metadata owner project-id dataset-id))
   [:form :#dataset-id] (set-attr :value dataset-id)
   [:form :#project-id] (set-attr :value project-id)
-  [:a#back] (set-attr :href (u/dataset-sharing dataset-id project-id))
+  [:a#back] (set-attr :href (u/dataset-sharing owner project-id dataset-id))
   [:span#title] (content (:title metadata))
   [:input#form-title] (set-attr :value (:title metadata))
   [:input#description] (set-attr :value (:description metadata))
@@ -48,9 +48,9 @@
 
 (defsnippet sharing "templates/dataset/new-sharing.html"
   [:body :div#content]
-  [metadata dataset-id project-id]
+  [metadata owner project-id dataset-id]
   [:span#title] (content (:title metadata))
-  [:form#form] (set-attr :action u/dataset-sharing-post)
+  [:form#form] (set-attr :action (u/dataset-sharing owner project-id dataset-id))
   [[:input (attr= :type "radio")]] (set-attr :name sharing/settings)
   [:input#dataset-id] (set-attr :value dataset-id)
   [:input#project-id] (set-attr :value project-id)
@@ -73,11 +73,12 @@
   [:tr#private-settings]
   [users]
   [:select#username [:option (but first-of-type)]] nil
-  [:select#username [:option first-of-type]] (clone-for [user users]
-                                                        [:option] (do->
-                                                                    (set-attr :value (:username user))
-                                                                    (content
-                                                                      (:username user)))))
+  [:select#username [:option first-of-type]]
+  (clone-for [user users]
+             [:option] (do->
+                        (set-attr :value (:username user))
+                        (content
+                         (:username user)))))
 
 (defsnippet settings "templates/dataset/settings.html"
   [:body :div#content]
@@ -91,10 +92,10 @@
   [:tr#private-settings] nil
 
   [:#dataset-settings :tbody] (append
-                                (if(:public metadata)
+                                (if (:public metadata)
                                   (public-settings)
                                   (private-settings users)))
-  [:a#back](set-attr :href (u/dataset dataset-id project-id)))
+  [:a#back](set-attr :href (u/dataset owner project-id dataset-id)))
 
 (defsnippet sign-up-form "templates/sign-up.html"
   [:body :div#content]

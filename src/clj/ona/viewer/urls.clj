@@ -5,72 +5,75 @@
 ;; Datasets
 (defn dataset
   "Build dataset show link from dataset id."
-  [dataset-id project-id]
-  (url "dataset" dataset-id project-id))
+  [owner project-id dataset-id]
+  (url owner project-id dataset-id))
 
 (defn dataset-delete
   "Build dataset delete link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "delete"))
+  [owner project-id dataset-id]
+  (url owner project-id dataset-id "delete"))
 
 (defn dataset-download
   "Build dataset download link from dataset id."
-  [dataset-id]
-  (url "dataset" dataset-id "download"))
+  [owner project-id dataset-id]
+  (url owner project-id dataset-id "download"))
 
 (defn dataset-metadata
   "Build dataset metadata link from dataset and project id."
-  [dataset-id project-id]
-  (url "dataset" dataset-id project-id "metadata"))
+  [owner project-id dataset-id]
+  (url owner project-id dataset-id "metadata"))
+
+(defn dataset-new
+  "Build the new dataset for project URL."
+  [owner project-id]
+  (url owner project-id "new"))
 
 (defn dataset-sharing
   "Build dataset sharing link from dataset and project id."
-  [dataset-id project-id]
-  (url "dataset" dataset-id project-id "sharing"))
+  [owner project-id dataset-id]
+  (url owner project-id dataset-id "sharing"))
 
 (defn dataset-settings
   "Build dataset settings link from dataset and project id."
-  [dataset-id project-id]
-  (url "dataset" dataset-id project-id "settings"))
-
-(def dataset-sharing-post (url "dataset" "sharing"))
+  [owner project-id dataset-id]
+  (url owner project-id dataset-id "settings"))
 
 (defn dataset-chart
   "Build dataset chart link from dataset and project id."
-  [dataset-id project-id]
-  (url "dataset" dataset-id project-id "show/chart"))
+  [owner project-id dataset-id]
+  (url owner project-id dataset-id "chart"))
 
 (defn dataset-photo
   "Build dataset photo link from dataset and project id."
-  [dataset-id project-id]
-  (url "dataset" dataset-id project-id "show/photo"))
+  [owner project-id dataset-id]
+  (url owner project-id dataset-id "photo"))
 
 (defn dataset-activity
   "Build dataset activity link from dataset and project id."
-  [dataset-id project-id]
-  (url "dataset" dataset-id project-id "show/activity"))
+  [owner project-id dataset-id]
+  (url owner project-id dataset-id "activity"))
 
 (defn dataset-table
   "Build dataset table link from dataset and project id."
-  [dataset-id project-id]
-  (url "dataset" dataset-id project-id "show/table"))
+  [owner project-id dataset-id]
+  (url owner project-id dataset-id "table"))
 
 (defn dataset-tags
   "Build dataset tags link from dataset and project id."
-  [dataset-id project-id]
-  (url "dataset" dataset-id project-id "tags"))
+  [owner project-id dataset-id]
+  (url owner project-id dataset-id "tags"))
 
 (defn dataset-move
   "Build dataset move link from dataset-id and project-id"
-  [dataset-id project-id]
-  (url "dataset" "move" dataset-id project-id))
+  [owner project-id dataset-id]
+  (url owner project-id dataset-id "move"))
 
 
-;; Organizatinos
+;; Organizations
 (defn org
   "Build url for an organization."
   [org]
-  (url "organizations" (:org org)))
+  (url (:org org)))
 
 (defn org-teams
   "Build the teams url for an organization."
@@ -84,7 +87,7 @@
   [org team-id]
   (url "organizations"
        org
-       "team"
+       "teams"
        team-id))
 
 (defn org-members
@@ -95,7 +98,7 @@
 (defn org-new-team
   "Build the org new team url."
   [org]
-  (url "organizations" org "new-team"))
+  (url "organizations" org "teams/new"))
 
 (defn org-remove-member
   "Build the org remove member url."
@@ -106,27 +109,22 @@
 
 ;; Profile
 (defn profile
-  "Build profile url from username."
-  [username]
-  (url "profile" username))
+  "Build profile url from name."
+  [name]
+  (url name))
 
 ;; Projects
 (defn project-show
   "Build the show project url from a project"
-  [project-id owner]
-  (url "project" owner project-id "show"))
-
-(defn project-new-dataset
-  "Build the project settings url from a project-id"
-  [project-id owner]
-  (url "project" owner project-id "new-dataset"))
+  [owner project-id]
+  (url owner project-id))
 
 (defn project-settings
   "Build the project settings url from a project"
-  [project owner]
-  (url "project" owner (:id project) "settings"))
+  [owner project]
+  (url owner (:id project) "settings"))
 
 (defn project-new
   "Build the url for a new project given owner."
   [owner]
-  (url "project" owner))
+  (url owner "new"))
