@@ -325,6 +325,16 @@ hr{
 .tab-content table, #datasets-table{
     border:0;
 }
+.datasets-table table tr td{
+    padding:1em;
+}
+.datasets-table table tr td:last-child{
+    text-align:right!important;
+}
+table strong a{
+    color:#555;
+    font-size:1.4em;
+}
 .searchbar{
     margin-bottom:2em;
 }
