@@ -123,8 +123,8 @@
         (provided
           (api/update :fake-account
                       dataset-id
-                      project-id
-                      {:shared "False"}) => nil)
+                      {:downloadable "true"
+                       :public_data "false"}) => nil)
 
         "Should update with open-all setting selected"
         (sharing-update :fake-account :owner params-open)
@@ -132,8 +132,8 @@
         (provided
           (api/update :fake-account
                       dataset-id
-                      project-id
-                      {:shared "True"}) => nil)))
+                      {:downloadable "true"
+                       :public_data "true"}) => nil)))
 
 (let [username  :username
             account {:username username}

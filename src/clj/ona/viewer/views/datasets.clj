@@ -201,11 +201,13 @@
         sharing-settings ((keyword sharing/settings) params)
         open-account? (= sharing-settings sharing/open-account)
         open-all? (= sharing-settings sharing/open-all)
-        update-data {:shared (if open-all?
-                               "True"
-                               "False")}
+        closed? (not= sharing-settings sharing/closed)
+        params (update-hash account
+                            dataset-id
+                            {:public_data (str open-all?)
+                             :downloadable (str closed?)})
         settings-url (u/dataset-settings owner project-id dataset-id)]
-    (api/update account dataset-id update-data)
+    (api/update account dataset-id params)
     (cond
      open-all? (response/redirect-after-post settings-url)
      open-account? (response/redirect-after-post settings-url)
