@@ -42,10 +42,9 @@
 
 (defn- info-for-users
   [account members]
-  (for [username members]
-    {:profile {:username username}
-     ;; TODO pull full profile here after onadata#331
-     ;; with (api-user/profile account username)
+  (for [username members
+        :let [profile (api-user/profile account username)]]
+    {:profile profile
      :num-forms (count (api-datasets/public account username))}))
 
 (defn all
