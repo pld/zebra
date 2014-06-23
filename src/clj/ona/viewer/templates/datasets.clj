@@ -1,10 +1,12 @@
 (ns ona.viewer.templates.datasets
-  (:use [net.cgrand.enlive-html :only [but
+  (:use [net.cgrand.enlive-html :only [append
+                                       but
                                        clone-for
                                        content
                                        defsnippet
                                        do->
                                        first-of-type
+                                       html
                                        html-content
                                        nth-of-type
                                        set-attr]]
@@ -87,9 +89,11 @@
   [:div#map [:img]] nil)
 
 (defsnippet show-chart "templates/dataset/show.html"
-  [:div#chart]
-  [charts]
-  [:div#chart] (html-content (c/generate-bar[""])))
+  [:div.charts]
+  [data]
+  [:div.charts] (clone-for [data-item data]
+                  [:h3.chart-name] (content (:field_label data-item))
+                  [:div.bar-chart] (content (html (c/generate-bar data-item)))))
 
 (defn- view-for-context
   "Return the view appropriate for the passed context."
