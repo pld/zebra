@@ -1,7 +1,7 @@
 (ns ona.viewer.routes
   (:use [compojure.core]
         [ona.viewer.views.home :only [home-page]]
-        [ona.viewer.wrappers :only [wrap-basic-authentication wrap-logger]]
+        [ona.viewer.wrappers :only [wrap-authentication wrap-logger]]
         [ring.middleware.resource])
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
@@ -19,6 +19,7 @@
   (POST "/join"
         {params :params}
         (profiles/submit-sign-up params))
+  (GET "/login" [] (accounts/login))
   (POST "/login"
         {params :params}
         (accounts/submit-login params))
@@ -208,7 +209,7 @@
 
 (defn ona-viewer [verbose?]
   (-> (routes app-routes)
-      (wrap-basic-authentication)
+      (wrap-authentication)
       (wrap-resource "public")
       (#(wrap-logger % verbose?))
       (handler/site app-routes)))
