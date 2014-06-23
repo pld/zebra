@@ -1,4 +1,4 @@
-[![ona-viewer travis](https://secure.travis-ci.org/onaio/ona-viewer.png?branch=master)](http://travis-ci.org/onaio/ona-viewer)
+[![zebra travis](https://secure.travis-ci.org/onaio/zebra.png?branch=master)](http://travis-ci.org/onaio/zebra)
 
 ## Zebra
 
