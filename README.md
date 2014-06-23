@@ -2,6 +2,8 @@
 
 ## Zebra
 
+![Zebra Logo](https://raw.githubusercontent.com/onaio/zebra/master/resources/public/img/zebra.png)
+
 ### A web application that connects to the Ona API.
 
 This is a web application that uses [Ring][1] and
