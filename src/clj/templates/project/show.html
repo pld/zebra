@@ -72,10 +72,10 @@
             </div>
         </div>
     </div>
-      <div class="modal" id="add_form_dialog">
+    <div class="modal" id="add_form_dialog">
         <div class="modal-wrap cfix">
             <div class="modal-header">
-                <a href="#" class="btn-close">X</a>
+                <a href="#" class="btn-close">&times;</a>
                 <h2>Add Form to My New Project</h2>
             </div>
             <div class="modal-body">
@@ -86,14 +86,115 @@
                 </p>
                 <p>
                     <form class="pure-form pure-form-stacked">
-                        <input type="file"/>
+                        <input type="file" name="form_file"/>
                     </form>
                 </p>
-                <p>
-                	
+                <p class="bordered upl-holder">
+                    <span class="upl-verified"><i class="fa fa-check"></i> &nbsp;&nbsp;Verified</span>
+                    <span class="upl-filename">Filename 1</span>
+                	<span class="right upl-preview">
+                        Preview  &nbsp;&nbsp;<a href="#" class="btn-close">&times;</a>
+                    </span>
                 </p>
             </div>
             <div class="modal-footer">
+                <p>
+                    <a href="#add_form_dialog_settings" class="pure-button btn-secondary">Next</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="add_form_dialog_settings">
+        <div class="modal-wrap cfix">
+            <div class="modal-header">
+                <a href="#" class="btn-close">&times;</a>
+                <h2>Add Form to My New Project</h2>
+            </div>
+            <div class="modal-body">
+                <br/><br/>
+                <h3>Form Settings</h3>
+                <p>
+                    Name your form <input type="text" name="name_form" value="Filename 1"/> .xls
+                </p>
+                <p>
+                    <form class="pure-form pure-form-stacked">
+                    <ul class="form-list">
+                    <li>
+                        <input type="radio" name="dmmata_check"/>
+                        Private - only you can add submissions
+                    </li>
+                    <li>
+                        <input type="radio" name="dmmata_check"/>
+                        Limited - specific people can add submissions Ona account (required)
+                    </li>
+                    <li>
+                        <input type="radio" name="dmmata_check"/>
+                        Public - anybody with link can add submissions (Ona Account not required)<br/>
+                        <span class="t-more-info"><input type="checkbox" name="display_link"/> Display link on project page
+                    </li>
+                    <li>
+                        <input type="radio" name="dmmata_check"/>
+                        Inactive - no submissions whatsoever can be added
+                    </li>
+                    </form>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <p>
+                    <a href="#add_form_dialog" class="pure-button btn-secondary">Back</a>
+                    <a href="#add_form_dialog_final" class="pure-button btn-secondary">Next</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="add_form_dialog_final">
+        <div class="modal-wrap cfix">
+            <div class="modal-header">
+                <a href="#" class="btn-close">&times;</a>
+                <h2>Data settings for Form</h2>
+            </div>
+            <div class="modal-body">
+                <br/><br/>
+                <h3>Form Settings</h3>
+                
+            <p>Determine project visibility and access to the datasets</p>
+                
+            <table id="users" class="pure-table pure-table-horizontal">
+              <tr>
+                <td>
+                    <i class="fa fa-user"></i>
+                    <span class="username">Garret Mehl (you)</span>
+                 </td>
+                <td>
+                    <select>
+                      <option value="">Is owner</option>
+                      <option value="">Is author</option>
+                    </select>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="username">Anyone with the link</span><br/>
+                    <span class="datalink t-more-info">Link:  https://ona.io/garrm/sdjkj798230/</span>
+                 </td>
+                <td>
+                    <select>
+                      <option value="">Can view</option>
+                      <option value="">Can edit</option>
+                    </select>
+                </td>
+                <td><a href="#" class="action-remove">&times;</a></td>
+              </tr>
+            </table>
+                
+            </div>
+            <div class="modal-footer">
+                <p>
+                    <a href="#add_form_dialog_settings" class="pure-button btn-secondary">Back</a>
+                    <a href="#" class="pure-button btn-secondary">Done</a>
+                </p>
             </div>
         </div>
     </div>
