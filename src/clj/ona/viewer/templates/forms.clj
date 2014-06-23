@@ -103,6 +103,7 @@
   [:tr#public-settings] (content (if (:public_data metadata)
                                    (public-settings)
                                    nil))
+  [:tr#public-with-link-settings] nil
   ;; TODO use a real conditional for adding users
   [:tr#add-user] (content (if false
                             (add-user users)
