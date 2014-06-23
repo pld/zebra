@@ -39,22 +39,95 @@
             </ul>
         </div>
     </div>
-    <div class="content">
+    <div class="content container">
       <div class="new-project-form">
-        <h1 id="name">Project Name</h1>
+        <h1>
+            <select>
+                <option value="agriculture">WHO</option>
+                <option value="agriculture">garrm</option>
+                <option value="agriculture">Ona</option>
+            </select>
+             / <span id="name">Project Name</span>
+        </h1><br/><br/><br/>
         <h2>Project Settings</h2>
         <p>Determine project visibility and access to the datasets</p>
-        <p><em>Project is currently Private (only you can view and access)</em></p>
-        <ul id="users">
-          <li><span class="username">Garret Mehl (you)</span>
-            <select>
-              <option>Is owner</option>
-            </select>
-          </li>
-        </ul>
-        <a href="#share_dialog" class="pure-button">Share</a>
-        <a id="back" href="#" class="pure-button">Back</a>
-        <a id="done" href="#" class="pure-button">Done</a>
+        <p><em>Project is currently Private (only you and the organizations' admins can view and access)</em></p>
+        <form class="pure-form">
+        <table id="users" class="pure-table pure-table-horizontal">
+          <tr>
+          	<td>
+          		<i class="fa-icon fa-user"></i>
+          	    <span class="username">Garret Mehl (you)</span>
+          	 </td>
+            <td>
+                <select>
+                  <option value="">Is owner</option>
+                  <option value="">Is author</option>
+                </select>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+          	<td>
+          		<i class="fa-icon fa-users"></i>
+          	    <span class="username">People at WHO</span>
+          	 </td>
+            <td>
+                <select>
+                  <option value="">Can view</option>
+                  <option value="">Can edit</option>
+                </select>
+            </td>
+            <td><a href="#" class="action-remove">&times;</a></td>
+          </tr>
+          <tr>
+          	<td>
+          	    <span class="username">Public - anyone</span>
+          	 </td>
+            <td>
+                <select>
+                  <option value="">Can view</option>
+                  <option value="">Can edit</option>
+                </select>
+            </td>
+            <td><a href="#" class="action-remove">&times;</a></td>
+          </tr>
+          <tr>
+          	<td>
+          	    <span class="username">Anyone with the link</span><br/>
+                <span class="datalink t-more-info">Link:  https://ona.io/garrm/sdjkj798230/</span>
+          	 </td>
+            <td>
+                <select>
+                  <option value="">Can view</option>
+                  <option value="">Can edit</option>
+                </select>
+            </td>
+            <td><a href="#" class="action-remove">&times;</a></td>
+          </tr>
+          <tr>
+          	<td>
+          		<input type="text" class="tbox-invite" name="invite-txt" placeholder="Enter names, emails or groups to invite people"/>
+          	 </td>
+            <td>
+                <select>
+                  <option value="">Can view</option>
+                  <option value="">Can edit</option>
+                </select>
+                <button class="pure-button btn-secondary">Invite</button>
+            </td>
+            <td><a href="#" class="action-remove">&times;</a></td>
+          </tr>
+        </table>
+        </form>
+        <p>
+        	<a href="#share_dialog" class="pure-button">Share</a>
+        <p>
+        <p class="t-center">
+            <a id="back" href="new.html" class="pure-button">Back</a>
+            <a id="done" href="#" class="pure-button">Done</a>
+        </p>
+        
       </div>
     </div>
     <div class="modal" id="share_dialog">
@@ -68,22 +141,31 @@
                     <ul class="form-list">
                         <li>
                             <input type="checkbox" name="dmmata_check"/>
-                            <strong>Specific People:</strong> only people explicitly granted access to the project
+                            <strong>Specific People: only people explicitly granted access to the project</strong><br/>
+                            <span class="t-more-info">Project is visible and datasets accessible for specific people</span>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="dmmata_check"/>
+                            <strong>People at WHO organization</strong><br/>
+                            <span class="t-more-info">People at WHO can find and access datasets </span>
                         </li>
                         <li>
                             <input type="checkbox" name="data_check"/>
-                            <strong>Anyone via link: </strong> anyone with a link can access the project
+                            <strong>Anyone via Link: anyone with a link can access the project</strong><br/>
+                            <span class="t-more-info">Anyone with the link can see the project and access the datasets (no login required)</span>
                         </li>
                         <li>
                             <input type="checkbox" name="data_check"/>
-                            <strong>Public: </strong> project is accessible by everyone and visible on your user page
+                            <strong>Public - anyone - project is accessible by everyone and visible on your user page</strong><br/>
+                            <span class="t-more-info">Anyone on the web can find the project and access datasets (no login required)</span>
                         </li>
                     </ul>
                 </form>
             </div>
             <div class="modal-footer">
                 <a href="#" class="pure-button">Cancel</a>
-                <input class="pure-button" type="submit" value="Ok"/>
+                <a href="#" class="pure-button">Okay</a>
+<!--                <input class="pure-button" type="submit" value="Okay"/>-->
             </div>
         </div>
     </div>
