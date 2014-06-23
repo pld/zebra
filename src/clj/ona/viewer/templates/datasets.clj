@@ -1,10 +1,12 @@
 (ns ona.viewer.templates.datasets
-  (:use [net.cgrand.enlive-html :only [but
+  (:use [net.cgrand.enlive-html :only [append
+                                       but
                                        clone-for
                                        content
                                        defsnippet
                                        do->
                                        first-of-type
+                                       html
                                        nth-of-type
                                        set-attr]]
         :reload
@@ -85,14 +87,21 @@
   []
   [:div#map [:img]] nil)
 
+(defsnippet show-chart "templates/dataset/show.html"
+  [:div.charts]
+  [data]
+  [:div.charts] (clone-for [data-item data]
+                  [:h3.chart-name] (content (:label data-item))
+                  [:div.bar-chart] (-> data-item :chart html content)))
+
 (defn- view-for-context
   "Return the view appropriate for the passed context."
-  [context dataset]
+  [context dataset-details]
   (condp = context
     :map (show-map)
-    :table (apply show-table (clean-for-table dataset))
+    :table (apply show-table (clean-for-table (:dataset dataset-details)))
+    :chart (show-chart (:charts dataset-details))
     ;; TODO make these views real
-    :chart (show-map)
     :photo (show-map)
     :activity (show-map)))
 
@@ -110,13 +119,12 @@
 
 (defsnippet show "templates/dataset/show.html"
   [:body :div#content]
-  [owner project-id dataset-id metadata dataset data-entry-link username context]
-
+  [owner project-id dataset-id dataset-details username context]
   ;; Page-title
-  [:div.page-header [:div first-of-type] :h1] (content (:title metadata))
+  [:div.page-header [:div first-of-type] :h1] (content (-> dataset-details :metadata :title))
 
   ;; Top nav
-  [:a.enter-data] (set-attr :href data-entry-link)
+  [:a.enter-data] (set-attr :href (:data-entry-link dataset-details))
   [:div#username] (content (user-link username))
   [:a#sharing] (set-attr :href (u/dataset-settings owner project-id dataset-id))
   [:a#download-all] (set-attr :href (u/dataset-download owner project-id dataset-id))
@@ -129,18 +137,18 @@
   [:a#activity-link](set-attr :href (u/dataset-activity owner project-id dataset-id))
 
   ;; Sidenav
-  [:div#sidenav [:p#description]] (content (:description metadata))
+  [:div#sidenav [:p#description]] (content (-> dataset-details :metadata :description))
   [:div#sidenav [:a#form-source]] (do->
-                                   (content (str (:id_string metadata)) ".xls")
+                                   (content (str (-> dataset-details :metadata :id_string)) ".xls")
                                    (set-attr :href (str "/")))
-  [:div#dataset-activity] (content (activity dataset metadata))
+  [:div#dataset-activity] (content (activity (:dataset dataset-details) (:metadata dataset-details)))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
-  [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (:tags metadata)]
+  [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (-> dataset-details :metadata :tags)]
                                                    [:span.tag] (content tag))
-  [:span.rec] (content (str (count dataset) " records"))
+  [:span.rec] (content (str (count (:dataset dataset-details)) " records"))
 
   ;; Context
-  [:div.dataset-context] (content (view-for-context context dataset)))
+  [:div.dataset-context] (content (view-for-context context dataset-details)))
 
 (defsnippet datasets-table "templates/dataset/list.html"
   [:#datasets-table]
