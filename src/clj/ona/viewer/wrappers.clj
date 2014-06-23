@@ -11,7 +11,7 @@
   "Check that user is authenticated or the process of."
   [request]
   (or (-> request :session :account)
-      (some #{(:uri request)} unprotected-uris)))
+      (not (re-find #"/.+/" (:uri request)))))
 
 (defn wrap-authentication
   "Require authentication if not signing in or up."
