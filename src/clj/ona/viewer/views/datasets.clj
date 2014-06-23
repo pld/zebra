@@ -12,6 +12,7 @@
             [ona.viewer.urls :as u]
             [cheshire.core :as cheshire]
             [ring.util.response :as response]
+            [ona.utils.charts :as c]
             [ona.utils.string :as s]))
 
 (defn- as-geojson
@@ -60,12 +61,13 @@
   ([account owner project-id dataset-id]
    (show account owner project-id dataset-id :map))
   ([account owner project-id dataset-id context]
+   ;; TODO use a multimethod dispatching on context
    (let [dataset (api/data account dataset-id)
          metadata (api/metadata account dataset-id)
          data-entry-link (api/online-data-entry-link account dataset-id)
          username (:username account)
          charts (if (= context :chart)
-                  (charts account dataset-id))
+                  (map c/generate-bar (charts account dataset-id)))
          dataset-details {:dataset dataset
                           :metadata metadata
                           :dataset-entry-link data-entry-link

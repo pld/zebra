@@ -7,7 +7,6 @@
                                        do->
                                        first-of-type
                                        html
-                                       html-content
                                        nth-of-type
                                        set-attr]]
         :reload
@@ -16,8 +15,7 @@
         [clojure.string :only [join]])
   (:require [ona.viewer.urls :as u]
             [ona.utils.time :as t]
-            [ona.utils.string :as s]
-            [ona.utils.charts :as c]))
+            [ona.utils.string :as s]))
 
 (def hidden-column-prefix \_)
 
@@ -93,8 +91,8 @@
   [:div.charts]
   [data]
   [:div.charts] (clone-for [data-item data]
-                  [:h3.chart-name] (content (:field_label data-item))
-                  [:div.bar-chart] (content (html (c/generate-bar data-item)))))
+                  [:h3.chart-name] (content (:label data-item))
+                  [:div.bar-chart] (-> data-item :chart html content)))
 
 (defn- view-for-context
   "Return the view appropriate for the passed context."
@@ -102,8 +100,8 @@
   (condp = context
     :map (show-map)
     :table (apply show-table (clean-for-table (:dataset dataset-details)))
-    ;; TODO make these views real
     :chart (show-chart (:charts dataset-details))
+    ;; TODO make these views real
     :photo (show-map)
     :activity (show-map)))
 
