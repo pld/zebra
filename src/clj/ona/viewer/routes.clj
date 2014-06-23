@@ -19,6 +19,7 @@
   (POST "/join"
         {params :params}
         (profiles/submit-sign-up params))
+  (GET "/login" [] (accounts/login))
   (POST "/login"
         {params :params}
         (accounts/submit-login params))
