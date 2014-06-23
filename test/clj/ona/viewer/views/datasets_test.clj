@@ -135,17 +135,7 @@
                       project-id
                       {:shared "True"}) => nil)))
 
-(fact "about dataset settings"
-      "Should show settings for a dataset"
-      (settings :fake-account :owner :project-id :dataset-id) => (contains "some form")
-      (provided
-       (api/metadata :fake-account :dataset-id) => {:title "some form"
-                                                    :owner "http://ona/ukanga"}
-       (api-user/all :fake-account) => []
-       (api-user/profile :fake-account :owner) => :profile)
-
-      "Should update share settings for a dataset"
-      (let [username  :username
+(let [username  :username
             account {:username username}
             dataset-id :dataset-id
             project-id :project-id
@@ -156,6 +146,34 @@
                     :username username
                     :owner owner
                     :role role}]
+  (fact "about dataset settings"
+        "Should show settings for a dataset"
+        (settings account :owner :project-id :dataset-id)
+        => (every-checker (contains "some form"))
+        (provided
+         (api/metadata account :dataset-id) => {:title "some form"
+                                                      :owner "http://ona/ukanga"}
+         (api-user/all account) => []
+         (api-user/profile account :owner) => {})
+
+        "Should not show owner"
+        (settings account :owner :project-id :dataset-id)
+        =not=> (contains "selected")
+        (provided
+         (api/metadata account :dataset-id) => {:title "some form"
+                                                      :owner "http://ona/ukanga"}
+         (api-user/all account) => []
+         (api-user/profile account :owner) => {})
+
+        "Should show owner"
+        (settings account :owner :project-id :dataset-id)
+        => (every-checker (contains "selected")
+                          (contains (str (:username account) " (you)")))
+        (provided
+         (api/metadata account :dataset-id) => {:title "some form"
+                                                      :owner "http://ona/ukanga"}
+         (api-user/all account) => []
+         (api-user/profile account :owner) => account)
 
         "Should update with private setting selected"
         (settings-update account params)

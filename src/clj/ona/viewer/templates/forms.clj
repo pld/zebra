@@ -78,7 +78,7 @@
                                                (if (= (:username user)
                                                       username)
                                                  " (you)")))
-                   [:select.owner [:option.is-owner]] (if (:is-owner? user)
+                   [:select.owner [:option.is-owner]] (if (= (:is-owner? user) true)
                                                         (set-attr :selected ""))
                    ))
 
