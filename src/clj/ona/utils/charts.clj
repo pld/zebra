@@ -4,9 +4,10 @@
 
 
 (defn- style [& info]
-  {:style (.trim (apply str (map #(let [[kwd val] %]
-                                   (str (name kwd) ":" val ";"))
-                                (partition 2 info))))})
+  {:style (.trim (apply str (reduce #(conj %1
+                                           (-> %2 first name) ":" (last %2) ";")
+                                    []
+                                    (partition 2 info))))})
 
 (defn generate-bar
   "Generates bar chart from data points and returns in html formart "
