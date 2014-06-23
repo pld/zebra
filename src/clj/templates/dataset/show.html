@@ -56,8 +56,8 @@
         <div class="pure-u-2-5">
         	<span class="right">
                 <a href="#" class="enter-data pure-button">Add Record</a>
-                <a id="sharing" href="#" class="pure-button">Share</a>
-                <a id="download-all" href="#" class="pure-button">Download All</a>
+                <a id="" href="#" class="pure-button">Publish Form</a>
+                <a id="sharing" href="#" class="pure-button">Share Form</a>
             </span>
         </div>
     </div>
@@ -71,9 +71,6 @@
 
     <div class="pure-g-r">
     	<div class="pure-u-1-5" id="sidenav">
-            <p>
-                <a href="#" class="enter-data pure-button">Add Record</a>
-            </p>
             <h3>DESCRIPTION</h3>
             <p id="description">
 
@@ -104,30 +101,62 @@
 
             <div class="pure-u-2-3">
             <div class="pure-menu pure-menu-open pure-menu-horizontal container">
-              <ul>
-                <li><a id="map-link" href="#">Map</a></li>
-                <li><a id="table-link" href="#">Table</a></li>
-                <li><a id="chart-link" href="#">Chart</a></li>
-                <li><a id="photo-link" href="#">Photo</a></li>
-                <li><a id="activity-link" href="#">Activity</a></li>
-              </ul>
-
               <span class="right">
                 <span class="rec">34 Records</span>
                 <span><i class="icon">Fullscreen</i></span>
               </span>
             </div>
-
-            <div class="dataset-context">
-                <div id="map">
-            	    <img src="/img/map.jpg" alt="Data map"/>
+            
+            <ul class="tabs cfix">
+            <li>
+                <input type="radio" checked name="tabs" id="tab1">
+                <label for="tab1">Map</label>
+                <div id="tab-content1" class="tab-content">
+                    <div class="dataset-context">
+                        <div id="map">
+                            <img src="/img/map.jpg" alt="Data map"/>
+                        </div>
+                    </div>
                 </div>
-                <div class="charts">
+            </li>
+            <li>
+                <input type="radio" checked name="tabs" id="tab2">
+                <label for="tab2">Table</label>
+                <div id="tab-content2" class="tab-content">
+                    
+                </div>
+            </li>
+            <li>
+                <input type="radio" checked name="tabs" id="tab3">
+                <label for="tab3">Photo</label>
+                <div id="tab-content3" class="tab-content">
+                    
+                </div>
+            </li>
+            <li>
+                <input type="radio" checked name="tabs" id="tab4">
+                <label for="tab4">Chart</label>
+                <div id="tab-content4" class="tab-content">
+                    <div class="charts">
                         <h3 class="chart-name"></h3>
                         <div class="bar-chart"></div>
+                    </div>
                 </div>
+            </li>
+            <li>
+                <input type="radio" checked name="tabs" id="tab5">
+                <label for="tab5">Activity</label>
+                <div id="tab-content5" class="tab-content">
+                    
                 </div>
-            </div>
+            </li>
+            <li class="right">
+            	<span class="right">
+                   <span class="rec">34 Records</span>
+                   <span><i class="icon">Fullscreen</i></span>
+                </span>
+            </li>
+            </ul>
     	</div>
     </div>
 </div>
