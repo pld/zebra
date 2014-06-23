@@ -99,8 +99,8 @@
 
 (defn delete
   "Delete a dataset by ID."
-  [account dataset-id]
-  (let [url (make-url "forms" (:username account) dataset-id)]
+  [account owner dataset-id]
+  (let [url (make-url "forms" owner dataset-id)]
     (parse-http :delete url account)))
 
 (defn move-to-project
