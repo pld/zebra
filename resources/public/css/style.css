@@ -417,13 +417,14 @@ ul.submenu li a:hover{
 }
 
 .modal > div.modal-wrap {
+	border-radius: 10px;
+	background: #fff;
+    min-height:25em;
 	width: 50%;
     min-width:47em;
 	position: relative;
 	margin: 10% auto;
 	padding: 5px 20px 13px 20px;
-	border-radius: 10px;
-	background: #fff;
 }
 .btn-close{
 	font-weight: bold;
