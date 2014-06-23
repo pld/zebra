@@ -55,20 +55,21 @@
                 <input id="dataset-id" name="dataset-id" type="hidden">
                 <input id="project-id" name="project-id" type="hidden">
                 <table id="dataset-settings" class="pure-table pure-table-horizontal info-table">
-                    <tbody>
-                        <tr id="owner-details">
-                            <td>
-                                <img id="avatar" class="avatar thumb" src="../../../resources/public/img/avatar.jpg" alt="User"/>
-                                <span id="owner" class="owner">garrm</span>
-                            </td>
-                            <td>
-                                <select id="owner" name="role">
-                                    <option id="can-view" value="">Can View</option>
-                                    <option id="can-add" value="">Can Add records</option>
-                                    <option id="is-owner" value="is-owner">Is owner</option>
-                                </select>
-                            </td>
-                        </tr>
+                  <tbody id="users">
+                    <tr>
+                      <td>
+                        <img class="avatar thumb" src="../../../resources/public/img/avatar.jpg" alt="User"/>
+                        <span class="owner">garrm</span>
+                      </td>
+                      <td>
+                        <select class="owner" name="role">
+                          <option class="can-view" value="">Can view</option>
+                          <option class="can-add" value="">Can add records</option>
+                          <option class="is-owner" value="is-owner">Is owner</option>
+                        </select>
+                      </td>
+                    </tr>
+                  </tbody>
                         <tr id="public-settings">
                             <td>
                                 <p> Anyone with the link </p>
@@ -77,13 +78,12 @@
                             <td>
 
                                     <select name="role">
-                                        <option value="">Is Owner</option>
-                                        <option value="">Can View</option>
-                                        <option value="">Can Add records</option>
+                                        <option value="">Can view</option>
+                                        <option value="">Can add records</option>
                                     </select>
                              </td>
                         </tr>
-                        <tr id="private-settings">
+                        <tr id="add-user">
                             <td>
                                 <select id="username" name="username">
                                     <option value="pld">Peter</option>
@@ -99,7 +99,6 @@
                                 </select>
                             </td>
                         </tr>
-                    </tbody>
                 </table>
 
                 <br>

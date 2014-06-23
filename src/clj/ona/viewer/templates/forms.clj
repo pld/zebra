@@ -66,11 +66,24 @@
   [:input#closed] (set-attr :value sharing/closed))
 
 (defsnippet public-settings "templates/dataset/settings.html"
-  [:tr#public-settings]
+  [:tr#public-settings :td]
   [])
 
-(defsnippet private-settings "templates/dataset/settings.html"
-  [:tr#private-settings]
+(defsnippet users-shared "templates/dataset/settings.html"
+  [:tbody#users :tr]
+  [users username]
+  [:tr] (clone-for [user users]
+                   [:img.avatar] (set-attr :src (:gravatar user))
+                   [:span.owner] (content (str (:username user)
+                                               (if (= (:username user)
+                                                      username)
+                                                 " (you)")))
+                   [:select.owner [:option.is-owner]] (if (:is-owner? user)
+                                                        (set-attr :selected ""))
+                   ))
+
+(defsnippet add-user "templates/dataset/settings.html"
+  [:tr#add-user :td]
   [users]
   [:select#username [:option (but first-of-type)]] nil
   [:select#username [:option first-of-type]]
@@ -82,21 +95,18 @@
 
 (defsnippet settings "templates/dataset/settings.html"
   [:body :div#content]
-  [metadata dataset-id project-id users owner is-owner?]
+  [metadata dataset-id project-id users shared-users username owner]
   [:span#title] (content (:title metadata))
-  [:img#avatar] (set-attr :src (:gravatar owner))
-  [:span#owner] (content (str (:username owner) (if is-owner? " (you)")))
   [:input#dataset-id] (set-attr :value dataset-id)
   [:input#project-id] (set-attr :value project-id)
-  [:tr#owner-details :td :select#owner? :option#is-owner] (if is-owner?
-                                                            (set-attr :selected ""))
-  [:tr#public-settings] nil
-  [:tr#private-settings] nil
-
-  [:#dataset-settings :tbody] (append
-                                (if (:public metadata)
-                                  (public-settings)
-                                  (private-settings users)))
+  [:tbody#users] (content (users-shared shared-users username))
+  [:tr#public-settings] (content (if (:public_data metadata)
+                                   (public-settings)
+                                   nil))
+  ;; TODO use a real conditional for adding users
+  [:tr#add-user] (content (if false
+                            (add-user users)
+                            nil))
   [:a#back](set-attr :href (u/dataset owner project-id dataset-id)))
 
 (defsnippet sign-up-form "templates/sign-up.html"
