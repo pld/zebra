@@ -1,8 +1,8 @@
 [![ona-viewer travis](https://secure.travis-ci.org/onaio/ona-viewer.png?branch=master)](http://travis-ci.org/onaio/ona-viewer)
 
-## ona viewer
+## Zebra
 
-### A user interface that connects to the Ona API.
+### A web application that connects to the Ona API.
 
 This is a web application that uses [Ring][1] and
 [Compojure][2].
