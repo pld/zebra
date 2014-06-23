@@ -56,6 +56,13 @@
                  (api-charts/chart account dataset-id (name field-name)))]
     charts))
 
+(defn- update-hash
+  "Build a hash for updates from existing data."
+  [account dataset-id params]
+  (let [defaults (select-keys (api/metadata account dataset-id)
+                              [:description :owner :uuid :public :public_data])]
+    (merge defaults params)))
+
 (defn show
   "Show the data for a specific dataset."
   ([account owner project-id dataset-id]
@@ -163,11 +170,11 @@
 (defn update
   "Update metadata for a specific dataset"
   [account owner project-id dataset-id title description tags]
-  (let [defaults (select-keys (api/metadata account dataset-id)
-                              [:owner :uuid :public :public_data])]
-    ;; TODO check that title gets update after onadata#359
-    (api/update account dataset-id (merge defaults
-                                          {:description description})))
+  (let [params (update-hash account
+                            dataset-id
+                            {:description description})]
+    ;; TODO check that title is updated after onadata#359
+    (api/update account dataset-id params))
   (api/add-tags account dataset-id {:tags tags})
   (response/redirect-after-post (u/dataset owner project-id dataset-id)))
 
@@ -198,7 +205,7 @@
                                "True"
                                "False")}
         settings-url (u/dataset-settings owner project-id dataset-id)]
-    (api/update account dataset-id project-id update-data)
+    (api/update account dataset-id update-data)
     (cond
      open-all? (response/redirect-after-post settings-url)
      open-account? (response/redirect-after-post settings-url)
