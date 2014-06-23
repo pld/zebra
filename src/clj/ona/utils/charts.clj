@@ -5,8 +5,8 @@
 
 (defn- style [& info]
   {:style (.trim (apply str (map #(let [[kwd val] %]
-                                   (str (name kwd) ":" val "; "))
-                                 (apply hash-map info))))})
+                                   (str (name kwd) ":" val ";"))
+                                (partition 2 info))))})
 
 (defn generate-bar
   "Generates bar chart from data points and returns in html formart "
