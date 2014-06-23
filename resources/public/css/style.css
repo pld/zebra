@@ -4,8 +4,7 @@
     box-sizing:border-box!important;
 }
 body{
-    font-family: Arial!important;
-    font-size:13px;
+    font:13px Arial!important;
     padding-bottom:10em;
 }
 h1, h2, h3, h4, h5{
@@ -21,8 +20,21 @@ a:hover{
 .pure-menu li a:hover, .pure-button, .vw-menu li a:hover{
     text-decoration:none!important;
 }
-input, textarea{
+input, textarea, select, button{
 	box-shadow:none!important;
+    border-radius:0!important;
+    box-shadow: 0 1px 3px #ddd inset;
+    box-sizing: border-box;
+    padding:0.4em 0.5em;
+}
+button, .pure-button{
+    border-radius:0!important;
+    padding:0.6em 1em;
+}
+.tbox-invite{
+    border:0!important;
+    border-bottom:1px solid #ddd!important;
+    width:90%;
 }
 
 /* cleafix */
@@ -49,6 +61,7 @@ ul li{
 }
 
 table{
+    font-size:13px;
     width:100%;
 }
 table tr th{
@@ -59,6 +72,10 @@ table tr td{
 }
 hr{
     border:1px solid #AFAFAF!important;
+}
+.pure-table-horizontal{
+    border-left:0;
+    border-right:0;
 }
 
 #signin{
@@ -85,6 +102,7 @@ hr{
 .t-center{ text-align:center; }
 .t-right{ text-align:right; }
 .t-normal{ font-weight:normal!important; }
+.t-italics{ font-style:italic!important; }
 .t-large{ font-size:2em; }
 .t-state{
     color:#999;
@@ -96,6 +114,12 @@ hr{
     color:#FFF;
     padding:1em;
 }
+.t-more-info{
+    color:#777;
+    display:block;
+    margin-left:18px;
+    padding-top:3px;
+}
 
 /* lists */
 .infolist{
@@ -105,6 +129,9 @@ hr{
 .infolist li{
     padding:0.1em;
     list-style:square;
+}
+.form-list li{
+    padding-bottom:0.5em;
 }
 
 /* buttons */
@@ -375,7 +402,9 @@ ul.submenu li a:hover{
     pointer-events: none;
     padding:0.6em;
 }
-.modal-header{
+.modal-header{}
+.modal-footer{
+    text-align:center;
 }
 .modal:target {
 	opacity:1;
@@ -384,6 +413,7 @@ ul.submenu li a:hover{
 
 .modal > div.modal-wrap {
 	width: 50%;
+    min-width:47em;
 	position: relative;
 	margin: 10% auto;
 	padding: 5px 20px 13px 20px;
