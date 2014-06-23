@@ -20,7 +20,7 @@
          (provided
           (make-url "profiles" username) => url
           (parse-http :get url account) => :something))
-      
+
   (facts "about user registration"
          "can register a new user"
          (create params) => :someone
