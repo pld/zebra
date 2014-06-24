@@ -56,6 +56,13 @@
                  (api-charts/chart account dataset-id (name field-name)))]
     charts))
 
+(defn- update-hash
+  "Build a hash for updates from existing data."
+  [account dataset-id params]
+  (let [defaults (select-keys (api/metadata account dataset-id)
+                              [:description :owner :uuid :public :public_data])]
+    (merge defaults params)))
+
 (defn show
   "Show the data for a specific dataset."
   ([account owner project-id dataset-id]
@@ -64,13 +71,13 @@
    ;; TODO use a multimethod dispatching on context
    (let [dataset (api/data account dataset-id)
          metadata (api/metadata account dataset-id)
-         data-entry-link (api/online-data-entry-link account dataset-id)
+         data-entry-link (api/online-data-entry-link account owner dataset-id)
          username (:username account)
          charts (if (= context :chart)
                   (map c/generate-bar (charts account dataset-id)))
          dataset-details {:dataset dataset
                           :metadata metadata
-                          :dataset-entry-link data-entry-link
+                          :data-entry-link data-entry-link
                           :charts charts}]
      (base/base-template
        "/"
@@ -119,7 +126,7 @@
     (if (and (contains? response :type) (= (:type response) "alert-error"))
       (:text response)
       (let [dataset-id (:formid response)
-            preview-url (api/online-data-entry-link account dataset-id)]
+            preview-url (api/online-data-entry-link account owner dataset-id)]
         (json-response
          {:settings-url (u/dataset-sharing owner project-id dataset-id)
           :preview-url preview-url
@@ -163,19 +170,19 @@
 (defn update
   "Update metadata for a specific dataset"
   [account owner project-id dataset-id title description tags]
-  (let [defaults (select-keys (api/metadata account dataset-id)
-                              [:owner :uuid :public :public_data])]
-    ;; TODO check that title gets update after onadata#359
-    (api/update account dataset-id (merge defaults
-                                          {:description description})))
+  (let [params (update-hash account
+                            dataset-id
+                            {:description description})]
+    ;; TODO check that title is updated after onadata#359
+    (api/update account dataset-id params))
   (api/add-tags account dataset-id {:tags tags})
   (response/redirect-after-post (u/dataset owner project-id dataset-id)))
 
 (defn delete
   "Delete a dataset by ID."
   [account owner project-id dataset-id]
-  (api/delete account dataset-id)
-  (response/redirect "/"))
+  (api/delete account owner dataset-id)
+  (response/redirect (u/project-show owner project-id)))
 
 (defn sharing
   "Sharing settings for a new dataset."
@@ -194,11 +201,13 @@
         sharing-settings ((keyword sharing/settings) params)
         open-account? (= sharing-settings sharing/open-account)
         open-all? (= sharing-settings sharing/open-all)
-        update-data {:shared (if open-all?
-                               "True"
-                               "False")}
+        closed? (not= sharing-settings sharing/closed)
+        params (update-hash account
+                            dataset-id
+                            {:public_data (str open-all?)
+                             :downloadable (str closed?)})
         settings-url (u/dataset-settings owner project-id dataset-id)]
-    (api/update account dataset-id project-id update-data)
+    (api/update account dataset-id params)
     (cond
      open-all? (response/redirect-after-post settings-url)
      open-account? (response/redirect-after-post settings-url)
@@ -210,14 +219,22 @@
   "Project settings page."
   [account owner project-id dataset-id]
   (let [metadata (api/metadata account dataset-id)
-        users (api-user/all account)
+        all-users (api-user/all account)
+        username (:username account)
         owner-profile (api-user/profile account owner)
-        is-owner? (= (:username account) (:username owner-profile))]
+        shared-users [(merge owner-profile
+                             {:is-owner? (= username (:username owner-profile))})]]
     (base/base-template
       "/dataset"
       account
       (str "Sharing settings - " (:title metadata))
-      (forms/settings metadata dataset-id project-id users owner-profile is-owner?))))
+      (forms/settings metadata
+                      dataset-id
+                      project-id
+                      all-users
+                      shared-users
+                      username
+                      owner))))
 
 (defn settings-update
   "User share settings update"

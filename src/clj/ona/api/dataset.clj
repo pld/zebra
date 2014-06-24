@@ -93,14 +93,14 @@
 
 (defn online-data-entry-link
   "Return link to online data entry."
-  [account dataset-id]
-  (let [url (make-url "forms" (:username account) dataset-id "enketo")]
+  [account owner dataset-id]
+  (let [url (make-url "forms" owner dataset-id "enketo")]
     (:enketo_url (parse-http :get url account))))
 
 (defn delete
   "Delete a dataset by ID."
-  [account dataset-id]
-  (let [url (make-url "forms" (:username account) dataset-id)]
+  [account owner dataset-id]
+  (let [url (make-url "forms" owner dataset-id)]
     (parse-http :delete url account)))
 
 (defn move-to-project

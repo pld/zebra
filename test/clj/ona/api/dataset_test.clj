@@ -65,13 +65,13 @@
              (parse-http :get url account nil filename) => :fake-file)))
 
   (facts "about online-data-entry-link"
-         (online-data-entry-link account :dataset-id) => :response
+         (online-data-entry-link account username :dataset-id) => :response
          (provided
           (make-url "forms" username :dataset-id "enketo") => url
           (parse-http :get url account) => {:enketo_url :response}))
 
   (facts "about dataset delete"
-         (delete account :dataset-id) => :response
+         (delete account username :dataset-id) => :response
          (provided
           (make-url "forms" username :dataset-id) => url
           (parse-http :delete url account) => :response))
