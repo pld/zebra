@@ -17,7 +17,7 @@
         (api/data :fake-account :dataset-id) => [:row]
         (api/metadata :fake-account :dataset-id) => {:title "Some title"
                                                      :last_submission_time "2014-6-3T20:18:23Z"}
-        (api/online-data-entry-link :fake-account :dataset-id) => ""
+        (api/online-data-entry-link :fake-account :owner :dataset-id) => ""
         (api-org/all :fake-account) => []))
 
 (facts "about datasets new"
@@ -106,7 +106,7 @@
        :delete-url (u/dataset-delete :owner :project-id :dataset-id)}
       (provided
        (api/create :fake-account :file :owner :project-id) => {:formid :dataset-id}
-       (api/online-data-entry-link :fake-account :dataset-id) => :preview-url))
+       (api/online-data-entry-link :fake-account :owner :dataset-id) => :preview-url))
 
 (fact "about dataset sharing"
       "Should show share settings for a dataset"
