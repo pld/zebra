@@ -253,6 +253,11 @@ hr{
     margin-right:2em;
     padding-right:4em;
 }
+.rec-summary{
+    margin-top:1.8em;
+    position:relative;
+    z-index:100!important;
+}
 span.datapic{
     display:block;
     float:left;
@@ -308,6 +313,7 @@ span.datapic{
     list-style: none;
     position: relative;
     padding: 0;
+    z-index:99!important;
 }
 .tabs li{
     float:left;
