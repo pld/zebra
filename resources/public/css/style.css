@@ -324,22 +324,21 @@ span.datapic{
     margin-left:2em;
 }
 .tabs label{
-    display: block;
     cursor: pointer;
-    position: relative;
-}
-.tabs label a{
-    color:#444;
     display:block;
     padding:1em 2em;
+    position: relative;
+}
+.tabs input + a{
+    color:#444;
     text-decoration:none;
 }
 
-[id^=tab]:checked + label, [id^=tab]:hover + label{
+[id^=tab]:checked + a label, [id^=tab]:hover + a label{
     background:#DEDEDD;
     top:0;
 }
-[id^=tab] + label{
+[id^=tab] + a label{
     border:1px solid #ddd;
     border-bottom:0;
 }
