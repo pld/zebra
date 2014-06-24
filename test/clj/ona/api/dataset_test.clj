@@ -59,9 +59,9 @@
 
   (facts "about dataset download"
          (let [filename (str :dataset-id "." "csv")]
-           (download account :dataset-id) => :fake-file
+           (download account :owner :dataset-id) => :fake-file
            (provided
-             (make-url "forms" username filename) => url
+             (make-url "forms" :owner filename) => url
              (parse-http :get url account nil filename) => :fake-file)))
 
   (facts "about online-data-entry-link"

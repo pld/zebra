@@ -80,9 +80,9 @@
 
 (defn download
   "Download dataset in specified format."
-  [account dataset-id]
+  [account owner dataset-id]
   (let [filename (str dataset-id "." "csv")
-        url (make-url "forms" (:username account) filename)]
+        url (make-url "forms" owner filename)]
     (parse-http :get url account nil filename)))
 
 (defn metadata

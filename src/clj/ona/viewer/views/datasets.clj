@@ -150,8 +150,8 @@
 
 (defn download
   "Download the data for a specific dataset as CSV."
-  [account dataset-id format-keyword]
-  (let [file-path (api/download account dataset-id)
+  [account owner project-id dataset-id format-keyword]
+  (let [file-path (api/download account owner dataset-id)
         format (name format-keyword)
         metadata (api/metadata account dataset-id)
         download-name (str (:id_string metadata) "." format)]
