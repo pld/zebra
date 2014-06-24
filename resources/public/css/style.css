@@ -327,7 +327,12 @@ span.datapic{
     display: block;
     cursor: pointer;
     position: relative;
+}
+.tabs label a{
+    color:#444;
+    display:block;
     padding:1em 2em;
+    text-decoration:none;
 }
 
 [id^=tab]:checked + label, [id^=tab]:hover + label{
