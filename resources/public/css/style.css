@@ -260,7 +260,7 @@ hr{
     position:relative;
     z-index:100!important;
 }
-span.datapic{
+.datapic{
     display:block;
     float:left;
     margin-right:0.8em;
