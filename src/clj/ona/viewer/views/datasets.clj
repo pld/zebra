@@ -71,7 +71,7 @@
    ;; TODO use a multimethod dispatching on context
    (let [dataset (api/data account dataset-id)
          metadata (api/metadata account dataset-id)
-         data-entry-link (api/online-data-entry-link account dataset-id)
+         data-entry-link (api/online-data-entry-link account owner dataset-id)
          username (:username account)
          charts (if (= context :chart)
                   (map c/generate-bar (charts account dataset-id)))
@@ -126,7 +126,7 @@
     (if (and (contains? response :type) (= (:type response) "alert-error"))
       (:text response)
       (let [dataset-id (:formid response)
-            preview-url (api/online-data-entry-link account dataset-id)]
+            preview-url (api/online-data-entry-link account owner dataset-id)]
         (json-response
          {:settings-url (u/dataset-sharing owner project-id dataset-id)
           :preview-url preview-url

@@ -25,7 +25,7 @@
   [:div.new-project-form]
   [owner errors]
   [:#errors] (content errors)
-  [:form] (set-attr :action (str "/projects/" owner)))
+  [:form] (set-attr :action (u/project-new owner)))
 
 (defsnippet new-tag-form "templates/dataset/tag.html"
   [:body :div.content :> :.new-tag-form]
