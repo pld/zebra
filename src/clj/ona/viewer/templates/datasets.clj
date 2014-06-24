@@ -64,6 +64,7 @@
              project-id
              (:formid dataset)))
 
+
 (defsnippet new-dataset "templates/dataset/new.html"
   [:body :div#content]
   [project]
@@ -94,16 +95,18 @@
                   [:h3.chart-name] (content (:label data-item))
                   [:div.bar-chart] (-> data-item :chart html content)))
 
-(defn- view-for-context
+(defmulti view-for-context
   "Return the view appropriate for the passed context."
-  [context dataset-details]
-  (condp = context
-    :map (show-map)
-    :table (apply show-table (clean-for-table (:dataset dataset-details)))
-    :chart (show-chart (:charts dataset-details))
-    ;; TODO make these views real
-    :photo (show-map)
-    :activity (show-map)))
+  (fn [context dataset-details] context))
+
+(defmethod view-for-context :default [_ data]
+  (show-map))
+
+(defmethod view-for-context :chart [_ data]
+  (show-chart (:charts data)))
+
+(defmethod view-for-context :table [_ data]
+  (apply show-table (clean-for-table (:dataset data))))
 
 (defsnippet user-link "templates/dataset/show.html"
   [:div#user-link ]
