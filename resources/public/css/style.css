@@ -253,6 +253,14 @@ hr{
     margin-right:2em;
     padding-right:4em;
 }
+span.datapic{
+    display:block;
+    float:left;
+    margin-right:0.8em;
+    margin-bottom:0.8em;
+    width:10em;
+}
+
 .uploader{
     border:1px solid #CFCFCF;
     margin-bottom:2em;
