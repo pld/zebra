@@ -54,9 +54,9 @@
             format (str "csv")
             id-string :id-string
             download-name (str id-string "." format)]
-        (download :fake-account dataset-id format) => :fake-download
+        (download :fake-account :owner :project-id dataset-id format) => :fake-download
         (provided
-          (api/download :fake-account dataset-id) => :file-path
+          (api/download :fake-account :owner dataset-id) => :file-path
           (get-file :file-path download-name format) => :fake-download
           (api/metadata :fake-account dataset-id) => {:id_string id-string})))
 

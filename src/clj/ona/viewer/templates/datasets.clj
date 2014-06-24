@@ -200,4 +200,5 @@
              [:span.rec] (content (num-submissions-str dataset))
              [:span.t-state] (content (if (:public_data dataset)
                                         "Public"
-                                        "Private"))))
+                                        "Private"))
+             [:p#latest-record] (content (latest-submission-str dataset))))
