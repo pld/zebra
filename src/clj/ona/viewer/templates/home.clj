@@ -1,5 +1,5 @@
 (ns ona.viewer.templates.home
-  (:use [net.cgrand.enlive-html :only [append
+  (:use [net.cgrand.enlive-html :only [after
                                        but
                                        content
                                        clone-for
@@ -32,7 +32,10 @@
   ;; Set right hand org nav links
   [:span.organization-links [:a]] (clone-for [org orgs]
                                              [:a] (do-> (set-attr :href (u/org org))
-                                                        (content (:name org)))))
+                                                        (content (:name org))
+                                                        (if (not= org (last orgs))
+                                                          (after ", ")
+                                                          identity))))
 
 (defn home-content
   "Wrapper to build args for home content."
