@@ -25,7 +25,8 @@
   [:div.new-project-form]
   [owner errors]
   [:#errors] (content errors)
-  [:form] (set-attr :action (u/project-new owner)))
+  [:form] (set-attr :action (u/project-new owner))
+  [:a#next] (set-attr :onclick "form.submit();return false;"))
 
 (defsnippet new-tag-form "templates/dataset/tag.html"
   [:body :div.content :> :.new-tag-form]
