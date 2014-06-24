@@ -26,15 +26,17 @@
 
 (defsnippet profile "templates/organization/profile.html"
   [:body :div#content]
-  [org members teams project-details]
+  [org members teams project-details is-member?]
 
   ;; Set Organization details
-  [:div.org-details [:h4 first-of-type]] (content (:name org))
-  [:div.org-details :> :span.city] (content (:city org))
-  [:div.org-details :> :span.country] (content (:country org))
-  [:div.org-details :a.org-url] (do-> (content (:home_page org))
+  [:h4#name] (content (:name org))
+  [:span#city] (content (:city org))
+  [:span#country] (content (:country org))
+  [:p#description] (content (:description org))
+  [:a#org-url] (do-> (content (:home_page org))
                                       (set-attr :href (:url org)))
   [:div.org-details :img] (set-attr :src (gravatar (:email org)))
+  [:a#request-to-join] (if is-member? nil identity)
 
   ;; Set Member details
   [:div.org-details :a.members] (do-> (content (s/postfix-paren-count "Members"

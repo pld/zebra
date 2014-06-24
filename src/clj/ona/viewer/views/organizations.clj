@@ -80,7 +80,12 @@
         (u/org org)
         account
         (:name org)
-        (org-templates/profile org members teams project-details)))))
+        (org-templates/profile org
+                               members
+                               teams
+                               project-details
+                               (some #{(:username account)}
+                                     members))))))
 
 (defn teams
   "Retrieve the team for an organization."

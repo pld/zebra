@@ -4,12 +4,24 @@
   </head>
   <body>
     <div class="content">
-      <div class="signin-form">
+      <div class="container">
+        <h2>Sign in</h2>
         <form action="/login" method="post">
+          <label>Username</label>
+          <!-- TODO use CSS and remove br tags -->
+          <br/>
           <input type="text" name="username">
+          <br/>
+          <br/>
+          <label>Password</label>
+          <br/>
           <input type="password" name="password">
-          <input type="submit" value="Submit">
+          <br/>
+          <br/>
+          <input type="submit" value="Sign in">
         </form>
+        <h2><img src="/img/zebra.png"/></h2>
+      </div>
       </div>
     </div>
   </body>
