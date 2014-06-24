@@ -258,7 +258,17 @@ span.datapic{
     float:left;
     margin-right:0.8em;
     margin-bottom:0.8em;
-    width:10em;
+    width:11em;
+}
+.activity-table tr td{
+    background:#fff;
+}
+.activity-table tr td:first-child{
+    width:15%;
+    vertical-align:top!important;
+}
+.activity-table tr td img{
+    height:6em;
 }
 
 .uploader{
@@ -312,9 +322,13 @@ span.datapic{
     padding:1em 2em;
 }
 
-[id^=tab]:checked + label{
-    background: #DEDEDD;
-    top: 0;
+[id^=tab]:checked + label, [id^=tab]:hover + label{
+    background:#DEDEDD;
+    top:0;
+}
+[id^=tab] + label{
+    border:1px solid #ddd;
+    border-bottom:0;
 }
 
 [id^=tab]:checked ~ [id^=tab-content]{
