@@ -124,7 +124,10 @@
   [:body :div#content]
   [owner project-id dataset-id dataset-details username context]
   ;; Page-title
-  [:div.page-header [:div first-of-type] :h1] (content (-> dataset-details :metadata :title))
+  [:a#project-link] (do-> (content owner)
+                          (set-attr :href (u/project-show owner project-id)))
+  [:a#dataset-link] (do-> (content (-> dataset-details :metadata :title))
+                          (set-attr :href (u/dataset owner project-id dataset-id)))
 
   ;; Top nav
   [:a.enter-data] (set-attr :href (:data-entry-link dataset-details))
@@ -142,11 +145,20 @@
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (-> dataset-details :metadata :description))
   [:div#sidenav [:a#form-source]] (do->
-                                   (content (str (-> dataset-details :metadata :id_string)) ".xls")
-                                   (set-attr :href (str "/")))
-  [:div#dataset-activity] (content (activity (:dataset dataset-details) (:metadata dataset-details)))
+                                   (content (-> dataset-details
+                                                :metadata
+                                                :id_string)
+                                            ".xls")
+                                   (set-attr :href "/"))
+  [:div#dataset-activity] (content (activity (:dataset dataset-details)
+                                             (:metadata dataset-details)))
+  [:a#sharing-settings] (set-attr :href (u/dataset-sharing owner
+                                                           project-id
+                                                           dataset-id))
   [:p.tagbox [:span.tag (but first-of-type)]] nil
-  [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (-> dataset-details :metadata :tags)]
+  [:p.tagbox [:span.tag first-of-type]] (clone-for [tag (-> dataset-details
+                                                            :metadata
+                                                            :tags)]
                                                    [:span.tag] (content tag))
   [:span.rec] (content (str (count (:dataset dataset-details)) " records"))
 
