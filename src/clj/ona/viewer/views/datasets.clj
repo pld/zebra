@@ -68,7 +68,6 @@
   ([account owner project-id dataset-id]
    (show account owner project-id dataset-id :map))
   ([account owner project-id dataset-id context]
-   ;; TODO use a multimethod dispatching on context
    (let [dataset (api/data account dataset-id)
          metadata (api/metadata account dataset-id)
          data-entry-link (api/online-data-entry-link account owner dataset-id)

@@ -3,71 +3,52 @@
         [ona.utils.string :only [url]]))
 
 ;; Datasets
-(defn dataset
-  "Build dataset show link from dataset id."
-  [owner project-id dataset-id]
-  (url owner project-id dataset-id))
+(defmacro dataset-url
+  "Build a URL with required owner, project-id, and dataset-id scope."
+  [name & suffix]
+  `(def ~name (fn [owner# project-id# dataset-id#]
+                (url owner# project-id# dataset-id# ~@suffix))))
 
-(defn dataset-delete
-  "Build dataset delete link from dataset id."
-  [owner project-id dataset-id]
-  (url owner project-id dataset-id "delete"))
+"Build dataset show link from dataset id."
+(dataset-url dataset)
 
-(defn dataset-download
-  "Build dataset download link from dataset id."
-  [owner project-id dataset-id]
-  (url owner project-id dataset-id "download"))
+"Build dataset delete link from dataset id."
+(dataset-url dataset-delete "delete")
 
-(defn dataset-metadata
-  "Build dataset metadata link from dataset and project id."
-  [owner project-id dataset-id]
-  (url owner project-id dataset-id "metadata"))
+"Build dataset download link from dataset id."
+(dataset-url dataset-download "download")
+
+"Build dataset metadata link from dataset and project id."
+(dataset-url dataset-metadata "metadata")
+
+"Build dataset sharing link from dataset and project id."
+(dataset-url dataset-sharing "sharing")
+
+"Build dataset settings link from dataset and project id."
+(dataset-url dataset-settings "settings")
+
+"Build dataset chart link from dataset and project id."
+(dataset-url dataset-chart "chart")
+
+"Build dataset photo link from dataset and project id."
+(dataset-url dataset-photo "photo")
+
+"Build dataset activity link from dataset and project id."
+(dataset-url dataset-activity "activity")
+
+"Build dataset table link from dataset and project id."
+(dataset-url dataset-table "table")
+
+"Build dataset tags link from dataset and project id."
+(dataset-url dataset-tags "tags")
+
+"Build dataset move link from dataset-id and project-id"
+(dataset-url dataset-move "move")
 
 (defn dataset-new
   "Build the new dataset for project URL."
   [owner project-id]
   (url owner project-id "new"))
-
-(defn dataset-sharing
-  "Build dataset sharing link from dataset and project id."
-  [owner project-id dataset-id]
-  (url owner project-id dataset-id "sharing"))
-
-(defn dataset-settings
-  "Build dataset settings link from dataset and project id."
-  [owner project-id dataset-id]
-  (url owner project-id dataset-id "settings"))
-
-(defn dataset-chart
-  "Build dataset chart link from dataset and project id."
-  [owner project-id dataset-id]
-  (url owner project-id dataset-id "chart"))
-
-(defn dataset-photo
-  "Build dataset photo link from dataset and project id."
-  [owner project-id dataset-id]
-  (url owner project-id dataset-id "photo"))
-
-(defn dataset-activity
-  "Build dataset activity link from dataset and project id."
-  [owner project-id dataset-id]
-  (url owner project-id dataset-id "activity"))
-
-(defn dataset-table
-  "Build dataset table link from dataset and project id."
-  [owner project-id dataset-id]
-  (url owner project-id dataset-id "table"))
-
-(defn dataset-tags
-  "Build dataset tags link from dataset and project id."
-  [owner project-id dataset-id]
-  (url owner project-id dataset-id "tags"))
-
-(defn dataset-move
-  "Build dataset move link from dataset-id and project-id"
-  [owner project-id dataset-id]
-  (url owner project-id dataset-id "move"))
-
 
 ;; Organizations
 (defn org
