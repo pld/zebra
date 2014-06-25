@@ -39,10 +39,24 @@
      ;; TODO return a proper not found page
      error)))
 
+(defn- user-settings
+  "Show user profile settings"
+  [account name]
+  (let [profile (api/profile account name)]
+    (base-template
+      (u/profile name)
+      account
+      (str (:name profile) " - Settings")
+      (profiles/user-settings profile))))
+
 (defn profile
   "Show profile for a username or orgname."
-  [account name]
+  ([account name]
+   (profile account name false))
+  ([account name settings]
   (let [org-profile (api-org/profile account name)]
     (if (:detail org-profile)
-      (user-profile account name)
-      (orgs/profile account name org-profile))))
+      (if settings
+        (user-settings account name)
+        (user-profile account name))
+      (orgs/profile account name org-profile)))))

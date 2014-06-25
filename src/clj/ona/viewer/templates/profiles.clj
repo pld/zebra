@@ -3,7 +3,8 @@
                                        defsnippet
                                        do->
                                        set-attr]] :reload)
-  (:require [ona.viewer.templates.projects :as projects]))
+  (:require [ona.viewer.templates.projects :as projects]
+            [ona.viewer.urls :as u]))
 
 (defsnippet user-profile "templates/profile/show.html"
   [:body :div#content]
@@ -12,7 +13,9 @@
   ;; Set user detial on right side bar
   [:h2.username] (content (:name profile))
   [:img.avatar] (set-attr :src (:gravatar profile))
-  [:a#new-project] (set-attr :href "/project")
+  [:a#settings] (set-attr :href (u/profile-settings (:username profile)))
+                 ;(set-attr :href (u/project-new       (:username profile)))
+  [:a#new-project] (set-attr :href (u/project-new (:username profile)))
   [:span.occupation] (content "")
   [:a.org ] (content (:organization profile))
   [:a.website](do-> (content (:website profile))
@@ -29,3 +32,8 @@
   [:label.tab1] (content (str (count projects) " projects"))
   [:div.datasets-table] (content (projects/project-list profile
                                                         projects)))
+
+(defsnippet user-settings "templates/profile/settings.html"
+  [:div#profile-settings]
+  [profile]
+  )
