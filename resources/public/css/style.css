@@ -247,6 +247,13 @@ hr{
 }
 
 /* datasets */
+h1 .fa-gear{
+    font-size:20px;
+}
+h1 .fa-caret-down{
+    font-size:25px;
+    margin:0 0.4em 0 1em;
+}
 #new_dataset{
     padding-top:2em;
 }
