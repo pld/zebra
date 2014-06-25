@@ -433,7 +433,6 @@ table strong a{
 
 div.dropdown{
     display:inline-block;
-    font-size:13px!important;
     position:relative;
 }
 
@@ -575,4 +574,8 @@ ul.submenu li a:hover{
 /* utilities */
 .hidden {
     display: none;
+}
+.inline {
+    display: inline-block;
+    padding-right: 0.5em;
 }

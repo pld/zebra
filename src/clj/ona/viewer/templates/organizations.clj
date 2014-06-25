@@ -1,4 +1,4 @@
-(ns ona.viewer.templates.organization
+(ns ona.viewer.templates.organizations
   (:use [net.cgrand.enlive-html :only [but
                                        clone-for
                                        content
@@ -24,6 +24,10 @@
   (and (some #{username} (:members team))
        (not (single-owner? (:team team)
                            (:members team)))))
+
+(defsnippet new "templates/organization/new.html"
+  [:body :div.content :> :.new-organization-form]
+  [])
 
 (defsnippet profile "templates/organization/profile.html"
   [:body :div#content]

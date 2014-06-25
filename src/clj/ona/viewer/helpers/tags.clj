@@ -9,3 +9,8 @@
   "Create a JavaScript tag with content."
   [content]
   [:script {:type "text/javascript"} content])
+
+(defn js-submit
+  "Build string to submit form via JavaScript."
+  [form-id]
+  (str "javascript:document.forms[\"" form-id "\"].submit();"))

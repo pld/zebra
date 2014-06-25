@@ -7,8 +7,7 @@
             [ona.api.charts :as api-charts]
             [ona.viewer.helpers.sharing :as sharing]
             [ona.viewer.templates.base :as base]
-            [ona.viewer.templates.forms :as forms]
-            [ona.viewer.templates.datasets :as datasets]
+            [ona.viewer.templates.datasets :as template]
             [ona.viewer.urls :as u]
             [cheshire.core :as cheshire]
             [ring.util.response :as response]
@@ -82,7 +81,7 @@
        "/"
        account
        (:title metadata)
-       (datasets/show owner
+       (template/show owner
                       project-id
                       dataset-id
                       dataset-details
@@ -94,7 +93,7 @@
   "View tags for a specific dataset"
   [account owner project-id dataset-id]
   (let [tags (api/tags account dataset-id)
-        tag-form (forms/new-tag-form owner project-id dataset-id)]
+        tag-form (template/new-tag-form owner project-id dataset-id)]
     (base/dashboard-items
       "Dataset tag"
       account
@@ -112,7 +111,7 @@
      (str "/" upload-path)
      account
      "New dataset"
-     (datasets/new-dataset project)
+     (template/new project)
      [(js-tag "goog.require(\"ona.upload\");")
       (js-tag (str "ona.upload.init(\"upload-button\", \"form\", \""
                    upload-path
@@ -164,7 +163,7 @@
      (u/dataset-metadata owner project-id dataset-id)
      account
      "Dataset metadata"
-     (forms/metadata-form owner project-id dataset-id metadata))))
+     (template/metadata-form owner project-id dataset-id metadata))))
 
 (defn update
   "Update metadata for a specific dataset"
@@ -191,7 +190,7 @@
      "/dataset"
      account
      "New dataset - Form settings"
-     (forms/sharing metadata owner project-id dataset-id))))
+     (template/sharing metadata owner project-id dataset-id))))
 
 (defn sharing-update
   "Update sharing settings."
@@ -227,13 +226,13 @@
       "/dataset"
       account
       (str "Sharing settings - " (:title metadata))
-      (forms/settings metadata
-                      dataset-id
-                      project-id
-                      all-users
-                      shared-users
-                      username
-                      owner))))
+      (template/settings metadata
+                         dataset-id
+                         project-id
+                         all-users
+                         shared-users
+                         username
+                         owner))))
 
 (defn settings-update
   "User share settings update"

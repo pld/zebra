@@ -1,7 +1,7 @@
 (ns ona.viewer.views.profiles
   (:use [ona.viewer.helpers.projects :only [project-details]]
         [ona.viewer.templates.base :only [base-template]]
-        [ona.viewer.templates.forms :only [sign-up-form]]
+        [ona.viewer.templates.accounts :only [sign-up-form]]
         [slingshot.slingshot :only [try+]])
   (:require [ona.api.organization :as api-org]
             [ona.api.user :as api]

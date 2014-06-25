@@ -33,7 +33,7 @@
          (create account params) => :something
          (provided
           (api/create account name-hash username) =throws=> (slingshot-exception [])
-          (new-project account []) => :something)))
+          (new-project account username []) => :something)))
 
 (let [id :id
       project-name "project-name"

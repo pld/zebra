@@ -10,7 +10,8 @@
         [clojure.string :only [join]]
         [ona.utils.numeric :only [pluralize-number]]
         [ona.utils.seq :only [select-value]])
-  (:require [ona.utils.string :as s]
+  (:require [ona.viewer.helpers.tags :as t]
+            [ona.utils.string :as s]
             [ona.viewer.urls :as u]
             [ona.viewer.templates.datasets :as datasets]))
 
@@ -37,19 +38,29 @@
     (str shared-username " (you)")
     shared-username))
 
-(defsnippet project-settings "templates/project/settings.html"
+(defsnippet settings "templates/project/settings.html"
   [:body :div.content]
-  [owner project username shared-users]
+  [owner project owners username shared-users]
 
   [:#name] (content (:name project))
-  [:#users [:li]] (clone-for [user shared-users]
-                             [:.username] (content (user-string username user)))
+
+  ;; Owners select
+  [:select#owner [:option (but first-of-type)]] nil
+  [:select#owner [:option first-of-type]] (clone-for [owner owners]
+                                                      (do-> (content owner)
+                                                            (set-attr :value owner)))
+
+  ;; Share list
+  [:table#users [:tr (but first-of-type)]] nil
+  [:table#users [:tr first-of-type]]
+  (clone-for [user shared-users]
+             [:.username] (content (user-string username user)))
 
   ;; Buttons
   [:#back] (set-attr :href "/project")
   [:#done] (set-attr :href (u/project-show owner (:id project))))
 
-(defsnippet project-show "templates/project/show.html"
+(defsnippet show "templates/project/show.html"
   [:body :div.content]
   [owner project forms profile latest-form all-submissions]
 
@@ -57,7 +68,8 @@
 
   ;;Top Nav
   [:div#username] (content (datasets/user-link (:username profile)))
-  [:#addform] (set-attr :href (u/dataset-new owner (:id project)))
+  [:#share-settings] (set-attr :href (u/project-settings owner project))
+  [:#add-form] (set-attr :href (u/dataset-new owner (:id project)))
 
   ;; Side nav
   ;; TODO this will work once the API sends back this content
@@ -70,7 +82,7 @@
                                                           (:id project)
                                                           profile)))
 
-(defsnippet render-project-list "templates/organization/profile.html"
+(defsnippet render-list "templates/organization/profile.html"
   [:div#tab-inner]
   [profile projects owner]
   ;; Set links
@@ -95,6 +107,20 @@
 (defn project-list
   "Helper to build arguments for project list template."
   [profile projects]
-  (render-project-list profile
+  (render-list profile
                        projects
                        (select-value profile [:org :username])))
+
+(defsnippet new "templates/project/new.html"
+  [:div.content]
+  [owner owners errors]
+  [:#errors] (content errors)
+  [:form] (set-attr :action (u/project-new owner))
+
+  ;; Owners select
+  [:select#owner [:option (but first-of-type)]] nil
+  [:select#owner [:option first-of-type]] (clone-for [owner owners]
+                                                      (do-> (content owner)
+                                                            (set-attr :value owner)))
+
+  [:a#next] (set-attr :href (t/js-submit "project-form")))

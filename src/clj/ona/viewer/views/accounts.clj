@@ -1,13 +1,13 @@
 (ns ona.viewer.views.accounts
-  (:use [ona.viewer.templates.base :only [base-template]]
-        [ona.viewer.templates.forms :only [login-form]])
+  (:use [ona.viewer.templates.base :only [base-template]])
   (:require [ona.api.user :as api]
+            [ona.viewer.templates.accounts :as template]
             [ring.util.response :as response]))
 
 (defn login
   "Render the login page."
   []
-  (base-template "/" "" "Login" (login-form)))
+  (base-template "/" "" "Login" (template/login-form)))
 
 (defn submit-login
   "Process submitted login details and log the user in."
