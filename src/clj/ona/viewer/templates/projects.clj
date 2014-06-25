@@ -109,3 +109,17 @@
   (render-list profile
                        projects
                        (select-value profile [:org :username])))
+
+(defsnippet new "templates/project/new.html"
+  [:div.content]
+  [owner owners errors]
+  [:#errors] (content errors)
+  [:form] (set-attr :action (u/project-new owner))
+
+  ;; Owners select
+  [:select#owner [:option (but first-of-type)]] nil
+  [:select#owner [:option first-of-type]] (clone-for [owner owners]
+                                                      (do-> (content owner)
+                                                            (set-attr :value owner)))
+
+  [:a#next] (set-attr :href (t/js-submit "project-form")))

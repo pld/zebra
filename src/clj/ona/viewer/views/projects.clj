@@ -2,7 +2,6 @@
   (:use [ona.api.io :only [make-url]]
         [ona.viewer.helpers.projects :only [profile-with-projects]]
         [ona.viewer.templates.base :only [base-template dashboard-items]]
-        [ona.viewer.templates.forms :only [new-project-form]]
         [ring.util.response :only [redirect-after-post]]
         [slingshot.slingshot :only [try+]])
   (:require [ona.api.organization :as api-org]
@@ -29,7 +28,7 @@
       "/project"
       account
       "New Project"
-      (new-project-form owner (owners account) errors))))
+      (template/new owner (owners account) errors))))
 
 (defn show
   "Show the project."
