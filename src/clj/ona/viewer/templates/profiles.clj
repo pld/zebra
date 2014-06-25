@@ -14,7 +14,6 @@
   [:h2.username] (content (:name profile))
   [:img.avatar] (set-attr :src (:gravatar profile))
   [:a#settings] (set-attr :href (u/profile-settings (:username profile)))
-                 ;(set-attr :href (u/project-new       (:username profile)))
   [:a#new-project] (set-attr :href (u/project-new (:username profile)))
   [:span.occupation] (content "")
   [:a.org ] (content (:organization profile))
