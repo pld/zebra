@@ -14,7 +14,7 @@
             [ona.viewer.urls :as u]))
 
 (defsnippet login-form "templates/login.html"
-  [:body :div#login-form]
+  [:body :div.content]
   [])
 
 (defsnippet new-organization-form "templates/organization/new.html"
@@ -22,7 +22,7 @@
   [])
 
 (defsnippet new-project-form "templates/project/new.html"
-  [:div.new-project-form]
+  [:div.content]
   [owner errors]
   [:#errors] (content errors)
   [:form] (set-attr :action (u/project-new owner))
