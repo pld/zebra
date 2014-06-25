@@ -39,9 +39,17 @@
 
 (defsnippet settings "templates/project/settings.html"
   [:body :div.content]
-  [owner project username shared-users]
+  [owner project owners username shared-users]
 
   [:#name] (content (:name project))
+
+  ;; Owners select
+  [:select#owner [:option (but first-of-type)]] nil
+  [:select#owner [:option first-of-type]] (clone-for [owner owners]
+                                                      (do-> (content owner)
+                                                            (set-attr :value owner)))
+
+  ;; Share list
   [:table#users [:tr (but first-of-type)]] nil
   [:table#users [:tr first-of-type]]
   (clone-for [user shared-users]

@@ -24,9 +24,16 @@
 
 (defsnippet new-project-form "templates/project/new.html"
   [:div.content]
-  [owner errors]
+  [owner owners errors]
   [:#errors] (content errors)
   [:form] (set-attr :action (u/project-new owner))
+
+  ;; Owners select
+  [:select#owner [:option (but first-of-type)]] nil
+  [:select#owner [:option first-of-type]] (clone-for [owner owners]
+                                                      (do-> (content owner)
+                                                            (set-attr :value owner)))
+
   [:a#next] (set-attr :href (t/js-submit "project-form")))
 
 (defsnippet new-tag-form "templates/dataset/tag.html"

@@ -5,7 +5,8 @@
         [ona.viewer.templates.forms :only [new-project-form]]
         [ring.util.response :only [redirect-after-post]]
         [slingshot.slingshot :only [try+]])
-  (:require [ona.api.project :as api]
+  (:require [ona.api.organization :as api-org]
+            [ona.api.project :as api]
             [ona.api.user :as api-user]
             [ona.api.dataset :as api-dataset]
             [ona.viewer.templates.projects :as template]
@@ -13,16 +14,22 @@
             [ona.utils.time :as t]
             [ona.viewer.helpers.projects :as h]))
 
+(defn owners
+  "Return possible project owners for account."
+  [account]
+  (cons (:username account)
+        (map #(:org %) (api-org/all account))))
+
 (defn new-project
   "Form for creating a new project."
   ([account owner]
      (new-project account owner nil))
   ([account owner errors]
-      (base-template
-       "/project"
-       account
-       "New Project"
-       (new-project-form owner errors))))
+     (base-template
+      "/project"
+      account
+      "New Project"
+      (new-project-form owner (owners account) errors))))
 
 (defn show
   "Show the project."
@@ -49,7 +56,7 @@
      (u/project-settings project owner)
      account
      "Project Settings"
-     (template/settings owner project username shared-user))))
+     (template/settings owner project (owners account) username shared-user))))
 
 
 (defn create
