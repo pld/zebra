@@ -433,6 +433,7 @@ table strong a{
 
 div.dropdown{
     display:inline-block;
+    font-size:13px!important;
     position:relative;
 }
 
