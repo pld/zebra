@@ -7,7 +7,7 @@
             [ona.api.user :as api-user]
             [clojure.string :as string]
             [ona.viewer.templates.base :as base]
-            [ona.viewer.templates.organization :as template]
+            [ona.viewer.templates.organizations :as template]
             [ona.viewer.urls :as u]
             [ona.utils.string :as s]
             [ring.util.response :as response]))
@@ -114,12 +114,12 @@
       "/organizations"
       account
       (:name org)
-      (org-templates/team-info (:org org)
-                               team-id
-                               team-info
-                               members-info
-                               all-teams
-                               all-members))))
+      (template/team-info (:org org)
+                          team-id
+                          team-info
+                          members-info
+                          all-teams
+                          all-members))))
 
 (defn new-team
   "Show new-team form for organization."

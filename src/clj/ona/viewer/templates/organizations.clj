@@ -1,4 +1,4 @@
-(ns ona.viewer.templates.organization
+(ns ona.viewer.templates.organizations
   (:use [net.cgrand.enlive-html :only [but
                                        clone-for
                                        content
