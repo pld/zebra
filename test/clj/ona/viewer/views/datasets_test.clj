@@ -10,15 +10,16 @@
             [ring.util.response :as response]
             [ona.viewer.helpers.sharing :as sharing]))
 
-(facts "about datasets show"
-       "Should returns data for dataset"
-       (show :fake-account :owner :project-id :dataset-id) => (contains "Some title")
-       (provided
-        (api/data :fake-account :dataset-id) => [:row]
-        (api/metadata :fake-account :dataset-id) => {:title "Some title"
-                                                     :last_submission_time "2014-6-3T20:18:23Z"}
-        (api/online-data-entry-link :fake-account :owner :dataset-id) => ""
-        (api-org/all :fake-account) => []))
+(let [owner "owner"]
+  (facts "about datasets show"
+         "Should returns data for dataset"
+         (show :fake-account owner :project-id :dataset-id) => (contains "Some title")
+         (provided
+          (api/data :fake-account :dataset-id) => [:row]
+          (api/metadata :fake-account :dataset-id) => {:title "Some title"
+                                                       :last_submission_time "2014-6-3T20:18:23Z"}
+          (api/online-data-entry-link :fake-account owner :dataset-id) => ""
+          (api-org/all :fake-account) => [])))
 
 (facts "about datasets new"
        "Should return content for creating a dataset"
