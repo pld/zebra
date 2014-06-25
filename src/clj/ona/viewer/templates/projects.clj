@@ -10,7 +10,8 @@
         [clojure.string :only [join]]
         [ona.utils.numeric :only [pluralize-number]]
         [ona.utils.seq :only [select-value]])
-  (:require [ona.utils.string :as s]
+  (:require [ona.viewer.helpers.tags :as t]
+            [ona.utils.string :as s]
             [ona.viewer.urls :as u]
             [ona.viewer.templates.datasets :as datasets]))
 

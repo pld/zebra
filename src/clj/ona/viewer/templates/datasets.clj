@@ -1,5 +1,6 @@
 (ns ona.viewer.templates.datasets
   (:use [net.cgrand.enlive-html :only [append
+                                       attr=
                                        but
                                        clone-for
                                        content
@@ -8,12 +9,14 @@
                                        first-of-type
                                        html
                                        nth-of-type
+                                       remove-attr
                                        set-attr]]
         :reload
         [ona.utils.numeric :only [pluralize-number]]
         [clavatar.core :only [gravatar]]
         [clojure.string :only [join]])
-  (:require [ona.viewer.urls :as u]
+  (:require [ona.viewer.helpers.sharing :as sharing]
+            [ona.viewer.urls :as u]
             [ona.utils.time :as t]
             [ona.utils.string :as s]))
 
@@ -65,7 +68,7 @@
              (:formid dataset)))
 
 
-(defsnippet new-dataset "templates/dataset/new.html"
+(defsnippet new "templates/dataset/new.html"
   [:body :div#content]
   [project]
   [:span#project-name] (content (:name project)))
@@ -119,6 +122,88 @@
   [dataset metadata]
   [:span#submissions] (content (submission-made-str dataset))
   [:span#latest] (content (latest-submission-str metadata)))
+
+(defsnippet new-tag-form "templates/dataset/tag.html"
+  [:body :div.content :> :.new-tag-form]
+  [owner project-id dataset-id]
+  [:form](set-attr :action (u/dataset-tags owner project-id dataset-id))
+  [:form :#dataset-id](set-attr :value dataset-id))
+
+(defsnippet metadata-form "templates/dataset/metadata.html"
+  [:body :div.content :> :.dataset-metadata-form]
+  [owner project-id dataset-id metadata]
+  [:form] (set-attr :action (u/dataset-metadata owner project-id dataset-id))
+  [:form :#dataset-id] (set-attr :value dataset-id)
+  [:form :#project-id] (set-attr :value project-id)
+  [:a#back] (set-attr :href (u/dataset-sharing owner project-id dataset-id))
+  [:span#title] (content (:title metadata))
+  [:input#form-title] (set-attr :value (:title metadata))
+  [:input#description] (set-attr :value (:description metadata))
+  [:input#tags] (set-attr :value (join ", " (:tags metadata))))
+
+(defsnippet sharing "templates/dataset/new-sharing.html"
+  [:body :div#content]
+  [metadata owner project-id dataset-id]
+  [:span#title] (content (:title metadata))
+  [:form#form] (set-attr :action (u/dataset-sharing owner project-id dataset-id))
+  [[:input (attr= :type "radio")]] (set-attr :name sharing/settings)
+  [:input#dataset-id] (set-attr :value dataset-id)
+  [:input#project-id] (set-attr :value project-id)
+  [:input#private] (do-> (set-attr :value sharing/private)
+                         (if-not (:public metadata)
+                           (set-attr :checked "checked")
+                           (remove-attr :checked)))
+  [:input#open-account] (set-attr :value sharing/open-account)
+  [:input#open-all] (do->(set-attr :value sharing/open-all)
+                         (if (:public metadata)
+                           (set-attr :checked "checked")
+                           (remove-attr :checked)))
+  [:input#closed] (set-attr :value sharing/closed))
+
+(defsnippet public-settings "templates/dataset/settings.html"
+  [:tr#public-settings :td]
+  [])
+
+(defsnippet users-shared "templates/dataset/settings.html"
+  [:tbody#users :tr]
+  [users username]
+  [:tr] (clone-for [user users]
+                   [:img.avatar] (set-attr :src (:gravatar user))
+                   [:span.owner] (content (str (:username user)
+                                               (if (= (:username user)
+                                                      username)
+                                                 " (you)")))
+                   [:select.owner [:option.is-owner]] (if (= (:is-owner? user) true)
+                                                        (set-attr :selected ""))
+                   ))
+
+(defsnippet add-user "templates/dataset/settings.html"
+  [:tr#add-user :td]
+  [users]
+  [:select#username [:option (but first-of-type)]] nil
+  [:select#username [:option first-of-type]]
+  (clone-for [user users]
+             [:option] (do->
+                        (set-attr :value (:username user))
+                        (content
+                         (:username user)))))
+
+(defsnippet settings "templates/dataset/settings.html"
+  [:body :div#content]
+  [metadata dataset-id project-id users shared-users username owner]
+  [:span#title] (content (:title metadata))
+  [:input#dataset-id] (set-attr :value dataset-id)
+  [:input#project-id] (set-attr :value project-id)
+  [:tbody#users] (content (users-shared shared-users username))
+  [:tr#public-settings] (content (if (:public_data metadata)
+                                   (public-settings)
+                                   nil))
+  [:tr#public-with-link-settings] nil
+  ;; TODO use a real conditional for adding users
+  [:tr#add-user] (content (if false
+                            (add-user users)
+                            nil))
+  [:a#back](set-attr :href (u/dataset owner project-id dataset-id)))
 
 (defsnippet show "templates/dataset/show.html"
   [:body :div#content]
