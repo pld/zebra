@@ -10,6 +10,7 @@
         [clavatar.core :only [gravatar]]
         [ona.api.organization :only [owners-team-name single-owner?]])
   (:require [ona.viewer.templates.projects :as project-templates]
+            [ona.utils.numeric :as n]
             [ona.utils.string :as s]
             [ona.viewer.urls :as u]))
 
@@ -34,7 +35,7 @@
   [:span#country] (content (:country org))
   [:p#description] (content (:description org))
   [:a#org-url] (do-> (content (:home_page org))
-                                      (set-attr :href (:url org)))
+                     (set-attr :href (:url org)))
   [:div.org-details :img] (set-attr :src (gravatar (:email org)))
   [:a#request-to-join] (if is-member? nil identity)
 
@@ -56,7 +57,9 @@
    :ul.teams
    [:li first-of-type]] (clone-for [team teams] [:li] (content (:name team)))
 
-  ;; Organization projects
+  ;; Organization
+  [:td#datasets-count] (content (n/pluralize-number (count project-details)
+                                                    "dataset"))
   [:div#tab-content1] (content
                        (project-templates/project-list org
                                                        project-details)))
@@ -74,7 +77,8 @@
                                  (set-attr :href
                                            (-> member profile-username u/profile)))
              [:a.dataset-list] (do->
-                                (content (str (:num-forms member) " forms"))
+                                (content (n/pluralize-number (:num-forms member)
+                                                             "form"))
                                 (set-attr :href
                                           (-> member profile-username u/profile)))
              [:form.remove-form] (if (single-owner? team members)

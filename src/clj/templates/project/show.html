@@ -1,17 +1,23 @@
 <html lang="en">
   <head>
     <title>Ona Viewer</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="stylesheet" type="text/css" href="../../../../resources/public/css/pure-min.css">
+    <link rel="stylesheet" href="../../../../resources/public/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../../resources/public/css/style.css">
   </head>
   <body>
     <div class="content container">
         <div class="pure-g-r page-header">
             <div class="pure-u-2-5">
-                <h1 id="name">Vitamin A</h1>
+                <h1 id="name">My New Project &nbsp;<i class="fa fa-gear"></i></h1>
             </div>
 
-            <div class="pure-u-2-5">
+            <div class="pure-u-1-2">
         	<span class="right">
-                <a id="addform" href="#" class="pure-button">Add Form</a>
                 <a href="#" class="pure-button">Share Project</a>
             </span>
             </div>
@@ -46,14 +52,191 @@
                     <span class="tag">Person 5</span> <span class="tag">Person 6</span>
                 </p>
             </div>
+            <!-- Spacer -->
+            <div class="pure-u-1-12"></div>
 
-            <div class="pure-u-4-5">
-                <h2>Forms</h2>
-                <div class="new-project-form">
+            <div class="pure-u-2-3">
+                <div class="cfix">
+                	<a href="#add_form_dialog" class="pure-button btn-warning right">+ Add Form</a>
+                	<h2>Forms</h2>
+                </div>
+                <hr/>
+                <div class="new-project-form pure-1-1">
                     <div class="datasets-table">
-
+                        <table class="pure-table pure-table-horizontal">
+                      <tr>
+                        <td>
+                            <strong><a href="../dataset/show.html">Mali</a></strong> &nbsp;
+                            <div class="dropdown">
+                                <a href="#" class="drop-toggle t-large"><i class="fa fa-sort-down"></i></a>
+                                <ul class="submenu">
+                                    <li class="open"><a href="#">Open</a></li>
+                                    <li class="share"><a href="#">Share</a></li>
+                                </ul>
+                            </div>
+                            <p>For description</p>
+                            <span class="t-italics">Last record 2 hours ago</span>
+                         </td>
+                        <td>
+                            <p><strong>34 Records</strong></p>
+                            <a href="#" class="pure-button">Share Settings</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                            <strong><a href="#">Virginia</a></strong> &nbsp;
+                            <div class="dropdown">
+                                <a href="#" class="drop-toggle t-large"><i class="fa fa-sort-down"></i></a>
+                                <ul class="submenu">
+                                    <li class="open"><a href="#">Open</a></li>
+                                    <li class="share"><a href="#">Share</a></li>
+                                </ul>
+                            </div>
+                            <p>For description</p>
+                            <span class="t-italics">Last record 2 hours ago</span>
+                         </td>
+                        <td>
+                            <strong>755 Records</strong>
+                        </td>
+                      </tr>
+                    </table>
+                        <p class="t-no-info t-center">
+                        	No forms here, add a form now
+                        </p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="add_form_dialog">
+        <div class="modal-wrap cfix">
+            <div class="modal-header">
+                <a href="#" class="btn-close">&times;</a>
+                <h2>Add Form to My New Project</h2>
+            </div>
+            <div class="modal-body">
+                <br/><br/>
+                <p>
+                    XLSForm - Directions, guideline links and quotes on using 
+                    <br/>xls forms, help or support link
+                </p>
+                <p>
+                    <form class="pure-form pure-form-stacked">
+                        <input type="file" name="form_file"/>
+                    </form>
+                </p>
+                <p class="bordered upl-holder">
+                    <span class="upl-verified"><i class="fa fa-check"></i> &nbsp;&nbsp;Verified</span>
+                    <span class="upl-filename">Filename 1</span>
+                	<span class="right upl-preview">
+                        Preview  &nbsp;&nbsp;<a href="#" class="btn-close">&times;</a>
+                    </span>
+                </p>
+                <p class="bordered upl-holder">
+                    <span class="upl-progress">Uploading Filename1.xls ...</span>
+                	<span class="right upl-preview">
+                        (Till finishes uploading)  &nbsp;&nbsp;<a href="#" class="btn-close">&times;</a>
+                    </span>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <p>
+                    <a href="#add_form_dialog_settings" class="pure-button btn-secondary">Next</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="add_form_dialog_settings">
+        <div class="modal-wrap cfix">
+            <div class="modal-header">
+                <a href="#" class="btn-close">&times;</a>
+                <h2>Add Form to My New Project</h2>
+            </div>
+            <div class="modal-body">
+                <br/><br/>
+                <h3>Form Settings</h3>
+                <p>
+                    Name your form <input type="text" name="name_form" value="Filename 1"/> .xls
+                </p>
+                <p>
+                    <form class="pure-form pure-form-stacked">
+                    <ul class="form-list">
+                    <li>
+                        <input type="radio" name="dmmata_check"/>
+                        Private - only you can add submissions
+                    </li>
+                    <li>
+                        <input type="radio" name="dmmata_check"/>
+                        Limited - specific people can add submissions Ona account (required)
+                    </li>
+                    <li>
+                        <input type="radio" name="dmmata_check"/>
+                        Public - anybody with link can add submissions (Ona Account not required)<br/>
+                        <span class="t-more-info"><input type="checkbox" name="display_link"/> Display link on project page
+                    </li>
+                    <li>
+                        <input type="radio" name="dmmata_check"/>
+                        Inactive - no submissions whatsoever can be added
+                    </li>
+                    </form>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <p>
+                    <a href="#add_form_dialog" class="pure-button btn-secondary">Back</a>
+                    <a href="#add_form_dialog_final" class="pure-button btn-secondary">Next</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="add_form_dialog_final">
+        <div class="modal-wrap cfix">
+            <div class="modal-header">
+                <a href="#" class="btn-close">&times;</a>
+                <h2>Data settings for Form</h2>
+            </div>
+            <div class="modal-body">
+                <br/><br/>
+                <h3>Form Settings</h3>
+                
+            <p>Determine project visibility and access to the datasets</p>
+                
+            <table id="users" class="pure-table pure-table-horizontal">
+              <tr>
+                <td>
+                    <i class="fa fa-user"></i>
+                    <span class="username">Garret Mehl (you)</span>
+                 </td>
+                <td>
+                    <select>
+                      <option value="">Is owner</option>
+                      <option value="">Is author</option>
+                    </select>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="username">Anyone with the link</span><br/>
+                    <span class="datalink t-more-info">Link:  https://ona.io/garrm/sdjkj798230/</span>
+                 </td>
+                <td>
+                    <select>
+                      <option value="">Can view</option>
+                      <option value="">Can edit</option>
+                    </select>
+                </td>
+                <td><a href="#" class="action-remove">&times;</a></td>
+              </tr>
+            </table>
+                
+            </div>
+            <div class="modal-footer">
+                <p>
+                    <a href="#add_form_dialog_settings" class="pure-button btn-secondary">Back</a>
+                    <a href="#" class="pure-button btn-secondary">Done</a>
+                </p>
             </div>
         </div>
     </div>

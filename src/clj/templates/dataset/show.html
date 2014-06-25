@@ -42,22 +42,27 @@
 
 <div id="content" class="container">
     <div class="pure-g-r page-header">
-        <div class="pure-u-2-5">
-	       <h1>Vitamin A</h1>
-        </div>
+        <div class="pure-u-3-5">
+	       <h1>
+	           <a href="../project/show.html">Vitamin A / Mali</a>
 
-        <div class="pure-u-1-5">
-        	<div class="right">
-                <a id="settings" href="#"><i class="fa fa-gear"></i></a> &nbsp;
-                <a href="#"><i class="fa fa-star"></i></a> &nbsp;&nbsp;&nbsp;
-            </div>
+                   <div class="dropdown">
+                   <a href="#" class="drop-list"><i class="fa fa-caret-down"></i></a>
+                   <ul class="submenu">
+                     <li class="open">
+                       <a id="download-all" href="#">Download All</a>
+                     </li>
+                   </ul>
+                   </div>
+                   <a href="#"><i class="fa fa-gear"></i></a>
+	       </h1>
         </div>
 
         <div class="pure-u-2-5">
         	<span class="right">
                 <a href="#" class="enter-data pure-button">Add Record</a>
-                <a id="sharing" href="#" class="pure-button">Share</a>
-                <a id="download-all" href="#" class="pure-button">Download All</a>
+                <a id="" href="#" class="pure-button">Publish Form</a>
+                <a id="sharing" href="#" class="pure-button">Share Form</a>
             </span>
         </div>
     </div>
@@ -71,9 +76,6 @@
 
     <div class="pure-g-r">
     	<div class="pure-u-1-5" id="sidenav">
-            <p>
-                <a href="#" class="enter-data pure-button">Add Record</a>
-            </p>
             <h3>DESCRIPTION</h3>
             <p id="description">
 
@@ -89,7 +91,9 @@
             </div>
             <h3>FORM SOURCE</h3>
             <p>
-                <a id="form-source" href="#">vitamin-a.xls</a>
+                <a id="form-source" href="#">vitamin-a.xls</a><br/>
+                Open-specific people
+                <a href="#">change</a>
             </p>
             <h3>TAGS</h3>
             <p class="tagbox">
@@ -99,50 +103,139 @@
             </p>
     	</div>
 
-    	<div class="pure-u-4-5">
-            <div class="pure-menu pure-menu-open pure-menu-horizontal container">
-              <ul>
-                <li><a id="map-link" href="#">Map</a></li>
-                <li><a id="table-link" href="#">Table</a></li>
-                <li><a id="chart-link" href="#">Chart</a></li>
-                <li><a id="photo-link" href="#">Photo</a></li>
-                <li><a id="activity-link" href="#">Activity</a></li>
-              </ul>
+            <!-- Spacer -->
+            <div class="pure-u-1-12"></div>
 
-              <span class="right">
-                <span class="rec">34 Records</span>
-                <span><i class="icon">Fullscreen</i></span>
+            <div class="pure-u-2-3">
+              <span class="right rec-summary">
+                <span class="rec">755 Records &nbsp;&nbsp;</span>
+                <a href="#" title="Toggle full-screen view"><i class="fa fa-arrows-alt"></i></a></span>
               </span>
-            </div>
 
-            <div class="dataset-context">
-                <div id="map">
-            	    <img src="/img/map.jpg" alt="Data map"/>
+            <ul class="tabs cfix dataset-tabs">
+            <li>
+                <input type="radio" checked name="tabs" id="tab1">
+                <a id="map-link" href="#"><label for="tab1">Map</label></a>
+                <div id="tab-content1" class="tab-content">
+                    <div class="dataset-context">
+                        <div id="map">
+                            <img src="../../../../resources/public/img/map.jpg" alt="Data map"/>
+                        </div>
+                    </div>
                 </div>
-                <div class="charts">
+            </li>
+            <li>
+                <input type="radio" name="tabs" id="tab2">
+                <a id="table-link" href="#"><label for="tab2">Table</label></a>
+                <div id="tab-content2" class="tab-content">
+                    Table goes here
+                </div>
+            </li>
+            <li>
+                <input type="radio" name="tabs" id="tab3">
+                <a id="photo-link" href="#"><label for="tab3">Photo</label></a>
+                <div id="tab-content3" class="tab-content">
+                    <div class="dataset-pics">
+                    	<a class="datapic" href="#image_viewer">
+                    		<img src="../../../../resources/public/img/datapic.png" alt="Project image"/>
+                    	</a>
+                    	<a class="datapic" href="#image_viewer">
+                    		<img src="../../../../resources/public/img/datapic.png" alt="Project image"/>
+                    	</span>
+                    	<a class="datapic" href="#image_viewer">
+                    		<img src="../../../../resources/public/img/datapic.png" alt="Project image"/>
+                    	</span>
+                    	<a class="datapic" href="#image_viewer">
+                    		<img src="../../../../resources/public/img/datapic.png" alt="Project image"/>
+                    	</a>
+                    	<a class="datapic" href="#image_viewer">
+                    		<img src="../../../../resources/public/img/datapic.png" alt="Project image"/>
+                    	</a>
+                    	<a class="datapic" href="#image_viewer">
+                    		<img src="../../../../resources/public/img/datapic.png" alt="Project image"/>
+                    	</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <input type="radio" name="tabs" id="tab4">
+                <a id="chart-link" href="#"><label for="tab4">Chart</label></a>
+                <div id="tab-content4" class="tab-content">
+                    <div class="charts">
                         <h3 class="chart-name"></h3>
                         <div class="bar-chart"></div>
+                    </div>
                 </div>
+            </li>
+            <li>
+                <input type="radio" name="tabs" id="tab5">
+                <a id="activity-link" href="#"><label for="tab5">Activity</label></a>
+                <div id="tab-content5" class="tab-content">
+                    <table class="table-list table-blue pure-table pure-table-horizontal activity-table">
+                    <tr>
+                        <td>Timestamp</td>
+                        <td>Show some form info, may a preview or view
+                            <p>
+                            	<img src="../../../../resources/public/img/datapic.png" alt="Datapic"/>
+                            	<img src="../../../../resources/public/img/mini-map.jpg" alt="Mini-map"/>
+                                A mini map and some images
+                            </p>
+                        </td>
+                    </tr>
+                    </table>
                 </div>
-            </div>
+            </li>
+            </ul>
     	</div>
     </div>
 </div>
 
 <div class="modal" id="share_settings">
-	<div class="">
-        <a href="#">X</a>
-		<h4>Record</h4>
-	</div>
+    <div class="modal-wrap cfix">
+        <div class="modal-header">
+            <a href="#" class="btn-close">&times;</a>
+            <h3>Record</h3>
+        </div>
 
-    <form action="#" method="POST">
-    <div class="">
-        <p>Enketo</p>
+        <form action="#" method="POST">
+        <div class="modal-body">
+            <p>Enketo</p>
+        </div>
+        <div class="modal-footer">
+            <input class="pure-button" type="submit" value="Submit"/>
+        </div>
+        </form>
     </div>
-    <div class="">
-    	<input class="btn" type="submit" value="Submit"/>
+</div>
+
+<div class="modal" id="image_viewer">
+    <div class="modal-wrap cfix">
+        <div class="modal-header">
+            <a href="#" class="btn-close">&times;</a>
+        </div>
+        <div class="modal-body pure-g-r">
+            <div class="pure-u-1-2">
+                <div class="datapic-lg">
+                    <img src="../../../../resources/public/img/map.jpg" alt="Datapic"/>
+                </div>
+                <p>
+                	Download Photo | Replace Photo
+                </p>
+            </div>
+            <div class="pure-u-2-5 viewer-info">
+            	<a href="#">Timestamp</a>
+                <p>
+                	Questions and values from a single <br/>submission in a table
+                </p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span class="viewer-controls right">
+            	<i class="fa fa-chevron-left"></i> &nbsp;&nbsp;
+            	<i class="fa fa-chevron-right"></i>
+            </span>
+        </div>
     </div>
-    </form>
 </div>
 
 </body>

@@ -8,3 +8,7 @@ target/
 META-INF/
 lib/
 *.iml
+.lein-deps-sum
+.lein-plugins/
+.project
+.project.clj.swp

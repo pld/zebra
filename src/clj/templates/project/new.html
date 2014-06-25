@@ -39,47 +39,65 @@
         </ul>
     </div>
 </div>
-<div class="content">
-    <div class="row pure-g-r">
+
+<div class="container">
+    <div class="pure-g-r">
         <div class="pure-u-1-2">
             <h1>Create Project</h1>
         </div>
     </div>
     <div class="row">
-        <div class="new-project-form">
-            <form action="projects" method="post">
+        <div class="new-project-form pure-g-r">
+            <form action="projects" method="post" class="pure-form pure-form-stacked">
                 <p id="errors"></p>
 
-                <p>
-                    <label>Owner</label>
+                <p class="pure-u-1-8">
+                    <label>Account Owner</label>
                     <select>
-                        <option value="agriculture">garam</option>
+                        <option value="agriculture">WHO</option>
+                        <option value="agriculture">garrm</option>
                         <option value="agriculture">Ona</option>
                     </select>
                 </p>
-                <p>
+                <p class="pure-u-1-48">
+                    <span class="t-large t-slash">/<span>
+                </p>
+                <p class="pure-u-1-4">
                     <label>Project name</label>
-                    <input type="text" name="name"/>
+                    <input type="text" name="name" placeholder="Project Name"/>
                 </p>
 
-                <p>
-                    <label>Add a description (Optional)</label>
+                <p class="pure-u-2-3">
+                    <label>Add a description (optional)</label>
                     <input type="text" name="description"/>
                 </p>
 
-                <p>
-                    <label>Choose a</label>
+                <p class="pure-u-1-2">
+                    <label>Choose a project category</label>
                     <select>
-                        <option>project category</option>
+                        <option>-Select category-</option>
                         <option value="agriculture">agriculture</option>
+                        <option value="">baseline survey</option>
+                        <option value="">community</option>
+                        <option value="">education</option>
+                        <option value="">energy</option>
+                        <option value="">environment</option>
+                        <option value="">financial services</option>
+                        <option value="">gender equity</option>
+                        <option value="">health</option>
+                        <option value="">water</option>
                     </select>
                 </p>
-                <p>
+
+                <p class="pure-u-2-3">
                     <label>Location</label>
                     <input type="text" name="location"/>
                 </p>
-                <a href="#" class="pure-button"> Cancel </a>
-                <input type="submit" value="Next" class="pure-button">
+
+                <p class="pure-u-2-3">
+                    <a href="../home.html" class="pure-button"> Cancel </a>
+                    <a href="../project/settings.html" class="pure-button" id="next"> Next </a>
+                </p>
             </form>
         </div>
     </div>

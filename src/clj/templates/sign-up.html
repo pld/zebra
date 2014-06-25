@@ -1,17 +1,42 @@
 <html lang="en">
 <head>
     <title>Ona Viewer</title>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link rel="stylesheet" type="text/css" href="../../../resources/public/css/pure-min.css">
+<link rel="stylesheet" href="../../../resources/public/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="../../../resources/public/css/style.css">
 </head>
 <body>
 <div id="content" class="container">
     <div class="signin-form">
-        <form action="/join" method="post">
-            <input name="name" placeholder="Name" type="text">
-            <input name="username" placeholder="Username" required="true" type="text">
-            <input name="email" placeholder="Email" required="true" type="text">
-            <input name="password" placeholder="Password" required="true" type="password">
-            <input name="password2" placeholder="Password(again)" required="true" type="password">
-            <input type="submit" value="Sign up">
+        <h2>Join Ona</h2>
+        <form action="/join" method="post" class="pure-form pure-form-stacked">
+            <p>
+                <label for="name">Name</label>
+                <input name="name" type="text"/>
+            <p>
+            <p>
+                <label for="username">Username</label>
+                <input name="username" required="true" type="text"/>
+            </p>
+            <p>
+            	<label for="email">Email</label>
+                <input name="email" required="true" type="text"/>
+            </p>
+            <p>
+            	<label for="password">Password</label>
+                <input name="password" required="true" type="password"/>
+            </p>
+            <p>
+            	<label for="password2">Password(again)</label>
+                <input name="password2" required="true" type="password"/>
+            </p>
+            <p>
+            	<input type="submit" value="Sign up" class="pure-button btn-secondary"/>
+            </p>
         </form>
     </div>
 </div>
