@@ -14,7 +14,7 @@
             [ona.viewer.helpers.tags :as t]
             [ona.viewer.urls :as u]))
 
-(defsnippet login-form "templates/login.html"
+(defsnippet login-form "templates/account/login.html"
   [:body :div.content]
   [])
 
@@ -119,6 +119,6 @@
                             nil))
   [:a#back](set-attr :href (u/dataset owner project-id dataset-id)))
 
-(defsnippet sign-up-form "templates/sign-up.html"
+(defsnippet sign-up-form "templates/account/sign-up.html"
   [:body :div#content]
   [])
