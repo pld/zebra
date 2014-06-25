@@ -1,14 +1,13 @@
 (ns ona.viewer.views.organizations
   (:use [ona.api.io :only [make-url]]
-        [ona.viewer.helpers.projects :only [project-details]]
-        [ona.viewer.templates.forms :only [new-organization-form]])
+        [ona.viewer.helpers.projects :only [project-details]])
   (:require [ona.api.organization :as api]
             [ona.api.dataset :as api-datasets]
             [ona.api.project :as api-projects]
             [ona.api.user :as api-user]
             [clojure.string :as string]
             [ona.viewer.templates.base :as base]
-            [ona.viewer.templates.organization :as org-templates]
+            [ona.viewer.templates.organization :as template]
             [ona.viewer.urls :as u]
             [ona.utils.string :as s]
             [ring.util.response :as response]))
@@ -56,7 +55,7 @@
       account
       "organizations/"
       organizations
-      (new-organization-form))))
+      (template/new))))
 
 (defn create
   "Create a new organization."
@@ -80,7 +79,7 @@
         (u/org org)
         account
         (:name org)
-        (org-templates/profile org
+        (template/profile org
                                members
                                teams
                                project-details
@@ -97,7 +96,7 @@
       "/organizations"
       account
       (:name org)
-      (org-templates/show-teams (:org org)
+      (template/show-teams (:org org)
                                 team-details
                                 members
                                 (:username account)))))
@@ -130,7 +129,7 @@
       "/organizations"
       account
       (:name org)
-      (org-templates/new-team org))))
+      (template/new-team org))))
 
 (defn create-team
   "Create a new team"
@@ -158,7 +157,7 @@
       "/organizations"
       account
       org-name
-      (org-templates/members org-name members-info teams))))
+      (template/members org-name members-info teams))))
 
 (defn add-member
   "Add member to an organization."
