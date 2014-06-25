@@ -61,4 +61,4 @@
      (let [project (api/create account data owner)]
        (redirect-after-post (u/project-settings owner project)))
      (catch vector? errors
-       (new-project account errors)))))
+       (new-project account owner errors)))))

@@ -11,6 +11,7 @@
                                        set-attr]]
         [clojure.string :only [join]]:reload)
   (:require [ona.viewer.helpers.sharing :as sharing]
+            [ona.viewer.helpers.tags :as t]
             [ona.viewer.urls :as u]))
 
 (defsnippet login-form "templates/login.html"
@@ -26,7 +27,7 @@
   [owner errors]
   [:#errors] (content errors)
   [:form] (set-attr :action (u/project-new owner))
-  [:a#next] (set-attr :onclick "form.submit();return false;"))
+  [:a#next] (set-attr :href (t/js-submit "project-form")))
 
 (defsnippet new-tag-form "templates/dataset/tag.html"
   [:body :div.content :> :.new-tag-form]
