@@ -12,13 +12,31 @@
 <body>
 <div id="content" class="container">
     <div class="signin-form">
+        <h2>Sign Up</h2>
         <form action="/join" method="post" class="pure-form pure-form-stacked">
-            <input name="name" placeholder="Name" type="text">
-            <input name="username" placeholder="Username" required="true" type="text">
-            <input name="email" placeholder="Email" required="true" type="text">
-            <input name="password" placeholder="Password" required="true" type="password">
-            <input name="password2" placeholder="Password(again)" required="true" type="password">
-            <input type="submit" value="Sign up" class="pure-button btn-secondary"/>
+            <p>
+                <label for="name">Name</label>
+                <input name="name" type="text"/>
+            <p>
+            <p>
+                <label for="username">Username</label>
+                <input name="username" required="true" type="text"/>
+            </p>
+            <p>
+            	<label for="email">Email</label>
+                <input name="email" required="true" type="text"/>
+            </p>
+            <p>
+            	<label for="password">Password</label>
+                <input name="password" required="true" type="password"/>
+            </p>
+            <p>
+            	<label for="password2">Password(again)</label>
+                <input name="password2" required="true" type="password"/>
+            </p>
+            <p>
+            	<input type="submit" value="Sign up" class="pure-button btn-secondary"/>
+            </p>
         </form>
     </div>
 </div>

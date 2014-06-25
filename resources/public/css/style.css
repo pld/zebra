@@ -10,6 +10,12 @@ body{
 h1, h2, h3, h4, h5{
     margin:0.6em 0;
 }
+.signin-form h2{
+    border-bottom:1px solid #ddd;
+    margin-bottom:1.5em;
+    padding-bottom:0.6em;
+}
+
 a{
     color:#1D5CAD;
     text-decoration:none;
