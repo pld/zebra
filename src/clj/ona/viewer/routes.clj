@@ -31,7 +31,11 @@
                 (profiles/profile account owner))
            (GET "/settings"
                 {{account :account} :session}
-                (profiles/profile account owner true))))
+                (profiles/profile account owner true))
+           (POST "/settings"
+                {{account :account} :session
+                 params :params}
+                (profiles/update account params))))
 
 (defroutes dataset-routes
   (GET "/dataset"

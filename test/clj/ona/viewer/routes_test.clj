@@ -59,7 +59,25 @@
                        :uri (u/profile username)
                        :session session}) => (contains result)
          (provided
-          (profiles/profile :fake-account username) => result))
+          (profiles/profile :fake-account username) => result)
+
+         "GET profile with username and settings should call user-profile with settings true"
+         (user-routes {:request-method :get
+                       :uri (u/profile-settings username)
+                       :session session}) => (contains result)
+         (provided
+           (profiles/profile :fake-account username true) => result)
+
+         "POST profile settings should call update profile"
+         (let [params {:username username
+                       :country "fake-country"
+                       :owner username}]
+           (user-routes {:request-method :post
+                         :uri (u/profile-settings username)
+                         :session session
+                         :params params}) => (contains result)
+           (provided
+             (profiles/update :fake-account params) => result)))
 
   (facts "dataset routes"
          "GET dataset should parse account"

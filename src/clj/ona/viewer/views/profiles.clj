@@ -60,3 +60,9 @@
         (user-settings account name)
         (user-profile account name))
       (orgs/profile account name org-profile)))))
+
+(defn update
+  "Update user profile"
+  [account params]
+  (api/update account params)
+  (response/redirect-after-post (u/profile (:username account))))

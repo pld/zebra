@@ -36,4 +36,10 @@
 (defsnippet user-settings "templates/profile/settings.html"
   [:div#profile-settings]
   [profile]
-  )
+  ;; User settings
+  [:input#name] (set-attr :value (:name profile))
+  [:input#email] (set-attr :value (:email profile))
+  [:input#city] (set-attr :value (:city profile))
+  [:input#country] (set-attr :value (:country profile))
+  [:input#org] (set-attr :value (:organization profile))
+  [:input#website] (set-attr :value (:website profile)))
