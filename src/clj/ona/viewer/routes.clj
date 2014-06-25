@@ -24,10 +24,18 @@
         {params :params}
         (accounts/submit-login params))
   (GET "/logout" [] (accounts/logout))
-  (GET "/:owner"
-       {{account :account} :session
-        {owner :owner} :params}
-       (profiles/profile account owner)))
+
+  (context "/:owner" [owner]
+           (GET "/"
+                {{account :account} :session}
+                (profiles/profile account owner))
+           (GET "/settings"
+                {{account :account} :session}
+                (profiles/profile account owner true))
+           (POST "/settings"
+                {{account :account} :session
+                 params :params}
+                (profiles/update account params))))
 
 (defroutes dataset-routes
   (GET "/dataset"

@@ -9,6 +9,7 @@
 (def ^:private meths
   {:delete client/delete
    :get client/get
+   :patch client/patch
    :post client/post
    :put client/put})
 

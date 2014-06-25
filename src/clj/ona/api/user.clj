@@ -16,12 +16,7 @@
 (defn create
   "Create a new user."
   [params]
-  (let [{:keys [name username email password password2]} params
-        profile {:name name
-                 :username username
-                 :email email
-                 :password password
-                 :password2 password2}
+  (let [profile (select-keys params [:name :username :email :password :password2])
         url (make-url "profiles")
         data {:form-params profile}]
     (parse-http :post url nil data)))
@@ -31,3 +26,11 @@
   [account]
   (let [url (make-url "users")]
     (parse-http :get url account)))
+
+(defn update
+  "update user profile"
+  [account params]
+  (let [profile (select-keys params [:name :email :city :country :org :website])
+        url (make-url "profiles" (:username account))
+        data {:form-params profile}]
+    (parse-http :patch url account data)))

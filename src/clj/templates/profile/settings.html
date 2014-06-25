@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Garrett Mehl</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link rel="stylesheet" type="text/css" href="../../../../resources/public/css/pure-min.css">
+<link rel="stylesheet" href="../../../../resources/public/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="../../../../resources/public/css/style.css">
+</head>
+<body>
+<div id="main-menu">
+    <div class="vw-menu container cfix">
+        <ul id="menu-items">
+            <li class="pure-menu-selected menu-item">
+                <div class="dropdown">
+                   <a href="user-profile-garrett.html"><i class="fa fa-user"></i> &nbsp;Me</a>
+                    <ul class="submenu" id="prof-drop">
+                        <li><a href="#">My Profile</a></li>
+                        <li><a href="#">My account</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="home.html">Home</a></li>
+            <li><div class="dropdown">
+                    <a href="#"><i class="fa t-large fa-plus-square"></i></a>
+                    <ul class="submenu" id="exp-drop">
+                        <li><br/>My Organizations<br/><br/></li>
+                        <li><a href="#">
+                            <img src="../../../../resources/public/img/who-logo.jpg" class="avatar thumb"/><br/> WHO
+                        </a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="#">Explore</a></li>
+            <li><a href="#">Help</a></li>
+        </ul>
+    </div>
+</div>
+
+<div id="content" class="container">
+    <div class="pure-g-r">
+        <div class="pure-u-1-5 bar-left">
+            <h2 class="username">Garrett Mehl</h2>
+            <p>
+                <img class="avatar" src="../../../../resources/public/img/gmehl.jpg" alt="Garrett Mehl"/><br/><br/>
+                <a href="#" class="pure-button btn-secondary" id="settings">Settings</a>
+                <a href="dataset-new.html" class="pure-button btn-secondary" id="new-project">New Project</a>
+            </p><hr/>
+            <p>
+                <ul class="infolist">
+                	<li>Title/occupation: <span class="occupation"></span></li>
+                    <li>Organization: <a href="org-profile-joined.html" class="org">WHO</a></li>
+                    <li>Website: <a href="http://who.int" class="website">www.who.int</a></li>
+                    <li>Twitter: <a href="https://www.twitter.com/" class="twitter">@garrett_mehl</a></li>
+                    <li>Based in:
+                        <span class="city">Geneva</span>,
+                        <span class="country">Switzerland</span>
+                    </li>
+                    <li>Works in: <span class="works-in"> India, mHealth </span></li>
+                    <li>Member since: <span class="member-since"> Jan 17, 2014</span></li>
+                </ul>
+            </p>
+        </div>
+
+        <div id="profile-settings" class="pure-u-2-3" class="pure-form pure-form-stacked">
+            <div class="pure-g-r">
+                <form action="" method="post">
+                    <input id="name" name="name" placeholder="Name" type="text">
+                    <input id="email" name="email" placeholder="Email" required="true" type="text">
+                    <input id="city" name="city" placeholder="City" required="true" type="text">
+                    <input id="country" name="country" placeholder="Country" required="true" type="text">
+                    <input id="org" name="org" placeholder="Organization" required="true" type="text">
+                    <input id="website" name="website" placeholder="Website" required="true" type="text">
+                    <input type="submit" value="Update profile" class="pure-button">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

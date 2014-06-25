@@ -14,7 +14,7 @@
             [ona.viewer.urls :as u]))
 
 (defsnippet login-form "templates/login.html"
-  [:body :div.content :> :.container]
+  [:body :div#login-form]
   [])
 
 (defsnippet new-organization-form "templates/organization/new.html"

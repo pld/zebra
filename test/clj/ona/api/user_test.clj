@@ -12,7 +12,14 @@
               :email "fake-email"
               :password "fake-password"
               :password2 "fake-password2"}
-      data {:form-params params}]
+      update-params {:name "fake-name"
+                     :email "fake-email"
+                     :city "fake-city"
+                     :country "fakecountry"
+                     :org "fake-org"
+                     :website "fake-website"}
+      data {:form-params params}
+      updated-data {:form-params update-params}]
 
   (facts "about user-profile"
          "Should get correct url"
@@ -32,4 +39,11 @@
          (all account) => :userlist
          (provided
            (make-url "users") => url
-           (parse-http :get url account) => :userlist)))
+           (parse-http :get url account) => :userlist))
+
+  (facts "about user update profile"
+         (update account update-params) => :updated-profile
+         (provided
+           (make-url "profiles" username) => url
+           (parse-http :patch url account updated-data) => :updated-profile)))
+

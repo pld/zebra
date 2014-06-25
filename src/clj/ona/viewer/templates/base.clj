@@ -50,7 +50,7 @@
    :li.menu-item
    :div.dropdown
    :a]
-  (set-attr :href (str "/profile/" username))
+  (set-attr :href (u/profile username))
 
   ;; Remove all but 1 exsiting dropdown menu item
   [:ul#prof-drop [:li but first-of-type]] nil
