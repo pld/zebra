@@ -67,7 +67,8 @@
 
   ;;Top Nav
   [:div#username] (content (datasets/user-link (:username profile)))
-  [:#addform] (set-attr :href (u/dataset-new owner (:id project)))
+  [:#share-settings] (set-attr :href (u/project-settings owner project))
+  [:#add-form] (set-attr :href (u/dataset-new owner (:id project)))
 
   ;; Side nav
   ;; TODO this will work once the API sends back this content
