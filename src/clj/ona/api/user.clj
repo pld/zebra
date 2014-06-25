@@ -35,13 +35,7 @@
 (defn update
   "update user profile"
   [account params]
-  (let [{:keys [name email city country org website]} params
+  (let [profile (select-keys params [:name :email :city :country :org :website])
         url (make-url "profiles" (:username account))
-        profile {:name name
-                 :email email
-                 :city city
-                 :country country
-                 :org org
-                 :website website}
         data {:form-params profile}]
     (parse-http :patch url account data)))
