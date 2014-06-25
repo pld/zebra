@@ -26,6 +26,10 @@ input[type=text],input[type=password], textarea, select, button{
     border:1px solid #ddd!important;
     box-sizing: border-box;
     padding:0.4em 0.5em!important;
+    min-width:8em;
+}
+select{
+    padding-bottom:0.25em!important;
 }
 button, .pure-button{
     border-radius:0!important;
@@ -141,6 +145,10 @@ hr{
     font-size:1.5em;
     margin-top:2em;
 }
+.t-slash{
+    display:block;
+    margin-top:0.9em;
+}
 
 /* lists */
 .infolist{
@@ -174,6 +182,10 @@ hr{
 /* floats */
 .right{
     float:right;
+}
+.pure-u-1-48{
+    display:inline-block;
+    width:2.5%;
 }
 
 /* buttons */
