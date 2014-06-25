@@ -4,46 +4,49 @@
 
 ;; Datasets
 (defmacro dataset-url
-  "Build a URL with required owner, project-id, and dataset-id scope."
-  [name & suffix]
-  `(def ~name (fn [owner# project-id# dataset-id#]
-                (url owner# project-id# dataset-id# ~@suffix))))
+  "Create dataset-{name} method taking args owner, project-id, and dataset-id."
+  [& title]
+  `(intern *ns*
+           (symbol (apply str (cons "dataset"
+                                    (if-not (empty? [~@title]) ["-" ~@title]))))
+           (fn [owner# project-id# dataset-id#]
+             (url owner# project-id# dataset-id# ~@title))))
 
 "Build dataset show link from dataset id."
-(dataset-url dataset)
+(dataset-url)
 
 "Build dataset delete link from dataset id."
-(dataset-url dataset-delete "delete")
+(dataset-url "delete")
 
 "Build dataset download link from dataset id."
-(dataset-url dataset-download "download")
+(dataset-url "download")
 
 "Build dataset metadata link from dataset and project id."
-(dataset-url dataset-metadata "metadata")
+(dataset-url "metadata")
 
 "Build dataset sharing link from dataset and project id."
-(dataset-url dataset-sharing "sharing")
+(dataset-url "sharing")
 
 "Build dataset settings link from dataset and project id."
-(dataset-url dataset-settings "settings")
+(dataset-url "settings")
 
 "Build dataset chart link from dataset and project id."
-(dataset-url dataset-chart "chart")
+(dataset-url "chart")
 
 "Build dataset photo link from dataset and project id."
-(dataset-url dataset-photo "photo")
+(dataset-url "photo")
 
 "Build dataset activity link from dataset and project id."
-(dataset-url dataset-activity "activity")
+(dataset-url "activity")
 
 "Build dataset table link from dataset and project id."
-(dataset-url dataset-table "table")
+(dataset-url "table")
 
 "Build dataset tags link from dataset and project id."
-(dataset-url dataset-tags "tags")
+(dataset-url "tags")
 
 "Build dataset move link from dataset-id and project-id"
-(dataset-url dataset-move "move")
+(dataset-url "move")
 
 (defn dataset-new
   "Build the new dataset for project URL."
