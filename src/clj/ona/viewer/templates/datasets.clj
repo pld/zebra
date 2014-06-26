@@ -221,11 +221,19 @@
   [:a#download-all] (set-attr :href (u/dataset-download owner project-id dataset-id))
 
   ;; View nav
-  [:a#map-link] (set-attr :href (u/dataset owner project-id dataset-id))
-  [:a#tab-table] (set-attr :data-url (u/dataset-table owner project-id dataset-id))
-  [:a#chart-link] (set-attr :href (u/dataset-chart owner project-id dataset-id))
-  [:a#photo-link] (set-attr :href (u/dataset-photo owner project-id dataset-id))
-  [:a#activity-link] (set-attr :href (u/dataset-activity owner project-id dataset-id))
+  [:input#map-link] (set-attr :data-url (u/dataset owner project-id dataset-id))
+  [:input#tab-table] (set-attr :data-url (u/dataset-table owner project-id dataset-id))
+  [:input#chart-link] (set-attr :data-url (u/dataset-chart owner
+                                                           project-id
+                                                           dataset-id))
+  [:input#photo-link] (set-attr :data-url (u/dataset-photo owner
+                                                           project-id
+                                                           dataset-id))
+  [:input#activity-link] (set-attr :data-url (u/dataset-activity owner
+                                                             project-id
+                                                             dataset-id))
+  [[:input (attr= :name "tabs")]] (remove-attr :checked)
+  [(keyword (str "input#tab-" (name context)))] (set-attr :checked true)
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (-> dataset-details :metadata :description))
@@ -248,7 +256,8 @@
   [:span.rec] (content (str (count (:dataset dataset-details)) " records"))
 
   ;; Context
-  [:div.dataset-context] (content (view-for-context context dataset-details)))
+  [(keyword (str "div#tab-content" (name context)))]
+  (content (view-for-context context dataset-details)))
 
 (defsnippet datasets-table "templates/dataset/list.html"
   [:#datasets-table]
