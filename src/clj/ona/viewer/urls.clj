@@ -117,3 +117,9 @@
   "Build the url for a new project given owner."
   [owner]
   (url owner "new"))
+
+;; Search
+(defn search
+  "Build url for search"
+  [owner]
+  (url owner "search"))

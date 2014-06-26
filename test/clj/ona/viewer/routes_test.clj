@@ -82,7 +82,7 @@
 
          "GET search should call home-page"
          (user-routes {:request-method :get
-                          :uri (str "/" username "/search")
+                          :uri (u/search username)
                           :session session
                           :params {:query :query}}) => (contains result)
          (provided
