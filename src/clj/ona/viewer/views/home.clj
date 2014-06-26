@@ -68,11 +68,11 @@
 
 (defn- search-collection
   "Return collections with a key matching the query."
-  [query collection k]
+  [query collection k sub-k]
   (remove
    nil?
    (for [member collection]
-     (if (substring? query (k member))
+     (if (substring? query (-> member sub-k k))
        member))))
 
 (defn dashboard
@@ -86,7 +86,7 @@
            all-projects (project-details account username)
            project-details (get-public-private-project-counts all-projects)
            projects (if query
-                      (search-collection query all-projects :name)
+                      (search-collection query all-projects :name :project)
                       all-projects)
            orgs (api-orgs/all account)
            profile (api-user/profile account)]
