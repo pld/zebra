@@ -21,11 +21,15 @@
 
 (defn- navigation-items
   "Render a nav menu based on user logged in state."
-  [logged-in?]
-  (if logged-in?
-    (array-map "Organizations" "/organizations"
-               "Sign-out" "/logout")
-    (array-map "Sign-up" "join")))
+  ([logged-in?]
+   (navigation-items logged-in? nil))
+  ([logged-in? username]
+   (if logged-in?
+     (array-map "My Profile" (u/profile username)
+                "My Account" (u/profile-settings  username)
+                "Organizations" "/organizations"
+                "Sign-out" "/logout")
+     (array-map "Sign-up" "join"))))
 
 (defn- build-javascript
   "Render default and custom JavaScript."
@@ -57,7 +61,7 @@
 
   ;; Set menu items for user dropdown menu
   [:ul#prof-drop [:li first-of-type]]
-  (clone-for [[caption url] (navigation-items logged-in?)]
+  (clone-for [[caption url] (navigation-items logged-in? username)]
              [:li] (if (= current-path url)
                      (set-attr :class "active")
                      identity)
