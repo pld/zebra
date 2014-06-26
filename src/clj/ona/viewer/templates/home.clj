@@ -26,7 +26,7 @@
   [:span#private-projects] (content (-> project-details :num-private str))
 
   ;; Search Form
-  [:form#search-form] (set-attr :action "/search")
+  [:form#search-form] (set-attr :action (u/search username))
   [:input#search-query] (set-attr :value query)
 
   ;; Set right hand org nav links
