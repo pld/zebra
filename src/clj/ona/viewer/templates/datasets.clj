@@ -221,11 +221,11 @@
   [:a#download-all] (set-attr :href (u/dataset-download owner project-id dataset-id))
 
   ;; View nav
-  [:a#map-link](set-attr :href (u/dataset owner project-id dataset-id))
-  [:a#table-link](set-attr :href (u/dataset-table owner project-id dataset-id))
-  [:a#chart-link](set-attr :href (u/dataset-chart owner project-id dataset-id))
-  [:a#photo-link](set-attr :href (u/dataset-photo owner project-id dataset-id))
-  [:a#activity-link](set-attr :href (u/dataset-activity owner project-id dataset-id))
+  [:a#map-link] (set-attr :href (u/dataset owner project-id dataset-id))
+  [:a#tab-table] (set-attr :data-url (u/dataset-table owner project-id dataset-id))
+  [:a#chart-link] (set-attr :href (u/dataset-chart owner project-id dataset-id))
+  [:a#photo-link] (set-attr :href (u/dataset-photo owner project-id dataset-id))
+  [:a#activity-link] (set-attr :href (u/dataset-activity owner project-id dataset-id))
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (-> dataset-details :metadata :description))

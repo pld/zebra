@@ -36,15 +36,18 @@
 (defn- js-for-context
   "Return the JavaScript appropriate for the context."
   [context dataset]
-  (condp = context
-    :map (let [data-var-name "data"]
-           [(include-js "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js")
-            [:link {:rel "stylesheet"
-                    :href "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"}]
-            (js-tag "goog.require(\"ona.mapview\");")
-            (js-tag (str "var " data-var-name "=" (as-geojson dataset) ";"))
-            (js-tag (str "ona.mapview.leaflet(\"map\",\"" data-var-name "\");"))])
-    nil))
+  (concat
+   [(js-tag "goog.require(\"ona.dataset\");")
+    (js-tag "ona.dataset.init();")]
+   (condp = context
+     :map (let [data-var-name "data"]
+            [(include-js "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js")
+             [:link {:rel "stylesheet"
+                     :href "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"}]
+             (js-tag "goog.require(\"ona.mapview\");")
+             (js-tag (str "var " data-var-name "=" (as-geojson dataset) ";"))
+             (js-tag (str "ona.mapview.leaflet(\"map\",\"" data-var-name "\");"))])
+     nil)))
 
 (defn- charts
   "Returns charts for charts context"
