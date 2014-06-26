@@ -79,7 +79,6 @@
            (provided
              (profiles/update :fake-account params) => result))
 
-
          "GET search should call home-page"
          (user-routes {:request-method :get
                           :uri (u/search username)
