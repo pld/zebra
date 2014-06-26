@@ -24,7 +24,6 @@
         {params :params}
         (accounts/submit-login params))
   (GET "/logout" [] (accounts/logout))
-
   (context "/:owner" [owner]
            (GET "/"
                 {{account :account} :session}
@@ -35,7 +34,11 @@
            (POST "/settings"
                 {{account :account} :session
                  params :params}
-                (profiles/update account params))))
+                (profiles/update account params))
+
+           (GET "/search"  {{account :account} :session
+                            {query :query} :params}
+                (home-page account query))))
 
 (defroutes dataset-routes
   (GET "/dataset"
@@ -45,9 +48,6 @@
         {{account :account} :session
          {file :file} :params}
         (datasets/create account file))
-  (GET "/search"  {{account :account} :session
-                   {query :query} :params}
-       (home-page account query))
   (context "/:owner/:project-id" [owner project-id]
            (GET "/new"
                 {{account :account} :session}

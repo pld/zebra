@@ -77,7 +77,16 @@
                          :session session
                          :params params}) => (contains result)
            (provided
-             (profiles/update :fake-account params) => result)))
+             (profiles/update :fake-account params) => result))
+
+
+         "GET search should call home-page"
+         (user-routes {:request-method :get
+                          :uri (str "/" username "/search")
+                          :session session
+                          :params {:query :query}}) => (contains result)
+         (provided
+           (home/home-page :fake-account :query) => result))
 
   (facts "dataset routes"
          "GET dataset should parse account"
@@ -214,14 +223,6 @@
                            :title
                            :description
                            :tags) => result)
-
-         "GET search should call home-page"
-         (dataset-routes {:request-method :get
-                          :uri "/search"
-                          :session session
-                          :params {:query :query}}) => (contains result)
-         (provided
-          (home/home-page :fake-account :query) => result)
 
          "GET move should call move-to-project"
          (dataset-routes {:request-method :get
