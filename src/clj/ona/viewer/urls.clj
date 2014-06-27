@@ -100,6 +100,11 @@
   [name]
   (url name))
 
+(defn profile-settings
+  "Build profile settings url from name."
+  [name]
+  (url name "settings"))
+
 ;; Projects
 (defn project-show
   "Build the show project url from a project"
