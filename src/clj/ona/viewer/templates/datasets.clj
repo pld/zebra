@@ -22,6 +22,12 @@
 
 (def hidden-column-prefix \_)
 
+(def view-types
+  (for [v ["map" "table" "photo" "chart" "activity"]]
+    {:view-type v
+     :content-id (str "tab-content" v)
+     :input-id (str "tab-" v)}))
+
 (defn- filter-hidden-columns
   "Remove hidden columns from a dataset map."
   [dataset]
@@ -221,19 +227,25 @@
   [:a#download-all] (set-attr :href (u/dataset-download owner project-id dataset-id))
 
   ;; View nav
-  [:input#tab-map] (set-attr :data-url (u/dataset owner project-id dataset-id))
-  [:input#tab-table] (set-attr :data-url (u/dataset-table owner project-id dataset-id))
-  [:input#tab-chart] (set-attr :data-url (u/dataset-chart owner
-                                                           project-id
-                                                           dataset-id))
-  [:input#tab-photo] (set-attr :data-url (u/dataset-photo owner
-                                                           project-id
-                                                           dataset-id))
-  [:input#tab-activity] (set-attr :data-url (u/dataset-activity owner
-                                                             project-id
-                                                             dataset-id))
-  [[:input (attr= :name "tabs")]] (remove-attr :checked)
-  [(keyword (str "input#tab-" (name context)))] (set-attr :checked true)
+  [:ul.dataset-tabs [:li (but first-of-type)]] nil
+  [:ul.dataset-tabs [:li first-of-type]]
+  (clone-for [{:keys [view-type content-id input-id]} view-types]
+             [:input] (do->
+                       (set-attr :id input-id)
+                       (set-attr :data-url
+                                 ((ns-resolve 'ona.viewer.urls
+                                           (symbol (str "dataset-"
+                                                        view-type)))
+                                  owner
+                                  project-id
+                                  dataset-id))
+                       (set-attr :data-content-id (str "tab-content" view-type)))
+             [:label] (do->
+                       (content (clojure.string/capitalize view-type))
+                       (set-attr :for input-id))
+             [:div.tab-content] (set-attr :id (str "tab-content" view-type)))
+  [:input] (remove-attr :checked)
+  [(keyword (str "#tab-" (name context)))] (set-attr :checked true)
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (-> dataset-details :metadata :description))

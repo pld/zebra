@@ -30,6 +30,9 @@
 "Build dataset settings link from dataset and project id."
 (dataset-url "settings")
 
+"Build dataset map link from dataset and project id."
+(dataset-url "map")
+
 "Build dataset chart link from dataset and project id."
 (dataset-url "chart")
 
@@ -96,11 +99,6 @@
   "Build profile url from name."
   [name]
   (url name))
-
-(defn profile-settings
-  "Build profile settings url from name."
-  [name]
-  (url name "settings"))
 
 ;; Projects
 (defn project-show
