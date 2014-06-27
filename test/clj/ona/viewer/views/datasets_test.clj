@@ -13,7 +13,7 @@
 (let [owner "owner"]
   (facts "about datasets show"
          "Should returns data for dataset"
-         (show :fake-account owner :project-id :dataset-id nil)
+         (show :fake-account owner :project-id :dataset-id)
          => (contains "Some title")
          (provided
           (api/data :fake-account :dataset-id) => [:row]

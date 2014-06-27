@@ -77,15 +77,7 @@
                          :session session
                          :params params}) => (contains result)
            (provided
-             (profiles/update :fake-account params) => result))
-
-         "GET search should call home-page"
-         (user-routes {:request-method :get
-                          :uri (u/search username)
-                          :session session
-                          :params {:query :query}}) => (contains result)
-         (provided
-           (home/home-page :fake-account :query) => result))
+             (profiles/update :fake-account params) => result)))
 
   (facts "dataset routes"
          "GET dataset should parse account"
@@ -93,14 +85,14 @@
                           :uri (u/dataset owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account owner project-id dataset-id nil) => result)
+          (datasets/show :fake-account owner project-id dataset-id) => result)
 
          "GET table should pass context"
          (dataset-routes {:request-method :get
                           :uri (u/dataset-table owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account owner project-id dataset-id nil :table)
+          (datasets/show :fake-account owner project-id dataset-id :table)
           => result)
 
          "GET photo should pass context"
@@ -108,7 +100,7 @@
                           :uri (u/dataset-photo owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account owner project-id dataset-id nil :photo)
+          (datasets/show :fake-account owner project-id dataset-id :photo)
           => result)
 
          "GET activity should pass context"
@@ -116,7 +108,7 @@
                           :uri (u/dataset-activity owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account owner project-id dataset-id nil :activity)
+          (datasets/show :fake-account owner project-id dataset-id :activity)
           => result)
 
          "GET chart should pass context"
@@ -124,7 +116,7 @@
                           :uri (u/dataset-chart owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account owner project-id dataset-id nil :chart)
+          (datasets/show :fake-account owner project-id dataset-id :chart)
           => result)
 
          "POST new dataset should call create"
@@ -226,6 +218,14 @@
                            :title
                            :description
                            :tags) => result)
+
+         "GET search should call home-page"
+         (dataset-routes {:request-method :get
+                          :uri "/search"
+                          :session session
+                          :params {:query :query}}) => (contains result)
+         (provided
+          (home/home-page :fake-account :query) => result)
 
          "GET move should call move-to-project"
          (dataset-routes {:request-method :get

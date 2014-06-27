@@ -41,13 +41,18 @@
    [(js-tag "goog.require(\"ona.dataset\");")
     (js-tag "ona.dataset.init();")]
    (condp = context
-     :map (let [data-var-name "data"]
+     :map (let [data-var-name "data"
+                map-content-id "map"]
             [(include-js "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js")
              [:link {:rel "stylesheet"
                      :href "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"}]
              (js-tag "goog.require(\"ona.mapview\");")
              (js-tag (str "var " data-var-name "=" (as-geojson dataset) ";"))
-             (js-tag (str "ona.mapview.leaflet(\"map\",\"" data-var-name "\");"))])
+             (js-tag (str "ona.mapview.leaflet(\""
+                          map-content-id
+                          "\",\""
+                          data-var-name
+                          "\");"))])
      nil)))
 
 (defn- charts
@@ -68,9 +73,9 @@
 
 (defn show
   "Show the data for a specific dataset."
-  ([account owner project-id dataset-id accept]
-     (show account owner project-id dataset-id accept :map))
-  ([account owner project-id dataset-id accept context]
+  ([account owner project-id dataset-id]
+     (show account owner project-id dataset-id nil))
+  ([account owner project-id dataset-id context]
      (let [dataset (api/data account dataset-id)
            metadata (api/metadata account dataset-id)
            data-entry-link (api/online-data-entry-link account owner dataset-id)
@@ -81,19 +86,20 @@
                             :metadata metadata
                             :data-entry-link data-entry-link
                             :charts charts}]
-       (if (re-seq #"json" (str accept))
+       (if context
          (emit* (template/view-for-context context dataset-details))
-         (base/base-template
-          "/"
-          account
-          (:title metadata)
-          (template/show owner
-                         project-id
-                         dataset-id
-                         dataset-details
-                         username
-                         context)
-          (js-for-context context dataset))))))
+         (let [context :map]
+           (base/base-template
+            "/"
+            account
+            (:title metadata)
+            (template/show owner
+                           project-id
+                           dataset-id
+                           dataset-details
+                           username
+                           context)
+            (js-for-context context dataset)))))))
 
 (defn tags
   "View tags for a specific dataset"
