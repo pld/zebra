@@ -221,15 +221,15 @@
   [:a#download-all] (set-attr :href (u/dataset-download owner project-id dataset-id))
 
   ;; View nav
-  [:input#map-link] (set-attr :data-url (u/dataset owner project-id dataset-id))
+  [:input#tab-map] (set-attr :data-url (u/dataset owner project-id dataset-id))
   [:input#tab-table] (set-attr :data-url (u/dataset-table owner project-id dataset-id))
-  [:input#chart-link] (set-attr :data-url (u/dataset-chart owner
+  [:input#tab-chart] (set-attr :data-url (u/dataset-chart owner
                                                            project-id
                                                            dataset-id))
-  [:input#photo-link] (set-attr :data-url (u/dataset-photo owner
+  [:input#tab-photo] (set-attr :data-url (u/dataset-photo owner
                                                            project-id
                                                            dataset-id))
-  [:input#activity-link] (set-attr :data-url (u/dataset-activity owner
+  [:input#tab-activity] (set-attr :data-url (u/dataset-activity owner
                                                              project-id
                                                              dataset-id))
   [[:input (attr= :name "tabs")]] (remove-attr :checked)

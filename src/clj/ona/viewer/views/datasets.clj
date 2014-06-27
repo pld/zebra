@@ -1,6 +1,7 @@
 (ns ona.viewer.views.datasets
   (:use [ona.viewer.helpers.projects :only [profile-with-projects]]
-        [ona.viewer.helpers.tags :only [include-js js-tag]])
+        [ona.viewer.helpers.tags :only [include-js js-tag]]
+        [net.cgrand.enlive-html :only [emit*]])
   (:require [ona.api.dataset :as api]
             [ona.api.project :as api-project]
             [ona.api.user :as api-user]
@@ -67,30 +68,34 @@
 
 (defn show
   "Show the data for a specific dataset."
-  ([account owner project-id dataset-id]
-   (show account owner project-id dataset-id :map))
-  ([account owner project-id dataset-id context]
-   (let [dataset (api/data account dataset-id)
-         metadata (api/metadata account dataset-id)
-         data-entry-link (api/online-data-entry-link account owner dataset-id)
-         username (:username account)
-         charts (if (= context :chart)
-                  (map c/generate-bar (charts account dataset-id)))
-         dataset-details {:dataset dataset
-                          :metadata metadata
-                          :data-entry-link data-entry-link
-                          :charts charts}]
-     (base/base-template
-       "/"
-       account
-       (:title metadata)
-       (template/show owner
-                      project-id
-                      dataset-id
-                      dataset-details
-                      username
-                      context)
-       (js-for-context context dataset)))))
+  ([account owner project-id dataset-id accept]
+     (show account owner project-id dataset-id accept :map))
+  ([account owner project-id dataset-id accept context]
+     (let [dataset (api/data account dataset-id)
+           metadata (api/metadata account dataset-id)
+           data-entry-link (api/online-data-entry-link account owner dataset-id)
+           username (:username account)
+           charts (if (= context :chart)
+                    (map c/generate-bar (charts account dataset-id)))
+           dataset-details {:dataset dataset
+                            :metadata metadata
+                            :data-entry-link data-entry-link
+                            :charts charts}]
+       (if (re-seq #"json" (str accept))
+         (emit* (template/view-for-context context dataset-details))
+         (base/base-template
+          "/"
+          account
+          (:title metadata)
+          (template/show owner
+                         project-id
+                         dataset-id
+                         dataset-details
+                         username
+                         context)
+          (js-for-context context dataset))
+         )
+       )))
 
 (defn tags
   "View tags for a specific dataset"

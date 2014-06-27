@@ -5,6 +5,7 @@
 
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2156"]
+                 [org.clojure/core.async "0.1.303.0-886421-alpha"]
                  [org.clojure/tools.logging "0.2.6"]
                  [cheshire "5.2.0"]
                  [clj-http "0.9.1"]

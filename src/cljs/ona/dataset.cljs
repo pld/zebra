@@ -11,24 +11,30 @@
               (fn [event]
                 (let [res (-> event .-target .getResponseText)]
                   (go (>! ch res)
-                      (close! ch)))))
+                      (close! ch))))
+              "GET"
+              nil
+              (clj->js {"Content-Type" "application/json"}))
     ch))
 
 (defn set-view-event
   "Redirect on click for this view."
-  [id]
-  (ev/listen! (dom/by-id id)
-              :click (fn [event]
-                       (let [this (dom/by-id id)
-                             url (dom/attr this "data-url")]
-                         (go (let [response (<! (GET url))]
-                               (js/alert response))))
-                       true)))
+  [context]
+  (let [tab-id (str "tab-" context)
+        content-id (str "tab-content" context)]
+    (ev/listen! (dom/by-id tab-id)
+                :click (fn [event]
+                         (let [this (dom/by-id tab-id)
+                               url (dom/attr this "data-url")]
+                           (go (let [response (<! (GET url))]
+                                 (dom/set-html! (dom/by-id content-id)
+                                                response))))
+                         true))))
 
 (defn ^:export init
-  "Handle share modal."
+  "Init events on dataset view."
   []
   (ev/listen! (dom/by-id "sharing")
               :click (fn [event]
                        identity))
-  (doall (map set-view-event ["tab-map" "tab-table" "tab-photo" "tab-chart"])))
+  (doall (map set-view-event ["table" "photo" "chart"])))
