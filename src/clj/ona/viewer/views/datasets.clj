@@ -93,9 +93,7 @@
                          dataset-details
                          username
                          context)
-          (js-for-context context dataset))
-         )
-       )))
+          (js-for-context context dataset))))))
 
 (defn tags
   "View tags for a specific dataset"
