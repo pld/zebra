@@ -22,6 +22,12 @@
 
 (def hidden-column-prefix \_)
 
+(def view-types
+  (for [v ["map" "table" "photo" "chart" "activity"]]
+    {:view-type v
+     :content-id (str "tab-content" v)
+     :input-id (str "tab-" v)}))
+
 (defn- filter-hidden-columns
   "Remove hidden columns from a dataset map."
   [dataset]
@@ -221,11 +227,25 @@
   [:a#download-all] (set-attr :href (u/dataset-download owner project-id dataset-id))
 
   ;; View nav
-  [:a#map-link](set-attr :href (u/dataset owner project-id dataset-id))
-  [:a#table-link](set-attr :href (u/dataset-table owner project-id dataset-id))
-  [:a#chart-link](set-attr :href (u/dataset-chart owner project-id dataset-id))
-  [:a#photo-link](set-attr :href (u/dataset-photo owner project-id dataset-id))
-  [:a#activity-link](set-attr :href (u/dataset-activity owner project-id dataset-id))
+  [:ul.dataset-tabs [:li (but first-of-type)]] nil
+  [:ul.dataset-tabs [:li first-of-type]]
+  (clone-for [{:keys [view-type content-id input-id]} view-types]
+             [:input] (do->
+                       (set-attr :id input-id)
+                       (set-attr :data-url
+                                 ((ns-resolve 'ona.viewer.urls
+                                           (symbol (str "dataset-"
+                                                        view-type)))
+                                  owner
+                                  project-id
+                                  dataset-id))
+                       (set-attr :data-content-id (str "tab-content" view-type)))
+             [:label] (do->
+                       (content (clojure.string/capitalize view-type))
+                       (set-attr :for input-id))
+             [:div.tab-content] (set-attr :id (str "tab-content" view-type)))
+  [:input] (remove-attr :checked)
+  [(keyword (str "#tab-" (name context)))] (set-attr :checked true)
 
   ;; Sidenav
   [:div#sidenav [:p#description]] (content (-> dataset-details :metadata :description))
@@ -248,7 +268,8 @@
   [:span.rec] (content (str (count (:dataset dataset-details)) " records"))
 
   ;; Context
-  [:div.dataset-context] (content (view-for-context context dataset-details)))
+  [(keyword (str "div#tab-content" (name context)))]
+  (content (view-for-context context dataset-details)))
 
 (defsnippet datasets-table "templates/dataset/list.html"
   [:#datasets-table]

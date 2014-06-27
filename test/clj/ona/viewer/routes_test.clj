@@ -93,35 +93,39 @@
                           :uri (u/dataset owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account owner project-id dataset-id) => result)
+          (datasets/show :fake-account owner project-id dataset-id nil) => result)
 
          "GET table should pass context"
          (dataset-routes {:request-method :get
                           :uri (u/dataset-table owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account owner project-id dataset-id :table) => result)
+          (datasets/show :fake-account owner project-id dataset-id nil :table)
+          => result)
 
          "GET photo should pass context"
          (dataset-routes {:request-method :get
                           :uri (u/dataset-photo owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account owner project-id dataset-id :photo) => result)
+          (datasets/show :fake-account owner project-id dataset-id nil :photo)
+          => result)
 
          "GET activity should pass context"
          (dataset-routes {:request-method :get
                           :uri (u/dataset-activity owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account owner project-id dataset-id :activity) => result)
+          (datasets/show :fake-account owner project-id dataset-id nil :activity)
+          => result)
 
          "GET chart should pass context"
          (dataset-routes {:request-method :get
                           :uri (u/dataset-chart owner project-id dataset-id)
                           :session session}) => (contains result)
          (provided
-          (datasets/show :fake-account owner project-id dataset-id :chart) => result)
+          (datasets/show :fake-account owner project-id dataset-id nil :chart)
+          => result)
 
          "POST new dataset should call create"
          (dataset-routes {:request-method :post

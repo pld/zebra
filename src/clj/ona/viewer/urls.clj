@@ -30,6 +30,9 @@
 "Build dataset settings link from dataset and project id."
 (dataset-url "settings")
 
+"Build dataset map link from dataset and project id."
+(dataset-url "map")
+
 "Build dataset chart link from dataset and project id."
 (dataset-url "chart")
 

@@ -114,15 +114,22 @@
                                                 tags))
                     (GET "/:context"
                          {{account :account} :session
-                          {context :context} :params}
+                          {context :context} :params
+                          content-type :content-type}
                          (datasets/show account
                                         owner
                                         project-id
                                         dataset-id
+                                        content-type
                                         (keyword context)))
                     (GET "/"
-                         {{account :account} :session}
-                         (datasets/show account owner project-id dataset-id)))))
+                         {{account :account} :session
+                          content-type :content-type}
+                         (datasets/show account
+                                        owner
+                                        project-id
+                                        dataset-id
+                                        content-type)))))
 
 (defroutes project-routes
   (context "/:owner" [owner]
