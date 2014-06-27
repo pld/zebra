@@ -13,10 +13,7 @@
               (fn [event]
                 (let [res (-> event .-target .getResponseText)]
                   (go (>! ch res)
-                      (close! ch))))
-              "GET"
-              nil
-              (clj->js {"Content-Type" "application/json"}))
+                      (close! ch)))))
     ch))
 
 (defn load-view-for-node

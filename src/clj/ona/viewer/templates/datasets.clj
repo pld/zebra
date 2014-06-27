@@ -109,10 +109,13 @@
   (fn [context dataset-details] context))
 
 (defmethod view-for-context :default [_ data]
-  (show-map))
+  [])
 
 (defmethod view-for-context :chart [_ data]
   (show-chart (:charts data)))
+
+(defmethod view-for-context :map [_ data]
+  (show-map))
 
 (defmethod view-for-context :table [_ data]
   (apply show-table (clean-for-table (:dataset data))))
@@ -239,11 +242,13 @@
                                   owner
                                   project-id
                                   dataset-id))
-                       (set-attr :data-content-id (str "tab-content" view-type)))
+                       (set-attr :data-content-id content-id))
              [:label] (do->
                        (content (clojure.string/capitalize view-type))
                        (set-attr :for input-id))
-             [:div.tab-content] (set-attr :id (str "tab-content" view-type)))
+             [:div.tab-content] (do->
+                                 (set-attr :id content-id)
+                                 (content "Loading...")))
   [:input] (remove-attr :checked)
   [(keyword (str "#tab-" (name context)))] (set-attr :checked true)
 
