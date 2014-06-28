@@ -21,8 +21,8 @@
          (profile account username) => (contains name)
          (provided
           (api/profile account username) => {:name name}
-          (api-project/all account username) => [{:title "Test dataset"
-                                                  :num_of_submissions 2}])
+          (api-project/all account) => [{:title "Test dataset"
+                                         :num_of_submissions 2}])
 
          "Should return error if not found"
          (profile account username) => (contains not-found)
@@ -33,4 +33,4 @@
          "Should update user profile"
          (update account params) => (contains {:status 303})
          (provided
-           (api/update account params) => :updated-profile)))
+          (api/update account params) => :updated-profile)))

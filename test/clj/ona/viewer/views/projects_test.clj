@@ -45,15 +45,15 @@
   (fact "settings for a project shows project name"
         (settings fake-account username id) => (contains project-name)
         (provided
-         (api/get-project fake-account username id) => project
+         (api/get-project fake-account id) => project
          (api-org/all fake-account) => []))
 
   (facts "show for project"
          "should show project name"
          (show fake-account username id) => (contains project-name)
          (provided
-          (api/get-project fake-account username id) => project
-          (api/get-forms fake-account username id) => forms
+          (api/get-project fake-account id) => project
+          (api/get-forms fake-account id) => forms
           (h/profile-with-projects fake-account) => []
           (h/all-submissions forms fake-account) => []
           (api-org/all fake-account) => [])))

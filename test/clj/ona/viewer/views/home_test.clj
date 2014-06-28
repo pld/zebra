@@ -32,7 +32,7 @@
          (dashboard account) => (contains [username email] :in-any-order :gaps-ok)
          (provided
           (#'ona.viewer.views.home/move-datasets-to-user-project account) => nil
-          (api-project/all account username) =>
+          (api-project/all account) =>
           [{:title "Test dataset" :num_of_submissions 2}]
           (api-org/all account) => [{:title "Test Org"}]
           (api-user/profile account) => account
