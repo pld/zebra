@@ -1,8 +1,8 @@
 (defproject ona-viewer "0.1.0-SNAPSHOT"
   :description "Ona viewer that connects to the Ona API."
   :url "https://github.com/onaio/ona-viewer"
-  :license {:name "Apache 2 License"}
-
+  :license {:name "Apache 2 License"
+            :url "http://www.apache.org/licenses/LICENSE-2.0"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2156"]
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
@@ -11,7 +11,7 @@
                  [clj-http "0.9.1"]
                  ;; newer versions of guava are incompatible with jclouds.
                  [com.google.guava/guava "16.0"]
-                 [compojure "1.1.1"]
+                 [compojure "1.1.8"]
                  [domina "1.0.2"]
                  [ring.middleware.logger "0.4.0"]
                  [ring/ring-jetty-adapter "1.2.2"]
