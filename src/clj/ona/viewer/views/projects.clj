@@ -33,8 +33,8 @@
 (defn show
   "Show the project."
   [account owner id]
-  (let [project (api/get-project account owner id)
-        forms (api/get-forms account owner id)
+  (let [project (api/get-project account id)
+        forms (api/get-forms account id)
         profile (profile-with-projects account)
         latest-form (h/latest-submitted-form forms)
         all-submissions (h/all-submissions forms account)]
@@ -47,7 +47,7 @@
 (defn settings
   "Show the settings for a project."
   [account owner id]
-  (let [project (api/get-project account owner id)
+  (let [project (api/get-project account id)
         username (:username account)
         ;; TODO fill this with the shared users when API finished
         shared-user [username]]

@@ -14,23 +14,19 @@
 
 (defn get-forms
   "Get the forms for this account and owner of the user."
-  ([account id]
-     (get-forms account (:username account) id))
-  ([account owner id]
-      (let [url (make-url "projects" owner id "forms")]
-        (parse-http :get url account))))
+  [account id]
+  (let [url (make-url "projects" id "forms")]
+    (parse-http :get url account)))
 
-(defn get-project [account owner id]
-  (let [url (make-url "projects" owner id)]
+(defn get-project [account id]
+  (let [url (make-url "projects" id)]
     (add-id (parse-http :get url account))))
 
 (defn all
   "Return all project for this account and owner or the user."
-  ([account]
-     (all account (:username account)))
-  ([account owner]
-      (let [url (make-url "projects" owner)]
-        (parse-http :get url account))))
+  [account]
+  (let [url (make-url "projects")]
+    (parse-http :get url account)))
 
 (defn create
   "Create a project for this account and owner or the user."
@@ -38,7 +34,7 @@
      (create account data (:username account)))
   ([account data owner]
       (let [owner-url {:owner (make-url "users" owner)}
-            url (make-url "projects" owner)
+            url (make-url "projects")
             project-data (parse-http :post url account
                                      {:form-params (merge owner-url data)})]
         (if-let [error (:__all__ project-data)]

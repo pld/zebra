@@ -16,64 +16,64 @@
          "Should get correct url"
          (all account) => :something
          (provided
-           (make-url "forms" username) => url
+           (make-url "forms") => url
            (parse-http :get url account) => :something))
 
   (fact "about datasets-update"
         "Should get correct url"
         (update account :dataset-id params) => :something
         (provided
-          (make-url "forms" username :dataset-id) => url
+          (make-url "forms" :dataset-id) => url
           (parse-http :put url account {:form-params params}) => :something))
 
   (fact "about dataset metadata"
         "should get dataset metadata"
         (metadata account :dataset-id) => :fake-metadata
         (provided
-          (make-url "forms" username :dataset-id) => url
+          (make-url "forms" :dataset-id) => url
           (parse-http :get url account) => :fake-metadata))
 
   (facts "about dataset-getdata"
          (data account :dataset-id) => :something
          (provided
-           (make-url "data" username :dataset-id) => url
+           (make-url "data" :dataset-id) => url
            (parse-http :get url account) => :something))
 
   (facts "about dataset-getrecord"
          (record account :dataset-id :record-id) => :something
          (provided
-           (make-url "data" username :dataset-id :record-id) => url
+           (make-url "data" :dataset-id :record-id) => url
            (parse-http :get url account) => :something))
 
   (facts "about dataset-get-tags"
          (tags account :dataset-id) => :something
          (provided
-           (make-url "forms" username :dataset-id "labels") => url
+           (make-url "forms" :dataset-id "labels") => url
            (parse-http :get url account) => :something))
 
   (facts "about dataset-add-tag"
          (add-tags  account :dataset-id :tags) => :something
          (provided
-           (make-url "forms" username :dataset-id "labels") => url
+           (make-url "forms" :dataset-id "labels") => url
            (parse-http :post url account {:form-params :tags}) => :something))
 
   (facts "about dataset download"
          (let [filename (str :dataset-id "." "csv")]
-           (download account :owner :dataset-id) => :fake-file
+           (download account :dataset-id) => :fake-file
            (provided
-             (make-url "forms" :owner filename) => url
+             (make-url "forms" filename) => url
              (parse-http :get url account nil filename) => :fake-file)))
 
   (facts "about online-data-entry-link"
-         (online-data-entry-link account username :dataset-id) => :response
+         (online-data-entry-link account :dataset-id) => :response
          (provided
-          (make-url "forms" username :dataset-id "enketo") => url
+          (make-url "forms" :dataset-id "enketo") => url
           (parse-http :get url account) => {:enketo_url :response}))
 
   (facts "about dataset delete"
-         (delete account username :dataset-id) => :response
+         (delete account :dataset-id) => :response
          (provided
-          (make-url "forms" username :dataset-id) => url
+          (make-url "forms" :dataset-id) => url
           (parse-http :delete url account) => :response))
 
   (facts "about create dataset"
@@ -88,9 +88,9 @@
                                     :content :xlsfile}]}) => :response))
 
   (facts "about move dataset to folder"
-         (move-to-project account 1 :project-id :owner) => :form
+         (move-to-project account 1 :project-id) => :form
          (provided
-           (make-url "projects" :owner :project-id "forms") => url
+           (make-url "projects" :project-id "forms") => url
            (parse-http :post
                        url
                        account
@@ -102,7 +102,7 @@
          (let [username :fake-username
                role :fake-role
                data {:username username :role role}]
-           (update-sharing account :dataset-id :owner username role) => :sharing-updated
+           (update-sharing account :dataset-id username role) => :sharing-updated
            (provided
-             (make-url "forms" :owner :dataset-id "share") => url
+             (make-url "forms" :dataset-id "share") => url
              (parse-http :post url account {:form-params data}) => :sharing-updated ))))

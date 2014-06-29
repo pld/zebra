@@ -9,15 +9,21 @@
                                        first-of-type
                                        html
                                        set-attr
-                                       nth-of-type]
-         :rename {html enlive-html}] :reload
+                                       nth-of-type]] :reload
          [ona.viewer.helpers.tags :only [include-js js-tag]]
          [clavatar.core :only [gravatar]])
   (:require [ona.api.organization :as api-orgs]
             [ona.viewer.templates.list-items :as l]
             [ona.viewer.urls :as u]))
 
+(def javascript-files
+  [ "/js/out/goog/base.js"
+    "/js/main.js"])
 
+(def style-sheets
+  ["/css/pure-min.css"
+   "/css/font-awesome.min.css"
+   "/css/style.css"])
 
 (defn- navigation-items
   "Render a nav menu based on user logged in state."
@@ -35,11 +41,10 @@
   "Render default and custom JavaScript."
   [javascript]
   (if javascript
-    (apply enlive-html (concat [(include-js "/js/out/goog/base.js")
-                                (include-js "/js/main.js")]
+    (apply html (concat (map include-js javascript-files)
                                javascript))))
 
-(defsnippet link-css (enlive-html [:link {:href "" :rel "stylesheet"}])
+(defsnippet link-css (html [:link {:href "" :rel "stylesheet"}])
   [:link]
   [hrefs]
   (clone-for [href hrefs]
@@ -85,9 +90,7 @@
   [:head :title] (content title)
   ;; Remove CSS and append from /rescources/public/css/
   [:head :link] nil
-  [:head] (append (link-css ["/css/pure-min.css"
-                             "/css/font-awesome.min.css"
-                             "/css/style.css"]))
+  [:head] (append (link-css style-sheets))
   ;; Main Menu Items
   [:#main-menu](content (main-menu current-path orgs logged-in? username))
   ;; Page Content

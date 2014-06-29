@@ -1,28 +1,19 @@
 (ns ona.dataset
   (:require-macros [cljs.core.async.macros :refer [go]])
-  (:require [cljs.core.async :as async :refer [chan close!]]
+  (:require [cljs.core.async :as async :refer [<!]]
+            [cljs-http.client :as http]
             [domina :as dom]
-            [domina.events :as ev]
-            [goog.net.XhrIo :as xhr]))
+            [domina.events :as ev]))
 
 (def views ["table" "photo" "chart" "activity"])
-
-(defn GET [url]
-  (let [ch (chan 1)]
-    (xhr/send url
-              (fn [event]
-                (let [res (-> event .-target .getResponseText)]
-                  (go (>! ch res)
-                      (close! ch)))))
-    ch))
 
 (defn load-view-for-node
   [target]
   (let [ url (dom/attr target "data-url")
         content-id (dom/attr target "data-content-id")]
-    (go (let [response (<! (GET url))]
+    (go (let [response (<! (http/get url))]
           (dom/set-html! (dom/by-id content-id)
-                         response)))))
+                         (:body response))))))
 
 (defn load-view
   [context]

@@ -32,7 +32,7 @@
 (defn project-details
   "Gets project details for an account and owner."
   [account owner]
-  (let [projects (api/all account owner)]
+  (let [projects (api/all account)]
     (for [project projects]
       (let [forms []
             ;; TODO after performance fixes uncomment
@@ -52,7 +52,6 @@
          :num-datasets (count
                         (api/get-forms
                          account
-                         owner
                          (s/last-url-param (:url project))))}))))
 
 (defn profile-with-projects

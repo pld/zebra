@@ -78,7 +78,7 @@
   ([account owner project-id dataset-id context]
      (let [dataset (api/data account dataset-id)
            metadata (api/metadata account dataset-id)
-           data-entry-link (api/online-data-entry-link account owner dataset-id)
+           data-entry-link (api/online-data-entry-link account dataset-id)
            username (:username account)
            charts (if (= context :chart)
                     (map c/generate-bar (charts account dataset-id)))
@@ -117,7 +117,7 @@
 (defn new-dataset
   "Render a page for creating a new dataset."
   [account owner project-id]
-  (let [project (api-project/get-project account owner project-id)
+  (let [project (api-project/get-project account project-id)
         upload-path (u/dataset-new owner project-id)]
     (base/base-template
      (str "/" upload-path)
@@ -136,7 +136,7 @@
     (if (and (contains? response :type) (= (:type response) "alert-error"))
       (:text response)
       (let [dataset-id (:formid response)
-            preview-url (api/online-data-entry-link account owner dataset-id)]
+            preview-url (api/online-data-entry-link account dataset-id)]
         (json-response
          {:settings-url (u/dataset-sharing owner project-id dataset-id)
           :preview-url preview-url
@@ -144,11 +144,12 @@
 
 (defn create-tags
   "Create tags for a specific dataset"
-  [account dataset-id project-id tags]
+  [account owner project-id dataset-id tags]
   (let [tags-to-add {:tags tags}
         added-tags (api/add-tags account dataset-id tags-to-add)]
-    (response/redirect-after-post (u/dataset-tags dataset-id
-                                                  project-id))))
+    (response/redirect-after-post (u/dataset-tags owner
+                                                  project-id
+                                                  dataset-id))))
 
 (defn get-file
   [file-path download-name format]
@@ -161,7 +162,7 @@
 (defn download
   "Download the data for a specific dataset as CSV."
   [account owner project-id dataset-id format-keyword]
-  (let [file-path (api/download account owner dataset-id)
+  (let [file-path (api/download account dataset-id)
         format (name format-keyword)
         metadata (api/metadata account dataset-id)
         download-name (str (:id_string metadata) "." format)]
@@ -191,7 +192,7 @@
 (defn delete
   "Delete a dataset by ID."
   [account owner project-id dataset-id]
-  (api/delete account owner dataset-id)
+  (api/delete account dataset-id)
   (response/redirect (u/project-show owner project-id)))
 
 (defn sharing
@@ -254,12 +255,12 @@
         owner (:username account)
         username (:username params)
         role (:role params)]
-    (api/update-sharing account dataset-id owner username role)
+    (api/update-sharing account dataset-id username role)
     (response/redirect-after-post (u/dataset-metadata owner project-id dataset-id))))
 
 (defn move-to-project
   "Move a dataset to a project"
   [account owner project-id dataset-id]
   (let [owner (:username account)]
-    (api/move-to-project account dataset-id project-id owner)
+    (api/move-to-project account dataset-id project-id)
     (response/redirect-after-post (u/project-show owner project-id))))
