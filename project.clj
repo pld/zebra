@@ -5,7 +5,7 @@
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-2156"]
+                 [org.clojure/clojurescript "0.0-2234"]
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
                  [org.clojure/tools.logging "0.2.6"]
                  [cheshire "5.2.0"]
@@ -22,7 +22,8 @@
                  [clj-time "0.7.0"]
                  [inflections "0.9.7"]
                  [clavatar "0.2.1"]
-                 [com.keminglabs/c2 "0.2.3"]]
+                 [com.keminglabs/c2 "0.2.3"]
+                 [cljs-http "0.1.12"]]
   :jvm-opts ^:replace ["-Xmx1g"]
   :profiles {:dev {:dependencies [[midje "1.6.3"]]}
              :pallet {:dependencies
@@ -45,7 +46,7 @@
                                [[org.slf4j/jcl-over-slf4j "1.7.2"]]
                                :exclusions [commons-logging]}
              :uberjar {:aot :all}}
-  :plugins [[lein-cljsbuild "1.0.2"]
+  :plugins [[lein-cljsbuild "1.0.3"]
             [lein-midje "3.1.3"]
             [lein-pdo "0.1.1"]
             [lein-ring "0.7.1"]
