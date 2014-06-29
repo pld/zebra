@@ -3,6 +3,7 @@
   :url "https://github.com/onaio/ona-viewer"
   :license {:name "Apache 2 License"
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
+  :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2156"]
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
