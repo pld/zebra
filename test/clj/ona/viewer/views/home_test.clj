@@ -31,25 +31,23 @@
          "Should contain username"
          (dashboard account) => (contains [username email] :in-any-order :gaps-ok)
          (provided
-          (#'ona.viewer.views.home/move-datasets-to-user-project account) => nil
           (api-project/all account) =>
-          [{:title "Test dataset" :num_of_submissions 2}]
+          [{:name (str username "'s Project") :url project-id}]
+          (api-project/get-forms account project-id) => []
+          (api-dataset/all account) => []
           (api-org/all account) => [{:title "Test Org"}]
           (api-user/profile account) => account
           (gravatar email) => email
           (gravatar nil) => nil))
 
   (facts "about move-datasets-to-user-project"
-         "Should work"
-         (move-datasets-to-user-project account) => '(:result)
+         "should create project"
+         (move-datasets-to-user-project account []) => '(:result)
          (provided
           ;; functions in get-or-create-default-project
           (#'ona.viewer.views.home/default-project-info account) => :info
           (api-project/create account :info) => {:url project-id}
           ;; functions in orphan-datasets
           (api-dataset/all account) => [{:formid form-id}]
-          (api-project/get-forms account project-id) => [{:name :name}]
           ;; functions in move-datasets-to-user-project
-          (api-project/all account) => [{:name :name
-                                         :url project-id}]
           (api-dataset/move-to-project account form-id project-id) => :result)))
