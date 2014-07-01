@@ -58,14 +58,14 @@
 (defn profile
   "Show profile for a username or orgname."
   ([account name]
-   (profile account name false))
+     (profile account name false))
   ([account name settings]
-  (let [org-profile (api-org/profile account name)]
-    (if (:detail org-profile)
-      (if settings
-        (user-settings account name)
-        (user-profile account name))
-      (orgs/profile account name org-profile)))))
+     (let [org-profile (api-org/profile account name)]
+       (if (:detail org-profile)
+         (if settings
+           (user-settings account name)
+           (user-profile account name))
+         (orgs/profile account name org-profile)))))
 
 (defn update
   "Update user profile"

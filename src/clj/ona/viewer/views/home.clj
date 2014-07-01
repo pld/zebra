@@ -40,7 +40,7 @@
 (defn- get-or-create-default-project
   [account projects]
   (if-let [project (first (filter #(= (:name (default-project-info account))
-                                      (:name %))
+                                      (-> % :project :name))
                                   projects))]
     project
     (api-project/create account
@@ -49,16 +49,14 @@
 (defn- orphan-datasets
   [account projects]
   (let [datasets (api-dataset/all account)
-        project-ids (map #(-> % :url s/last-url-param) projects)
         project-datasets (flatten
-                          (map #(api-project/get-forms account %) project-ids))]
+                          (map #(:forms %) projects))]
     (diff datasets project-datasets)))
 
 (defn- move-datasets-to-user-project
   "Create and move datasets to a default project if needed."
-  [account]
-  (let [projects (api-project/all account)
-        project-id (-> (get-or-create-default-project account projects)
+  [account projects]
+  (let [project-id (-> (get-or-create-default-project account projects)
                        :url
                        s/last-url-param)
         datasets (orphan-datasets account projects)]
@@ -80,14 +78,17 @@
   ([account]
      (dashboard account nil))
   ([account query]
-     ;; TODO run this in the background or on demand, future is a quick fix
-     (move-datasets-to-user-project account)
      (let [username (:username account)
-           all-projects (project-details account username)
-           project-details (get-public-private-project-counts all-projects)
+           projects (project-details account username)
+           ;; if we moved any, fetch projects again
+           projects (if (empty? (move-datasets-to-user-project account
+                                                               projects))
+                      projects
+                      (project-details account username))
+           project-details (get-public-private-project-counts projects)
            projects (if query
-                      (search-collection query all-projects :name :project)
-                      all-projects)
+                      (search-collection query projects :name :project)
+                      projects)
            orgs (api-orgs/all account)
            profile (api-user/profile account)]
        (base/base-template

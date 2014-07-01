@@ -14,6 +14,7 @@
 (defsnippet render-home-content "templates/home.html"
   [:body :div#content]
   [profile projects project-details query orgs username]
+  [:.avatar] (set-attr :src "/img/avatar.jpg")
   [:.username] (content username)
   [:div#tab-content1] (content (projects/project-list profile
                                                       projects))

@@ -28,6 +28,7 @@
         (project-details account username) =>
         (contains
          {:date-created date-created-str
+          :forms [{}]
           :last-modification nil
           :num-datasets 1
           :submissions "0 submissions"
