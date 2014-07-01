@@ -14,7 +14,21 @@
       params {:username username
               :email "fake-email"
               :org "fake-org"
-              :country "fake-country"}]
+              :country "fake-country"}
+      default-profile {:city ""
+                       :country ""
+                       :email ""
+                       :gravatar ""
+                       :name ""
+                       :org ""
+                       :owner ""
+                       :require_auth ""
+                       :twitter ""
+                       :url ""
+                       :user ""
+                       :username ""
+                       :website ""}
+      merged-profile (merge default-profile params)]
 
   (facts "About user-profile"
          "Should show user-profile"
@@ -33,4 +47,5 @@
          "Should update user profile"
          (update account params) => (contains {:status 303})
          (provided
-          (api/update account params) => :updated-profile)))
+          (api/profile account) => default-profile
+          (api/update account merged-profile) => :updated-profile)))

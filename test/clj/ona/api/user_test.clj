@@ -7,19 +7,34 @@
       username :fake-username
       password :fake-password
       account {:username username :password password}
+      default-params {:city ""
+                      :country ""
+                      :email ""
+                      :gravatar ""
+                      :name ""
+                      :org ""
+                      :owner ""
+                      :require_auth ""
+                      :twitter ""
+                      :url ""
+                      :user ""
+                      :username ""
+                      :website ""}
       params {:name "fake-name"
               :username "fake-username"
               :email "fake-email"
               :password "fake-password"
               :password2 "fake-password2"}
-      update-params {:name "fake-name"
-                     :email "fake-email"
-                     :city "fake-city"
-                     :country "fakecountry"
-                     :org "fake-org"
-                     :website "fake-website"}
+      update-params (merge default-params
+                           {:name "fake-name"
+                            :email "fake-email"
+                            :city "fake-city"
+                            :country "fakecountry"
+                            :org "fake-org"
+                            :website "fake-website"})
       data {:form-params params}
-      updated-data {:form-params update-params}]
+      updated-data {:form-params update-params
+                    :content-type :json}]
 
   (facts "about user-profile"
          "Should get correct url"
@@ -45,5 +60,4 @@
          (update account update-params) => :updated-profile
          (provided
            (make-url "profiles" username) => url
-           (parse-http :patch url account updated-data) => :updated-profile)))
-
+           (parse-http :put url account updated-data) => :updated-profile)))

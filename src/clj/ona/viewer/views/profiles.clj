@@ -24,6 +24,12 @@
              "Register"
              (str "Created a profile:" profile))))
 
+(defn- update-hash
+  "Build a hash for updates from existing data."
+  [account params]
+  (merge (api/profile account)
+         params))
+
 (defn- user-profile
   "Show the profile for a user."
   [account name]
@@ -64,5 +70,6 @@
 (defn update
   "Update user profile"
   [account params]
-  (api/update account params)
-  (response/redirect-after-post (u/profile (:username account))))
+  (let [profile (update-hash account params)]
+    (api/update account profile)
+    (response/redirect-after-post (u/profile (:username account)))))
