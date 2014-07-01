@@ -2,8 +2,10 @@
   (:use midje.sweet
         ona.viewer.views.profiles
         [ona.api.io :only [make-url]]
-        [ona.helpers :only [slingshot-exception]])
+        [ona.helpers :only [slingshot-exception]]
+        [ona.viewer.helpers.projects :only [project-details]])
   (:require [ona.api.user :as api]
+            [ona.api.organization :as api-org]
             [ona.api.project :as api-project]))
 
 (let [name "Some User"
@@ -34,14 +36,16 @@
          "Should show user-profile"
          (profile account username) => (contains name)
          (provided
+          (api-org/profile account username) => {:detail true}
           (api/profile account username) => {:name name}
-          (api-project/all account) => [{:title "Test dataset"
-                                         :num_of_submissions 2}])
+          (project-details account username) => []
+          (api-org/all account) => [])
 
          "Should return error if not found"
          (profile account username) => (contains not-found)
          (provided
-          (api/profile account username) =throws=> (slingshot-exception not-found)))
+          (api/profile account username) =throws=> (slingshot-exception not-found)
+          (api-org/profile account username) => {:detail true}))
 
   (facts "About profile update"
          "Should update user profile"
