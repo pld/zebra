@@ -7,6 +7,10 @@
   '("/login"
     "/join"))
 
+(def verbose-path "/dev/stdout")
+
+(def log-path "/var/log/ona-viewer/current")
+
 (defn- authorized?
   "Check that user is authenticated or the process of."
   [request]
@@ -22,6 +26,5 @@
       (response/redirect "/login"))))
 
 (defn wrap-logger [handler verbose?]
-  (if verbose?
-    (logger/wrap-with-logger handler "/dev/stdout")
-    (fn [request] (handler request))))
+  (logger/wrap-with-logger handler
+                           (if verbose? verbose-path log-path)))
