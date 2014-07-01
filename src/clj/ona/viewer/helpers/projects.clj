@@ -7,6 +7,8 @@
             [ona.utils.time :as t]
             [ona.utils.numeric :as n]))
 
+(def connection-pool-settings {:threads 10 :default-per-route 10})
+
 (defn latest-submitted-form
   "Parses forms from all projects and returns form with latest submission time"
   [forms]
@@ -28,13 +30,14 @@
   "Get all submission for dataset"
   ;; TODO  move functionality to api to reduce number of API calls
   [forms account]
-  (map #(api-dataset/data account (:formid %)) forms))
+  (with-connection-pool connection-pool-settings
+    (map #(api-dataset/data account (:formid %)) forms)))
 
 (defn project-details
   "Gets project details for an account and owner."
   [account owner]
   (let [projects (api/all account)]
-    (with-connection-pool {:threads 10 :default-per-route 10}
+    (with-connection-pool connection-pool-settings
       (for [project projects]
         (let [forms (api/get-forms account (s/last-url-param (:url project)))
               latest-form (latest-submitted-form forms)
