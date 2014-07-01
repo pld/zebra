@@ -82,7 +82,7 @@
                                                           (:id project)
                                                           profile)))
 
-(defsnippet render-list "templates/organization/profile.html"
+(defsnippet render-project-list "templates/organization/profile.html"
   [:div#tab-inner]
   [profile projects owner]
   ;; Set links
@@ -107,7 +107,7 @@
 (defn project-list
   "Helper to build arguments for project list template."
   [profile projects]
-  (render-list profile
+  (render-project-list profile
                        projects
                        (select-value profile [:org :username])))
 
