@@ -1,5 +1,6 @@
 (ns ona.api.user
   (:use [ona.api.io :only [make-url parse-http]]
+        [ona.utils.seq :only [has-keys?]]
         [slingshot.slingshot :only [throw+]]))
 
 (defn profile
@@ -30,7 +31,20 @@
 (defn update
   "update user profile"
   [account params]
-  (let [profile (select-keys params [:name :email :city :country :org :website])
-        url (make-url "profiles" (:username account))
-        data {:form-params profile}]
-    (parse-http :patch url account data)))
+  {:pre [(has-keys? params [:city
+                            :country
+                            :email
+                            :gravatar
+                            :name
+                            :org
+                            :owner
+                            :require_auth
+                            :twitter
+                            :url
+                            :user
+                            :username
+                            :website])]}
+  (let [url (make-url "profiles" (:username account))
+        data {:form-params params
+              :content-type :json}]
+    (parse-http :put url account data)))
