@@ -12,32 +12,39 @@
 </head>
 <body>
 <div id="main-menu">
-    <div class="vw-menu container cfix">
-        <ul id="menu-items">
-            <li class="pure-menu-selected menu-item">
+    <div class="vw-menu pure-menu-horizontal container cfix">
+        <a href="#" class="pure-menu-heading left">
+             <span><img src="../../../resources/public/img/ona-logo-sm.png" alt="ONA"/></span>
+        </a>
+
+        <ul class="left">
+            <li><a id="home-link" href="home.html">Home</a></li>
+            <li class="divider"></li>
+            <li><div class="dropdown">
+                    <a href="#">My Organizations &nbsp;<i class="fa fa-angle-down"></i></a>
+                    <ul class="submenu">
+                        <li><a href="#">
+                            <img src="../../../resources/public/img/who-logo.jpg" class="avatar thumb"/><br/>
+                            <span class="org-name"> WHO</span>
+                        </a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+
+        <ul class="right">
+            <li class="header-user">
                 <div class="dropdown">
-                   <a href="user-profile-garrett.html"><i class="fa fa-user"></i> &nbsp;Me</a>
-                    <ul class="submenu" id="prof-drop">
+                    <a href="#"><i class="fa fa-user"></i>
+                        <span class="logged-user">Garrm</span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="submenu">
                         <li><a href="#">My Profile</a></li>
                         <li><a href="#">My account</a></li>
                     </ul>
                 </div>
             </li>
-            <li><a id="home-link" href="home.html">Home</a></li>
-            <li><div class="dropdown">
-                    <a href="#"><i class="fa t-large fa-plus-square"></i></a>
-                    <ul class="submenu" id="exp-drop">
-                        <li><br/>My Organizations<br/><br/></li>
-                        <li><a href="#">
-                            <img src="/img/who-logo.jpg" class="avatar thumb"/><br/>
-                            <span class="org-name"> WHO</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li><a href="#">Explore</a></li>
-            <li><a href="#">Help</a></li>
         </ul>
     </div>
 </div>
