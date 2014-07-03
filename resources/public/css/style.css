@@ -270,6 +270,11 @@ ul.submenu li a:hover{
 .logged-user{
     margin:0 5px;
 }
+li.divider{
+    border-right:2px solid #444;
+    margin-top:1.3em;
+    height:2em;
+}
 
 a.pure-menu-heading{
     background:#404040;
@@ -287,6 +292,7 @@ a.pure-menu-heading span{
 /* Top Menu */
 .vw-menu ul{
     margin:0;
+    padding-left:8px;
 }
 .vw-menu ul li{
     float:left;
@@ -310,7 +316,8 @@ a.pure-menu-heading span{
     padding:1em!important;
 }
 .vw-menu .submenu li a:hover{
-    color:#AFAFAF!important;
+    background:#EFEFEF!important;
+    color:#777!important;
 }
 
 /* header dropdowns */
