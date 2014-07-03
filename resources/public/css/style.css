@@ -230,7 +230,6 @@ ul.submenu{
 }
 ul.submenu li{
     background:#FFFFFF;
-    border-bottom:1px solid #CFCFCF;
     float:none!important;
     list-style:none;
     margin:0;
@@ -238,6 +237,7 @@ ul.submenu li{
 }
 ul.submenu li a{
     background:#FFFFFF;
+    border-bottom:1px solid #CFCFCF;
     display:block!important;
     padding:0.6em;
     text-decoration:none;
@@ -247,7 +247,8 @@ ul.submenu li a:hover{
     color:#555;
 }
 .dropdown:hover > ul.submenu{
-    background:#778;
+    background:#fff;
+    border-bottom:1px solid #cfcfcf;
     display:block!important;
 }
 
@@ -275,10 +276,9 @@ a.pure-menu-heading{
     padding:4px!important;
 }
 a.pure-menu-heading img{
-    height:2em;
+    height:2.7em;
 }
 a.pure-menu-heading span{
-    background:#FFFFFF;
     border-radius:40em;
     display:block;
     padding:0.7em 0.8em 0.3em!important;
@@ -295,14 +295,14 @@ a.pure-menu-heading span{
 .vw-menu ul li a{
     color:#AFAFAF;
     display:block;
-    padding:1.4em 2em;
+    padding:1.7em 2em;
 }
 .vw-menu .submenu{
     background:#404040!important;
     border-bottom:1px solid #999;
     border-top:1px solid #444;
     color:#FFF;
-    margin-top:3.5em;
+    margin-top:4.3em;
     width:100%;
 }
 .vw-menu .submenu li a{
