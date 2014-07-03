@@ -290,6 +290,9 @@ a.pure-menu-heading span{
 }
 
 /* Top Menu */
+.vw-menu{
+    max-width:1200px;
+}
 .vw-menu ul{
     margin:0;
     padding-left:8px;
