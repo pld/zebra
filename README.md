@@ -15,7 +15,11 @@ Download the project dependencies with:
 
     lein deps
 
-Now you can start a development web server with:
+To start a development web server using AWS, first add your credentials:
+
+    lein -with-profile + pallet pallet add-service aws aws-ec2 "[your aws key]" "[your aws secret key]"
+    
+Going forward, you can uberjar and deploy the latest code with:
 
     lein up
 
