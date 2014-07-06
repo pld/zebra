@@ -33,7 +33,6 @@
    (if logged-in?
      (array-map "My Profile" (u/profile username)
                 "My Account" (u/profile-settings  username)
-                "Organizations" "/organizations"
                 "Sign-out" "/logout")
      (array-map "Sign-up" "join"))))
 
@@ -54,21 +53,16 @@
 (defsnippet main-menu "templates/base.html"
   [:#main-menu :div.vw-menu]
   [current-path orgs logged-in? username]
-  ;; Set user profile link
-  [:ul#menu-items
-   :li.menu-item
-   :div.dropdown
-   :a]
-  (set-attr :href (u/profile username))
 
   ;; Set logo
   [:img#ona-logo] (set-attr :src "img/ona-logo-sm.png")
 
   ;; Remove all but 1 exsiting dropdown menu item
-  [:ul#prof-drop [:li but first-of-type]] nil
+  [:ul#exp-drop [:li but first-of-type]] nil
 
-  ;; Set menu items for user dropdown menu
-  [:ul#prof-drop [:li first-of-type]]
+  ;; Set user and menu items for user dropdown menu
+  [:span.logged-user] (content username)
+  [:ul#exp-drop [:li first-of-type]]
   (clone-for [[caption url] (navigation-items logged-in? username)]
              [:li] (if (= current-path url)
                      (set-attr :class "active")
@@ -81,7 +75,7 @@
 
   ;; Set Home, My Organization links
   [:a#home-link] (set-attr :href "/")
-  [:ul#exp-drop [:li (nth-of-type 2)]]
+  [:ul#org-dropdown]
   (clone-for [org orgs]
              [:li :a] (set-attr :href (u/org org))
              [:li :img] (set-attr :src (gravatar (:email org)))
