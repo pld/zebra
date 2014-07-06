@@ -61,7 +61,7 @@
   [:ul#exp-drop [:li but first-of-type]] nil
 
   ;; Set user and menu items for user dropdown menu
-  [:span.logged-user] (content username)
+  [:span.logged-user] (-> username str content)
   [:ul#exp-drop [:li first-of-type]]
   (clone-for [[caption url] (navigation-items logged-in? username)]
              [:li] (if (= current-path url)
