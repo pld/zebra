@@ -61,6 +61,9 @@
    :a]
   (set-attr :href (u/profile username))
 
+  ;; Set logo
+  [:img#ona-logo] (set-attr :src "img/ona-logo-sm.png")
+
   ;; Remove all but 1 exsiting dropdown menu item
   [:ul#prof-drop [:li but first-of-type]] nil
 
