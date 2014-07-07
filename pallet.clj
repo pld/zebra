@@ -1,6 +1,6 @@
 (require '[pallet.actions :refer [exec-script*]]
          '[pallet.api :refer [make-user plan-fn]]
-         '[pallet.crate.automated-admin-user :as automated-admin-user]
+         '[pallet.crate.automated-admin-user :only [automated-admin-user]]
          '[pallet.crate.java :as java]
          '[pallet.crate.runit :as runit]
          '[pallet.crate.app-deploy :as app-deploy])
