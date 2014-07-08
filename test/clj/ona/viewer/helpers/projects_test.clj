@@ -37,10 +37,10 @@
                     :name "Some project"
                     :url (str "http://someurl/" project-id)}})
         (provided
-         (api/all account) => [{:date_created days-ago-2-str
-                                :name "Some project"
-                                :url "http://someurl/12"
-                                :date_modified days-ago-2-str}]
+         (api/all account username) => [{:date_created days-ago-2-str
+                                         :name "Some project"
+                                         :url "http://someurl/12"
+                                         :date_modified days-ago-2-str}]
          (api/get-forms account project-id) => [{}]))
   (facts "about latest-submitte-form"
          "Should show latest sumbission"
