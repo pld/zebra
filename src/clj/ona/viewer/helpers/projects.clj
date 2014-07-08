@@ -36,7 +36,7 @@
 (defn project-details
   "Gets project details for an account and owner."
   [account owner]
-  (let [projects (api/all account)]
+  (let [projects (api/all account owner)]
     (with-connection-pool connection-pool-settings
       (for [project projects]
         (let [forms (api/get-forms account (s/last-url-param (:url project)))
