@@ -55,7 +55,7 @@
   [current-path orgs logged-in? username]
 
   ;; Set logo
-  [:img#ona-logo] (set-attr :src "img/ona-logo-sm.png")
+  [:img#ona-logo] (set-attr :src "/img/ona-logo-sm.png")
 
   ;; Remove all but 1 exsiting dropdown menu item
   [:ul#exp-drop [:li but first-of-type]] nil
