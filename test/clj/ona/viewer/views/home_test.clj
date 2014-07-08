@@ -31,7 +31,7 @@
          "Should contain username"
          (dashboard account) => (contains [username email] :in-any-order :gaps-ok)
          (provided
-          (api-project/all account) =>
+          (api-project/all account nil) =>
           [{:name (str username "'s Project") :url project-id}]
           (api-project/get-forms account project-id) => []
           (api-dataset/all account) => []

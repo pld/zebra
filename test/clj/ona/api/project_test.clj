@@ -12,12 +12,18 @@
                              {:owner url})
       parsed-data (merge data {:id "id"})]
 
-  (facts "about projects"
+  (facts "about projects all"
          "Should get correct url"
-         (all account) => :something
+         (all account) => :response
          (provided
           (make-url "projects") => url
-          (parse-http :get url account) => :something))
+          (parse-http :get url account nil) => :response)
+
+         "Should pass owner as a query parameter"
+         (all account username) => :response
+         (provided
+          (make-url "projects") => url
+          (parse-http :get url account {:query-params {:owner username}}) => :response))
 
   (facts "about project-create"
          "Should associate data"

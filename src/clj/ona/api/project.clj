@@ -24,9 +24,12 @@
 
 (defn all
   "Return all project for this account and owner or the user."
-  [account]
-  (let [url (make-url "projects")]
-    (parse-http :get url account)))
+  ([account]
+     (all account nil))
+  ([account owner]
+     (let [url (make-url "projects")
+           options (if-not (nil? owner) {:query-params {:owner owner}})]
+       (parse-http :get url account options))))
 
 (defn create
   "Create a project for this account and owner or the user."

@@ -79,12 +79,12 @@
      (dashboard account nil))
   ([account query]
      (let [username (:username account)
-           projects (project-details account username)
+           projects (project-details account)
            ;; if we moved any, fetch projects again
            projects (if (empty? (move-datasets-to-user-project account
                                                                projects))
                       projects
-                      (project-details account username))
+                      (project-details account))
            project-details (get-public-private-project-counts projects)
            projects (if query
                       (search-collection query projects :name :project)
