@@ -35,25 +35,27 @@
 
 (defn project-details
   "Gets project details for an account and owner."
-  [account owner]
-  (let [projects (api/all account owner)]
-    (with-connection-pool connection-pool-settings
-      (for [project projects]
-        (let [forms (api/get-forms account (s/last-url-param (:url project)))
-              latest-form (latest-submitted-form forms)
-              all-submissions []
-              ;; TODO after performance fixes uncomment
-              ;; (all-submissions forms account)
-              ]
-          {:forms forms
-           :project project
-           :date-created (t/format-date (:date_created project) :rfc822)
-           :last-modification (-> latest-form
-                                  :last_submission_time
-                                  t/date->days-ago-str)
-           :submissions (n/pluralize-number (-> all-submissions flatten count)
-                                            "submission")
-           :num-datasets (count forms)})))))
+  ([account]
+     (project-details account nil))
+  ([account owner]
+     (let [projects (api/all account owner)]
+       (with-connection-pool connection-pool-settings
+         (for [project projects]
+           (let [forms (api/get-forms account (s/last-url-param (:url project)))
+                 latest-form (latest-submitted-form forms)
+                 all-submissions []
+                 ;; TODO after performance fixes uncomment
+                 ;; (all-submissions forms account)
+                 ]
+             {:forms forms
+              :project project
+              :date-created (t/format-date (:date_created project) :rfc822)
+              :last-modification (-> latest-form
+                                     :last_submission_time
+                                     t/date->days-ago-str)
+              :submissions (n/pluralize-number (-> all-submissions flatten count)
+                                               "submission")
+              :num-datasets (count forms)}))))))
 
 (defn profile-with-projects
   "Get the user profile and a list of their projects."
