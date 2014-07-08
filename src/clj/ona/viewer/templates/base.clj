@@ -75,7 +75,7 @@
 
   ;; Set Home, My Organization links
   [:a#home-link] (set-attr :href "/")
-  [:ul#org-dropdown]
+  [:ul#org-dropdown [:li]]
   (clone-for [org orgs]
              [:li :a] (set-attr :href (u/org org))
              [:li :img] (set-attr :src (gravatar (:email org)))
